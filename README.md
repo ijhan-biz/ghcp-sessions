@@ -15,10 +15,10 @@ bash setup-mac.sh            # 누락 도구 설치 + 준비도 점검
 bash setup-mac.sh --check    # 설치 없이 점검만(이미 설치된 환경 확인)
 ```
 
-**Windows** (PowerShell · winget 사용)
-```powershell
-powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1          # 설치 + 점검
-powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -Check   # 점검만
+**Windows** (명령 프롬프트 cmd · winget 사용)
+```bat
+setup-windows.cmd            REM 설치 + 점검
+setup-windows.cmd --check    REM 점검만
 ```
 
 설치/점검 대상:
@@ -33,7 +33,7 @@ powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -Check   # 점검�
 
 스크립트는 마지막에 `labs` 테스트(`npm test`)를 실행합니다. 출력에 **`# pass 10` / `# skipped 2` / `# fail 0`** 와 **`READY ✅`** 가 보이면 수강 준비 완료입니다.
 
-> 사내 정책상 Homebrew/winget 자동 설치가 막혀 있으면, 위 표의 도구를 수동 설치한 뒤 `--check`(mac) / `-Check`(Windows) 로 점검만 수행하세요. gh copilot 라이브 호출은 크레딧(premium request)을 소비하므로, 수업 중에는 하네스 래퍼의 dry-run을 기본으로 사용합니다.
+> 사내 정책상 Homebrew/winget 자동 설치가 막혀 있으면, 위 표의 도구를 수동 설치한 뒤 `--check`(mac) / `--check`(Windows cmd) 로 점검만 수행하세요. gh copilot 라이브 호출은 크레딧(premium request)을 소비하므로, 수업 중에는 하네스 래퍼의 dry-run을 기본으로 사용합니다.
 
 ## 구성
 
