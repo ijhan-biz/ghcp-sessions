@@ -7,29 +7,28 @@ GitHub Copilot Handson **중급과정(2일·16시간)** 을 **시간(세션) 단
 
 ## 사전설치 (참가자용)
 
-교육 전, 본인 OS에 맞는 스크립트를 **프로젝트 루트**에서 실행하세요. 필요한 도구를 설치하고, 마지막에 실습 코드를 실제로 돌려 **준비 완료(READY)** 여부를 판정합니다.
+교육 전, 본인 OS에 맞는 스크립트를 **프로젝트 루트**에서 실행하세요. **Dev Container/Docker 없이** 현재 터미널의 개발 환경을 점검하고 누락/구버전을 **자동으로 바로잡은 뒤**, 실습 코드를 실제로 돌려 **준비 완료(READY)** 여부를 판정합니다.
 
 **macOS** (Homebrew 사용)
 ```sh
-bash setup-mac.sh            # 누락 도구 설치 + 준비도 점검
-bash setup-mac.sh --check    # 설치 없이 점검만(이미 설치된 환경 확인)
+bash setup-mac.sh            # 점검 + 자동 교정(누락 설치 / Node 18+ 업그레이드)
+bash setup-mac.sh --check    # 교정 없이 점검만
 ```
 
 **Windows** (명령 프롬프트 cmd · winget 사용)
 ```bat
-setup-windows.cmd            REM 설치 + 점검
-setup-windows.cmd --check    REM 점검만
+setup-windows.cmd            REM 점검 + 자동 교정
+setup-windows.cmd --check    REM 교정 없이 점검만
 ```
 
 설치/점검 대상:
 
 | 도구 | 필수? | 없을 때 |
 | --- | --- | --- |
-| Node 18+ | **필수** | 실습 불가 — 먼저 설치 |
-| git | **필수** | 실습 불가 |
-| gh CLI (+ `gh-copilot`) | 권장 | Copilot Chat fallback |
-| Docker Desktop | 선택 | Host Node fallback |
-| VS Code (+ Copilot·Copilot Chat·Dev Containers 확장) | 권장 | — |
+| Node 18+ | **필수** | 스크립트가 자동 설치/업그레이드 |
+| git | **필수** | 스크립트가 자동 설치 |
+| gh CLI (+ `gh-copilot`) | 권장 | Copilot Chat 으로 대체 |
+| VS Code (+ Copilot·Copilot Chat 확장) | 권장 | — |
 
 스크립트는 마지막에 `labs` 테스트(`npm test`)를 실행합니다. 출력에 **`# pass 10` / `# skipped 2` / `# fail 0`** 와 **`READY ✅`** 가 보이면 수강 준비 완료입니다.
 
