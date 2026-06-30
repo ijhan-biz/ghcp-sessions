@@ -5,6 +5,36 @@ GitHub Copilot Handson **중급과정(2일·16시간)** 을 **시간(세션) 단
 
 > 수강 후 목표: 에이전트를 활용해 **자신만의 재사용 솔루션**(Custom Skill/Agent + Fleet/Loop)을 만들고, 그 **경험을 팀에 공유**할 수 있는 역량.
 
+## 사전설치 (참가자용)
+
+교육 전, 본인 OS에 맞는 스크립트를 **프로젝트 루트**에서 실행하세요. 필요한 도구를 설치하고, 마지막에 실습 코드를 실제로 돌려 **준비 완료(READY)** 여부를 판정합니다.
+
+**macOS** (Homebrew 사용)
+```sh
+bash setup-mac.sh            # 누락 도구 설치 + 준비도 점검
+bash setup-mac.sh --check    # 설치 없이 점검만(이미 설치된 환경 확인)
+```
+
+**Windows** (PowerShell · winget 사용)
+```powershell
+powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1          # 설치 + 점검
+powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -Check   # 점검만
+```
+
+설치/점검 대상:
+
+| 도구 | 필수? | 없을 때 |
+| --- | --- | --- |
+| Node 18+ | **필수** | 실습 불가 — 먼저 설치 |
+| git | **필수** | 실습 불가 |
+| gh CLI (+ `gh-copilot`) | 권장 | Copilot Chat fallback |
+| Docker Desktop | 선택 | Host Node fallback |
+| VS Code (+ Copilot·Copilot Chat·Dev Containers 확장) | 권장 | — |
+
+스크립트는 마지막에 `labs` 테스트(`npm test`)를 실행합니다. 출력에 **`# pass 10` / `# skipped 2` / `# fail 0`** 와 **`READY ✅`** 가 보이면 수강 준비 완료입니다.
+
+> 사내 정책상 Homebrew/winget 자동 설치가 막혀 있으면, 위 표의 도구를 수동 설치한 뒤 `--check`(mac) / `-Check`(Windows) 로 점검만 수행하세요. gh copilot 라이브 호출은 크레딧(premium request)을 소비하므로, 수업 중에는 하네스 래퍼의 dry-run을 기본으로 사용합니다.
+
 ## 구성
 
 ```
