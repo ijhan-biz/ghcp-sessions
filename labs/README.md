@@ -14,6 +14,7 @@ npm test         # baseline: 10 pass, 2 skip (Day2-S4에서 켤 테스트)
 ## 빠른 명령
 | 명령 | 설명 |
 | --- | --- |
+| `npm run env` | 환경 준비도 점검(Green/Yellow/Red) |
 | `npm test` | 유닛테스트(node --test) |
 | `npm run lint` | 의존성 없는 구문 검사(node --check) |
 | `npm run policy-check` | 금지 파일/secret 패턴 감지 |
@@ -28,7 +29,7 @@ npm test         # baseline: 10 pass, 2 skip (Day2-S4에서 켤 테스트)
 ### Day 1 — 좋은 입력
 | 세션 | 무엇을 실행/작성 | 파일·명령 |
 | --- | --- | --- |
-| S0 환경·baseline | baseline 통과 확인 | `npm test`, `git checkout -b lab/...` |
+| S0 환경·baseline | 환경 점검 + baseline 통과 확인 | `npm run env`, `npm test`, `git checkout -b lab/...` |
 | S1 토큰·가드레일 | 범위 한정 프롬프트·비식별 스펙 | `templates/feature-spec-card.md`, `prompts/examples.md`, 대상: `src/billing/tax.js` |
 | S2 좋은 프롬프트(1) | AC↔테스트 매핑 읽기 | `test/tax.test.js`, `prompts/examples.md` |
 | S3 리팩토링·Context Manifest | 동작 유지 리팩토링 | `src/billing/discount.js` 리팩토링 후 `npm test`, `templates/context-manifest.md` |
@@ -38,7 +39,7 @@ npm test         # baseline: 10 pass, 2 skip (Day2-S4에서 켤 테스트)
 ### Day 2 — 안전한 실행 + 나만의 솔루션
 | 세션 | 무엇을 실행/작성 | 파일·명령 |
 | --- | --- | --- |
-| S0 복습·재점검 | baseline 재확인 | `npm test`, `git status` |
+| S0 복습·재점검 | baseline 재확인 | `npm run env`, `npm test`, `git status` |
 | S1 하네스·CLI | 권한·로그 래퍼 실행 | `zsh scripts/copilot-harness/run.zsh "..."` |
 | S2 Agent Teams·게이트 | 로컬 게이트 + 캔버스 | `npm run gate`, `scripts/policy-check.mjs`, `templates/agent-team-fleet-loop-canvas.md` |
 | S3 본인 워크플로·장기실행 | 안전장치 체험 | `npm run sim` (seed 바꿔 재실행), 캔버스 작성 |
