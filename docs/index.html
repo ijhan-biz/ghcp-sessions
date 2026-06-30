@@ -94,6 +94,28 @@
   <div class="callout warn"><strong>운영 전 점검:</strong> 실제 운영 전 샘플 레포(<span class="tag gl">EN-12</span>·<span class="tag gl">EN-13</span>)·policy-check 샘플·완성 리뷰 패킷 예시를 강사 PC에서 end-to-end로 재현(dry-run, <span class="tag gl">OR-22</span>)해 확정하세요. CLI 옵션·모델명·조직 정책은 운영 시점 공식 문서/테넌트 설정으로 재확인합니다.</div>
 </section>
 
+<section class="section" id="labs">
+  <h2>실습 코드 (labs) — 직접 실행하며 이해하기</h2>
+  <p class="small">설명(<code>docs/</code>)과 별도로, 각 세션을 <strong>직접 실행</strong>해볼 수 있는 코드가 <code>labs/</code>에 있습니다. 의존성 없이 <strong>Node 18+ 내장 도구</strong>(<code>node --test</code>)만으로 동작합니다.</p>
+  <pre><code>cd labs
+node -v          # v18 이상
+npm test         # baseline: 10 pass, 2 skip(Day2-S4에서 켤 테스트)
+npm run gate     # lint + test + policy-check (로컬 품질 게이트)</code></pre>
+  <table>
+    <thead><tr><th>세션</th><th>직접 실행</th></tr></thead>
+    <tbody>
+      <tr><td>D1·S3 리팩토링</td><td><code>discount.js</code> 리팩토링 → <code>npm test</code> green 유지</td></tr>
+      <tr><td>D2·S1 하네스·CLI</td><td><code>zsh scripts/copilot-harness/run.zsh "..."</code></td></tr>
+      <tr><td>D2·S2 게이트</td><td><code>npm run gate</code> · <code>scripts/policy-check.mjs</code></td></tr>
+      <tr><td>D2·S3 장기실행</td><td><code>npm run sim</code> (seed 바꿔 롤백/STOP 관찰)</td></tr>
+      <tr><td>D2·S4 SDD</td><td><code>tax.test.js</code> skip 제거 → <code>tax.js</code> 구현 → <code>npm test</code></td></tr>
+      <tr><td>D2·S5 리뷰패킷</td><td><code>npm run packet</code> → review-packet.md</td></tr>
+      <tr><td>D2·S6 라우팅</td><td><code>npm run routing</code></td></tr>
+    </tbody>
+  </table>
+  <div class="callout ok"><strong>연속 코드베이스:</strong> 가상 '결제(billing)' 기능을 Day1~Day2 같은 파일(<code>src/billing/tax.js</code>·<code>discount.js</code>)로 키워 갑니다. 전체 세션↔코드 지도는 <code>labs/README.md</code>.</div>
+</section>
+
 <section class="section" id="sources">
   <h2>참조 자료 반영 (ref/harness-gen-output)</h2>
   <p class="small">각 세션의 "참조 심화" 블록은 아래 1차 자료의 구체 패턴을 반영했습니다.</p>

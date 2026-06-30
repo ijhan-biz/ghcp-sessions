@@ -1,0 +1,17 @@
+{
+  "name": "ghcp-sessions-labs",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "GitHub Copilot 중급과정 세션별 실습 코드 — 의존성 없이 Node 18+ 내장 도구(node --test)만으로 실행.",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "test": "node --test test",
+    "lint": "node scripts/lint.mjs",
+    "policy-check": "node scripts/policy-check.mjs",
+    "gate": "npm run lint && npm test && npm run policy-check",
+    "sim": "node scripts/long-running-sim.mjs",
+    "packet": "node scripts/make-review-packet.mjs",
+    "routing": "node scripts/model-routing-demo.mjs"
+  }
+}

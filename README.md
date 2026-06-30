@@ -7,22 +7,43 @@ GitHub Copilot Handson **중급과정(2일·16시간)** 을 **시간(세션) 단
 
 ## 구성
 
-| 파일 | 내용 |
+```
+ghcp-sessions/
+  docs/    설명(HTML) — 세션별 강의 콘텐츠
+  labs/    실행 코드 — 직접 실행하며 이해하는 실습(zero-dependency Node)
+```
+
+| 경로 | 내용 |
 | --- | --- |
-| `index.html` | 포털 — 전체 세션 맵, 역량 빌드업 흐름, 참조 자료 반영표 |
-| `d1-s0.html` ~ `d1-s6.html` | Day 1 — 환경 점검 → 토큰·가드레일 → 좋은 프롬프트(1)(2) → Plan Mode → 종합 미니랩 → QnA |
-| `d2-s0.html` ~ `d2-s7.html` | Day 2 — 복습 → 하네스·CLI → Agent Teams·Fleet·Loop → 본인 워크플로 → SDD(1)(2) → Custom Skill/Agent → 경험 공유 |
-| `ag-ui-program.css` | 공통 테마(AG-UI inspired) |
+| `docs/index.html` | 포탈 — 전체 세션 맵, 실습 코드 안내, 참조 자료 반영표 |
+| `docs/d1-s0.html` ~ `d1-s6.html` | Day 1 — 환경 점검 → 토큰·가드레일 → 좋은 프롬프트(1)(2) → Plan Mode → 종합 미니랩 → QnA |
+| `docs/d2-s0.html` ~ `d2-s7.html` | Day 2 — 복습 → 하네스·CLI → Agent Teams·Fleet·Loop → 본인 워크플로 → SDD(1)(2) → Custom Skill/Agent → 경험 공유 |
+| `docs/ag-ui-program.css` | 공통 테마(AG-UI inspired) |
+| `labs/` | 세션별 실행 코드 + 템플릿(상세: `labs/README.md`) |
 
-## 보기
+## 보기 (설명)
 
-각 HTML은 정적 파일입니다. 브라우저로 `index.html`을 열면 됩니다.
+각 HTML은 정적 파일입니다. 브라우저로 `docs/index.html`을 엽니다.
 
 ```sh
-open index.html        # macOS
+open docs/index.html        # macOS
 # 또는 간단한 로컬 서버
-python3 -m http.server 8080
+python3 -m http.server 8080 # 이후 http://localhost:8080/docs/
 ```
+
+## 실행 (실습 코드)
+
+의존성 없이 **Node 18+ 내장 도구**만으로 동작합니다.
+
+```sh
+cd labs
+npm test          # baseline: 10 pass, 2 skip(Day2-S4에서 켜서 구현)
+npm run gate      # lint + test + policy-check
+npm run sim       # 장기 실행 안전장치 시뮬레이션
+npm run routing   # 단계별 모델 라우팅 데모
+```
+
+> 연속 코드베이스: 가상 '결제(billing)' 기능을 Day1~Day2 같은 파일(`src/billing/tax.js`·`discount.js`)로 키워 갑니다. 세션↔코드 지도는 `labs/README.md`.
 
 ## 특징
 
