@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="GitHub Copilot 중급과정 2일 — 수강생이 무엇을 학습해야 하는지(세션별 학습 목표·산출물·핵심 용어)를 한 장에 정리한 강의 검토용 문서." />
+<title>학습 목표 정리 (강의 검토용) — GitHub Copilot 중급과정</title>
+<link rel="stylesheet" href="docs/ag-ui-program.css" />
+<style>
+  .obj td ul{margin:2px 0 2px 16px}
+  .obj td li{font-size:12.8px;margin:3px 0}
+  .obj td.time{min-width:96px}
+  .chk{columns:2;column-gap:24px}
+  @media(max-width:720px){.chk{columns:1}}
+  .chk h3{break-after:avoid}
+  .chk ul{margin:4px 0 12px 2px;list-style:none;padding:0}
+  .chk li{font-size:13px;margin:5px 0;padding-left:20px;text-indent:-20px}
+  .chk li:before{content:"▢ ";color:var(--accent-dim);font-family:var(--mono)}
+  .tag.v{background:var(--violet-soft);color:#b4b4ff;border-color:rgba(139,139,255,.32)}
+</style>
+</head>
+<body>
+<main class="wide">
+<nav class="top"><div class="wrap">
+  <a href="docs/index.html">← PORTAL</a>
+  <a href="#contract">과정의 약속</a>
+  <a href="#thread">빌드업</a>
+  <a href="#day1">DAY 1</a>
+  <a href="#day2">DAY 2</a>
+  <a href="#checklist">역량 체크리스트</a>
+  <a href="#review">검토 관점</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">강의 검토용 · 수강생이 무엇을 학습해야 하는가 · GitHub Copilot 중급과정 2일</div>
+  <h1>학습 목표 정리 — 세션별 "무엇을 학습/습득해야 하는가"</h1>
+  <p class="lead">2일·16시간 과정의 <strong>세션별 학습 목표·산출물·핵심 용어</strong>를 한 장에 모았습니다. 강의 내용을 검토하고 <strong>개선안을 도출</strong>하기 위한 자료입니다(원본 세션 설명: <a href="docs/index.html">docs 포털</a>, 실행 코드: <code>labs/</code>).</p>
+  <div class="chips">
+    <span>15 세션 (Day1 S0~S6 · Day2 S0~S7)</span><span>학습 목표 = 수강생이 할 수 있어야 하는 것</span><span>산출물 = 학습의 증거</span><span>핵심 용어 = 용어사전 ID</span>
+  </div>
+</header>
+
+<section class="section" id="contract">
+  <h2>이 과정의 약속 — 수료 시 갖춰야 할 5가지 역량</h2>
+  <div class="kpi">
+    <div><b>1 · 좋은 입력</b><span>토큰·프롬프트·Plan으로 좋은 입력을 만든다</span></div>
+    <div><b>2 · 안전한 실행</b><span>하네스·Agent Teams·Fleet/Loop로 에이전트를 통제한다</span></div>
+    <div><b>3 · 검증 가능한 변경</b><span>SDD·로컬 게이트로 검증 가능한 변경을 만든다</span></div>
+    <div><b>4 · 나만의 솔루션</b><span>Custom Skill/Agent로 재사용 솔루션을 완성한다</span></div>
+    <div><b>5 · 경험 공유</b><span>라이트닝 토크·PL handoff로 팀에 공유한다</span></div>
+  </div>
+  <div class="callout note"><strong>읽는 법:</strong> 각 세션의 <strong>학습 목표</strong>는 "수강생이 끝나면 <em>할 수 있어야 하는 것</em>"이고, <strong>산출물</strong>은 그 학습이 일어났음을 보여주는 <em>증거물</em>입니다. 둘이 1:1로 맞물리는지를 보면 학습 설계의 빈틈이 보입니다.</div>
+</section>
+
+<section class="section" id="thread">
+  <h2>역량 빌드업 — 하나의 산출물이 자라는 흐름</h2>
+  <p class="small">수강생은 <strong>본인 기능 스펙 1건</strong>을 들고 와 세션을 지나며 같은 산출물을 키웁니다. 각 시간은 앞 시간의 결과를 입력으로 받습니다.</p>
+  <div class="flow">
+    <span class="n">기능 스펙 카드</span><span class="ar">→</span>
+    <span class="n">토큰절약 프롬프트</span><span class="ar">→</span>
+    <span class="n">AC·Plan·Test Matrix</span><span class="ar">→</span>
+    <span class="n">Feature Spec Pack v1</span><span class="ar">→</span>
+    <span class="n">로컬 게이트·Fleet/Loop</span><span class="ar">→</span>
+    <span class="n">spec.md·테스트·리뷰패킷</span><span class="ar">→</span>
+    <span class="n">Custom Skill/Agent</span><span class="ar">→</span>
+    <span class="n">공유 1페이지</span>
+  </div>
+</section>
+
+<section class="section obj" id="day1">
+  <h2><span class="chip">DAY 1</span> 좋은 입력 만들기 — 토큰 · 프롬프트 · Plan</h2>
+  <table>
+    <caption class="small">Day 1 세션별 학습 목표 · 산출물 · 핵심 용어</caption>
+    <thead><tr><th>세션 · 시간</th><th>무엇을 학습/할 수 있어야 하는가 (학습 목표)</th><th>산출물(학습 증거)</th><th>핵심 용어</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>S0</strong><br><span class="time">09:00–09:40<br>(40m)</span><br>OT &amp; 환경 점검</td>
+        <td><ul>
+          <li>2일 산출물 줄기를 이해하고 본인 기능 스펙 후보 1건을 정한다.</li>
+          <li>VS Code·Copilot·Git·Node·gh를 환경 점검·교정 스크립트로 점검·자동 교정하고 Green/Yellow/Red를 자가 판정한다.</li>
+          <li>실습 브랜치와 baseline 결과를 남겨 되돌아올 지점을 확보한다.</li>
+        </ul></td>
+        <td class="deliverable">환경 체크리스트, baseline 결과 메모, <code>lab/*</code> 브랜치</td>
+        <td><span class="tag gl">EN-14</span><span class="tag gl">EN-18</span><span class="tag gl">HE-14</span><span class="tag gl">EN-15</span></td>
+      </tr>
+      <tr>
+        <td><strong>S1</strong><br><span class="time">09:40–11:10<br>(90m)</span><br>토큰 최적화 &amp; 가드레일</td>
+        <td><ul>
+          <li>토큰이 새는 곳을 이해하고 파일 범위·#file·로그 제한으로 줄인다.</li>
+          <li>제약을 가드레일로 프롬프트에 명시한다(패키지 금지·시그니처 유지·민감정보 금지).</li>
+          <li>본인 기능 스펙 1건을 비식별화해 공용 재료로 만든다.</li>
+        </ul></td>
+        <td class="deliverable">토큰 절약 프롬프트, 가드레일 프롬프트, 비식별 기능 스펙 카드</td>
+        <td><span class="tag gl">PT-01</span><span class="tag gl">PT-09</span><span class="tag gl">PT-06</span><span class="tag gl">PT-03</span><span class="tag gl">OR-14</span><span class="tag gl">HE-12</span></td>
+      </tr>
+      <tr>
+        <td><strong>S2</strong><br><span class="time">11:10–12:30<br>(80m)</span><br>좋은 프롬프트 (1)</td>
+        <td><ul>
+          <li>R/C/T/C/V/O 6요소로 프롬프트를 구조화하고 안티패턴을 교정한다.</li>
+          <li>기능 스펙을 User Story·Acceptance Criteria(사람이 검증 가능)로 정제한다.</li>
+          <li>요구사항을 Business Process(Event/Task/Gateway)로 흐름화한다.</li>
+        </ul></td>
+        <td class="deliverable">프롬프트 3종(요구사항·구현·테스트) + AC 표</td>
+        <td><span class="tag gl">PT-07</span><span class="tag gl">PT-08</span><span class="tag gl">PT-04</span><span class="tag gl">PT-05</span><span class="tag gl">SD-03</span><span class="tag gl">SD-09</span></td>
+      </tr>
+      <tr>
+        <td><strong>S3</strong><br><span class="time">13:30–14:50<br>(80m)</span><br>좋은 프롬프트 (2) 리팩토링</td>
+        <td><ul>
+          <li>"동작 불변"을 가드레일로 명시한 리팩토링 프롬프트를 작성한다.</li>
+          <li>복잡 로직을 작은 함수로 분리하도록 단계적으로 지시한다.</li>
+          <li>Context Manifest(allowed/blocked/unknown/test)로 볼 파일을 좁힌다.</li>
+          <li>실패 프롬프트를 한 가지씩 교정(디버깅)한다.</li>
+        </ul></td>
+        <td class="deliverable">리팩토링 프롬프트, 구현·테스트 프롬프트, Context Manifest v1</td>
+        <td><span class="tag gl">SD-04</span><span class="tag gl">GN-06</span><span class="tag gl">PT-10</span><span class="tag gl">PT-02</span><span class="tag gl">OR-12</span></td>
+      </tr>
+      <tr>
+        <td><strong>S4</strong><br><span class="time">14:50–16:30<br>(100m)</span><br>Plan Mode</td>
+        <td><ul>
+          <li>요구사항→계획→실행을 분리하고 각 단계에 stop point를 둔다.</li>
+          <li>AC를 Test Matrix로 펼치고 risk tier·Human Gate를 표시한다.</li>
+          <li>되돌릴 경로(rollback note)를 구현 전에 초안으로 만든다.</li>
+        </ul></td>
+        <td class="deliverable">Plan 실행 기록, Test Matrix, risk/Human Gate, rollback note 초안</td>
+        <td><span class="tag gl">CF-04</span><span class="tag gl">GN-05</span><span class="tag gl">SD-05</span><span class="tag gl">SD-11</span><span class="tag gl">HE-10</span></td>
+      </tr>
+      <tr>
+        <td><strong>S5</strong><br><span class="time">16:30–17:30<br>(60m)</span><br>종합 미니 실습</td>
+        <td><ul>
+          <li>토큰 프롬프트·AC·Context Manifest·Plan·Test Matrix를 하나의 패킷으로 묶는다.</li>
+          <li>Day2로 바로 넘어갈 수 있는지 handoff 준비도를 자가 판정한다.</li>
+        </ul></td>
+        <td class="deliverable">Feature Spec Pack v1 + handoff 준비도 등급</td>
+        <td><span class="tag gl">SD-08</span><span class="tag gl">OR-16</span><span class="tag gl">EN-18</span><span class="tag gl">EV-10</span></td>
+      </tr>
+      <tr>
+        <td><strong>S6</strong><br><span class="time">17:30–18:00<br>(30m)</span><br>QnA &amp; 버퍼 <span class="tag">운영</span></td>
+        <td><ul>
+          <li>(운영) blocker를 모아 처리하고 YELLOW/RED 참가자를 D2·S0 보강 대상으로 표시한다.</li>
+          <li>(운영) Day2 준비물(기능 스펙/코드·환경)을 점검한다.</li>
+          <li>한 줄 회고로 학습을 고정한다.</li>
+        </ul></td>
+        <td class="deliverable">blocker log, Day2 준비 체크, 한 줄 회고</td>
+        <td><span class="tag gl">OR-11</span><span class="tag gl">OR-16</span><span class="tag gl">EN-18</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section obj" id="day2">
+  <h2><span class="chip v">DAY 2</span> 안전한 실행 + 나만의 솔루션 — 하네스 · SDD · Skill</h2>
+  <table>
+    <caption class="small">Day 2 세션별 학습 목표 · 산출물 · 핵심 용어</caption>
+    <thead><tr><th>세션 · 시간</th><th>무엇을 학습/할 수 있어야 하는가 (학습 목표)</th><th>산출물(학습 증거)</th><th>핵심 용어</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>S0</strong><br><span class="time">09:00–09:30<br>(30m)</span><br>복습 &amp; 환경 재점검</td>
+        <td><ul>
+          <li>Day1 산출물을 입력으로 다시 불러오고 환경이 어제와 동일한지 확인한다.</li>
+          <li>오늘 구현할 must-have AC를 1~3개로 좁힌다.</li>
+          <li>변경 전 <code>git diff</code>가 clean한지 확인한다.</li>
+        </ul></td>
+        <td class="deliverable">재개 체크, clean branch, 오늘의 must-have AC</td>
+        <td><span class="tag gl">OR-16</span><span class="tag gl">EN-14</span><span class="tag gl">OR-15</span></td>
+      </tr>
+      <tr>
+        <td><strong>S1</strong><br><span class="time">09:30–10:40<br>(70m)</span><br>하네스 (1) 기초·CLI</td>
+        <td><ul>
+          <li>하네스 = 자연어 제약을 로컬 실행 가능한 검증/게이트로 바꾸는 작업임을 이해한다.</li>
+          <li>Copilot CLI에서 allow/deny-tool·log-dir·output-format으로 권한·로그·출력을 제어한다.</li>
+          <li>실행 로그를 읽고 "무엇을 했고 왜 멈췄는가"를 해석한다.</li>
+        </ul></td>
+        <td class="deliverable">권한 플래그 적용 CLI 로그 + 로그 해석 메모</td>
+        <td><span class="tag gl">HE-01</span><span class="tag gl">CF-02</span><span class="tag gl">HE-13</span><span class="tag gl">CF-01</span></td>
+      </tr>
+      <tr>
+        <td><strong>S2</strong><br><span class="time">10:40–12:00<br>(80m)</span><br>하네스 (2) Agent Teams·Fleet·Loop</td>
+        <td><ul>
+          <li>wrapper와 policy-check로 로컬 검증 게이트를 만든다.</li>
+          <li>Agent Teams 역할(Planner·Generator·Evaluator·Harness·Approval Owner)을 기능팀에 매핑한다.</li>
+          <li>Fleet 설계표로 역할별 모델·도구·중단 조건을, Loop Canvas로 게이트를 정의한다.</li>
+          <li>모델 라우팅 원칙(프롬프트 모델명은 보장 아님)을 이해한다.</li>
+        </ul></td>
+        <td class="deliverable">Agent Team Canvas + Fleet 설계표 + Loop Canvas + 동작 로컬 게이트</td>
+        <td><span class="tag gl">HE-03</span><span class="tag gl">HE-04</span><span class="tag gl">HE-05</span><span class="tag gl">CF-07</span><span class="tag gl">CF-05</span><span class="tag gl">CF-06</span><span class="tag gl">CF-10</span></td>
+      </tr>
+      <tr>
+        <td><strong>S3</strong><br><span class="time">13:00–13:50<br>(50m)</span><br>하네스 (3) 본인 워크플로</td>
+        <td><ul>
+          <li>내 기능팀 반복 업무 1개를 입력·작업·검증·중단 조건으로 분해한다.</li>
+          <li>자연어 제약 → 테스트/체크/정책으로 코드화 포인트를 식별한다.</li>
+          <li>업무별 Agent Teams/Fleet 루프를 설계하고 중단 조건·owner를 지정한다.</li>
+        </ul></td>
+        <td class="deliverable">본인용 하네스 워크플로 캔버스 + Fleet Loop 초안(중단조건·owner)</td>
+        <td><span class="tag gl">HE-01</span><span class="tag gl">HE-07</span><span class="tag gl">HE-08</span><span class="tag gl">CF-05</span><span class="tag gl">CF-06</span><span class="tag gl">OR-25</span></td>
+      </tr>
+      <tr>
+        <td><strong>S4</strong><br><span class="time">13:50–15:10<br>(80m)</span><br>SDD (1) 요구사항→구현</td>
+        <td><ul>
+          <li>기능 스펙을 spec.md 표준 형식(Context·Requirements·AC·Tests First·Constraints)으로 정형화한다.</li>
+          <li>AC를 테스트 이름으로 바꿔 실패하는 테스트를 먼저 만든다.</li>
+          <li>테스트를 통과시키는 최소 변경만 allowed files에 구현한다.</li>
+        </ul></td>
+        <td class="deliverable">spec.md + 실패 테스트(검토) + 스펙 기반 최소 구현</td>
+        <td><span class="tag gl">SD-01</span><span class="tag gl">SD-07</span><span class="tag gl">SD-06</span><span class="tag gl">SD-03</span><span class="tag gl">EN-12</span></td>
+      </tr>
+      <tr>
+        <td><strong>S5</strong><br><span class="time">15:10–16:20<br>(70m)</span><br>SDD (2) 통합·테스트·리뷰패킷</td>
+        <td><ul>
+          <li>유닛테스트를 보강하고 통합 관점(주변 영향)을 점검한다.</li>
+          <li>evidence bundle(변경요약·테스트·정책체크·diff·리스크)을 만든다.</li>
+          <li>rollback note·no-cloud attestation을 포함한 local review packet을 제출한다.</li>
+        </ul></td>
+        <td class="deliverable">테스트 포함 변경 세트 + local review packet</td>
+        <td><span class="tag gl">HE-03</span><span class="tag gl">HE-18</span><span class="tag gl">HE-15</span><span class="tag gl">HE-10</span><span class="tag gl">HE-16</span></td>
+      </tr>
+      <tr>
+        <td><strong>S6</strong><br><span class="time">16:20–17:20<br>(60m)</span><br>Skill 커스터마이징 <span class="tag pass">수료필수</span></td>
+        <td><ul>
+          <li>Skill(절차·지식 재사용)과 Custom Agent(역할·도구·모델 묶음)의 차이를 이해한다.</li>
+          <li>본인 반복 업무를 목적·입력·절차·금지·출력 구조의 Custom Skill로 정형화한다.</li>
+          <li>Fleet 안에서 역할별 Custom Agent와 모델 기준·도구 범위를 정한다.</li>
+        </ul></td>
+        <td class="deliverable">업무용 Custom Skill 1개 + Custom Agent/Fleet 운영 기준</td>
+        <td><span class="tag gl">CF-08</span><span class="tag gl">PT-11</span><span class="tag gl">CF-05</span><span class="tag gl">CF-10</span><span class="tag gl">EV-09</span></td>
+      </tr>
+      <tr>
+        <td><strong>S7</strong><br><span class="time">17:20–18:00<br>(40m)</span><br>종합·경험 공유 <span class="tag">운영</span></td>
+        <td><ul>
+          <li>5분 라이트닝 토크로 "스펙→프롬프트→계획→테스트→검증→롤백→Skill" 연결을 공유한다.</li>
+          <li>현업 적용 액션 3개와 PL handoff 1페이지를 만든다.</li>
+          <li>go/no-go로 자가 판정하고 D+7 클리닉으로 잇는다.</li>
+        </ul></td>
+        <td class="deliverable">라이트닝 토크 3장 + 현업 적용 액션 3개 + PL handoff + 회고</td>
+        <td><span class="tag gl">OR-17</span><span class="tag gl">OR-18</span><span class="tag gl">OR-19</span><span class="tag gl">EV-11</span><span class="tag gl">GN-08</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section" id="checklist">
+  <h2>전체 역량 체크리스트 — 수료 시 "할 수 있어야 하는 것"</h2>
+  <p class="small">세션 학습 목표를 5개 역량 축으로 합친 최종 도달 상태입니다. 강의가 이 항목들을 실제로 달성시키는지 점검용으로 쓰세요.</p>
+  <div class="chk">
+    <h3>1 · 좋은 입력 <span class="tag">Day1</span></h3>
+    <ul>
+      <li>범위를 좁혀(파일·#file·로그 제한) 토큰을 줄여 같은 결과를 낸다</li>
+      <li>가드레일(금지 작업·민감정보 경계)을 프롬프트에 명시한다</li>
+      <li>기능 스펙을 비식별화한다</li>
+      <li>R/C/T/C/V/O 6요소로 프롬프트를 구조화한다</li>
+      <li>User Story·AC·Business Process로 요구사항을 검증 가능하게 정제한다</li>
+      <li>동작 불변을 보장한 리팩토링을 지시한다</li>
+      <li>Context Manifest로 볼 파일을 좁힌다</li>
+      <li>Plan Mode로 계획-실행을 분리하고 Test Matrix·rollback note를 만든다</li>
+    </ul>
+
+    <h3>2 · 안전한 실행 <span class="tag v">Day2</span></h3>
+    <ul>
+      <li>하네스 개념(자연어 제약→실행 가능한 검증)을 설명한다</li>
+      <li>Copilot CLI 권한·로그(allow/deny-tool·log-dir)를 제어하고 로그를 해석한다</li>
+      <li>wrapper·policy-check로 로컬 검증 게이트를 만든다</li>
+      <li>Agent Teams 역할을 분리하고 기능팀에 매핑한다</li>
+      <li>Fleet 설계표·Loop Canvas로 모델·도구·중단 조건·게이트를 정의한다</li>
+      <li>모델 라우팅 원칙(프롬프트 모델명 ≠ 보장)을 적용한다</li>
+      <li>내 반복 업무를 하네스 워크플로로 분해한다</li>
+    </ul>
+
+    <h3>3 · 검증 가능한 변경 <span class="tag v">Day2</span></h3>
+    <ul>
+      <li>spec.md로 요구사항을 정형화한다</li>
+      <li>test-first(실패 테스트 먼저)로 최소 구현한다</li>
+      <li>evidence bundle을 만든다</li>
+      <li>rollback note·no-cloud attestation 포함 local review packet을 제출한다</li>
+    </ul>
+
+    <h3>4 · 나만의 솔루션 <span class="tag v">Day2</span></h3>
+    <ul>
+      <li>Custom Skill을 목적·입력·절차·금지·출력 구조로 작성한다</li>
+      <li>Custom Agent와 Fleet 운영 기준(모델·도구·중단)을 정한다</li>
+    </ul>
+
+    <h3>5 · 경험 공유 <span class="tag v">Day2</span></h3>
+    <ul>
+      <li>라이트닝 토크로 전체 연결을 5분에 설명한다</li>
+      <li>현업 적용 액션 3개와 PL handoff 1페이지를 만든다</li>
+    </ul>
+  </div>
+  <div class="callout ok"><strong>수료 필수(최소):</strong> 로컬 테스트 1회 통과(또는 실패→수정 기록) + local review packet 제출 + Custom Skill 초안 제출. (<span class="tag gl">EV-09</span>)</div>
+</section>
+
+<section class="section" id="review">
+  <h2>검토 관점 (개선안 도출용 체크 축)</h2>
+  <p class="small">개선안은 직접 도출하실 수 있도록, 학습 설계를 살펴볼 때 유용한 중립 질문만 정리했습니다.</p>
+  <div class="grid">
+    <div class="card"><h3>학습목표 ↔ 산출물 정합성</h3><p>각 세션의 학습 목표가 산출물로 <strong>증명</strong>되는가? 목표는 있는데 증거(산출물)가 없는 세션은? (예: 개념 이해형 목표)</p></div>
+    <div class="card"><h3>난이도 곡선</h3><p>초·중급 혼합 기준으로 점프가 큰 구간은? (예: D2·S2가 80분에 게이트+Agent Teams+Fleet+Loop를 모두 다룸)</p></div>
+    <div class="card"><h3>시간 배분</h3><p>학습 목표 수 대비 시간이 빠듯/여유로운 세션은? (예: D1·S4 100분 단일 블록, D2·S3 50분)</p></div>
+    <div class="card"><h3>선수 지식</h3><p>각 세션이 가정하는 선수 지식이 앞 세션에서 실제로 길러지는가? 끊기는 의존이 있는가?</p></div>
+    <div class="card"><h3>실행(Hands-on) 연결</h3><p>각 학습 목표가 <code>labs/</code>의 실행 코드로 <strong>직접 체험</strong>되는가? 말로만 설명되는 목표는?</p></div>
+    <div class="card"><h3>평가 정렬</h3><p>수료 필수 항목·루브릭이 학습 목표 전체를 커버하는가? 평가되지 않는 핵심 목표는?</p></div>
+  </div>
+  <div class="callout warn"><strong>메모:</strong> 위 표·체크리스트는 현재 콘텐츠(docs/labs)를 그대로 반영한 스냅샷입니다. 세션 내용이 바뀌면 이 문서도 갱신해야 정합성이 유지됩니다.</div>
+</section>
+
+<footer>학습 목표 정리 (강의 검토용) · program-sessions-2026-06-27 · 원본: docs/ 세션 설명 + labs/ 실행 코드</footer>
+</main>
+</body>
+</html>
