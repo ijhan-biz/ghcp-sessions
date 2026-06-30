@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="GitHub Copilot 중급과정 2일 — 시간(세션)별 교육 콘텐츠 포털. Day1 S0~S6, Day2 S0~S7 각 시간마다 학습목표·미니강의·실습·예제·산출물·공유 활동을 담아, 수강 후 에이전트로 자신만의 솔루션을 만들고 경험을 공유할 수 있게 설계." />
+<title>GitHub Copilot 중급과정 — 세션별 교육 프로그램 · 2026-06-27</title>
+<link rel="stylesheet" href="ag-ui-program.css" />
+</head>
+<body>
+<main>
+<nav class="top"><div class="wrap">
+  <a href="index.html" class="cur">PORTAL</a>
+  <a href="d1-s0.html">D1·S0</a><a href="d1-s1.html">S1</a><a href="d1-s2.html">S2</a><a href="d1-s3.html">S3</a><a href="d1-s4.html">S4</a><a href="d1-s5.html">S5</a><a href="d1-s6.html">S6</a>
+  <a href="d2-s0.html">D2·S0</a><a href="d2-s1.html">S1</a><a href="d2-s2.html">S2</a><a href="d2-s3.html">S3</a><a href="d2-s4.html">S4</a><a href="d2-s5.html">S5</a><a href="d2-s6.html">S6</a><a href="d2-s7.html">S7</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">LG · GitHub Copilot Handson 중급과정 · 시간별 교육 콘텐츠 · 2026-06-27</div>
+  <h1>세션별 교육 프로그램 — 각 시간마다 독립 콘텐츠로 구성한 2일 과정</h1>
+  <p class="lead">재편안(2일·16시간)을 <strong>시간(세션) 단위</strong>로 풀어, Day1 S0~S6·Day2 S0~S7의 <strong>각 시간마다 학습목표·미니강의·실습·예제·체크포인트·산출물·공유 활동</strong>을 담았습니다. 용어는 <a href="../copilot-중급과정-용어사전-2026-06-27.md">중급과정 용어사전</a>의 ID(<code>CF/HE/SD/PT/EN/OR/EV/GN</code>)로 일관되게 연결합니다.</p>
+  <div class="chips">
+    <span>2일 · 16시간 · 15세션</span><span>세션마다 독립 콘텐츠</span><span>로컬 VS Code (No Codespaces)</span><span>No PR/Actions Lab</span><span>기능팀 · SDD</span><span>용어사전 ID 연동</span>
+  </div>
+</header>
+
+<section class="section" id="goal">
+  <h2>이 과정의 약속 (Outcome Contract)</h2>
+  <div class="callout ok"><strong>수료 시 역량:</strong> 이 과정을 마치면 ① 토큰·프롬프트·Plan으로 <strong>좋은 입력</strong>을 만들고, ② 하네스·Agent Teams·Fleet/Loop로 <strong>에이전트를 안전하게 통제</strong>하며, ③ SDD·로컬 게이트로 <strong>검증 가능한 변경</strong>을 만들고, ④ 이를 <strong>Custom Skill/Custom Agent</strong>로 묶어 <strong>자신만의 재사용 솔루션</strong>을 완성하고, ⑤ 그 경험을 <strong>팀에 공유</strong>할 수 있습니다.</div>
+  <div class="kpi">
+    <div><b>좋은 입력</b><span>Day1: 토큰·프롬프트·Plan</span></div>
+    <div><b>안전한 실행</b><span>Day2: 하네스·Agent Teams·Fleet/Loop</span></div>
+    <div><b>나만의 솔루션</b><span>D2·S6: Custom Skill/Agent + Fleet</span></div>
+    <div><b>경험 공유</b><span>D2·S7: 라이트닝 토크 + PL handoff</span></div>
+  </div>
+  <div class="callout note"><strong>Local-only 정의:</strong> 코드 실행·테스트·검증·제출 산출물은 로컬 VS Code/로컬 Git에서 만듭니다(<span class="tag gl">HE-14</span>). Copilot 질의는 조직 정책에 따라 서비스로 전송될 수 있으므로 고객정보·키/토큰·반출 금지 로그는 입력하지 않습니다(<span class="tag gl">OR-12</span> · <span class="tag gl">OR-13</span>).</div>
+</section>
+
+<section class="section" id="thread">
+  <h2>역량 빌드업 — 한 줄기로 이어지는 산출물</h2>
+  <p class="small">참가자는 <strong>본인 기능 스펙 1건</strong>을 들고 와, 세션을 지나며 같은 산출물을 키워 나갑니다. 각 시간은 앞 시간의 결과를 입력으로 받습니다.</p>
+  <div class="flow">
+    <span class="n">기능 스펙 카드</span><span class="ar">→</span>
+    <span class="n">토큰절약 프롬프트</span><span class="ar">→</span>
+    <span class="n">AC·Plan·Test Matrix</span><span class="ar">→</span>
+    <span class="n">Feature Spec Pack v1</span><span class="ar">→</span>
+    <span class="n">로컬 게이트·Fleet/Loop</span><span class="ar">→</span>
+    <span class="n">spec.md·테스트·리뷰패킷</span><span class="ar">→</span>
+    <span class="n">Custom Skill/Agent</span><span class="ar">→</span>
+    <span class="n">공유 1페이지</span>
+  </div>
+</section>
+
+<section class="section" id="day1">
+  <h2><span class="chip">DAY 1</span> 토큰 · 좋은 프롬프트 · Plan Mode (좋은 입력 만들기)</h2>
+  <table>
+    <thead><tr><th>시간</th><th>세션</th><th>이 시간의 한 줄</th><th>산출물</th><th>핵심 용어</th></tr></thead>
+    <tbody>
+      <tr><td class="time">09:00–09:40</td><td><a href="d1-s0.html">S0. OT &amp; 로컬 환경 점검</a></td><td>2일 흐름 합의 + 로컬 환경 smoke test + baseline 브랜치</td><td class="deliverable">환경 체크리스트, baseline 결과</td><td><span class="tag gl">EN-01</span><span class="tag gl">EN-14</span><span class="tag gl">HE-14</span></td></tr>
+      <tr><td class="time">09:40–11:10</td><td><a href="d1-s1.html">S1. 토큰 최적화 &amp; 가드레일</a></td><td>범위 축소로 토큰 절감 + 가드레일 + 기능 스펙 비식별화</td><td class="deliverable">토큰절약 프롬프트, 비식별 스펙 카드</td><td><span class="tag gl">PT-01</span><span class="tag gl">PT-03</span><span class="tag gl">OR-14</span></td></tr>
+      <tr><td class="time">11:10–12:30</td><td><a href="d1-s2.html">S2. 좋은 프롬프트 (1)</a></td><td>R/C/T/C/V/O 구조화 프롬프트 + User Story/AC 정제</td><td class="deliverable">프롬프트 3종, AC 표</td><td><span class="tag gl">PT-07</span><span class="tag gl">PT-08</span><span class="tag gl">SD-03</span></td></tr>
+      <tr><td class="time">13:30–14:50</td><td><a href="d1-s3.html">S3. 좋은 프롬프트 (2) — 리팩토링·복잡 로직</a></td><td>까다로운 작업 안전 지시 + Context Manifest로 범위 좁히기</td><td class="deliverable">리팩토링 전/후, Context Manifest</td><td><span class="tag gl">SD-04</span><span class="tag gl">GN-06</span><span class="tag gl">PT-10</span></td></tr>
+      <tr><td class="time">14:50–16:30</td><td><a href="d1-s4.html">S4. Plan Mode 실습</a></td><td>계획-실행 분리 + 단계별 stop point + Test Matrix</td><td class="deliverable">Plan 기록, Test Matrix</td><td><span class="tag gl">CF-04</span><span class="tag gl">SD-05</span><span class="tag gl">GN-05</span></td></tr>
+      <tr><td class="time">16:30–17:30</td><td><a href="d1-s5.html">S5. 데일리 종합 미니 실습</a></td><td>토큰·프롬프트·Plan을 본인 기능 1건에 통합</td><td class="deliverable">Feature Spec Pack v1</td><td><span class="tag gl">SD-08</span><span class="tag gl">OR-16</span></td></tr>
+      <tr><td class="time">17:30–18:00</td><td><a href="d1-s6.html">S6. QnA &amp; 버퍼</a></td><td>막힘 해소 + Day2 준비물 안내 + 회고</td><td class="deliverable">blocker log, Day2 준비 체크</td><td><span class="tag gl">OR-11</span><span class="tag gl">OR-16</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section" id="day2">
+  <h2><span class="chip v">DAY 2</span> 하네스 · Agent Teams · Fleet/Loop · SDD · Skill (안전한 실행 + 나만의 솔루션)</h2>
+  <table>
+    <thead><tr><th>시간</th><th>세션</th><th>이 시간의 한 줄</th><th>산출물</th><th>핵심 용어</th></tr></thead>
+    <tbody>
+      <tr><td class="time">09:00–09:30</td><td><a href="d2-s0.html">S0. Day1 복습 &amp; 환경 재점검</a></td><td>리캡 + Dev Container 재기동 + Spec Pack 로딩</td><td class="deliverable">재개 체크, clean branch</td><td><span class="tag gl">OR-16</span><span class="tag gl">EN-01</span></td></tr>
+      <tr><td class="time">09:30–10:40</td><td><a href="d2-s1.html">S1. 하네스 (1) — 기초·CLI</a></td><td>자연어 제약→검증 개념 + Copilot CLI 권한·로그</td><td class="deliverable">CLI 로그, JSON 출력</td><td><span class="tag gl">HE-01</span><span class="tag gl">CF-02</span><span class="tag gl">HE-13</span></td></tr>
+      <tr><td class="time">10:40–12:00</td><td><a href="d2-s2.html">S2. 하네스 (2) — Agent Teams·Fleet·Loop 게이트</a></td><td>로컬 게이트 + 역할 분리 + Fleet/Loop 설계</td><td class="deliverable">Agent Team Canvas, Fleet/Loop, 게이트</td><td><span class="tag gl">HE-03</span><span class="tag gl">CF-07</span><span class="tag gl">CF-06</span></td></tr>
+      <tr><td class="time">13:00–13:50</td><td><a href="d2-s3.html">S3. 하네스 (3) — 본인 워크플로 설계</a></td><td>내 기능팀 반복 업무를 하네스로 분해 (나만의 솔루션 설계 시작)</td><td class="deliverable">본인용 하네스 워크플로 초안</td><td><span class="tag gl">HE-07</span><span class="tag gl">CF-05</span><span class="tag gl">OR-25</span></td></tr>
+      <tr><td class="time">13:50–15:10</td><td><a href="d2-s4.html">S4. SDD (1) — 요구사항 → 구현</a></td><td>spec.md 정형화 + test-first + 스펙 기반 구현</td><td class="deliverable">spec.md, 스펙 기반 구현</td><td><span class="tag gl">SD-01</span><span class="tag gl">SD-07</span><span class="tag gl">SD-06</span></td></tr>
+      <tr><td class="time">15:10–16:20</td><td><a href="d2-s5.html">S5. SDD (2) — 통합 &amp; 유닛테스트</a></td><td>유닛테스트 + 로컬 게이트 + rollback + 리뷰 패킷</td><td class="deliverable">변경 세트 + local review packet</td><td><span class="tag gl">HE-15</span><span class="tag gl">HE-18</span><span class="tag gl">HE-10</span></td></tr>
+      <tr><td class="time">16:20–17:20</td><td><a href="d2-s6.html">S6. Skill 사용 및 커스터마이징</a></td><td>Custom Skill/Agent로 나만의 재사용 솔루션 완성</td><td class="deliverable">업무용 Custom Skill 1개 + Fleet 기준</td><td><span class="tag gl">CF-08</span><span class="tag gl">CF-05</span><span class="tag gl">CF-10</span></td></tr>
+      <tr><td class="time">17:20–18:00</td><td><a href="d2-s7.html">S7. 종합 정리 · 경험 공유 · QnA</a></td><td>라이트닝 토크 + 현업 적용 플랜 + PL handoff</td><td class="deliverable">공유 1페이지, 현업 적용 액션</td><td><span class="tag gl">OR-17</span><span class="tag gl">OR-18</span><span class="tag gl">GN-08</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section" id="howto">
+  <h2>이 콘텐츠 사용법</h2>
+  <div class="grid">
+    <div class="card"><h3>강사</h3><p>각 세션 페이지의 <strong>미니강의 → 실습 → 체크포인트 → 공유</strong> 순서를 그대로 진행합니다. 시간 압박 시 각 페이지의 <span class="tag warn">컷라인</span>(최소 경로 <span class="tag gl">EV-10</span>)만 남기세요.</p></div>
+    <div class="card"><h3>참가자</h3><p>본인 기능 스펙 1건을 들고 와 매 세션 <strong>산출물</strong>을 키웁니다. 세션 하단 <strong>공유 포인트</strong>에 한 줄씩 기록하면 D2·S7 발표가 저절로 만들어집니다.</p></div>
+    <div class="card"><h3>운영진</h3><p>세션 간 <strong>handoff</strong>(<span class="tag gl">OR-16</span>)와 <strong>QnA 버퍼</strong>(<span class="tag gl">OR-11</span>)가 흐름에 들어 있습니다. 환경·평가·운영 상세는 기존 <code>program-content</code> 패키지와 함께 사용하세요.</p></div>
+  </div>
+  <div class="callout warn"><strong>운영 전 점검:</strong> 실제 운영 전 샘플 레포(<span class="tag gl">EN-12</span>·<span class="tag gl">EN-13</span>)·policy-check 샘플·완성 리뷰 패킷 예시를 강사 PC에서 end-to-end로 재현(dry-run, <span class="tag gl">OR-22</span>)해 확정하세요. CLI 옵션·모델명·조직 정책은 운영 시점 공식 문서/테넌트 설정으로 재확인합니다.</div>
+</section>
+
+<section class="section" id="sources">
+  <h2>참조 자료 반영 (ref/harness-gen-output)</h2>
+  <p class="small">각 세션의 "참조 심화" 블록은 아래 1차 자료의 구체 패턴을 반영했습니다.</p>
+  <table>
+    <thead><tr><th>자료</th><th>반영 내용</th><th>세션</th></tr></thead>
+    <tbody>
+      <tr><td>004 CLI Harness Guide</td><td>권한 플래그·차단 패턴·pre/post check·logging-first</td><td>D2·S1</td></tr>
+      <tr><td>005 Agent Team Composition</td><td>토폴로지·Decision Scorecard·Role Contract·G0~G4·CD_ratio</td><td>D2·S2</td></tr>
+      <tr><td>033 Long-Running Playbook</td><td>cost_burn·checkpoint SLI·canary·approval_id 만료</td><td>D2·S3</td></tr>
+      <tr><td>028 Agentic SDLC</td><td>3층 책임 모델·AI 레드라인·추적성·SLI/SLO</td><td>D2·S4·S5</td></tr>
+      <tr><td>031 AI-assisted SDLC Playbook</td><td>Definition of Done·BDD 브래킷·SMART AC·one/two-way door</td><td>D1·S2·S4, D2·S3·S4</td></tr>
+      <tr><td>035 Sub-agent Model Routing</td><td>YAML model 고정·단계별 모델 계층·세션 로그·OTel</td><td>D2·S6</td></tr>
+    </tbody>
+  </table>
+  <div class="callout note"><strong>주의:</strong> 위 자료는 제품 기능·CLI 옵션·모델명·가격이 시점에 따라 바뀝니다. 운영 전 공식 문서·테넌트 설정으로 재확인하세요(release-time recheck).</div>
+</section>
+
+<footer>program-sessions-2026-06-27 · 시간(세션)별 교육 콘텐츠 · 용어사전 ID 연동 · 재편안(2026-06-27) 기반 · 작성: 한익준 (Microsoft)</footer>
+</main>
+</body>
+</html>

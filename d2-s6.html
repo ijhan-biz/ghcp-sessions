@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>D2·S6 Skill 사용 및 커스터마이징 — Copilot 중급과정</title>
+<link rel="stylesheet" href="ag-ui-program.css" />
+</head>
+<body>
+<main>
+<nav class="top"><div class="wrap">
+  <a href="index.html">PORTAL</a>
+  <a href="d1-s0.html">D1·S0</a><a href="d1-s1.html">S1</a><a href="d1-s2.html">S2</a><a href="d1-s3.html">S3</a><a href="d1-s4.html">S4</a><a href="d1-s5.html">S5</a><a href="d1-s6.html">S6</a>
+  <a href="d2-s0.html">D2·S0</a><a href="d2-s1.html">S1</a><a href="d2-s2.html">S2</a><a href="d2-s3.html">S3</a><a href="d2-s4.html">S4</a><a href="d2-s5.html">S5</a><a href="d2-s6.html" class="cur">S6</a><a href="d2-s7.html">S7</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">DAY 2 · SESSION 6 · 16:20–17:20 (60m) · 나만의 솔루션 완성</div>
+  <h1>Skill 사용 및 커스터마이징 — 나만의 재사용 솔루션을 만든다</h1>
+  <p class="lead">오늘 만든 프롬프트·제약·워크플로를 매번 새로 쓰지 않도록 <strong>Custom Skill / Custom Agent</strong>로 묶습니다. 이것이 이 과정의 결정체 — <strong>에이전트로 동작하는 자신만의 솔루션</strong>입니다.</p>
+  <div class="chips"><span><strong>CF-08</strong> Custom Skill/Agent</span><span><strong>PT-11</strong> 프롬프트 템플릿</span><span><strong>CF-05</strong> Fleet</span><span><strong>CF-10</strong> Model routing</span><span><strong>EV-09</strong> 필수 수료</span></div>
+</header>
+
+<section class="section">
+  <h2>학습 목표</h2>
+  <ul>
+    <li><strong>Skill</strong>(절차·지식 재사용)과 <strong>Custom Agent</strong>(역할·도구·모델까지 묶음)의 차이를 이해한다.</li>
+    <li>본인 반복 업무를 <strong>목적·입력·절차·금지·출력</strong> 구조의 Custom Skill로 정형화한다(<span class="tag gl">CF-08</span>).</li>
+    <li>Fleet 안에서 역할별 Custom Agent와 모델 기준·도구 범위를 정한다.</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>미니강의 — Skill은 절차, Agent는 역할까지</h2>
+  <p><strong>Skill</strong>은 "이 반복 업무를 이렇게 한다"는 절차·지식을 MD로 재사용하는 단위입니다. <strong>Custom Agent</strong>는 거기에 <strong>역할·노출 도구·모델 기준</strong>까지 묶습니다. D2·S3에서 설계한 본인 워크플로를 여기서 자산으로 굳힙니다.</p>
+  <div class="callout warn"><strong>설계 질문:</strong> 어떤 반복 업무를 줄이나? 입력은? 절대 하면 안 되는 일은? 완료 산출물과 pass/revise/block 기준은? Fleet에서 어떤 역할인가? 노출/비노출 도구는?</div>
+</section>
+
+<section class="section">
+  <h2>실습 1 — Custom Skill 작성 (<span class="tag gl">CF-08</span>)</h2>
+  <div class="step"><div class="label">예: 기능 스펙 SDD 보조 Skill</div>
+<pre><code># 기능 스펙 SDD 보조 Skill
+## 목적
+비식별 기능 스펙을 User Story·AC·Test Matrix·구현 계획으로 정리한다.
+## 입력
+- Feature Spec Pack / Context Manifest / 현재 테스트 결과
+## 절차
+1. 민감정보/고객 데이터 확인  2. User Story·AC를 SMART하게
+3. allowed/blocked 분리  4. test-first 계획  5. human gate 표시
+## 금지
+- 고객명/계정/secret 추정 · 외부 패키지 추가 제안 · 승인 없는 운영/배포/삭제
+## 출력
+- AC 표 · Context Manifest · Test Matrix · Plan · Risk/Gate · Rollback Note</code></pre></div>
+</section>
+
+<section class="section">
+  <h2>실습 2 — Custom Agent &amp; Fleet 구성</h2>
+  <div class="step"><div class="label">Custom Agent 설계 (자리표시자)</div>
+<pre><code>---
+name: feature-sdd-planner
+description: 기능 스펙을 SDD 실행 패킷으로 정리하는 Planner agent
+model: [조직에서 승인한 planning 모델]
+tools: [read, search]
+---
+너는 기능팀 SDD Planner다. 구현 전 비식별 확인 → User Story → AC →
+Context Manifest → Test Matrix → Risk/Human Gate를 만든다.
+금지: 코드 수정 · 외부 패키지 추가 제안 · prod/deploy/secret 자동 실행 제안.</code></pre></div>
+  <div class="step"><div class="label">Fleet 구성 산출물</div>
+  <table>
+    <thead><tr><th>Agent</th><th>목적</th><th>모델 기준</th><th>도구</th><th>중단</th></tr></thead>
+    <tbody>
+      <tr><td>feature-sdd-planner</td><td>plan/test matrix</td><td>planning/auto</td><td>read·search</td><td>scope 불명확</td></tr>
+      <tr><td>feature-code-generator</td><td>test-first 구현</td><td>coding/auto</td><td>allowed files edit</td><td>blocked file</td></tr>
+      <tr><td>feature-evaluator</td><td>diff/test review</td><td>auto/중간</td><td>read·test log</td><td>AC 미충족</td></tr>
+      <tr><td>feature-harness</td><td>gate 실행 요약</td><td>checker 우선</td><td>npm test·policy-check</td><td>gate 실패</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout warn"><strong>주의:</strong> <code>model:</code> 값은 교육용 자리표시자입니다. 배포 전 VS Code/GitHub Custom Agent 문서와 조직 허용 모델명을 확인합니다. 프롬프트 모델명 주입이 아니라 설정·로그로 라우팅을 확인합니다(<span class="tag gl">CF-10</span>).</div>
+</section>
+
+<section class="section">
+  <h2>참조 심화 — 모델 라우팅 &amp; 관측성 (출처: 035 Sub-agent Model Routing)</h2>
+  <h3>모델 지정 2가지 경로</h3>
+  <table>
+    <thead><tr><th>경로</th><th>방법</th><th>성격</th></tr></thead>
+    <tbody>
+      <tr><td>Custom Agent 고정</td><td>YAML frontmatter <code>model: ...</code></td><td>역할 고정(표준 역할 권장)</td></tr>
+      <tr><td>Fleet 런타임 라우팅</td><td>SDK/API · model picker · handoff 필드</td><td>호출 시 동적</td></tr>
+      <tr><td>프롬프트 모델명</td><td>본문에 "~모델로"</td><td>비공식 힌트(보장 아님)</td></tr>
+    </tbody>
+  </table>
+  <h3>단계별 모델 계층(토큰 효율)</h3>
+  <div class="flow"><span class="n">계획=고추론</span><span class="ar">→</span><span class="n">구현=빠른/auto</span><span class="ar">→</span><span class="n">리뷰=auto/중간</span></div>
+  <p class="small">고추론 모델은 <strong>의사결정 병목에만</strong> 씁니다. 구현 단계가 합의된 계획을 다시 의심하면 토큰이 폭증합니다.</p>
+  <div class="callout warn"><strong>핵심 원칙(035):</strong> 표준 에이전트엔 <code>model:</code>을 명시해 UI 기본값 누수를 막고, <strong>UI model picker 표시와 실제 호출 모델이 다를 수 있으니 세션 로그로 확인</strong>합니다(<code>~/.copilot/session-state/&lt;id&gt;/events.jsonl</code>). 안 쓰는 MCP/도구는 컨텍스트·비용을 늘리므로 <code>tools:</code>로 좁힙니다.</div>
+  <div class="callout note"><strong>관측성:</strong> 토큰 단위 상세는 OpenTelemetry <code>gen_ai.usage.*</code>(input/output/reasoning tokens), 비용 원장은 Billing/Usage API(집계, 토큰 단위 아님). hook(preToolUse/postToolUse)은 정책·감사용이지 토큰 집계용이 아니며, 토큰/secret을 로그에 남기지 않습니다.</div>
+</section>
+
+<section class="section">
+  <h2>체크포인트 &amp; 산출물 (수료 필수)</h2>
+  <div class="callout ok"><strong>산출물:</strong> 본인 업무용 <strong>Custom Skill 1개</strong>(목적·입력·절차·금지·출력) + Custom Agent/Fleet 운영 기준. 이는 수료 필수 항목입니다(<span class="tag gl">EV-09</span>).</div>
+  <ul>
+    <li>Skill에 입력·절차·금지·출력이 모두 있는가?</li>
+    <li>팀의 반복 업무에 바로 재사용 가능한가(추상적 지침이 아니라)?</li>
+    <li>Fleet 역할별 도구/중단 조건이 분리되었는가?</li>
+  </ul>
+  <div class="callout note"><strong>여기까지 오면:</strong> 여러분은 "Copilot에게 코드를 맡기는" 단계를 넘어, <strong>에이전트로 동작하는 자신만의 솔루션</strong>을 손에 쥔 것입니다. 다음 세션은 이걸 팀에 나누는 시간입니다.</div>
+</section>
+
+<section class="section">
+  <h2>흔한 실수 &amp; 공유 포인트</h2>
+  <ul>
+    <li>추상적 지침만 적음 → 재사용 불가. 입력/출력/금지를 구체적으로.</li>
+    <li>모든 도구를 노출 → 보안·컨텍스트 낭비. 필요한 도구만.</li>
+  </ul>
+  <div class="callout note"><strong>공유 포인트:</strong> S7에서 이 Skill을 <strong>30초 시연</strong>할 수 있게 입력 1개와 기대 출력 1개를 준비하세요.</div>
+</section>
+
+<div class="pager">
+  <a href="d2-s5.html">← S5 통합 &amp; 유닛테스트</a>
+  <a class="nx" href="d2-s7.html">다음 · S7 경험 공유 →</a>
+</div>
+<footer>D2·S6 · Skill 사용 및 커스터마이징 · program-sessions-2026-06-27</footer>
+</main>
+</body>
+</html>

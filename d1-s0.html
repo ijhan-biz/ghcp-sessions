@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>D1·S0 OT &amp; 로컬 환경 점검 — Copilot 중급과정</title>
+<link rel="stylesheet" href="ag-ui-program.css" />
+</head>
+<body>
+<main>
+<nav class="top"><div class="wrap">
+  <a href="index.html">PORTAL</a>
+  <a href="d1-s0.html" class="cur">D1·S0</a><a href="d1-s1.html">S1</a><a href="d1-s2.html">S2</a><a href="d1-s3.html">S3</a><a href="d1-s4.html">S4</a><a href="d1-s5.html">S5</a><a href="d1-s6.html">S6</a>
+  <a href="d2-s0.html">D2·S0</a><a href="d2-s1.html">S1</a><a href="d2-s2.html">S2</a><a href="d2-s3.html">S3</a><a href="d2-s4.html">S4</a><a href="d2-s5.html">S5</a><a href="d2-s6.html">S6</a><a href="d2-s7.html">S7</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">DAY 1 · SESSION 0 · 09:00–09:40 (40m)</div>
+  <h1>OT &amp; 로컬 환경 점검 — 돌아갈 baseline부터 만든다</h1>
+  <p class="lead">2일 전체 흐름과 "이 과정의 약속"을 공유하고, 실습 내내 의지할 <strong>로컬 환경</strong>을 smoke test로 검증한 뒤, 문제가 생겨도 되돌아올 수 있는 <strong>baseline 브랜치</strong>를 만듭니다.</p>
+  <div class="chips"><span>관련: <strong>EN-01</strong> Dev Container</span><span><strong>EN-14</strong> Smoke test</span><span><strong>EN-18</strong> Green/Yellow/Red</span><span><strong>HE-14</strong> Local-only</span><span><strong>EN-15</strong> Fallback</span></div>
+</header>
+
+<section class="section">
+  <h2>학습 목표</h2>
+  <ul>
+    <li>2일 과정의 산출물 줄기(기능 스펙 → … → Custom Skill → 공유)를 이해하고, 본인 기능 스펙 후보 1건을 정한다.</li>
+    <li>VS Code · Copilot · Docker · Dev Container · Git · npm을 smoke test로 점검하고 <strong>Green/Yellow/Red</strong>를 자가 판정한다(<span class="tag gl">EN-18</span>).</li>
+    <li>실습 브랜치와 baseline 테스트 결과를 남겨 <strong>되돌아올 지점</strong>을 확보한다.</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>미니강의 — 왜 환경 점검부터 하는가</h2>
+  <p>이 과정은 <strong>로컬 전용(local-only, <span class="tag gl">HE-14</span>)</strong>입니다. Codespaces·GitHub PR/Actions를 쓰지 않고 개인 PC의 VS Code·Git·Dev Container에서 모든 실습을 합니다. 따라서 첫 시간에 환경이 흔들리면 이틀 내내 흔들립니다.</p>
+  <div class="callout note"><strong>Local-only의 정확한 뜻:</strong> 코드 실행·테스트·검증·제출물은 로컬에서 만든다는 의미입니다. Copilot에 보내는 <em>질의 자체</em>는 조직 정책에 따라 서비스로 전송될 수 있으므로, 고객정보·키/토큰·반출 금지 로그는 입력하지 않습니다(<span class="tag gl">OR-12</span> 데이터 경계 · <span class="tag gl">OR-13</span> 민감정보).</p></div>
+  <h3>Dev Container를 쓰는 이유 (<span class="tag gl">EN-01</span>)</h3>
+  <p>참가자 PC마다 Node 버전·OS·전역 패키지가 달라 "제 PC에선 되는데요"가 반복됩니다. <code>.devcontainer/devcontainer.json</code>으로 정의한 컨테이너에서 열면 모두 같은 환경이 됩니다. Docker가 불가하면 <strong>Host Node fallback</strong>(<span class="tag gl">EN-16</span>)으로 진행합니다 — 테스트는 되지만 환경 편차가 늘어납니다.</p>
+</section>
+
+<section class="section">
+  <h2>실습 — Smoke test &amp; baseline</h2>
+  <div class="step"><div class="label">STEP 1 · 도구 점검</div>
+  <p class="small">터미널에서 아래를 실행해 버전이 출력되는지 확인합니다(<span class="tag gl">EN-14</span>).</p>
+<pre><code>code --version
+git --version
+gh --version &amp;&amp; gh auth status
+docker version          # Docker 불가 시 Host Node fallback
+node -v &amp;&amp; npm -v</code></pre></div>
+
+  <div class="step"><div class="label">STEP 2 · 샘플 열고 컨테이너 재기동</div>
+  <p class="small">샘플 레포를 로컬 clone(또는 강사 제공 폴더)한 뒤 VS Code에서 "Reopen in Container"를 시도합니다. 실패하면 로컬 런타임으로 진행합니다.</p>
+<pre><code># 예: 토큰 실험 샘플(EN-13) 또는 SDD 샘플(EN-12)
+git clone &lt;sample-repo-url&gt; &amp;&amp; cd &lt;sample&gt;
+# VS Code: Command Palette → Dev Containers: Reopen in Container
+npm install</code></pre></div>
+
+  <div class="step"><div class="label">STEP 3 · baseline 테스트 &amp; 실습 브랜치</div>
+  <p class="small">지금 통과하는 상태를 기록해 둬야 나중에 "내가 깬 건지 원래 그런지" 알 수 있습니다.</p>
+<pre><code>npm test                          # baseline 결과를 메모
+git checkout -b lab/copilot-workbook   # 로컬 전용 브랜치 (OR-15)
+git status</code></pre></div>
+
+  <div class="step"><div class="label">STEP 4 · Copilot 동작 확인</div>
+  <p class="small">Copilot Chat(<span class="tag gl">CF-01</span>)에 한 줄 질의해 응답이 오는지, Inline 제안(<span class="tag gl">CF-11</span>)이 뜨는지 확인합니다. Chat은 CLI 불가 시 1차 fallback 경로입니다.</p></div>
+</section>
+
+<section class="section">
+  <h2>체크포인트 &amp; 산출물</h2>
+  <table>
+    <thead><tr><th>점검 항목</th><th>Green</th><th>Yellow</th><th>Red</th></tr></thead>
+    <tbody>
+      <tr><td>Dev Container</td><td>컨테이너에서 열림</td><td>Host Node fallback</td><td>둘 다 불가</td></tr>
+      <tr><td>npm test</td><td>baseline 통과</td><td>일부 실패(원인 메모)</td><td>실행 불가</td></tr>
+      <tr><td>Copilot</td><td>Chat+Inline 정상</td><td>Chat만 정상</td><td>인증 실패</td></tr>
+    </tbody>
+  </table>
+  <div class="callout ok"><strong>산출물:</strong> ① 환경 정상동작 체크리스트(자가 Green/Yellow/Red), ② baseline 테스트 결과 메모, ③ <code>lab/copilot-workbook</code> 브랜치.</div>
+  <div class="callout warn"><strong>컷라인(최소 경로 <span class="tag gl">EV-10</span>):</strong> Dev Container가 안 되면 시간 끌지 말고 즉시 Host Node로 전환합니다. Red는 TA 큐로 보내고 본 세션은 진도를 유지합니다.</div>
+</section>
+
+<section class="section">
+  <h2>흔한 실수</h2>
+  <ul>
+    <li>Docker 데몬 미실행 상태로 Reopen → 먼저 Docker Desktop을 켭니다.</li>
+    <li>baseline을 안 남기고 바로 코드 변경 → 회귀 판단 불가. 반드시 STEP 3을 먼저.</li>
+    <li>main에서 바로 실습 → 항상 <code>lab/*</code> 브랜치에서.</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>공유 포인트 (D2·S7로 연결)</h2>
+  <div class="callout note">오늘의 환경 상태(Green/Yellow/Red)와 막힌 지점을 <strong>한 줄</strong>로 기록하세요. 마지막 날 "환경 셋업에서 무엇이 어려웠고 어떻게 풀었는가"는 동료에게 가장 도움이 되는 공유 주제입니다.</div>
+</section>
+
+<div class="pager">
+  <a href="index.html">← 포털</a>
+  <a class="nx" href="d1-s1.html">다음 · S1 토큰 최적화 &amp; 가드레일 →</a>
+</div>
+<footer>D1·S0 · OT &amp; 로컬 환경 점검 · program-sessions-2026-06-27</footer>
+</main>
+</body>
+</html>

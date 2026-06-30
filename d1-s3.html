@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>D1·S3 좋은 프롬프트 (2) 리팩토링·복잡 로직 — Copilot 중급과정</title>
+<link rel="stylesheet" href="ag-ui-program.css" />
+</head>
+<body>
+<main>
+<nav class="top"><div class="wrap">
+  <a href="index.html">PORTAL</a>
+  <a href="d1-s0.html">D1·S0</a><a href="d1-s1.html">S1</a><a href="d1-s2.html">S2</a><a href="d1-s3.html" class="cur">S3</a><a href="d1-s4.html">S4</a><a href="d1-s5.html">S5</a><a href="d1-s6.html">S6</a>
+  <a href="d2-s0.html">D2·S0</a><a href="d2-s1.html">S1</a><a href="d2-s2.html">S2</a><a href="d2-s3.html">S3</a><a href="d2-s4.html">S4</a><a href="d2-s5.html">S5</a><a href="d2-s6.html">S6</a><a href="d2-s7.html">S7</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">DAY 1 · SESSION 3 · 13:30–14:50 (80m)</div>
+  <h1>좋은 프롬프트 (2) — 리팩토링·복잡 로직과 Context Manifest</h1>
+  <p class="lead">동작을 바꾸지 않으면서 코드를 정리하는 <strong>리팩토링</strong>과 분기가 많은 <strong>복잡 로직</strong>을 안전하게 지시하는 법, 그리고 봐야 할 파일만 추리는 <strong>Context Manifest</strong>로 토큰과 데이터 경계를 동시에 잡는 법을 익힙니다.</p>
+  <div class="chips"><span><strong>SD-04</strong> Context Manifest</span><span><strong>GN-06</strong> 작은 diff</span><span><strong>PT-10</strong> 출력 형식 제어</span><span><strong>PT-02</strong> 컨텍스트 관리</span><span><strong>OR-12</strong> 데이터 경계</span></div>
+</header>
+
+<section class="section">
+  <h2>학습 목표</h2>
+  <ul>
+    <li>"동작 불변"을 가드레일로 명시한 <strong>리팩토링 프롬프트</strong>를 작성한다.</li>
+    <li>분기가 많은 복잡 로직을 <strong>작은 함수로 분리</strong>하도록 단계적으로 지시한다.</li>
+    <li><strong>Context Manifest</strong>(allowed/blocked/unknown/test files)로 봐야 할 파일을 좁힌다(<span class="tag gl">SD-04</span>).</li>
+    <li>결과가 빗나갈 때 <strong>실패 프롬프트 디버깅</strong>으로 한 가지씩 교정한다.</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>미니강의 — 리팩토링은 "동작 불변 + 작은 diff"</h2>
+  <p>리팩토링의 핵심 가드레일은 두 가지입니다: <strong>동작을 바꾸지 않는다</strong>(기존 테스트 모두 통과)와 <strong>작은 diff</strong>(<span class="tag gl">GN-06</span>, 1~2파일·소규모)입니다. 작은 diff는 리뷰와 롤백을 쉽게 만들어 Day2의 로컬 게이트와 직접 연결됩니다.</p>
+  <h3>Context Manifest = 토큰 + 데이터 경계 (<span class="tag gl">SD-04</span>)</h3>
+  <p>복잡 로직일수록 "어떤 파일을 봐야 하는가"가 모호해집니다. Context Manifest는 봐야 할 파일을 <strong>allowed</strong>, 건드리면 안 되는 파일을 <strong>blocked</strong>, 모르는 것을 <strong>unknown</strong>으로 명시합니다. 이것이 곧 토큰 절약이자 <strong>데이터 경계</strong>(<span class="tag gl">OR-12</span>)의 장치입니다.</p>
+</section>
+
+<section class="section">
+  <h2>실습 1 — 리팩토링·복잡 로직 프롬프트</h2>
+  <div class="step"><div class="label">리팩토링 프롬프트</div>
+<pre><code>[역할] 너는 billing feature 담당 개발자다.
+[맥락] calcVat()에 면세 분기·음수 가드·예외 처리가 섞여 가독성이 낮다.
+[작업] 동작 변경 없이 calcVat()를 리팩토링하고, 복잡 분기를 작은 함수로 분리.
+[제약] 기존 public API 시그니처 유지, 외부 패키지 추가 금지, 기존 테스트 전부 통과.
+[출력] 변경 diff 요약 → 코드 → 테스트 순서로.</code></pre></div>
+  <div class="step"><div class="label">실패 프롬프트 디버깅</div>
+  <ul>
+    <li>결과가 빗나가면 <strong>맥락·제약·출력 형식</strong> 중 무엇이 빠졌는지 점검하고, 한 번에 다 고치기보다 <strong>한 가지씩</strong> 조정합니다.</li>
+    <li>"왜 이렇게 했는지" 설명을 요구해 모델의 <strong>가정</strong>을 드러냅니다(잘못된 가정이 보입니다).</li>
+  </ul></div>
+</section>
+
+<section class="section">
+  <h2>실습 2 — Context Manifest 작성</h2>
+  <div class="step"><div class="label">작성 프롬프트</div>
+<pre><code>[작업] 아래 기능 스펙을 구현하려면 어떤 파일만 보면 되는지 Context Manifest를 만들어라.
+[포함] allowed files, blocked files, unknowns, test files, 민감정보 경계.
+[제약] 파일명을 추정하지 말고, 모르면 탐색 질문으로 남겨라.
+[출력] 표 형식.</code></pre></div>
+  <table>
+    <thead><tr><th>구분</th><th>예</th><th>의미</th></tr></thead>
+    <tbody>
+      <tr><td>allowed</td><td><code>src/billing/tax.ts</code></td><td>수정 허용</td></tr>
+      <tr><td>blocked</td><td><code>.env</code>, <code>prod/*</code></td><td>변경 금지(게이트로 강제)</td></tr>
+      <tr><td>test</td><td><code>tax.test.ts</code></td><td>검증 파일</td></tr>
+      <tr><td>unknown</td><td>"환율 모듈 위치?"</td><td>탐색 질문으로 남김</td></tr>
+    </tbody>
+  </table>
+  <div class="callout note">이 blocked 목록은 Day2·S2의 <strong>policy-check</strong>(<span class="tag gl">HE-04</span>)가 자동 감지하는 대상이 됩니다.</div>
+</section>
+
+<section class="section">
+  <h2>체크포인트 &amp; 산출물</h2>
+  <div class="callout ok"><strong>산출물:</strong> ① 리팩토링/복잡 로직 프롬프트 1개, ② 구현 계획·테스트 생성 프롬프트, ③ Context Manifest v1.</div>
+  <ul>
+    <li>리팩토링 프롬프트에 "동작 불변 + 기존 테스트 통과"가 있는가?</li>
+    <li>Context Manifest에 allowed/blocked/test가 분리되어 있는가?</li>
+    <li>실패 시 한 가지씩 교정한 로그가 있는가?</li>
+  </ul>
+  <div class="callout warn"><strong>컷라인:</strong> 복잡 로직 분리가 어려우면 리팩토링 프롬프트 1개 + Context Manifest 1개로 충분합니다.</div>
+</section>
+
+<section class="section">
+  <h2>흔한 실수 &amp; 공유 포인트</h2>
+  <ul>
+    <li>리팩토링하면서 기능까지 추가 → 동작이 바뀌어 회귀 발생. 리팩토링과 기능 추가는 분리합니다.</li>
+    <li>Context Manifest 없이 큰 변경 → 엉뚱한 파일 수정. 먼저 범위를 못박습니다.</li>
+  </ul>
+  <div class="callout note"><strong>공유 포인트:</strong> "내 코드에서 Context Manifest가 막아준 위험" 한 줄. 데이터 경계 사례는 팀 보안 관점에서 공유 가치가 큽니다.</div>
+</section>
+
+<div class="pager">
+  <a href="d1-s2.html">← S2 좋은 프롬프트 (1)</a>
+  <a class="nx" href="d1-s4.html">다음 · S4 Plan Mode →</a>
+</div>
+<footer>D1·S3 · 좋은 프롬프트 (2) 리팩토링·복잡 로직 · program-sessions-2026-06-27</footer>
+</main>
+</body>
+</html>

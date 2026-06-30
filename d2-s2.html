@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>D2·S2 하네스 (2) Agent Teams·Fleet·Loop 게이트 — Copilot 중급과정</title>
+<link rel="stylesheet" href="ag-ui-program.css" />
+</head>
+<body>
+<main>
+<nav class="top"><div class="wrap">
+  <a href="index.html">PORTAL</a>
+  <a href="d1-s0.html">D1·S0</a><a href="d1-s1.html">S1</a><a href="d1-s2.html">S2</a><a href="d1-s3.html">S3</a><a href="d1-s4.html">S4</a><a href="d1-s5.html">S5</a><a href="d1-s6.html">S6</a>
+  <a href="d2-s0.html">D2·S0</a><a href="d2-s1.html">S1</a><a href="d2-s2.html" class="cur">S2</a><a href="d2-s3.html">S3</a><a href="d2-s4.html">S4</a><a href="d2-s5.html">S5</a><a href="d2-s6.html">S6</a><a href="d2-s7.html">S7</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">DAY 2 · SESSION 2 · 10:40–12:00 (80m)</div>
+  <h1>하네스 (2) — Agent Teams · Fleet · Loop 게이트</h1>
+  <p class="lead">프롬프트 속 약속을 <strong>로컬 게이트</strong>(wrapper·policy-check)로 옮기고, 생성과 검토를 <strong>역할(Agent Teams)</strong>로 분리하며, 역할별 에이전트를 <strong>Fleet</strong>로 구성하고, <strong>Plan→Generate→Evaluate→Fix→Gate 루프</strong>로 자율성을 통제합니다.</p>
+  <div class="chips"><span><strong>HE-03</strong> 로컬 게이트</span><span><strong>HE-04</strong> Policy check</span><span><strong>HE-05</strong> Wrapper</span><span><strong>CF-07</strong> Agent Teams</span><span><strong>CF-05</strong> Fleet</span><span><strong>CF-06</strong> Loop</span><span><strong>CF-10</strong> Model routing</span></div>
+</header>
+
+<section class="section">
+  <h2>학습 목표</h2>
+  <ul>
+    <li><strong>wrapper</strong>(<span class="tag gl">HE-05</span>)와 <strong>policy-check</strong>(<span class="tag gl">HE-04</span>)로 로컬 검증 게이트를 만든다.</li>
+    <li><strong>Agent Teams</strong> 역할(Planner·Generator·Evaluator·Harness·Approval Owner)을 LG 기능팀에 매핑한다.</li>
+    <li><strong>Fleet</strong> 설계표로 역할별 모델 기준·도구·중단 조건을 정하고, <strong>Loop Canvas</strong>로 게이트를 정의한다.</li>
+    <li><strong>모델 라우팅 원칙</strong>(<span class="tag gl">CF-10</span>)을 이해한다 — 프롬프트의 모델명은 보장 수단이 아니다.</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>미니강의 ① — 로컬 게이트: 약속을 코드로</h2>
+  <p>GitHub PR/Actions가 없는 환경에서 동일한 품질 게이트를 로컬에 둡니다(<span class="tag gl">HE-03</span>). <strong>wrapper</strong>는 권한·로그·출력 형식을 고정하고 위험 명령을 차단하며, <strong>policy-check</strong>는 금지 파일 변경·secret·외부 패키지 추가를 결정론적으로 감지합니다.</p>
+  <div class="step"><div class="label">교육용 wrapper (발췌)</div>
+<pre><code>#!/usr/bin/env zsh
+set -euo pipefail
+prompt="$*"
+mkdir -p .copilot-harness/logs
+exec gh copilot -- -p "$prompt" \
+  --allow-tool 'shell(git)' --allow-tool 'shell(npm test)' \
+  --deny-tool  'shell(rm)'  --deny-tool  'shell(git push --force)' \
+  --log-dir .copilot-harness/logs --output-format json</code></pre></div>
+  <div class="step"><div class="label">교육용 policy-check (발췌)</div>
+<pre><code>// scripts/policy-check.mjs
+import { execSync } from 'node:child_process';
+const changed = execSync('git diff --name-only',{encoding:'utf8'}).split('\n').filter(Boolean);
+const blocked = [/^\.env$/,/^\.env\./,/^secrets\//,/^prod\//];
+const hits = changed.filter(f => blocked.some(p => p.test(f)));
+if (hits.length){ console.error('Blocked files changed:\n'+hits.join('\n')); process.exit(1); }
+console.log('policy-check passed');</code></pre></div>
+  <div class="step"><div class="label">로컬 게이트 실행</div>
+<pre><code>npm run lint &amp;&amp; npm test &amp;&amp; node scripts/policy-check.mjs</code></pre></div>
+  <div class="callout note"><strong>운영 팁(<span class="tag gl">HE-13</span> logging-first):</strong> 처음엔 경고만 남기고 위반을 관찰한 뒤, 오탐을 줄이고 위험도가 높은 항목부터 block으로 승격합니다.</div>
+</section>
+
+<section class="section">
+  <h2>미니강의 ② — Agent Teams: 생성과 검토 분리</h2>
+  <table>
+    <thead><tr><th>역할(용어)</th><th>LG 기능팀 매핑</th><th>하는 일</th></tr></thead>
+    <tbody>
+      <tr><td>Planner (<span class="tag gl">OR-05</span>)</td><td>PL / 담당자</td><td>스펙·AC·plan·risk tier 정리</td></tr>
+      <tr><td>Generator (<span class="tag gl">OR-06</span>)</td><td>기능 담당 개발자</td><td>test-first 구현 후보 작성</td></tr>
+      <tr><td>Evaluator (<span class="tag gl">OR-07</span>)</td><td>리뷰어 / 동료 / PL</td><td>diff·테스트·품질 검토(pass/revise/block)</td></tr>
+      <tr><td>Harness (<span class="tag gl">OR-08</span>)</td><td>품질/플랫폼 담당</td><td>policy-check·wrapper·게이트 운영</td></tr>
+      <tr><td>Approval Owner (<span class="tag gl">OR-09</span>)</td><td>PL·아키텍트·보안</td><td>고위험 작업 승인 또는 block</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section">
+  <h2>미니강의 ③ — Fleet &amp; Loop, 그리고 모델 라우팅</h2>
+  <h3>Fleet 설계표 (<span class="tag gl">CF-05</span> · <span class="tag gl">OR-24</span>)</h3>
+  <table>
+    <thead><tr><th>Fleet 역할</th><th>모델 기준</th><th>노출 도구</th><th>중단 조건</th></tr></thead>
+    <tbody>
+      <tr><td>Planner agent</td><td>고추론/조직 표준</td><td>read·search</td><td>scope 불명확</td></tr>
+      <tr><td>Generator agent</td><td>구현용 기본/중간</td><td>allowed files edit</td><td>blocked file 변경</td></tr>
+      <tr><td>Evaluator agent</td><td>auto/비용 효율</td><td>read·test log</td><td>AC 미충족</td></tr>
+      <tr><td>Harness agent</td><td>모델보다 deterministic checker 우선</td><td>test·lint·policy-check</td><td>gate 실패</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><strong>모델 라우팅 원칙(<span class="tag gl">CF-10</span>):</strong> 프롬프트에 모델명을 적는 것은 <em>지시문</em>일 뿐 실제 라우팅 보장 수단이 아닙니다. custom agent의 <code>model:</code> 설정·model picker·실행 로그로 확인합니다. 안 쓰는 도구는 노출하지 않습니다(보안·컨텍스트 절약).</div>
+  <h3>Loop Canvas (<span class="tag gl">CF-06</span> · <span class="tag gl">OR-25</span>)</h3>
+  <table>
+    <thead><tr><th>단계</th><th>역할</th><th>산출물</th><th>Gate / Stop</th></tr></thead>
+    <tbody>
+      <tr><td>Plan</td><td>Planner</td><td>plan·Context Manifest·Test Matrix</td><td>scope 불명확 시 stop</td></tr>
+      <tr><td>Generate</td><td>Generator</td><td>실패 테스트·최소 구현 diff</td><td>blocked file 변경 시 stop</td></tr>
+      <tr><td>Evaluate</td><td>Evaluator</td><td>pass/revise/block</td><td>AC 미충족 시 revise</td></tr>
+      <tr><td>Fix</td><td>Generator</td><td>수정 diff</td><td>동일 실패 2회 → 사람 리뷰(<span class="tag gl">HE-08</span>)</td></tr>
+      <tr><td>Gate</td><td>Harness</td><td>evidence bundle</td><td>gate 통과 전 다음 단계 금지</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section">
+  <h2>실습 — 게이트 + Canvas 작성</h2>
+  <ol>
+    <li>wrapper와 policy-check를 샘플 레포에 추가하고 로컬 게이트를 1회 실행한다(<span class="tag gl">HE-03</span>).</li>
+    <li>Agent Team Canvas에 5개 역할을 본인 기능팀 인물/역할로 매핑한다.</li>
+    <li>Fleet 설계표와 Loop Canvas를 본인 기능 1건 기준으로 채운다(중단 조건 필수).</li>
+  </ol>
+  <div class="callout ok"><strong>산출물:</strong> Agent Team Canvas + Fleet 설계표 + Loop Canvas + 동작하는 로컬 게이트(최소 policy-check 1개).</div>
+  <div class="callout warn"><strong>Hard gate:</strong> approval_id 없는 write/destructive/prod/customer-data 작업은 block · rollback owner 없는 운영 변경은 block · 검증 기준 없는 Evaluator 판정은 revise.</div>
+</section>
+
+<section class="section">
+  <h2>참조 심화 — 토폴로지 · 도입 로드맵 (출처: 005 Agent Team Composition)</h2>
+  <h3>위험도에 따른 토폴로지 선택</h3>
+  <table>
+    <thead><tr><th>위험</th><th>권장 토폴로지</th><th>하드 게이트</th></tr></thead>
+    <tbody>
+      <tr><td>Small</td><td>Solo · Planner-Generator</td><td>로컬 test</td></tr>
+      <tr><td>Medium</td><td>Planner-Generator-Evaluator</td><td>policy-check + 리뷰</td></tr>
+      <tr><td>High</td><td>Harness-Gated · Orchestrator-Worker</td><td>approval_id + rollback owner</td></tr>
+      <tr><td>Critical</td><td>Control Tower + Human Approval</td><td>100% 사람 리뷰</td></tr>
+    </tbody>
+  </table>
+  <div class="callout note"><strong>원칙(005):</strong> "리스크 게이트를 통과하는 <em>가장 작은 팀</em>으로 시작" — 위험이 커지면 Generator를 늘리기 전에 <strong>Evaluator·Harness·Rollback Owner</strong>를 먼저 추가합니다. Decision Scorecard 4행(목표 명확성·권한 범위·관측성·리스크 정의)으로 점검합니다.</div>
+  <h3>도입 로드맵 G0→G4</h3>
+  <div class="flow">
+    <span class="n">G0 읽기전용 파일럿</span><span class="ar">→</span><span class="n">G1 PR-first(Evaluator)</span><span class="ar">→</span><span class="n">G2 Harness-gated</span><span class="ar">→</span><span class="n">G3 Human-gated(approval_id)</span><span class="ar">→</span><span class="n">G4 SLO 운영</span>
+  </div>
+  <div class="callout warn"><strong>발행 하드게이트:</strong> 결함/주장 비율 <code>CD_ratio &gt; 0.35</code> = 발행 block. <strong>Harness PASS는 구조 검증이지 사실 검증이 아니다</strong> — 사실/보안/배포 승인은 사람이 합니다.</div>
+</section>
+
+<section class="section">
+  <h2>흔한 실수 &amp; 공유 포인트</h2>
+  <ul>
+    <li>Loop에 중단 조건이 없음 → 무한 반복·비용 폭증. max retry·stop condition을 반드시 넣습니다.</li>
+    <li>Evaluator가 "좋아 보임"으로 통과 → 기준 없는 판정. AC·테스트에 근거해 pass/revise/block.</li>
+    <li>모든 단계에 고비용 모델 고정 → 비용 낭비. 역할별 라우팅으로 분리합니다.</li>
+  </ul>
+  <div class="callout note"><strong>공유 포인트:</strong> "내 기능팀 역할 ↔ Agent Teams 매핑"은 팀이 바로 따라 할 수 있는 강력한 공유 자산입니다.</div>
+</section>
+
+<div class="pager">
+  <a href="d2-s1.html">← S1 하네스 기초·CLI</a>
+  <a class="nx" href="d2-s3.html">다음 · S3 본인 워크플로 설계 →</a>
+</div>
+<footer>D2·S2 · 하네스 (2) Agent Teams·Fleet·Loop 게이트 · program-sessions-2026-06-27</footer>
+</main>
+</body>
+</html>

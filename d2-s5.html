@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>D2·S5 SDD (2) 통합 &amp; 유닛테스트 — Copilot 중급과정</title>
+<link rel="stylesheet" href="ag-ui-program.css" />
+</head>
+<body>
+<main>
+<nav class="top"><div class="wrap">
+  <a href="index.html">PORTAL</a>
+  <a href="d1-s0.html">D1·S0</a><a href="d1-s1.html">S1</a><a href="d1-s2.html">S2</a><a href="d1-s3.html">S3</a><a href="d1-s4.html">S4</a><a href="d1-s5.html">S5</a><a href="d1-s6.html">S6</a>
+  <a href="d2-s0.html">D2·S0</a><a href="d2-s1.html">S1</a><a href="d2-s2.html">S2</a><a href="d2-s3.html">S3</a><a href="d2-s4.html">S4</a><a href="d2-s5.html" class="cur">S5</a><a href="d2-s6.html">S6</a><a href="d2-s7.html">S7</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">DAY 2 · SESSION 5 · 15:10–16:20 (70m)</div>
+  <h1>SDD (2) — 통합 &amp; 유닛테스트 · 리뷰 패킷</h1>
+  <p class="lead">기능을 통합 관점에서 점검하고 유닛테스트를 보강한 뒤, "동작한다"가 아니라 <strong>증거와 되돌림 경로가 있는</strong> 상태로 마무리합니다. PR을 대신하는 <strong>local review packet</strong>을 제출물로 만듭니다.</p>
+  <div class="chips"><span><strong>HE-03</strong> 로컬 게이트</span><span><strong>HE-18</strong> Evidence bundle</span><span><strong>HE-15</strong> Local review packet</span><span><strong>HE-10</strong> Rollback path</span><span><strong>HE-16</strong> No-cloud attestation</span></div>
+</header>
+
+<section class="section">
+  <h2>학습 목표</h2>
+  <ul>
+    <li>유닛테스트를 보강하고 통합 관점(주변 영향)을 점검한다.</li>
+    <li><strong>evidence bundle</strong>(변경 요약·테스트·정책체크·diff·리스크)을 만든다(<span class="tag gl">HE-18</span>).</li>
+    <li><strong>rollback note</strong>와 <strong>no-cloud attestation</strong>을 포함한 <strong>local review packet</strong>을 제출한다(<span class="tag gl">HE-15</span>).</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>미니강의 — PR 없이도 "리뷰 가능한 상태"를 만든다</h2>
+  <p>GitHub PR이 없는 환경에서 리뷰어가 볼 수 있도록 제출물을 <strong>패킷</strong>으로 묶습니다(<span class="tag gl">HE-15</span>). 패킷은 spec.md·diff·test log·정책/수동 게이트 결과·rollback note·no-cloud attestation으로 구성됩니다. 이것이 Day2의 핵심 산출물이자 수료 필수 항목(<span class="tag gl">EV-09</span>)입니다.</p>
+</section>
+
+<section class="section">
+  <h2>실습 — 검증 → 패킷</h2>
+  <div class="step"><div class="label">STEP 1 · 검증 명령</div>
+<pre><code>npm test
+node scripts/policy-check.mjs
+git diff --stat
+git diff -- src tests</code></pre></div>
+  <div class="step"><div class="label">STEP 2 · Evidence Bundle (<span class="tag gl">HE-18</span>)</div>
+  <ul>
+    <li>변경 요약: 어떤 AC를 위해 어떤 파일을 바꿨는가</li>
+    <li>테스트 결과: 실행 명령·통과/실패·실패 원인</li>
+    <li>정책 체크 결과: 금지 파일/secret/외부 패키지 여부</li>
+    <li>리스크: 남은 known gap, manual check 필요 여부</li>
+  </ul></div>
+  <div class="step"><div class="label">STEP 3 · Rollback Note (<span class="tag gl">HE-10</span>·<span class="tag gl">HE-11</span>)</div>
+<pre><code>## Rollback Note
+- Trigger: AC 회귀 / 테스트 실패 / 금지 파일 변경 감지
+- Owner: [담당자/PL]
+- Action: git restore [files] 또는 해당 local commit revert
+- Verify: npm test &amp;&amp; node scripts/policy-check.mjs
+- Completion: baseline green, 스펙 v1 상태로 복구</code></pre></div>
+  <div class="step"><div class="label">STEP 4 · Local Review Packet 묶기</div>
+  <p class="small">spec.md + diff + test log + 게이트 결과 + rollback note + <strong>no-cloud attestation</strong>(<span class="tag gl">HE-16</span>: Codespaces·PR·Actions 미사용 선언)을 한 폴더로.</p></div>
+</section>
+
+<section class="section">
+  <h2>체크포인트 &amp; 산출물</h2>
+  <div class="callout ok"><strong>산출물:</strong> 유닛테스트 포함 변경 세트(로컬 커밋) + local review packet(evidence bundle·rollback note·no-cloud attestation 포함).</div>
+  <table>
+    <thead><tr><th>패킷 항목</th><th>go</th><th>no-go</th></tr></thead>
+    <tbody>
+      <tr><td>구현</td><td>테스트 통과·diff 설명 가능</td><td>테스트 실패 또는 diff 설명 불가</td></tr>
+      <tr><td>게이트</td><td>test/policy-check 실행됨</td><td>게이트 없음</td></tr>
+      <tr><td>rollback</td><td>되돌림 명령·owner 명시</td><td>없음</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><strong>컷라인:</strong> 테스트 1개 통과 + policy-check 1회 + rollback note 1개 = 최소 수료 경로(<span class="tag gl">EV-10</span>).</div>
+</section>
+
+<section class="section">
+  <h2>참조 심화 — 운영 지표 · 롤백 드릴 · 발행 게이트 (출처: 028 SDLC · 033 Long-Running)</h2>
+  <h3>로컬 버전 SLI/SLO (028)</h3>
+  <table>
+    <thead><tr><th>지표</th><th>목표</th></tr></thead>
+    <tbody>
+      <tr><td>변경 추적성(스펙·브랜치·체크·리뷰어)</td><td>100%</td></tr>
+      <tr><td>고위험 변경 사람 리뷰</td><td>100%</td></tr>
+      <tr><td>릴리스 후보 checker pass</td><td>100%</td></tr>
+      <tr><td>민감정보(secret·고객·비공개) 노출</td><td>0</td></tr>
+      <tr><td>인시던트 학습(회고+checker 후속)</td><td>100%</td></tr>
+    </tbody>
+  </table>
+  <h3>롤백 드릴 리허설 (033)</h3>
+  <p class="small">release-readiness 진입 시 <strong>dry-run</strong>으로 MTTR·owner·신호(metric)를 기록합니다. 되돌림을 "처음" 해보는 일이 없게 합니다.</p>
+  <div class="callout warn"><strong>발행 게이트 hold(033):</strong> runbook·승인·지표 중 하나라도 없으면 <strong>내부 데모용으로만</strong>. <code>CD_ratio &gt; 0.35</code>(결함/주장 비율)이면 발행 block.</div>
+</section>
+
+<section class="section">
+  <h2>흔한 실수 &amp; 공유 포인트</h2>
+  <ul>
+    <li>"테스트 통과"로 끝냄 → 증거·롤백이 없으면 리뷰 불가. 패킷까지 만듭니다.</li>
+    <li>rollback note를 형식적으로 → 실제 명령과 owner가 있어야 의미가 있습니다.</li>
+  </ul>
+  <div class="callout note"><strong>공유 포인트:</strong> "게이트가 잡아낸 위반 1건"과 "되돌림에 걸린 시간". 검증 문화의 효과를 수치로 공유하면 설득력이 큽니다.</div>
+</section>
+
+<div class="pager">
+  <a href="d2-s4.html">← S4 SDD (1)</a>
+  <a class="nx" href="d2-s6.html">다음 · S6 Custom Skill/Agent →</a>
+</div>
+<footer>D2·S5 · SDD (2) 통합 &amp; 유닛테스트 · program-sessions-2026-06-27</footer>
+</main>
+</body>
+</html>

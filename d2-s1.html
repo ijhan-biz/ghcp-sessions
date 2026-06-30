@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>D2·S1 하네스 (1) 기초·CLI — Copilot 중급과정</title>
+<link rel="stylesheet" href="ag-ui-program.css" />
+</head>
+<body>
+<main>
+<nav class="top"><div class="wrap">
+  <a href="index.html">PORTAL</a>
+  <a href="d1-s0.html">D1·S0</a><a href="d1-s1.html">S1</a><a href="d1-s2.html">S2</a><a href="d1-s3.html">S3</a><a href="d1-s4.html">S4</a><a href="d1-s5.html">S5</a><a href="d1-s6.html">S6</a>
+  <a href="d2-s0.html">D2·S0</a><a href="d2-s1.html" class="cur">S1</a><a href="d2-s2.html">S2</a><a href="d2-s3.html">S3</a><a href="d2-s4.html">S4</a><a href="d2-s5.html">S5</a><a href="d2-s6.html">S6</a><a href="d2-s7.html">S7</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">DAY 2 · SESSION 1 · 09:30–10:40 (70m)</div>
+  <h1>하네스 (1) 기초·CLI — 자연어 제약을 검증으로</h1>
+  <p class="lead"><strong>하네스 엔지니어링</strong>의 개념(자연어 제약 → 실행 가능한 검증)을 세우고, Copilot CLI를 그냥 실행하지 않고 <strong>권한을 좁히고 로그를 남기는</strong> 습관을 만듭니다. 실행 로그를 해석하는 법까지 익힙니다.</p>
+  <div class="chips"><span><strong>HE-01</strong> 하네스 엔지니어링</span><span><strong>CF-02</strong> Copilot CLI</span><span><strong>HE-13</strong> Logging-first</span><span><strong>CF-01</strong> Chat fallback</span></div>
+</header>
+
+<section class="section">
+  <h2>학습 목표</h2>
+  <ul>
+    <li>하네스 = "자연어 제약을 로컬에서 실행 가능한 검증/게이트로 바꾸는 작업"임을 이해한다(<span class="tag gl">HE-01</span>).</li>
+    <li>Copilot CLI에서 <code>--allow-tool</code>/<code>--deny-tool</code>/<code>--log-dir</code>/<code>--output-format</code>로 권한·로그·출력을 제어한다.</li>
+    <li>실행 로그를 읽고 "무엇을 시도했고 왜 멈췄는가"를 해석한다.</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>미니강의 — 프롬프트 약속을 실행 밖으로 옮긴다</h2>
+  <p>Day1에서 가드레일을 <em>프롬프트에 적었습니다</em>. 하지만 프롬프트 안의 약속은 모델이 어길 수 있습니다. 하네스는 그 약속을 <strong>실행 경로 바깥의 결정론적 검사</strong>(<span class="tag gl">HE-06</span>)로 옮깁니다. 오늘(S1)은 그 첫 단계로 CLI 권한과 로그를 다룹니다.</p>
+  <div class="callout warn"><strong>주의:</strong> Copilot CLI 옵션은 preview/조직 정책에 따라 다를 수 있습니다. 실습 시작 시 <code>gh copilot -- --help</code> 출력을 현재 환경의 기준으로 삼습니다. CLI 불가 시 Copilot Chat(<span class="tag gl">CF-01</span>)으로 fallback하고 강사 데모 로그를 분석합니다.</div>
+</section>
+
+<section class="section">
+  <h2>실습 — 권한을 좁힌 CLI 실행</h2>
+  <div class="step"><div class="label">STEP 1 · 기본 확인</div>
+<pre><code>gh auth status
+gh copilot -- --help</code></pre></div>
+  <div class="step"><div class="label">STEP 2 · 권한·로그를 좁힌 실행</div>
+<pre><code>gh copilot -- -p "현재 브랜치 변경 파일과 테스트 명령 후보를 요약" \
+  --allow-tool 'shell(git)' \
+  --deny-tool  'shell(rm)' \
+  --log-dir    .copilot-harness/logs \
+  --output-format json</code></pre>
+  <p class="small"><code>--allow-tool</code>로 허용 도구를 좁히고, <code>--deny-tool</code>로 위험 명령을 막고, <code>--log-dir</code>로 기록을 남깁니다. <code>json</code> 출력은 이후 자동화 연계용입니다.</p></div>
+  <div class="step"><div class="label">STEP 3 · 로그 해석</div>
+<pre><code>[작업] 아래 Copilot CLI 실행 로그를 보고 요약해라.
+[출력] 실행 의도 · 사용 도구 · 차단된 작업 · 다음에 필요한 권한 · 위험 신호.</code></pre></div>
+</section>
+
+<section class="section">
+  <h2>체크포인트 &amp; 산출물</h2>
+  <div class="callout ok"><strong>산출물:</strong> 권한 플래그가 적용된 CLI 실행 로그(<code>.copilot-harness/logs</code>) + 로그 해석 메모.</div>
+  <ul>
+    <li><code>--allow-tool</code>로 도구가 좁혀졌는가?</li>
+    <li><code>--deny-tool</code>로 위험 명령이 명시적으로 막혔는가?</li>
+    <li>로그에서 "무엇을 했고 왜 멈췄는가"를 한 문장으로 말할 수 있는가?</li>
+  </ul>
+  <div class="callout warn"><strong>컷라인:</strong> CLI 미설치자는 강사 데모 로그 분석으로 대체. 개념(권한 최소화·로깅)만 잡으면 통과입니다.</div>
+</section>
+
+<section class="section">
+  <h2>참조 심화 — CLI 하네스 플래그 · 차단 패턴 (출처: 004 CLI Harness Guide)</h2>
+  <h3>권한·로그 플래그 모음</h3>
+  <table>
+    <thead><tr><th>플래그</th><th>용도</th></tr></thead>
+    <tbody>
+      <tr><td><code>-p/--prompt</code> · <code>-i/--interactive</code></td><td>1회 요청 / 대화형</td></tr>
+      <tr><td><code>--allow-tool</code> · <code>--deny-tool</code></td><td>도구 allow/deny</td></tr>
+      <tr><td><code>--allow-url</code> · <code>--deny-url</code></td><td>웹 접근 경계</td></tr>
+      <tr><td><code>--add-dir</code> · <code>--allow-all-paths</code></td><td>경로 범위 제어</td></tr>
+      <tr><td><code>--log-dir</code> · <code>--log-level</code></td><td>로그 경로/레벨</td></tr>
+      <tr><td><code>--output-format json</code> · <code>--available-tools</code></td><td>구조화 출력 / 도구 인벤토리</td></tr>
+    </tbody>
+  </table>
+  <h3>차단 권장 명령 패턴</h3>
+  <p class="small"><code>rm -rf</code> · <code>git push --force</code> · <code>kubectl delete</code> · <code>terraform apply</code> · <code>git rebase -i</code> — 위험도에 따라 warn 또는 block.</p>
+  <div class="callout warn"><strong>핵심 원칙(004):</strong> "프롬프트만으로는 안전하지 않다 — 정책은 실행 경계에 붙인다." 실행 <strong>전(pre-check)</strong>과 <strong>후(post-check)</strong>를 모두 검사하고, 처음 1~2주는 <strong>log-only</strong>로 오탐을 관찰한 뒤 차단으로 승격합니다(logging-first).</div>
+</section>
+
+<section class="section">
+  <h2>흔한 실수 &amp; 공유 포인트</h2>
+  <ul>
+    <li>권한 제한 없이 CLI 실행 → 에이전트가 무엇이든 할 수 있는 상태. 항상 allow/deny로 좁힙니다.</li>
+    <li>프롬프트에 모델명을 적고 "그 모델로 돈다"고 가정 → 보장되지 않습니다(<span class="tag gl">CF-10</span>, S2에서 자세히).</li>
+  </ul>
+  <div class="callout note"><strong>공유 포인트:</strong> "deny-tool로 막은 위험 명령" 사례. 팀 보안 관점에서 바로 쓸 수 있는 공유 거리입니다.</div>
+</section>
+
+<div class="pager">
+  <a href="d2-s0.html">← S0 복습 &amp; 재점검</a>
+  <a class="nx" href="d2-s2.html">다음 · S2 Agent Teams·Fleet·Loop 게이트 →</a>
+</div>
+<footer>D2·S1 · 하네스 (1) 기초·CLI · program-sessions-2026-06-27</footer>
+</main>
+</body>
+</html>

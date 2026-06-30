@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>D1·S2 좋은 프롬프트 (1) — Copilot 중급과정</title>
+<link rel="stylesheet" href="ag-ui-program.css" />
+</head>
+<body>
+<main>
+<nav class="top"><div class="wrap">
+  <a href="index.html">PORTAL</a>
+  <a href="d1-s0.html">D1·S0</a><a href="d1-s1.html">S1</a><a href="d1-s2.html" class="cur">S2</a><a href="d1-s3.html">S3</a><a href="d1-s4.html">S4</a><a href="d1-s5.html">S5</a><a href="d1-s6.html">S6</a>
+  <a href="d2-s0.html">D2·S0</a><a href="d2-s1.html">S1</a><a href="d2-s2.html">S2</a><a href="d2-s3.html">S3</a><a href="d2-s4.html">S4</a><a href="d2-s5.html">S5</a><a href="d2-s6.html">S6</a><a href="d2-s7.html">S7</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">DAY 1 · SESSION 2 · 11:10–12:30 (80m)</div>
+  <h1>좋은 프롬프트 (1) — 구조로 통제력을 만든다</h1>
+  <p class="lead"><strong>역할·맥락·작업·제약·검증·출력(R/C/T/C/V/O)</strong> 6요소로 프롬프트를 구조화하고, 그 구조 위에서 <strong>User Story·Business Process·Acceptance Criteria</strong>를 검증 가능하게 정제합니다.</p>
+  <div class="chips"><span><strong>PT-07</strong> 구조화 프롬프트</span><span><strong>PT-08</strong> R/C/T/C/V/O</span><span><strong>PT-04</strong> 안티패턴</span><span><strong>PT-05</strong> Before/After</span><span><strong>SD-03</strong> AC</span><span><strong>SD-09</strong> Business Process</span></div>
+</header>
+
+<section class="section">
+  <h2>학습 목표</h2>
+  <ul>
+    <li>R/C/T/C/V/O 6요소로 프롬프트를 구조화하고 안티패턴을 식별·교정한다.</li>
+    <li>본인 기능 스펙 카드를 <strong>User Story</strong>와 <strong>Acceptance Criteria</strong>로 정제한다(사람이 검증 가능한 조건).</li>
+    <li>요구사항을 <strong>Business Process</strong>(Event/Task/Gateway)로 흐름화한다.</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>미니강의 — "완료"를 모델에게 맡기지 않는다</h2>
+  <p>나쁜 프롬프트는 모델에게 <em>무엇이 끝인지</em>를 정의하지 않습니다. 좋은 프롬프트는 6요소(<span class="tag gl">PT-08</span>)로 끝의 모양을 못박습니다.</p>
+  <table>
+    <thead><tr><th>요소</th><th>질문</th><th>예</th></tr></thead>
+    <tbody>
+      <tr><td>역할 Role</td><td>누구로서?</td><td>billing 모듈 담당 개발자</td></tr>
+      <tr><td>맥락 Context</td><td>무엇을 알고 있어야?</td><td>비식별 기능 스펙, 현재 동작</td></tr>
+      <tr><td>작업 Task</td><td>무엇을?</td><td>면세 분기 추가</td></tr>
+      <tr><td>제약 Constraint</td><td>무엇을 하지 마라?</td><td>외부 패키지 금지, 시그니처 유지</td></tr>
+      <tr><td>검증 Verification</td><td>어떻게 맞는지 확인?</td><td>유닛테스트 통과</td></tr>
+      <tr><td>출력 Output</td><td>어떤 형식/순서로?</td><td>변경 요약 → 코드 → 테스트</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><strong>안티패턴(<span class="tag gl">PT-04</span>):</strong> 전체 레포 첨부 · 출력 형식 미지정 · 금지 작업 누락 · 완료 기준 없음 · "알아서 해줘".</div>
+</section>
+
+<section class="section">
+  <h2>실습 1 — Before/After 프롬프트 (<span class="tag gl">PT-05</span>)</h2>
+  <div class="step"><div class="label">Before</div>
+<pre><code>면세 처리도 좀 넣어줘. 알아서 잘 고쳐줘.</code></pre></div>
+  <div class="step"><div class="label">After (R/C/T/C/V/O)</div>
+<pre><code>[역할] 너는 우리 기능팀의 결제 모듈 담당 개발자다.
+[맥락] 고객 스펙(비식별): VAT 10%, 면세 품목 제외. 레거시 calcVat() 존재.
+[작업] 면세 분기 추가 + 음수 입력 가드.
+[제약] 외부 라이브러리 추가 금지. 기존 시그니처 유지.
+[검증] 면세=0, 일반=10%, 음수=오류 케이스의 유닛테스트 포함.
+[출력] 변경 diff 요약 → 코드 → 테스트 순서로.</code></pre></div>
+</section>
+
+<section class="section">
+  <h2>실습 2 — 요구사항 정제 (User Story · BP · AC)</h2>
+  <div class="step"><div class="label">User Story</div>
+<pre><code>As a [사용자/시스템 역할],
+I want [원하는 기능],
+So that [업무 가치/품질 효과].</code></pre></div>
+  <div class="step"><div class="label">Business Process (<span class="tag gl">SD-09</span>)</div>
+<pre><code>[Event] 사용자가 금액을 입력한다.
+[Task] 입력 유효성을 검사한다.
+[Gateway] 음수 또는 면세인가?
+  - 음수: 오류 반환
+  - 면세: VAT 0
+  - 일반: VAT 10%
+[Task] 결과를 반환한다.</code></pre></div>
+  <div class="step"><div class="label">Acceptance Criteria (<span class="tag gl">SD-03</span>) — 정상·예외·경계로 분리</div>
+  <table>
+    <thead><tr><th>AC</th><th>검증 방법</th><th>측정 source</th></tr></thead>
+    <tbody>
+      <tr><td>음수 금액 입력 시 오류 반환</td><td>unit test</td><td><code>npm test</code></td></tr>
+      <tr><td>면세 품목은 VAT 0</td><td>unit test</td><td><code>tax.test.ts</code></td></tr>
+      <tr><td>public API 시그니처 불변</td><td>lint/checker</td><td><code>npm run lint</code></td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout note">여기서 만든 AC는 Day1·S4의 Test Matrix(<span class="tag gl">SD-05</span>)와 Day2·S4~S5의 test-first(<span class="tag gl">SD-06</span>) 구현으로 그대로 이어집니다.</div>
+</section>
+
+<section class="section">
+  <h2>참조 심화 — SMART AC · BDD 브래킷 (출처: 031 AI-assisted SDLC Playbook)</h2>
+  <div class="callout note"><strong>SMART + 측정 source(031):</strong> AC는 "잘 동작한다" 같은 모호한 문장이 아니라 <strong>측정 가능한 조건 + 측정 source</strong>(어느 테스트/명령으로 확인하는가)를 함께 적습니다.</div>
+  <div class="callout ok"><strong>BDD 브래킷(031):</strong> 한 단계를 <code>Given-When-Then</code> 문장으로 <em>열고</em>, 끝나면 <em>같은 문장 + 증거 링크</em>로 <em>닫습니다</em>. 시작과 끝을 같은 기준으로 묶어 "완료"를 못박습니다.</div>
+</section>
+
+<section class="section">
+  <h2>체크포인트 &amp; 산출물</h2>
+  <div class="callout ok"><strong>산출물:</strong> 본인이 작성한 <strong>프롬프트 3종</strong>(요구사항 정리·구현 후보·테스트 후보)과 <strong>AC 표</strong>.</div>
+  <ul>
+    <li>각 프롬프트에 6요소가 모두 있는가?</li>
+    <li>각 AC가 테스트 또는 checker와 연결되는가?</li>
+    <li>Business Process에 예외 흐름(Gateway)이 있는가?</li>
+  </ul>
+  <div class="callout warn"><strong>컷라인:</strong> 시간이 빠듯하면 User Story 1개 + AC 3개만 확실히. BP는 글머리 흐름으로 대체 가능.</div>
+</section>
+
+<section class="section">
+  <h2>흔한 실수 &amp; 공유 포인트</h2>
+  <ul>
+    <li>검증(V)을 빼먹음 → 모델이 "동작한다"고 선언하지만 근거가 없음. 항상 검증 요소를 넣습니다.</li>
+    <li>AC를 "잘 동작한다" 같은 모호한 문장으로 작성 → 정상/예외/경계 값으로 구체화합니다.</li>
+  </ul>
+  <div class="callout note"><strong>공유 포인트:</strong> "내 안티패턴 1개와 교정"을 기록하세요. 동료가 가장 빨리 배우는 형태가 Before/After입니다.</div>
+</section>
+
+<div class="pager">
+  <a href="d1-s1.html">← S1 토큰 최적화</a>
+  <a class="nx" href="d1-s3.html">다음 · S3 리팩토링·복잡 로직 →</a>
+</div>
+<footer>D1·S2 · 좋은 프롬프트 (1) · program-sessions-2026-06-27</footer>
+</main>
+</body>
+</html>

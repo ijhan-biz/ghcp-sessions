@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>D2·S0 Day1 복습 &amp; 환경 재점검 — Copilot 중급과정</title>
+<link rel="stylesheet" href="ag-ui-program.css" />
+</head>
+<body>
+<main>
+<nav class="top"><div class="wrap">
+  <a href="index.html">PORTAL</a>
+  <a href="d1-s0.html">D1·S0</a><a href="d1-s1.html">S1</a><a href="d1-s2.html">S2</a><a href="d1-s3.html">S3</a><a href="d1-s4.html">S4</a><a href="d1-s5.html">S5</a><a href="d1-s6.html">S6</a>
+  <a href="d2-s0.html" class="cur">D2·S0</a><a href="d2-s1.html">S1</a><a href="d2-s2.html">S2</a><a href="d2-s3.html">S3</a><a href="d2-s4.html">S4</a><a href="d2-s5.html">S5</a><a href="d2-s6.html">S6</a><a href="d2-s7.html">S7</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">DAY 2 · SESSION 0 · 09:00–09:30 (30m)</div>
+  <h1>Day1 복습 &amp; 환경 재점검 — 그대로 실행 가능한 상태인가</h1>
+  <p class="lead">Day1의 Feature Spec Pack을 다시 로딩하고, Dev Container를 재기동하며, baseline이 여전히 통과하는지 확인합니다. 오늘 구현할 <strong>must-have AC</strong>만 표시해 범위를 좁힙니다.</p>
+  <div class="chips"><span><strong>OR-16</strong> Handoff</span><span><strong>EN-01</strong> Dev Container</span><span><strong>OR-15</strong> 로컬 브랜치</span></div>
+</header>
+
+<section class="section">
+  <h2>학습 목표</h2>
+  <ul>
+    <li>Day1 산출물을 입력으로 다시 불러오고, 환경이 어제와 동일한지 확인한다.</li>
+    <li>오늘 구현할 <strong>must-have AC</strong>를 1~3개로 좁힌다.</li>
+    <li>변경 전 <code>git diff</code>가 비어 있거나 의도된 상태인지 확인한다(clean branch).</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>미니강의 — Day2는 "안전한 실행"의 날</h2>
+  <p>Day1이 좋은 입력을 만들었다면 Day2는 그것을 <strong>로컬 개발 루프로 실행</strong>합니다. 핵심은 ① 권한을 좁히고, ② 로그를 남기고, ③ 역할을 나누며, ④ <strong>게이트를 통과해야 다음으로 간다</strong>는 구조입니다. 그래서 첫 30분은 "어제 만든 계획이 그대로 실행 가능한가"를 확인하는 데 씁니다.</p>
+</section>
+
+<section class="section">
+  <h2>실습 — 재개 체크</h2>
+  <div class="step"><div class="label">STEP 1 · 브랜치/환경 확인</div>
+<pre><code>git status
+git branch --show-current      # lab/copilot-workbook 인지
+git diff --stat                # 비어있거나 의도된 변경인지
+npm test                       # baseline 다시 통과? 실패면 원인 먼저 기록</code></pre></div>
+  <div class="step"><div class="label">STEP 2 · Feature Spec Pack 로딩 &amp; must-have 표시</div>
+  <p class="small">YELLOW였던 참가자는 여기서 10분 보강합니다(빠진 AC/Test Matrix 채우기). RED는 강사 제공 샘플 스펙으로 전환합니다.</p>
+<pre><code>오늘 구현할 must-have AC:
+[ ] AC1 ...
+[ ] AC2 ...
+(나머지는 nice-to-have로 분리)</code></pre></div>
+</section>
+
+<section class="section">
+  <h2>체크포인트 &amp; 산출물</h2>
+  <div class="callout ok"><strong>산출물:</strong> 재개 체크 결과, clean branch, 오늘의 must-have AC 목록.</div>
+  <ul>
+    <li>baseline이 통과하는가(혹은 실패 원인이 기록되었는가)?</li>
+    <li>오늘 범위가 must-have 1~3개로 좁혀졌는가?</li>
+  </ul>
+  <div class="callout warn"><strong>컷라인:</strong> Spec Pack이 RED면 즉시 샘플로 전환 — 환경/스펙 복구에 30분을 다 쓰지 않습니다.</div>
+</section>
+
+<div class="pager">
+  <a href="d1-s6.html">← D1·S6 QnA</a>
+  <a class="nx" href="d2-s1.html">다음 · S1 하네스 (1) 기초·CLI →</a>
+</div>
+<footer>D2·S0 · Day1 복습 &amp; 환경 재점검 · program-sessions-2026-06-27</footer>
+</main>
+</body>
+</html>

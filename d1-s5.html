@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>D1·S5 데일리 종합 미니 실습 — Copilot 중급과정</title>
+<link rel="stylesheet" href="ag-ui-program.css" />
+</head>
+<body>
+<main>
+<nav class="top"><div class="wrap">
+  <a href="index.html">PORTAL</a>
+  <a href="d1-s0.html">D1·S0</a><a href="d1-s1.html">S1</a><a href="d1-s2.html">S2</a><a href="d1-s3.html">S3</a><a href="d1-s4.html">S4</a><a href="d1-s5.html" class="cur">S5</a><a href="d1-s6.html">S6</a>
+  <a href="d2-s0.html">D2·S0</a><a href="d2-s1.html">S1</a><a href="d2-s2.html">S2</a><a href="d2-s3.html">S3</a><a href="d2-s4.html">S4</a><a href="d2-s5.html">S5</a><a href="d2-s6.html">S6</a><a href="d2-s7.html">S7</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">DAY 1 · SESSION 5 · 16:30–17:30 (60m)</div>
+  <h1>데일리 종합 미니 실습 — Day2로 넘길 패킷을 완성한다</h1>
+  <p class="lead">오늘 배운 토큰·프롬프트·Plan을 <strong>본인 기능 스펙 1건</strong>에 모두 적용해 <strong>Feature Spec Pack v1</strong>을 완성합니다. 이 패킷이 Day2의 입력(handoff)입니다.</p>
+  <div class="chips"><span><strong>SD-08</strong> Feature Spec Pack</span><span><strong>OR-16</strong> Handoff</span><span><strong>EN-18</strong> Green/Yellow/Red</span><span><strong>EV-10</strong> 최소 경로</span></div>
+</header>
+
+<section class="section">
+  <h2>학습 목표</h2>
+  <ul>
+    <li>토큰 절약 프롬프트·AC·Context Manifest·Plan·Test Matrix를 <strong>하나의 패킷</strong>으로 묶는다.</li>
+    <li>Day2에서 바로 구현·검증으로 넘어갈 수 있는 상태인지 <strong>handoff 준비도</strong>를 자가 판정한다.</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>미니강의 — 좋은 입력이 Day2 품질을 결정한다</h2>
+  <p>Day2(하네스·SDD)는 "좋은 입력"이 전제입니다. Feature Spec Pack(<span class="tag gl">SD-08</span>)이 약하면 Day2의 구현·테스트 품질도 흔들립니다. 그래서 Day1의 마지막 한 시간은 <strong>새로운 것을 배우지 않고</strong>, 가진 것을 패킷으로 정리합니다.</p>
+  <div class="flow">
+    <span class="n">비식별 스펙</span><span class="ar">+</span><span class="n">AC</span><span class="ar">+</span><span class="n">Context Manifest</span><span class="ar">+</span><span class="n">Plan</span><span class="ar">+</span><span class="n">Test Matrix</span><span class="ar">=</span><span class="n">Spec Pack v1</span>
+  </div>
+</section>
+
+<section class="section">
+  <h2>실습 — Feature Spec Pack v1 완성</h2>
+  <table>
+    <thead><tr><th>필수 항목</th><th>완료 기준</th><th>출처 세션</th></tr></thead>
+    <tbody>
+      <tr><td>비식별 기능 스펙</td><td>문제·현재·원하는 동작·제외 범위</td><td>S1</td></tr>
+      <tr><td>Acceptance Criteria</td><td>각 AC에 검증 방법</td><td>S2</td></tr>
+      <tr><td>Context Manifest</td><td>allowed/blocked/test files</td><td>S3</td></tr>
+      <tr><td>Plan</td><td>2~4단계 + stop point</td><td>S4</td></tr>
+      <tr><td>Test Matrix</td><td>unit + policy 각 1개 이상</td><td>S4</td></tr>
+      <tr><td>Risk/Human Gate</td><td>승인 필요 작업 분리</td><td>S4</td></tr>
+    </tbody>
+  </table>
+  <div class="step"><div class="label">정리 프롬프트</div>
+<pre><code>[작업] 아래 흩어진 산출물을 Feature Spec Pack v1로 합쳐라.
+[포함] 비식별 스펙, AC, Context Manifest, Plan(2~4단계), Test Matrix, Risk/Gate.
+[제약] 새 요구사항 추가 금지(있으면 unknown으로 표기), 민감정보 금지.
+[출력] 단일 마크다운, 섹션 제목 포함.</code></pre></div>
+</section>
+
+<section class="section">
+  <h2>Handoff 준비도 자가 판정 (<span class="tag gl">OR-16</span>)</h2>
+  <table>
+    <thead><tr><th>등급</th><th>의미</th><th>Day2 시작 행동</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag pass">GREEN</span></td><td>6개 항목 모두 충족</td><td>바로 구현/하네스로 진입</td></tr>
+      <tr><td><span class="tag warn">YELLOW</span></td><td>일부 미흡(예: Test Matrix 빈약)</td><td>D2·S0에서 10분 보강</td></tr>
+      <tr><td><span class="tag block">RED</span></td><td>스펙/AC 자체가 모호</td><td>강사 제공 샘플 스펙으로 대체</td></tr>
+    </tbody>
+  </table>
+  <div class="callout ok"><strong>산출물:</strong> Feature Spec Pack v1(단일 마크다운) + handoff 준비도 등급.</div>
+</section>
+
+<section class="section">
+  <h2>흔한 실수 &amp; 공유 포인트</h2>
+  <ul>
+    <li>미니 실습에서 새 기능을 더 붙임 → 범위 폭발. 오늘은 <em>정리</em>만 합니다.</li>
+    <li>RED인데 억지로 진행 → Day2 내내 막힘. 샘플 스펙으로 빠르게 전환합니다.</li>
+  </ul>
+  <div class="callout note"><strong>공유 포인트:</strong> "내 기능을 한 문장으로" 적어두면 D2·S7 발표의 첫 줄이 됩니다.</div>
+</section>
+
+<div class="pager">
+  <a href="d1-s4.html">← S4 Plan Mode</a>
+  <a class="nx" href="d1-s6.html">다음 · S6 QnA &amp; 버퍼 →</a>
+</div>
+<footer>D1·S5 · 데일리 종합 미니 실습 · program-sessions-2026-06-27</footer>
+</main>
+</body>
+</html>

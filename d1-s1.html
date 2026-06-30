@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>D1·S1 토큰 최적화 &amp; 가드레일 — Copilot 중급과정</title>
+<link rel="stylesheet" href="ag-ui-program.css" />
+</head>
+<body>
+<main>
+<nav class="top"><div class="wrap">
+  <a href="index.html">PORTAL</a>
+  <a href="d1-s0.html">D1·S0</a><a href="d1-s1.html" class="cur">S1</a><a href="d1-s2.html">S2</a><a href="d1-s3.html">S3</a><a href="d1-s4.html">S4</a><a href="d1-s5.html">S5</a><a href="d1-s6.html">S6</a>
+  <a href="d2-s0.html">D2·S0</a><a href="d2-s1.html">S1</a><a href="d2-s2.html">S2</a><a href="d2-s3.html">S3</a><a href="d2-s4.html">S4</a><a href="d2-s5.html">S5</a><a href="d2-s6.html">S6</a><a href="d2-s7.html">S7</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">DAY 1 · SESSION 1 · 09:40–11:10 (90m)</div>
+  <h1>토큰 최적화 &amp; 가드레일 — 적게 주고 더 정확하게</h1>
+  <p class="lead">전체 레포를 던지는 습관을 버리고 <strong>범위를 좁혀</strong> 같은 결과를 더 적은 토큰으로 얻는 법을 익힙니다. 동시에 <strong>가드레일</strong>을 프롬프트에 명시하고, 이후 모든 실습에 쓸 <strong>본인 기능 스펙을 비식별화</strong>합니다.</p>
+  <div class="chips"><span><strong>PT-01</strong> 토큰 최적화</span><span><strong>PT-09</strong> 범위 축소</span><span><strong>PT-06</strong> #file</span><span><strong>PT-03</strong> 가드레일</span><span><strong>OR-14</strong> 비식별화</span><span><strong>HE-12</strong> Cost burn</span></div>
+</header>
+
+<section class="section">
+  <h2>학습 목표</h2>
+  <ul>
+    <li>토큰이 어디서 새는지(과다 컨텍스트·반복 첨부·긴 로그) 이해하고, <strong>파일 범위·#file·로그 제한</strong>으로 줄인다.</li>
+    <li>제약을 <strong>가드레일</strong>로 프롬프트에 명시한다(외부 패키지 금지·시그니처 유지·민감정보 출력 금지).</li>
+    <li>본인 기능 스펙 1건을 <strong>비식별화</strong>해 이후 세션의 공용 재료로 만든다.</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>미니강의 — 컨텍스트는 비용이자 정확도다</h2>
+  <p>Copilot은 한 번에 처리할 수 있는 <strong>컨텍스트 윈도우</strong>(<span class="tag gl">PT-12</span>)가 정해져 있습니다. 불필요한 파일을 잔뜩 넣으면 ① 비용이 오르고(<span class="tag gl">HE-12</span> cost burn), ② 정작 중요한 코드가 묻혀 정확도가 떨어집니다. 좋은 컨텍스트 관리(<span class="tag gl">PT-02</span>)는 <strong>비용과 품질을 동시에</strong> 잡습니다.</p>
+  <h3>범위 축소 3종 (<span class="tag gl">PT-09</span>)</h3>
+  <div class="grid">
+    <div class="card"><h3>FILE.SCOPE</h3><p><code>#file:path/to/file</code>로 특정 파일만 지정(<span class="tag gl">PT-06</span>). "이 레포 전체" 대신 "이 함수만".</p></div>
+    <div class="card"><h3>LOG.TRIM</h3><p>에러 로그는 전체가 아니라 관련 30~80줄만. 스택트레이스 핵심만 붙입니다.</p></div>
+    <div class="card"><h3>OUTPUT.LIMIT</h3><p>출력 형식·길이를 지정해 장황한 응답을 막습니다(<span class="tag gl">PT-10</span>).</p></div>
+  </div>
+  <h3>가드레일 = 하네스의 출발점 (<span class="tag gl">PT-03</span>)</h3>
+  <p>"외부 패키지 추가 금지", "public API 시그니처 유지" 같은 자연어 제약이 가드레일입니다. Day2에서 이 문장들을 <strong>실행 가능한 검증</strong>으로 바꿉니다(<span class="tag gl">HE-01</span> 하네스 엔지니어링). 오늘은 프롬프트에 <strong>명시하는 습관</strong>부터 만듭니다.</p>
+</section>
+
+<section class="section">
+  <h2>실습 1 — 토큰 절약 Before/After</h2>
+  <p class="small">샘플(<span class="tag gl">EN-13</span> aibuild-kpx 등)에서 같은 작업을 두 방식으로 시키고 결과·토큰 감각을 비교합니다.</p>
+  <div class="step"><div class="label">Before · 과다 컨텍스트</div>
+<pre><code>"이 레포 전체를 보고 결제 로직 버그를 고쳐줘" + (전체 폴더 첨부)</code></pre>
+  <p class="small">문제: 범위 과다 · 금지 작업 없음 · 완료 기준 없음 · 민감정보 경계 없음.</p></div>
+  <div class="step"><div class="label">After · 범위 한정 + 가드레일</div>
+<pre><code>[맥락] 기능 스펙(비식별): 음수 금액은 오류, 면세 품목 VAT 0%, 일반 VAT 10%.
+[작업] #file:src/billing/tax.ts 의 calcVat() 만 검토. 음수 입력 가드 누락 의심.
+[제약] 기존 시그니처 유지, 외부 패키지 추가 금지, 유닛테스트 포함.
+[출력] 변경 요약 → 코드 → 테스트 순서로.</code></pre></div>
+  <div class="callout ok"><strong>관찰 포인트:</strong> After가 더 짧은 입력으로 더 정확한 변경을 낸다는 점, 그리고 가드레일 덕분에 "엉뚱한 파일까지 고치는" 일이 사라진다는 점을 직접 확인합니다.</div>
+</section>
+
+<section class="section">
+  <h2>실습 2 — 본인 기능 스펙 비식별화</h2>
+  <p class="small">Day2까지 이어갈 <strong>얇은 end-to-end 기능 1건</strong>을 정하고 비식별화합니다(<span class="tag gl">OR-14</span>). 1~2개 파일에서 구현 가능하고, 테스트로 확인 가능하며, 운영 배포·실제 결제·DB 마이그레이션이 필요 없는 기능을 고릅니다.</p>
+<pre><code>## 비식별 기능 스펙 카드
+- 기능명:
+- 현재 동작:
+- 원하는 동작:
+- 사용자/시스템 영향:
+- 제외 범위(non-goal):
+- 민감정보 제거 확인: [ ] 고객명/계정/키/운영로그 없음</code></pre>
+  <div class="step"><div class="label">따라하기 프롬프트</div>
+<pre><code>[역할] 너는 기능팀의 요구사항 정리 보조자다.
+[입력] 아래 기능 스펙은 비식별화된 실습용이다.
+[작업] 문제·현재 동작·원하는 동작·제외 범위·위험도를 표로 정리.
+[제약] 고객명/민감정보 추정 금지, 누락 정보는 질문으로 남겨라.
+[출력] 기능 스펙 카드 형식으로.</code></pre></div>
+</section>
+
+<section class="section">
+  <h2>체크포인트 &amp; 산출물</h2>
+  <div class="callout ok"><strong>산출물:</strong> ① 범위를 좁힌 토큰 절약 프롬프트 1개 이상, ② 가드레일이 명시된 프롬프트, ③ 비식별 기능 스펙 카드(이후 모든 세션의 재료).</div>
+  <ul>
+    <li>전체 레포가 아니라 파일/함수로 범위가 좁혀졌는가?</li>
+    <li>금지 작업·민감정보 경계가 프롬프트에 들어갔는가?</li>
+    <li>기능 스펙 카드에 고객 식별자·secret·실제 로그가 없는가?</li>
+  </ul>
+  <div class="callout warn"><strong>컷라인:</strong> 토큰 정량 측정이 어려우면 "입력 길이 대비 결과 품질"의 체감 비교만으로 충분합니다.</div>
+</section>
+
+<section class="section">
+  <h2>흔한 실수 &amp; 공유 포인트</h2>
+  <ul>
+    <li>가드레일을 머릿속에만 두고 프롬프트에 안 씀 → 모델은 안 적은 제약을 모릅니다.</li>
+    <li>비식별화한다고 로직까지 바꿈 → 로직은 유지하고 <em>특정 대상</em>만 일반화합니다.</li>
+  </ul>
+  <div class="callout note"><strong>공유 포인트:</strong> "어떤 범위 축소가 가장 효과적이었나"를 한 줄로. 토큰 절감은 팀 비용에 직접 닿는 주제라 공유 가치가 큽니다.</div>
+</section>
+
+<div class="pager">
+  <a href="d1-s0.html">← S0 환경 점검</a>
+  <a class="nx" href="d1-s2.html">다음 · S2 좋은 프롬프트 (1) →</a>
+</div>
+<footer>D1·S1 · 토큰 최적화 &amp; 가드레일 · program-sessions-2026-06-27</footer>
+</main>
+</body>
+</html>
