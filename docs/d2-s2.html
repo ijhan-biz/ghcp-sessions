@@ -82,7 +82,7 @@ console.log('policy-check passed');</code></pre></div>
       <tr><td>Harness agent</td><td>모델보다 deterministic checker 우선</td><td>test·lint·policy-check</td><td>gate 실패</td></tr>
     </tbody>
   </table>
-  <div class="callout warn"><strong>모델 라우팅 원칙(<span class="tag gl">CF-10</span>):</strong> 프롬프트에 모델명을 적는 것은 <em>지시문</em>일 뿐 실제 라우팅 보장 수단이 아닙니다. custom agent의 <code>model:</code> 설정·model picker·실행 로그로 확인합니다. 안 쓰는 도구는 노출하지 않습니다(보안·컨텍스트 절약).</div>
+  <div class="callout warn"><strong>모델 라우팅 원칙(<span class="tag gl">CF-10</span>):</strong> 프롬프트에 모델명을 적는 것은 <em>지시문</em>일 뿐 실제 라우팅 보장 수단이 아닙니다. custom agent의 <code>model:</code> 설정·model picker·실행 로그로 확인합니다. 안 쓰는 도구는 노출하지 않습니다(보안·컨텍스트 절약). 여기서는 <em>원칙</em>만 잡고, <code>model:</code> 고정 vs Fleet 런타임 라우팅의 <strong>구체 설정은 S6에서</strong> 다룹니다. 표의 모델·도구 값은 <strong>교육용 자리표시자</strong>이니 실제 적용 전 조직 허용 모델·정책을 재확인하세요.</div>
   <h3>Loop Canvas (<span class="tag gl">CF-06</span> · <span class="tag gl">OR-25</span>)</h3>
   <table>
     <thead><tr><th>단계</th><th>역할</th><th>산출물</th><th>Gate / Stop</th></tr></thead>
@@ -104,6 +104,7 @@ console.log('policy-check passed');</code></pre></div>
     <li>Fleet 설계표와 Loop Canvas를 본인 기능 1건 기준으로 채운다(중단 조건 필수).</li>
   </ol>
   <div class="callout ok"><strong>산출물:</strong> Agent Team Canvas + Fleet 설계표 + Loop Canvas + 동작하는 로컬 게이트(최소 policy-check 1개).</div>
+  <div class="callout note"><strong>컷라인(최소 완료 경로 <span class="tag gl">EV-10</span>):</strong> 80분이 빠듯하면 <strong>동작하는 policy-check 1개 + Loop Canvas의 '중단 조건' 1줄</strong>이면 통과입니다. Fleet 설계표·Agent Team 매핑은 <em>초안</em>이면 충분하고, wrapper·역할 상세는 참조로 이어갑니다. (개념이 많은 세션이므로 "동작하는 게이트 하나"를 우선합니다.)</div>
   <div class="callout warn"><strong>Hard gate:</strong> approval_id 없는 write/destructive/prod/customer-data 작업은 block · rollback owner 없는 운영 변경은 block · 검증 기준 없는 Evaluator 판정은 revise.</div>
 </section>
 

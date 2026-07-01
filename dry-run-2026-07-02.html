@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>가상 진행 리허설 & 개선 기록 (2026-07-02) — Copilot 중급과정</title>
+<link rel="stylesheet" href="docs/ag-ui-program.css" />
+<style>
+  .sev{display:inline-block;border-radius:6px;padding:1px 8px;font:11px/1.5 var(--mono);border:1px solid var(--line)}
+  .sev.hi{background:rgba(255,107,107,.1);color:#ff9c9c;border-color:rgba(255,107,107,.3)}
+  .sev.md{background:rgba(255,203,69,.1);color:#ffd970;border-color:rgba(255,203,69,.3)}
+  .sev.lo{background:var(--accent-soft);color:#7df0c4;border-color:rgba(0,229,153,.3)}
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+  @media(max-width:720px){.ba{grid-template-columns:1fr}}
+  .ba .col{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--bg-soft)}
+  .ba .col h4{margin:0 0 6px;font:11.5px/1.4 var(--mono);color:#aab0ba;text-transform:uppercase;letter-spacing:.02em}
+  .ba .col.b{border-color:rgba(255,203,69,.28)} .ba .col.a{border-color:rgba(0,229,153,.28)}
+  .ba .col p{margin:0;font-size:13px}
+</style>
+</head>
+<body>
+<main class="wide">
+<nav class="top"><div class="wrap">
+  <a href="docs/index.html">← PORTAL</a>
+  <a href="learning-objectives.html">학습 목표</a>
+  <a href="#method">방법</a>
+  <a href="#day1">DAY 1 리허설</a>
+  <a href="#day2">DAY 2 리허설</a>
+  <a href="#verdict">목적 부합성</a>
+  <a href="#findings">피드백</a>
+  <a href="#improve">개선 기록</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">강의 검토용 · 가상 진행(dry-run) 리허설 & 개선 기록 · 2026-07-02</div>
+  <h1>이틀 과정을 가상으로 진행해 보고 — 무엇이 걸렸고, 무엇을 고쳤나</h1>
+  <p class="lead">15개 세션(Day1 S0~S6 · Day2 S0~S7)을 <strong>강사 + 가상 참가자 페르소나</strong> 관점으로 시간축을 따라 리허설했습니다. 과정의 5대 약속(역량)에 비추어 <strong>부합성</strong>을 확인하고, 걸린 지점을 <strong>피드백</strong>으로 뽑아 실제 콘텐츠를 <strong>개선</strong>한 뒤 그 변경을 아래에 기록합니다.</p>
+  <div class="chips">
+    <span>대상: GitHub Copilot 중급과정 2일·16h</span><span>리허설 페르소나 3인</span><span>발견 6건</span><span>개선 반영 4건</span><span>결론: 목적 부합 ✓ (타이밍·인지부하 보정)</span>
+  </div>
+</header>
+
+<section class="section" id="method">
+  <h2>리허설 방법 — 어떻게 "가상 진행" 했나</h2>
+  <p class="small">코드를 실제로 실행하는 대신, 각 세션의 학습목표·미니강의·실습 STEP·산출물·컷라인을 읽고 <strong>시간 예산·전환·참가자 경험</strong>을 시뮬레이션했습니다. 세 페르소나를 동시에 따라갔습니다.</p>
+  <div class="kpi">
+    <div><b>P1 · 준비형</b><span>본인 기능 스펙 지참, 환경 GREEN. 진도를 앞서감 → 슬랙 타임 필요</span></div>
+    <div><b>P2 · 표준형</b><span>스펙 초안만, 환경 YELLOW. 컷라인/보강 흐름에 가장 민감</span></div>
+    <div><b>P3 · 폴백형</b><span>기능 미지참·환경 RED → <code>sample-project-web-curation</code> 폴백. 전환 연속성이 관건</span></div>
+  </div>
+  <div class="callout note"><strong>판정 기준:</strong> 각 세션이 (a) 시간 안에 산출물을 낼 수 있는가, (b) 앞 세션 산출물을 실제 입력으로 받는가, (c) 뒤처진 참가자에게 <strong>명확한 최소 경로(컷라인)</strong>가 보이는가 — 세 가지로 봤습니다.</p>
+</section>
+
+<section class="section obj" id="day1">
+  <h2><span class="chip">DAY 1</span> 리허설 로그 — 좋은 입력 만들기</h2>
+  <table>
+    <caption class="small">시간축 시뮬레이션 · 관찰 · 신호</caption>
+    <thead><tr><th>세션 · 시간</th><th>리허설 관찰</th><th>신호</th></tr></thead>
+    <tbody>
+      <tr><td><strong>S0</strong> 09:00–09:40 (40m)<br>환경·baseline</td><td>도구 버전·<code>setup-mac.sh</code>·baseline·브랜치·Copilot 확인을 40분에 모두. P3(RED)은 자동 설치가 돌면 타임박스를 넘길 위험. 이후 세션이 로컬 환경 필수라 <strong>여기서 못 풀면 하루가 흔들림</strong>.</td><td><span class="sev md">주의</span> 첫 세션 부하·RED 연쇄</td></tr>
+      <tr><td><strong>S1</strong> 09:40–11:10 (90m)<br>토큰·가드레일</td><td>토큰 절감 3종 + 가드레일 + 비식별화. 분량 적정. P3은 폴백 <code>FEATURE-SPEC.md</code> 채택으로 자연 합류.</td><td><span class="sev lo">양호</span></td></tr>
+      <tr><td><strong>S2</strong> 11:10–12:30 (80m)<br>프롬프트·AC</td><td>R/C/T/C/V/O + User Story + AC + Business Process. 밀도 높지만 컷라인(“User Story 1 + AC 3”) 있어 착지 가능.</td><td><span class="sev lo">양호</span></td></tr>
+      <tr><td><strong>S3</strong> 13:30–14:50 (80m)<br>리팩토링·Manifest</td><td>동작 불변 리팩토링 + Context Manifest + 실패 프롬프트 디버깅. 흐름 자연스러움.</td><td><span class="sev lo">양호</span></td></tr>
+      <tr><td><strong>S4</strong> 14:50–16:30 (100m)<br>Plan Mode</td><td>Plan·Test Matrix·risk tier·rollback을 <strong>단일 100분 블록</strong>으로. 오후 중반 최장 세션 → 집중 저하. 컷라인은 있으나 “언제 멈춰 쉬는가”가 안 보임.</td><td><span class="sev md">주의</span> 길이·피로</td></tr>
+      <tr><td><strong>S5</strong> 16:30–17:30 (60m)<br>Spec Pack v1</td><td>새 개념 없이 통합 + Handoff 등급(G/Y/R). 하루 마무리로 적절. P2는 여기서 YELLOW 확정 → D2·S0 보강 예약.</td><td><span class="sev lo">양호</span></td></tr>
+      <tr><td><strong>S6</strong> 17:30–18:00 (30m)<br>QnA·버퍼</td><td>Blocker·준비물·한 줄 회고. 버퍼 역할 명확.</td><td><span class="sev lo">양호</span></td></tr>
+    </tbody>
+  </table>
+  <p class="small"><strong>빌드업 확인:</strong> 스펙 카드 → 프롬프트 → AC → Plan/Test Matrix → Feature Spec Pack v1 로 산출물이 실제로 이어짐(각 세션이 앞 산출물을 입력으로 받음). 스레드 끊김 없음.</p>
+</section>
+
+<section class="section obj" id="day2">
+  <h2><span class="chip">DAY 2</span> 리허설 로그 — 안전한 실행 · 나만의 솔루션</h2>
+  <table>
+    <caption class="small">시간축 시뮬레이션 · 관찰 · 신호</caption>
+    <thead><tr><th>세션 · 시간</th><th>리허설 관찰</th><th>신호</th></tr></thead>
+    <tbody>
+      <tr><td><strong>S0</strong> 09:00–09:30 (30m)<br>복습·재점검 + SDLC 지도</td><td>직전에 추가한 <strong>Agentic SDLC 지도(플로우+2표)</strong>가 복습·환경 재점검·must-have 좁히기와 같은 30분에 공존. 리허설상 <strong>개념 설명이 실습 시간을 잠식</strong>. P3(RED) 폴백 전환 시간까지 겹치면 30분 초과.</td><td><span class="sev hi">개선</span> 신규 추가분 과부하</td></tr>
+      <tr><td><strong>S1</strong> 09:30–10:40 (70m)<br>CLI 하네스</td><td>권한·로그 플래그 실행 + 로그 해석. <code>gh copilot</code> 미설치 시 Chat fallback 명시. 적정.</td><td><span class="sev lo">양호</span></td></tr>
+      <tr><td><strong>S2</strong> 10:40–12:00 (80m)<br>Agent Teams·Fleet·Loop</td><td>wrapper + policy-check + 역할 5개 + Fleet표 + Loop Canvas + 모델 라우팅. <strong>단일 80분에 개념 6개</strong> — P2/P3 인지 과부하. 게이트 실습 컷라인이 부재(‘Hard gate’만 있고 최소 완료선 없음). 모델 라우팅이 S6과 <strong>두 관점으로 중복</strong> → 혼동.</td><td><span class="sev hi">개선</span> 과부하·컷라인·중복</td></tr>
+      <tr><td><strong>S3</strong> 13:00–13:50 (50m)<br>본인 워크플로</td><td>반복 업무 분해 + 제약 코드화 + Loop 설계. 컷라인 명확(“업무 1 + 자동화 1 + 중단 1”). P1은 여유 → 확장.</td><td><span class="sev lo">양호</span></td></tr>
+      <tr><td><strong>S4</strong> 13:50–15:10 (80m)<br>SDD test-first</td><td>spec.md → 실패 테스트 → 최소 구현. 폴백은 <code>curate.test.js</code> skip 해제 1사이클. 컷라인(1 AC 1사이클) 명확.</td><td><span class="sev lo">양호</span></td></tr>
+      <tr><td><strong>S5</strong> 15:10–16:20 (70m)<br>리뷰 패킷</td><td>evidence bundle + rollback note + no-cloud attestation. 최소 수료 경로 명시.</td><td><span class="sev lo">양호</span></td></tr>
+      <tr><td><strong>S6</strong> 16:20–17:20 (60m)<br>Custom Skill/Agent</td><td>수료 필수. Skill vs Agent, Fleet 구성, 모델 라우팅 2경로. 자리표시자 재확인 주의 있음.</td><td><span class="sev lo">양호</span></td></tr>
+      <tr><td><strong>S7</strong> 17:20–18:00 (40m)<br>라이트닝·공유</td><td>3장 토크 + 현업 액션 3 + PL handoff + go/no-go. 마무리 적절.</td><td><span class="sev lo">양호</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section" id="verdict">
+  <h2>목적 부합성 판정 — 5대 약속 대비</h2>
+  <table>
+    <thead><tr><th>역량(약속)</th><th>담당 세션</th><th>리허설 판정</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1 · 좋은 입력</strong></td><td>D1 S1~S5</td><td><span class="sev lo">충족</span> 토큰·프롬프트·Plan이 Spec Pack v1로 수렴</td></tr>
+      <tr><td><strong>2 · 안전한 실행</strong></td><td>D2 S1~S3</td><td><span class="sev md">충족(부하 보정)</span> 하네스·게이트 갖춰짐, 단 S2 밀도 과함</td></tr>
+      <tr><td><strong>3 · 검증 가능한 변경</strong></td><td>D2 S4~S5</td><td><span class="sev lo">충족</span> test-first + 리뷰 패킷 + rollback</td></tr>
+      <tr><td><strong>4 · 나만의 솔루션</strong></td><td>D2 S3·S6</td><td><span class="sev lo">충족</span> 본인 업무 → Custom Skill/Agent 자산화</td></tr>
+      <tr><td><strong>5 · 경험 공유</strong></td><td>D2 S7</td><td><span class="sev lo">충족</span> 라이트닝 토크 + PL handoff</td></tr>
+    </tbody>
+  </table>
+  <div class="callout ok"><strong>결론:</strong> 5대 약속과 세션 매핑은 <strong>빠짐없이 정합</strong>합니다. 학습 목표 자체의 누락은 없었고, 발견된 문제는 전부 <strong>타이밍·인지부하·최소경로(컷라인) 일관성</strong>에 관한 것 — 즉 “무엇을 가르치나”가 아니라 “어떻게 착지시키나”의 문제였습니다. 그 지점을 아래처럼 보정했습니다.</div>
+</section>
+
+<section class="section" id="findings">
+  <h2>피드백 — 발견 6건</h2>
+  <table>
+    <thead><tr><th>#</th><th>발견</th><th>근거(리허설)</th><th>심각도</th><th>조치</th></tr></thead>
+    <tbody>
+      <tr><td>F1</td><td><strong>D2·S0 과부하</strong> — 새 SDLC 지도가 30분 복습·환경 세션을 잠식</td><td>플로우+2표 설명이 실습·폴백 전환 시간과 충돌</td><td><span class="sev hi">높음</span></td><td>개선 IMP-1</td></tr>
+      <tr><td>F2</td><td><strong>D2·S2 인지 과부하</strong> — 80분에 개념 6개, 게이트 실습 최소선 없음</td><td>‘Hard gate’만 있고 컷라인 부재 → 뒤처진 참가자 착지점 불명확</td><td><span class="sev hi">높음</span></td><td>개선 IMP-2</td></tr>
+      <tr><td>F3</td><td><strong>모델 라우팅(CF-10) 중복 설명</strong> — S2와 S6이 다른 관점으로 각각</td><td>같은 용어가 두 번, 연결 표지 없어 혼동</td><td><span class="sev md">중간</span></td><td>개선 IMP-3</td></tr>
+      <tr><td>F4</td><td><strong>D1·S4 길이·피로</strong> — 100분 단일 블록, 휴지점 안 보임</td><td>최장 세션, 컷라인은 있으나 “언제 멈추나”가 문장에 없음</td><td><span class="sev md">중간</span></td><td>개선 IMP-4</td></tr>
+      <tr><td>F5</td><td><strong>환경 RED 연쇄</strong> — S0 RED가 이후 로컬 필수 세션으로 전이</td><td>S0은 TA 큐로 넘기나 복구 없으면 Day2 진행 곤란</td><td><span class="sev md">중간</span></td><td>기존 폴백으로 완화(잔여 관찰)</td></tr>
+      <tr><td>F6</td><td><strong>교육용 자리표시자 혼동</strong> — <code>model:</code>·policy-check 템플릿이 실제 정책처럼 보일 수 있음</td><td>재확인 주의가 S7에 몰려 있음</td><td><span class="sev lo">낮음</span></td><td>IMP-3에 재확인 문구 앞당김</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section" id="improve">
+  <h2>개선 기록 — 무엇을 어떻게 고쳤나 (Before → After)</h2>
+
+  <h3>IMP-1 · D2·S0 시간 배분 명시 <span class="tag">F1</span></h3>
+  <div class="ba">
+    <div class="col b"><h4>Before</h4><p>SDLC 지도(플로우 + 단계표 + 6레이어표)가 복습·환경 재점검과 같은 30분에 시간 안내 없이 병렬 → 실습 시간 잠식.</p></div>
+    <div class="col a"><h4>After</h4><p>미니강의 상단에 <strong>“시간 배분(30분)” 콜아웃</strong> 추가: 지도는 <strong>5분</strong> 훑기(두 표는 참조용, 암기 X), 나머지 <strong>25분</strong>은 복습·환경 재점검·must-have. <strong>RED면 설명 접고 즉시 폴백</strong>.</p></div>
+  </div>
+  <p class="small">파일: <code>docs/d2-s0.html</code> · 미니강의 “Agentic SDLC 지도로 오늘 위치 잡기”</p>
+
+  <h3>IMP-2 · D2·S2 컷라인(최소 완료 경로) 추가 <span class="tag">F2</span></h3>
+  <div class="ba">
+    <div class="col b"><h4>Before</h4><p>실습 산출물 + ‘Hard gate’만 존재. 뒤처진 참가자의 최소 통과선이 없어 80분 과부하가 곧 미완으로.</p></div>
+    <div class="col a"><h4>After</h4><p><strong>EV-10 컷라인 콜아웃</strong> 추가: “동작하는 policy-check 1개 + Loop Canvas 중단조건 1줄”이면 통과. Fleet표·Agent 매핑은 초안이면 충분 — <em>동작하는 게이트 하나</em>를 우선.</p></div>
+  </div>
+  <p class="small">파일: <code>docs/d2-s2.html</code> · 실습 섹션</p>
+
+  <h3>IMP-3 · 모델 라우팅 교차참조 + 자리표시자 재확인 앞당김 <span class="tag">F3</span> <span class="tag">F6</span></h3>
+  <div class="ba">
+    <div class="col b"><h4>Before</h4><p>S2 모델 라우팅 콜아웃이 원칙만 서술 → S6의 구체 설정과 단절, 자리표시자 재확인은 S7에만.</p></div>
+    <div class="col a"><h4>After</h4><p>S2 콜아웃에 <strong>“구체 설정은 S6에서”</strong> 교차참조와 <strong>“표의 모델·도구 값은 교육용 자리표시자 → 조직 허용 모델·정책 재확인”</strong> 문구를 추가해 도입 지점에서 바로 경고.</p></div>
+  </div>
+  <p class="small">파일: <code>docs/d2-s2.html</code> · 미니강의 ③ 모델 라우팅 원칙 콜아웃</p>
+
+  <h3>IMP-4 · D1·S4 중간 브레이크 + 컷라인 가시화 <span class="tag">F4</span></h3>
+  <div class="ba">
+    <div class="col b"><h4>Before</h4><p>100분 블록에 STEP 1→2→3 연속, 휴지점 표지 없음. 컷라인은 하단에만.</p></div>
+    <div class="col a"><h4>After</h4><p>STEP 2와 STEP 3 사이에 <strong>“중간 브레이크(2분)” 콜아웃</strong> 삽입: 절반 지점 알림 + <strong>“STEP 2까지가 컷라인”</strong> 재강조 + 시간 부족 시 STEP 3~4는 Day2 이월.</p></div>
+  </div>
+  <p class="small">파일: <code>docs/d1-s4.html</code> · 실습 STEP 2/3 사이</p>
+
+  <div class="callout note"><strong>잔여 관찰(다음 라운드 후보):</strong> F5(환경 RED 연쇄)는 현재 폴백·TA 큐로 완화되나, “D1·S0 종료 시점에도 RED면 폴백 환경으로 강제 전환” 같은 <em>명시적 브리지 규칙</em>을 D1·S0/D2·S0에 넣으면 더 견고해집니다. 이번 라운드에서는 범위를 넘어 보류했습니다.</div>
+  <div class="callout warn"><strong>검증 경계:</strong> 이 기록은 <em>가상</em> 리허설(코드 미실행, 시간·전환 시뮬레이션)입니다. 실제 강의에서는 참가자 환경·<code>gh copilot</code> 프리뷰 옵션·조직 정책에 따라 타이밍이 달라질 수 있으니, 실주행 후 실제 소요로 갱신하세요.</div>
+</section>
+
+<footer>가상 진행 리허설 & 개선 기록 · 2026-07-02 · Copilot 중급과정 2일 · 발견 6 / 개선 4 · program-sessions-2026-06-27</footer>
+</main>
+</body>
+</html>
