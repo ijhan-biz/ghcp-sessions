@@ -1,0 +1,11 @@
+{
+  "name": "sample-project-loyalty",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "폴백 실습용 샘플 기능 프로젝트 — 멤버십 포인트 서비스(본인 기능을 못 가져온 참가자용). 의존성 없이 Node 18+ 로 동작.",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "test": "node --test test"
+  }
+}

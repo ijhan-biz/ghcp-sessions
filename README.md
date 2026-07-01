@@ -49,6 +49,7 @@ ghcp-sessions/
 | `docs/d2-s0.html` ~ `d2-s7.html` | Day 2 — 복습 → 하네스·CLI → Agent Teams·Fleet·Loop → 본인 워크플로 → SDD(1)(2) → Custom Skill/Agent → 경험 공유 |
 | `docs/ag-ui-program.css` | 공통 테마(AG-UI inspired) |
 | `labs/` | 세션별 실행 코드 + 템플릿(상세: `labs/README.md`) |
+| `sample-project/` | 폴백 실습 프로젝트 — 본인 기능 미지참 시 채택(멤버십 포인트 서비스) |
 
 ## 보기 (설명)
 
@@ -73,6 +74,8 @@ npm run routing   # 단계별 모델 라우팅 데모
 ```
 
 > 연속 코드베이스: 가상 '결제(billing)' 기능을 Day1~Day2 같은 파일(`src/billing/tax.js`·`discount.js`)로 키워 갑니다. 세션↔코드 지도는 `labs/README.md`.
+>
+> 폴백 샘플: 본인 기능을 못 가져온 참가자는 `sample-project/`(멤버십 포인트 서비스)를 "내 기능"으로 채택해 진행합니다 — `cd sample-project && npm test` (baseline 4 pass, 2 skip).
 
 ## 특징
 
