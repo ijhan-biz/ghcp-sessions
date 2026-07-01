@@ -25,6 +25,7 @@
   <a href="docs/index.html">← PORTAL</a>
   <a href="#contract">과정의 약속</a>
   <a href="#thread">빌드업</a>
+  <a href="#sample">샘플 활용</a>
   <a href="#day1">DAY 1</a>
   <a href="#day2">DAY 2</a>
   <a href="#checklist">역량 체크리스트</a>
@@ -65,6 +66,29 @@
     <span class="n">Custom Skill/Agent</span><span class="ar">→</span>
     <span class="n">공유 1페이지</span>
   </div>
+</section>
+
+<section class="section" id="sample">
+  <h2>샘플 프로젝트로 실습하는 법 (본인 기능 미지참 시)</h2>
+  <p class="small">본인 기능 스펙을 못 가져온 참가자는 <strong><code>sample-project-web-curation/</code></strong>(검색 결과 정리 엔진)을 "내 기능"으로 채택해 <strong>2일 전 과정을 동일하게</strong> 진행합니다. 무설치·의존성 0(<code>cd sample-project-web-curation &amp;&amp; npm test</code> → 4 pass / 2 skip). 실제 웹 fetch는 제외하고 "수집된 결과를 정리하는 순수 로직"만 다룹니다.</p>
+  <div class="callout ok"><strong>한 줄 흐름:</strong> <code>FEATURE-SPEC.md</code> 채택 → <code>BACKLOG.md</code>에서 slice 1개(권장: URL 정규화 중복제거) → Day1에 스펙·프롬프트·Plan → Day2에 <code>normalizeUrl</code>을 test-first로 구현 → 리뷰 패킷 → Custom Skill → 공유.</div>
+  <table>
+    <caption class="small">세션별 — 샘플 프로젝트를 어떻게 쓰는가</caption>
+    <thead><tr><th>세션</th><th>샘플로 무엇을 하나</th><th>산출물</th></tr></thead>
+    <tbody>
+      <tr><td><strong>D1·S1</strong></td><td><code>FEATURE-SPEC.md</code>를 내 기능 스펙 카드로 채택(비식별 확인) + BACKLOG에서 slice 선택</td><td class="deliverable">채택한 스펙 카드 + slice</td></tr>
+      <tr><td><strong>D1·S2</strong></td><td>정리 기능의 User Story·AC 정제(정상/예외/경계 — 예: 빈 배열·변형 URL)</td><td class="deliverable">AC 표</td></tr>
+      <tr><td><strong>D1·S3</strong></td><td>Context Manifest(allowed: <code>src/curate.js</code>) + 리팩토링 대상 확인</td><td class="deliverable">Context Manifest</td></tr>
+      <tr><td><strong>D1·S4</strong></td><td><code>normalizeUrl</code> 구현 계획 + Test Matrix(끝슬래시·utm 변형 케이스)</td><td class="deliverable">Plan · Test Matrix</td></tr>
+      <tr><td><strong>D1·S5</strong></td><td>위 산출물을 Feature Spec Pack v1로 묶기(Day2 입력)</td><td class="deliverable">Spec Pack v1</td></tr>
+      <tr><td><strong>D2·S1~S3</strong></td><td>이 프로젝트에 하네스·로컬 게이트·Agent Teams/Fleet/Loop 적용</td><td class="deliverable">게이트·캔버스</td></tr>
+      <tr><td><strong>D2·S4~S5</strong></td><td><code>test/curate.test.js</code>의 skip 해제 → <code>normalizeUrl</code> test-first 구현 → 로컬 게이트·리뷰 패킷</td><td class="deliverable">구현 + review packet</td></tr>
+      <tr><td><strong>D2·S6</strong></td><td>"검색 결과 정리" 반복 작업을 Custom Skill로 정형화</td><td class="deliverable">Custom Skill 1개</td></tr>
+      <tr><td><strong>D2·S7</strong></td><td>스펙→구현→검증→Skill 연결을 라이트닝 토크로 공유</td><td class="deliverable">공유 1페이지</td></tr>
+    </tbody>
+  </table>
+  <div class="callout note"><strong>정답 비교:</strong> 직접 구현 후 <code>src/curate.solution.js</code>와 비교. <strong>slice 확장:</strong> 여유가 있으면 <code>BACKLOG.md</code>의 도메인 allowlist·최소 점수 필터로 한 사이클 더.</div>
+  <div class="callout warn"><strong>강사용 메모:</strong> 이 샘플은 가이드 예제(<code>labs/</code>, billing)와 별개입니다. labs는 강사 설명용, 이 샘플은 참가자가 "자기 기능"으로 가져가는 폴백입니다.</div>
 </section>
 
 <section class="section obj" id="day1">
