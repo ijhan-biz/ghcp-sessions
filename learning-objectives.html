@@ -23,6 +23,7 @@
 <main class="wide">
 <nav class="top"><div class="wrap">
   <a href="docs/index.html">← PORTAL</a>
+  <a href="#frame">검증 목표</a>
   <a href="#contract">과정의 약속</a>
   <a href="#thread">빌드업</a>
   <a href="#sample">샘플 활용</a>
@@ -40,6 +41,49 @@
     <span>15 세션 (Day1 S0~S6 · Day2 S0~S7)</span><span>학습 목표 = 수강생이 할 수 있어야 하는 것</span><span>산출물 = 학습의 증거</span><span>핵심 용어 = 용어사전 ID</span>
   </div>
 </header>
+
+<section class="section" id="frame">
+  <h2>결과물 검증 기준 — 페르소나 · 바라는 점 · 전달 내용 · 목적 (초안)</h2>
+  <div class="callout warn"><strong>이 섹션의 역할:</strong> 아래 네 가지는 강의(결과물)가 잘 만들어졌는지를 <strong>검증하는 기준점</strong>입니다. 모든 세션·산출물·리허설은 이 목표에 비춰 "충분한가"를 판단합니다. <em>초안</em>이니 대상·기대값을 확정해 주세요.</div>
+
+  <h3>1 · 수업을 듣는 사람의 페르소나 (누가 배우는가)</h3>
+  <div class="grid">
+    <div class="card"><h3>P-A · 기능팀 실무 개발자 <span class="tag">주 대상</span></h3><p>매일 Copilot을 쓰지만 대체로 "그냥 만들어줘" 수준. 반복 구현·리팩토링·테스트에 시간을 쓰고, AI 산출물을 <strong>어디까지 믿어야 하는지</strong> 불안하다.</p></div>
+    <div class="card"><h3>P-B · 팀 리드 / PL</h3><p>팀에 Copilot을 <strong>안전하게 도입</strong>하고 싶다. 자율성을 어디까지 허용할지, 사람 승인·리뷰·비용/보안 경계를 <strong>기준으로</strong> 잡고 싶다.</p></div>
+    <div class="card"><h3>P-C · 품질 / 플랫폼 담당</h3><p>반복 업무와 검증을 <strong>재사용 자산(Skill/Agent)·로컬 게이트·정책</strong>으로 표준화해 팀 전체에 퍼뜨리고 싶다.</p></div>
+  </div>
+  <p class="small">준비도 축(리허설용): <strong>준비형</strong>(본인 기능 지참·환경 GREEN) · <strong>표준형</strong>(초안·환경 YELLOW) · <strong>폴백형</strong>(기능 미지참·환경 RED → 샘플 폴백). 페르소나는 역할×준비도로 교차합니다.</p>
+
+  <h3>2 · 수업을 듣는 사람이 바라는 점 (왜 이 수업을 듣는가)</h3>
+  <table>
+    <thead><tr><th>페르소나</th><th>이 수업에서 얻고 싶은 것</th></tr></thead>
+    <tbody>
+      <tr><td><strong>P-A 개발자</strong></td><td>토큰을 아끼면서 정확한 결과, 회귀 없는 안전한 변경, "내가 설명할 수 있는" 검증된 산출물</td></tr>
+      <tr><td><strong>P-B 리드/PL</strong></td><td>자율성 통제·사람 승인 지점, 위험도별 게이트, 리뷰어와 맞출 pass/revise/block 기준, 팀 공유 포맷</td></tr>
+      <tr><td><strong>P-C 품질/플랫폼</strong></td><td>반복 업무의 Skill/Agent 자산화, policy-as-code·로컬 게이트, 모델·도구 범위 통제</td></tr>
+    </tbody>
+  </table>
+
+  <h3>3 · 수업을 통해 전달해야 하는 내용 (무엇을 가르치는가)</h3>
+  <div class="kpi">
+    <div><b>좋은 입력</b><span>토큰 최적화·가드레일·구조화 프롬프트(R/C/T/C/V/O)·Plan Mode</span></div>
+    <div><b>안전한 실행</b><span>하네스(CLI 권한·로그)·로컬 게이트·Agent Teams·Fleet/Loop 중단조건</span></div>
+    <div><b>검증 가능한 변경</b><span>SDD test-first·spec.md·evidence bundle·rollback note·리뷰 패킷</span></div>
+    <div><b>나만의 솔루션</b><span>반복 업무를 Custom Skill/Agent + Fleet 기준으로 자산화</span></div>
+    <div><b>경험 공유</b><span>라이트닝 토크·현업 적용 액션 3·PL handoff 1페이지</span></div>
+  </div>
+  <div class="callout note"><strong>전달의 기준:</strong> "안다"가 아니라 "<strong>손에 쥐는 산출물</strong>"로 전달되어야 합니다. 개념 설명만 있고 증거(산출물)가 없는 세션은 검증 실패 신호입니다.</div>
+
+  <h3>4 · 수업을 듣고 이루어야 하는 목적 (검증 목표)</h3>
+  <p class="small">수료 시점에 다음이 <strong>증거물로 존재</strong>하면 결과물(강의)은 목적을 달성한 것으로 검증합니다.</p>
+  <ul>
+    <li>▢ 본인 기능 1건으로 <strong>end-to-end 체인</strong> 완성: 기능 스펙 → 토큰절약 프롬프트 → AC/Plan/Test Matrix → Feature Spec Pack v1 → 로컬 게이트 → spec.md·테스트·리뷰패킷 → Custom Skill/Agent → 공유 1페이지.</li>
+    <li>▢ <strong>검증 가능성</strong>: 모든 변경이 test + policy-check + rollback note로 <strong>되돌릴 수 있고 설명 가능</strong>한 상태(Go/No-Go 통과).</li>
+    <li>▢ <strong>재사용성</strong>: 산출물이 일회성이 아니라 다음 주 바로 쓸 수 있는 Skill/Agent·게이트로 남음.</li>
+    <li>▢ <strong>현업 이전성</strong>: PL handoff 1페이지 + 현업 적용 액션 3개로 팀에 전파 가능(D+7 클리닉으로 연결).</li>
+  </ul>
+  <div class="callout ok"><strong>페르소나별 달성 상태:</strong> P-A = "내 기능을 검증 가능하게 구현하고 되돌릴 수 있다" · P-B = "팀에 적용할 통제·승인 기준을 정했다" · P-C = "재사용 Skill/게이트 1개를 자산으로 만들었다". 이 세 문장이 모두 참이면 강의는 목적을 달성한 것입니다.</div>
+</section>
 
 <section class="section" id="contract">
   <h2>이 과정의 약속 — 수료 시 갖춰야 할 5가지 역량</h2>
