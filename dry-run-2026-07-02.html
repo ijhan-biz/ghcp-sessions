@@ -32,11 +32,11 @@
 </div></nav>
 
 <header class="hero">
-  <div class="eyebrow">강의 검토용 · 가상 진행(dry-run) 리허설 & 개선 기록 · 2026-07-02</div>
+  <div class="eyebrow">강의 검토용 · 가상 진행(dry-run) 리허설 &amp; 개선 기록 · R1 2026-07-02 · R2 2026-07-03</div>
   <h1>이틀 과정을 가상으로 진행해 보고 — 무엇이 걸렸고, 무엇을 고쳤나</h1>
   <p class="lead">15개 세션(Day1 S0~S6 · Day2 S0~S7)을 <strong>강사 + 가상 참가자 페르소나</strong> 관점으로 시간축을 따라 리허설했습니다. 과정의 5대 약속(역량)에 비추어 <strong>부합성</strong>을 확인하고, 걸린 지점을 <strong>피드백</strong>으로 뽑아 실제 콘텐츠를 <strong>개선</strong>한 뒤 그 변경을 아래에 기록합니다.</p>
   <div class="chips">
-    <span>대상: GitHub Copilot 중급과정 2일·16h</span><span>리허설 페르소나 3인</span><span>발견 6건</span><span>개선 반영 4건</span><span>결론: 목적 부합 ✓ (타이밍·인지부하 보정)</span>
+    <span>대상: GitHub Copilot 중급과정 2일·16h</span><span>리허설 페르소나 3인</span><span>라운드 2회(R1·R2)</span><span>발견 6 / 개선 5</span><span>결론: 목적 부합 ✓ (모든 페르소나 수료 경로 확보)</span>
   </div>
 </header>
 
@@ -152,7 +152,31 @@
   <div class="callout warn"><strong>검증 경계:</strong> 이 기록은 <em>가상</em> 리허설(코드 미실행, 시간·전환 시뮬레이션)입니다. 실제 강의에서는 참가자 환경·<code>gh copilot</code> 프리뷰 옵션·조직 정책에 따라 타이밍이 달라질 수 있으니, 실주행 후 실제 소요로 갱신하세요.</div>
 </section>
 
-<footer>가상 진행 리허설 & 개선 기록 · 2026-07-02 · Copilot 중급과정 2일 · 발견 6 / 개선 4 · program-sessions-2026-06-27</footer>
+<section class="section" id="round2">
+  <h2><span class="chip v">ROUND 2 · 2026-07-03</span> 재리허설 — 1차 개선 검증 + 잔여 항목 반영</h2>
+  <p class="small">1차 개선(IMP-1~4)이 반영된 상태로 같은 3개 페르소나로 다시 진행했습니다. 목표: (a) 1차 수정이 실제로 착지했는가, (b) 1차에서 “다음 라운드”로 미룬 F5(환경 RED 연쇄)를 닫는다.</p>
+  <table>
+    <thead><tr><th>1차 발견</th><th>재리허설 확인</th><th>상태</th></tr></thead>
+    <tbody>
+      <tr><td>F1 D2·S0 과부하</td><td>시간배분 콜아웃으로 “지도 5분 + 실습 25분” 착지. P3 폴백 전환 여지 확보</td><td><span class="sev lo">해소</span></td></tr>
+      <tr><td>F2 D2·S2 과부하</td><td>EV-10 컷라인으로 P2/P3가 “policy-check 1 + 중단조건 1줄”로 통과 가능</td><td><span class="sev lo">해소</span></td></tr>
+      <tr><td>F3 모델 라우팅 중복</td><td>S2→S6 교차참조로 두 관점이 연결됨</td><td><span class="sev lo">해소</span></td></tr>
+      <tr><td>F4 D1·S4 길이</td><td>중간 브레이크 + 컷라인 가시화로 100분 블록 완화</td><td><span class="sev lo">해소</span></td></tr>
+      <tr><td>F5 환경 RED 연쇄</td><td>D1·S0 컷라인은 “TA 큐”까지만 — <strong>끝까지 RED면 이후 로컬 필수 세션 붕괴</strong>. 연속성 브리지 부재</td><td><span class="sev md">이번 반영</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>IMP-5 · 환경 RED 브리지(연속성) <span class="tag">F5</span></h3>
+  <div class="ba">
+    <div class="col b"><h4>Before</h4><p>D1·S0은 환경 RED를 “TA 큐로 보내고 진도 유지”까지만. 끝내 복구 안 되면 Day2의 로컬 필수 실습이 붕괴 — 대체 경로 없음.</p></div>
+    <div class="col a"><h4>After</h4><p>D1·S0에 <strong>환경 RED 브리지</strong> 추가: ① 짝 실습(pair) ② 강사 공유 baseline 환경 ③ Chat-only 관찰 경로 + <strong>D2·S0 재점검</strong>에서 재시도. D2·S0 컷라인도 “환경 RED면 5분 재시도 후 브리지로” 연결. 목표: 환경 때문에 이틀을 잃지 않음.</p></div>
+  </div>
+  <p class="small">파일: <code>docs/d1-s0.html</code>(브리지 콜아웃), <code>docs/d2-s0.html</code>(컷라인 확장)</p>
+
+  <div class="callout ok"><strong>Round 2 결론:</strong> 1차 개선 4건 모두 재리허설에서 의도대로 착지. 남은 고위험 연쇄(F5)를 브리지로 닫아, 이제 세 페르소나(준비/표준/폴백) 모두 <strong>어떤 실패 지점에서도 수료 산출물까지 도달하는 경로</strong>가 생겼습니다. F6(자리표시자 재확인)은 도입 지점 분산 배치로 유지.</div>
+</section>
+
+<footer>가상 진행 리허설 &amp; 개선 기록 · R1 2026-07-02 / R2 2026-07-03 · Copilot 중급과정 2일 · 발견 6 / 개선 5 · program-sessions-2026-06-27</footer>
 </main>
 </body>
 </html>

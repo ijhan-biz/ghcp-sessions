@@ -77,6 +77,7 @@ git status</code></pre></div>
   </table>
   <div class="callout ok"><strong>산출물:</strong> ① 환경 정상동작 체크리스트(자가 Green/Yellow/Red), ② baseline 테스트 결과 메모, ③ <code>lab/copilot-workbook</code> 브랜치.</div>
   <div class="callout warn"><strong>컷라인(최소 경로 <span class="tag gl">EV-10</span>):</strong> 환경 점검에서 막히면 시간 끌지 말고 <code>--check</code>로 현재 상태만 확인하고 진행합니다. Red(Node/git 미설치)는 TA 큐로 보내고 본 세션은 진도를 유지합니다.</div>
+  <div class="callout note"><strong>환경 RED 브리지(연속성):</strong> 이 과정은 이후 세션이 모두 로컬 실행을 전제합니다. 그래서 D1·S0가 끝나도 RED가 안 풀리면 다음 중 하나로 <strong>이어갑니다</strong> — ① 옆 참가자와 <strong>짝 실습(pair)</strong>(실행은 공유 화면, 입력·판단은 본인), ② 강사 <strong>공유 baseline 환경</strong>에서 명령 따라가기, ③ 그래도 안 되면 <strong>Chat-only 관찰 경로</strong>(강사 데모 로그를 함께 해석). 어느 경우든 <strong>D2·S0 재점검</strong>에서 로컬 복구를 한 번 더 시도하고, 끝까지 RED면 폴백 스펙 + 짝 실습으로 수료 산출물을 만듭니다. 목표는 <strong>환경 때문에 이틀을 잃지 않는 것</strong>입니다(<span class="tag gl">EN-15</span> Fallback).</div>
 </section>
 
 <section class="section">
