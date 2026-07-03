@@ -22,6 +22,10 @@
 </header>
 
 <section class="section">
+  <div class="callout note"><strong>검증 목표 연결:</strong> 대상 <strong>P-A 개발자 · P-B 리드</strong> · 체인 단계 <em>리뷰 패킷·rollback</em> · 증거 <strong>local review packet·rollback note</strong>. <span class="small">기준: <a href="../learning-objectives.html#frame">결과물 검증 기준</a></span></div>
+</section>
+
+<section class="section">
   <h2>학습 목표</h2>
   <ul>
     <li>유닛테스트를 보강하고 통합 관점(주변 영향)을 점검한다.</li>
@@ -64,6 +68,7 @@ git diff -- src tests</code></pre></div>
   <h2>체크포인트 &amp; 산출물</h2>
   <div class="callout ok"><strong>산출물:</strong> 유닛테스트 포함 변경 세트(로컬 커밋) + local review packet(evidence bundle·rollback note·no-cloud attestation 포함).</div>
   <table>
+    <caption class="small">리뷰 패킷 go/no-go 기준</caption>
     <thead><tr><th>패킷 항목</th><th>go</th><th>no-go</th></tr></thead>
     <tbody>
       <tr><td>구현</td><td>테스트 통과·diff 설명 가능</td><td>테스트 실패 또는 diff 설명 불가</td></tr>

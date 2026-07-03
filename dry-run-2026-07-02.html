@@ -32,11 +32,11 @@
 </div></nav>
 
 <header class="hero">
-  <div class="eyebrow">강의 검토용 · 가상 진행(dry-run) 리허설 &amp; 개선 기록 · R1 2026-07-02 · R2 2026-07-03</div>
+  <div class="eyebrow">강의 검토용 · 가상 진행(dry-run) 리허설 &amp; 개선 기록 · R1 2026-07-02 · R2 2026-07-03 · R3~R32 30회 반복</div>
   <h1>이틀 과정을 가상으로 진행해 보고 — 무엇이 걸렸고, 무엇을 고쳤나</h1>
   <p class="lead">15개 세션(Day1 S0~S6 · Day2 S0~S7)을 <strong>강사 + 가상 참가자 페르소나</strong> 관점으로 시간축을 따라 리허설했습니다. 과정의 5대 약속(역량)에 비추어 <strong>부합성</strong>을 확인하고, 걸린 지점을 <strong>피드백</strong>으로 뽑아 실제 콘텐츠를 <strong>개선</strong>한 뒤 그 변경을 아래에 기록합니다.</p>
   <div class="chips">
-    <span>대상: GitHub Copilot 중급과정 2일·16h</span><span>리허설 페르소나 3인</span><span>라운드 2회(R1·R2)</span><span>발견 6 / 개선 5</span><span>결론: 목적 부합 ✓ (모든 페르소나 수료 경로 확보)</span>
+    <span>대상: GitHub Copilot 중급과정 2일·16h</span><span>리허설 페르소나 3인</span><span>라운드 32회(R1~R32)</span><span>발견 6 / 개선 35</span><span>결론: 목적 부합 ✓ · 모든 세션 #frame 정렬</span>
   </div>
 </header>
 
@@ -176,7 +176,61 @@
   <div class="callout ok"><strong>Round 2 결론:</strong> 1차 개선 4건 모두 재리허설에서 의도대로 착지. 남은 고위험 연쇄(F5)를 브리지로 닫아, 이제 세 페르소나(준비/표준/폴백) 모두 <strong>어떤 실패 지점에서도 수료 산출물까지 도달하는 경로</strong>가 생겼습니다. F6(자리표시자 재확인)은 도입 지점 분산 배치로 유지.</div>
 </section>
 
-<footer>가상 진행 리허설 &amp; 개선 기록 · R1 2026-07-02 / R2 2026-07-03 · Copilot 중급과정 2일 · 발견 6 / 개선 5 · program-sessions-2026-06-27</footer>
+<section class="section" id="rounds30">
+  <h2><span class="chip v">ROUNDS 3–32 · 2026-07-03</span> 30회 반복 수강 — #frame 목적을 상시 기준으로</h2>
+  <p class="small">검증 기준(<a href="learning-objectives.html#frame">#frame</a>: 페르소나·바라는점·전달내용·검증목표)을 <strong>매 회 기본 잣대</strong>로, 회차마다 시작 세션을 바꿔 두 바퀴 로테이션으로 30회 진행했습니다. Phase 1(R3–17)은 목적을 모든 세션에 배선하고, Phase 2(R18–32)는 최소경로·증거·접근성을 균질화했습니다.</p>
+
+  <h3>Phase 1 · R3–R17 — 모든 세션에 '검증 목표 연결' 훅 (목적 상시화)</h3>
+  <table>
+    <caption class="small">각 세션 → 페르소나 · 체인 단계 · Go/No-Go 증거 (header 직후 slim 콜아웃 삽입)</caption>
+    <thead><tr><th>R</th><th>시작 세션</th><th>연결한 검증 목표</th></tr></thead>
+    <tbody>
+      <tr><td>R3</td><td>D1·S0</td><td>전체 · 검증의 토대(baseline·되돌릴 지점)</td></tr>
+      <tr><td>R4</td><td>D1·S1</td><td>P-A · 토큰절약 프롬프트·비식별 스펙</td></tr>
+      <tr><td>R5</td><td>D1·S2</td><td>P-A·P-B · AC·구조화 프롬프트</td></tr>
+      <tr><td>R6</td><td>D1·S3</td><td>P-A · Context Manifest(범위·데이터 경계)</td></tr>
+      <tr><td>R7</td><td>D1·S4</td><td>P-A·P-B · Plan·Test Matrix·rollback</td></tr>
+      <tr><td>R8</td><td>D1·S5</td><td>전체 · Feature Spec Pack v1(체인 첫 봉합)</td></tr>
+      <tr><td>R9</td><td>D1·S6</td><td>전체 · 막힘 해소·Day2 준비</td></tr>
+      <tr><td>R10</td><td>D2·S0</td><td>전체 · 재개·범위 좁히기</td></tr>
+      <tr><td>R11</td><td>D2·S1</td><td>P-A·P-B · 하네스 CLI 권한·로그</td></tr>
+      <tr><td>R12</td><td>D2·S2</td><td>P-B·P-C · 로컬 게이트·Agent Teams·Loop</td></tr>
+      <tr><td>R13</td><td>D2·S3</td><td>P-C · 본인 업무 하네스 분해(솔루션 설계 시작)</td></tr>
+      <tr><td>R14</td><td>D2·S4</td><td>P-A · SDD test-first</td></tr>
+      <tr><td>R15</td><td>D2·S5</td><td>P-A·P-B · 리뷰 패킷·rollback</td></tr>
+      <tr><td>R16</td><td>D2·S6</td><td>P-C · Custom Skill/Agent 자산화(솔루션 완성)</td></tr>
+      <tr><td>R17</td><td>D2·S7</td><td>전체 · 공유·PL handoff(현업 이전성)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Phase 2 · R18–R32 — 최소경로·증거·접근성 보강</h3>
+  <table>
+    <caption class="small">2차 로테이션 개선(같은 시작 순서)</caption>
+    <thead><tr><th>R</th><th>시작 세션</th><th>개선</th></tr></thead>
+    <tbody>
+      <tr><td>R18</td><td>D1·S0</td><td>Go/No-Go 표 <code>caption</code> 추가(a11y)</td></tr>
+      <tr><td>R19</td><td>D1·S1</td><td>빌드업 연결(→ D1·S5 Feature Spec Pack)</td></tr>
+      <tr><td>R20</td><td>D1·S2</td><td>6요소(R/C/T/C/V/O) 표 caption</td></tr>
+      <tr><td>R21</td><td>D1·S3</td><td>Context Manifest 표 caption</td></tr>
+      <tr><td>R22</td><td>D1·S4</td><td>Test Matrix 표 caption</td></tr>
+      <tr><td>R23</td><td>D1·S5</td><td>Feature Spec Pack 필수항목 표 caption</td></tr>
+      <tr><td>R24</td><td>D1·S6</td><td><strong>컷라인(EV-10) 추가</strong> — 기존 공백</td></tr>
+      <tr><td>R25</td><td>D2·S0</td><td>Agentic SDLC 단계 표 caption</td></tr>
+      <tr><td>R26</td><td>D2·S1</td><td>CLI 플래그 표 caption</td></tr>
+      <tr><td>R27</td><td>D2·S2</td><td>Agent Teams 역할 매핑 표 caption</td></tr>
+      <tr><td>R28</td><td>D2·S3</td><td>본인 워크플로 분해 표 caption</td></tr>
+      <tr><td>R29</td><td>D2·S4</td><td>빌드업 연결(→ D2·S5 리뷰 패킷)</td></tr>
+      <tr><td>R30</td><td>D2·S5</td><td>리뷰 패킷 go/no-go 표 caption</td></tr>
+      <tr><td>R31</td><td>D2·S6</td><td><strong>컷라인(수료 최소 완료) 추가</strong> — 기존 공백</td></tr>
+      <tr><td>R32</td><td>D2·S7</td><td><strong>최소 공유선 추가</strong> — 기존 공백</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout ok"><strong>30회 결과:</strong> 목적 훅 15개로 모든 세션이 <a href="learning-objectives.html#frame">#frame</a>에 정렬 · 컷라인 공백(D1·S6·D2·S6·D2·S7) 해소 · 표 caption 10개(a11y) · 체인 연결 2개(D1·S1→S5, D2·S4→S5). 이제 어느 세션을 펼쳐도 “이 시간이 어떤 페르소나의 어떤 검증 목표에 기여하는가 + 최소 통과선”이 한눈에 보입니다.</div>
+  <div class="callout note"><strong>수렴 노트:</strong> 15세션·5역량 구조는 이미 목적과 정합하므로, 반복의 실익은 개념 추가가 아니라 <strong>목적 배선·최소경로·증거·접근성의 균질화</strong>였습니다. 다음 단계는 실주행(라이브) 데이터로 타이밍을 갱신하는 것입니다.</div>
+</section>
+
+<footer>가상 진행 리허설 &amp; 개선 기록 · R1~R32 (2026-07-02~03) · Copilot 중급과정 2일 · 발견 6 / 개선 35 · program-sessions-2026-06-27</footer>
 </main>
 </body>
 </html>
