@@ -62,6 +62,8 @@ git diff -- src tests</code></pre></div>
 - Completion: baseline green, 스펙 v1 상태로 복구</code></pre></div>
   <div class="step"><div class="label">STEP 4 · Local Review Packet 묶기</div>
   <p class="small">spec.md + diff + test log + 게이트 결과 + rollback note + <strong>no-cloud attestation</strong>(<span class="tag gl">HE-16</span>: Codespaces·PR·Actions 미사용 선언)을 한 폴더로.</p></div>
+  <div class="step"><div class="label">STEP 5 · P-B(리드/PL) 승인 게이트</div>
+  <p class="small">PR이 없으므로 승인 신호를 <strong>명시적으로</strong> 남깁니다: 패킷을 공유 폴더/Git tag로 전달 → 리드가 <strong>approve</strong>(커밋 메시지나 <code>APPROVALS.log</code>에 승인자·일시 기록) · <strong>request-changes</strong>(<code>.review/feedback.md</code>에 사유·개선 방향) · <strong>block</strong>(사유 + 에스컬레이션). 승인 기록이 없는 변경은 '리뷰 완료'로 보지 않습니다.</p></div>
 </section>
 
 <section class="section">

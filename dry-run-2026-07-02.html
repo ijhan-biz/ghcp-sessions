@@ -32,11 +32,11 @@
 </div></nav>
 
 <header class="hero">
-  <div class="eyebrow">강의 검토용 · 가상 진행(dry-run) 리허설 &amp; 개선 기록 · R1 2026-07-02 · R2 2026-07-03 · R3~R32 30회 · R33~R62 30회</div>
+  <div class="eyebrow">강의 검토용 · 가상 진행(dry-run) 리허설 &amp; 개선 기록 · R1 2026-07-02 · R2 2026-07-03 · R3~R32 30회 · R33~R62 30회 · R63~R92 30회</div>
   <h1>이틀 과정을 가상으로 진행해 보고 — 무엇이 걸렸고, 무엇을 고쳤나</h1>
   <p class="lead">15개 세션(Day1 S0~S6 · Day2 S0~S7)을 <strong>강사 + 가상 참가자 페르소나</strong> 관점으로 시간축을 따라 리허설했습니다. 과정의 5대 약속(역량)에 비추어 <strong>부합성</strong>을 확인하고, 걸린 지점을 <strong>피드백</strong>으로 뽑아 실제 콘텐츠를 <strong>개선</strong>한 뒤 그 변경을 아래에 기록합니다.</p>
   <div class="chips">
-    <span>대상: GitHub Copilot 중급과정 2일·16h</span><span>리허설 페르소나 3인</span><span>라운드 62회(R1~R62)</span><span>개선 56 · 검증패스 9</span><span>결론: 목적 부합 ✓ · 모든 표 caption·포털 #frame 배선</span>
+    <span>대상: GitHub Copilot 중급과정 2일·16h</span><span>리허설 페르소나 3인</span><span>라운드 92회(R1~R92)</span><span>개선 66 · 내용 심화 9 + 계측시트</span><span>결론: 수렴 · 다음은 실주행 데이터</span>
   </div>
 </header>
 
@@ -284,7 +284,51 @@
   <div class="callout note"><strong>수렴 판정(솔직히):</strong> 62회 누적 결과, 교재는 <strong>#frame 목적과 완전 정렬되고 구조·최소경로·증거·접근성이 균질화</strong>되었습니다. 이 지점 이후의 “가상 수강”은 새 개념 추가보다 <strong>실주행(라이브) 메트릭—실제 소요 시간·참가자 산출물·환경 실패율—으로 이 루브릭을 채우는 것</strong>이 다음 단계입니다.</div>
 </section>
 
-<footer>가상 진행 리허설 &amp; 개선 기록 · R1~R62 (2026-07-02~03) · Copilot 중급과정 2일 · 개선 56 · 검증 라운드 9 · program-sessions-2026-06-27</footer>
+<section class="section" id="rounds92">
+  <h2><span class="chip v">ROUNDS 63–92 · 2026-07-03</span> 30회 추가 — 내용 심화 감사(비코스메틱) + 실주행 계측 도구</h2>
+  <p class="small">구조·접근성 수렴 이후라 이번은 <strong>내용 깊이(substance)</strong> 관점으로 15세션 본문을 <a href="learning-objectives.html#frame">#frame</a> 기준으로 비판 감사했습니다. 실제 결함 9건을 고쳤고, 또 반복의 한계를 넘기 위해 <strong>실주행 계측 시트</strong>를 신설했습니다.</p>
+
+  <h3>R63–R72 · 내용 심화 개선 (비판 감사에서 도출)</h3>
+  <table>
+    <caption class="small">세션 · 카테고리 · 개선</caption>
+    <thead><tr><th>R</th><th>세션</th><th>카테고리</th><th>개선</th></tr></thead>
+    <tbody>
+      <tr><td>R63</td><td>D2·S4</td><td>목표-증거</td><td>테스트 리뷰 기준(누가·무엇·거부 시) 명시</td></tr>
+      <tr><td>R64</td><td>D2·S4</td><td>목표-증거</td><td>최소 구현 = AC 1개씩 규칙 명시</td></tr>
+      <tr><td>R65</td><td>D2·S5</td><td>페르소나 P-B</td><td>P-B 승인 게이트 STEP5(approve/request/block 기록)</td></tr>
+      <tr><td>R66</td><td>D2·S2</td><td>페르소나</td><td>Approval Owner High-risk 판정 5기준</td></tr>
+      <tr><td>R67</td><td>D2·S2</td><td>정확성</td><td>사전(preventive) vs 사후(detective) 게이트 구분</td></tr>
+      <tr><td>R68</td><td>D1·S4</td><td>엣지케이스</td><td>계획 5단계+ 시 에스컬레이션 경로(scope 재협·slice)</td></tr>
+      <tr><td>R69</td><td>D1·S4</td><td>교육 완성도</td><td>AC → 테스트 변환 규칙(정상·예외·경계)</td></tr>
+      <tr><td>R70</td><td>D1·S1</td><td>예시 품질</td><td>토큰 정량 감각(~2,000→~800)</td></tr>
+      <tr><td>R71</td><td>D1·S2</td><td>예시 품질</td><td>AC 검증가능성 — 느낌 기준은 non-goal로 분리</td></tr>
+      <tr><td>R72</td><td>신규 도구</td><td>검증 인프라</td><td><a href="live-instrumentation-2026-07-03.html">실주행 계측 시트</a> 신설(세션별 실측·루브릭 채점·페르소나 판정)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>R73–R92 · 심화 감사 마감 + 회귀 검증 (수렴 확인)</h3>
+  <table>
+    <caption class="small">이미 반영 확인 · 무결함 세션 · 회귀 체크</caption>
+    <thead><tr><th>R</th><th>대상</th><th>결과</th></tr></thead>
+    <tbody>
+      <tr><td>R73</td><td>D2·S3</td><td>SLI/SLO 로컬 실행(<code>npm run sim</code>) 이미 반영 — 무변경 확인</td></tr>
+      <tr><td>R74</td><td>D1·S3</td><td>blocked 강제(D2·S2 policy-check 연결) 이미 반영 — 무변경 확인</td></tr>
+      <tr><td>R75</td><td>D1·S0</td><td>무결함 — 환경 브리지·Go/No-Go 완비</td></tr>
+      <tr><td>R76</td><td>D1·S5</td><td>무결함 — 통합·Handoff 등급</td></tr>
+      <tr><td>R77</td><td>D1·S6</td><td>무결함 — 버퍼·컷라인</td></tr>
+      <tr><td>R78</td><td>D2·S0</td><td>무결함 — 지도 시간배분·재개</td></tr>
+      <tr><td>R79</td><td>D2·S1</td><td>무결함 — CLI·Chat fallback</td></tr>
+      <tr><td>R80</td><td>D2·S6</td><td>무결함 — Skill/Agent·수료 컷라인</td></tr>
+      <tr><td>R81</td><td>D2·S7</td><td>무결함 — 공유·go/no-go·최소 공유선</td></tr>
+      <tr><td>R82–R92</td><td>회귀검증</td><td>HTML 오류 0 · #frame 링크 해석 · 훅 15 · 표=caption 전수 · 컷라인 · 페르소나 커버리지 · 체인 연결 · 용어 ID · 계측시트 링크 · 루브릭 정합 — 결함 0</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout ok"><strong>R63–92 결과:</strong> 비코스메틱 감사로 <strong>실제 내용 개선 9건</strong>(리뷰 기준·단일 AC·P-B 승인·High-risk 기준·사전/사후 게이트·에스컬레이션·AC→테스트·토큰 정량·AC 검증가능성) 그리고 <a href="live-instrumentation-2026-07-03.html">실주행 계측 시트</a> 신설. 나머지 7개 세션은 심화 감사에서도 무결함.</div>
+  <div class="callout warn"><strong>수렴 선언(솔직히):</strong> 92회 누적으로 교재는 <strong>구조·목적 정렬·최소경로·증거·접근성·내용 깊이</strong>까지 수렴했습니다. <strong>가상 수강만으로는 더 이상 유의미한 개선이 나오지 않습니다.</strong> 다음 개선은 <a href="live-instrumentation-2026-07-03.html">실주행 계측 시트</a>를 실강에서 채워 나온 <em>실제 시간·산출물·실패율</em> 데이터로 이뤄져야 합니다(데이터 기반 R93~).</div>
+</section>
+
+<footer>가상 진행 리허설 &amp; 개선 기록 · R1~R92 (2026-07-02~03) · Copilot 중급과정 2일 · 개선 66 · 수렴 + 실주행 계측 시트로 이관 · program-sessions-2026-06-27</footer>
 </main>
 </body>
 </html>

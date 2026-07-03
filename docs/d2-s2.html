@@ -73,6 +73,7 @@ console.log('policy-check passed');</code></pre></div>
       <tr><td>Approval Owner (<span class="tag gl">OR-09</span>)</td><td>PL·아키텍트·보안</td><td>고위험 작업 승인 또는 block</td></tr>
     </tbody>
   </table>
+  <div class="callout note"><strong>High-risk 판정 기준(Approval Owner):</strong> 다음 중 <strong>1개라도</strong> 해당하면 고위험 → 사람 승인 필수 — ① 운영/배포·인프라 변경 ② public API·계약 변경 ③ 데이터 마이그레이션·대량 레코드 변경 ④ 외부 의존성 추가 ⑤ 보안/권한 경계 변경. 판정 기준 자체는 팀과 D2·S7에서 합의합니다.</div>
 </section>
 
 <section class="section">
@@ -113,6 +114,7 @@ console.log('policy-check passed');</code></pre></div>
   <div class="callout ok"><strong>산출물:</strong> Agent Team Canvas + Fleet 설계표 + Loop Canvas + 동작하는 로컬 게이트(최소 policy-check 1개).</div>
   <div class="callout note"><strong>컷라인(최소 완료 경로 <span class="tag gl">EV-10</span>):</strong> 80분이 빠듯하면 <strong>동작하는 policy-check 1개 + Loop Canvas의 '중단 조건' 1줄</strong>이면 통과입니다. Fleet 설계표·Agent Team 매핑은 <em>초안</em>이면 충분하고, wrapper·역할 상세는 참조로 이어갑니다. (개념이 많은 세션이므로 "동작하는 게이트 하나"를 우선합니다.)</div>
   <div class="callout warn"><strong>Hard gate:</strong> approval_id 없는 write/destructive/prod/customer-data 작업은 block · rollback owner 없는 운영 변경은 block · 검증 기준 없는 Evaluator 판정은 revise.</div>
+  <div class="callout note"><strong>사전 게이트 vs 사후 게이트:</strong> approval_id·destructive는 <strong>실행 전 차단</strong>(preventive)이 되지만, customer-data 변경 같은 항목은 diff가 나온 <strong>실행 후 감지</strong>(detective) → 즉시 rollback 트리거로 다룹니다. 모든 게이트가 사전 차단 가능한 것은 아닙니다.</div>
 </section>
 
 <section class="section">

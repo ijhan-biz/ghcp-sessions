@@ -58,7 +58,7 @@
 [작업] #file:src/billing/tax.ts 의 calcVat() 만 검토. 음수 입력 가드 누락 의심.
 [제약] 기존 시그니처 유지, 외부 패키지 추가 금지, 유닛테스트 포함.
 [출력] 변경 요약 → 코드 → 테스트 순서로.</code></pre></div>
-  <div class="callout ok"><strong>관찰 포인트:</strong> After가 더 짧은 입력으로 더 정확한 변경을 낸다는 점, 그리고 가드레일 덕분에 "엉뚱한 파일까지 고치는" 일이 사라진다는 점을 직접 확인합니다.</div>
+  <div class="callout ok"><strong>관찰 포인트:</strong> After가 더 짧은 입력으로 더 정확한 변경을 낸다는 점, 그리고 가드레일 덕분에 "엉뚱한 파일까지 고치는" 일이 사라진다는 점을 직접 확인합니다. <strong>감각 예:</strong> Before ~2,000 토큰 → After ~800 토큰(토큰 카운터로 확인하면 절감이 눈에 보입니다).</div>
 </section>
 
 <section class="section">

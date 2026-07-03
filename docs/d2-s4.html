@@ -67,9 +67,10 @@
 [제약] 구현 코드는 아직 수정하지 마. 테스트 이름은 스펙 의도가 드러나게.
 [검토] 정상·예외·금지 케이스가 분리되어야 함.
 [출력] 테스트 코드 + 각 테스트가 검증하는 AC 매핑.</code></pre></div>
-  <div class="step"><div class="label">STEP 2 · 사람이 테스트 검토</div><p class="small">Copilot이 만든 테스트가 스펙을 제대로 검증하는지 확인합니다 — 테스트가 약하면 구현도 약해집니다.</p></div>
+  <div class="step"><div class="label">STEP 2 · 사람이 테스트 검토</div><p class="small">Copilot이 만든 테스트가 스펙을 제대로 검증하는지 <strong>동료/PL이</strong> 확인합니다 — 테스트가 약하면 구현도 약해집니다. 검토 기준: ① AC와 <strong>1:1 매핑</strong> ② 정상·예외·경계 케이스 <strong>분리</strong> ③ 과도한 mocking 없이 <strong>state·결과</strong> 검증. 미흡하면 <strong>request-changes</strong>(사유+개선 방향을 적어 재요청), 통과하면 approve 후 STEP 3으로.</p></div>
   <div class="step"><div class="label">STEP 3 · 최소 구현</div>
 <pre><code>[작업] 방금 만든 테스트를 통과시킬 최소 변경만 구현하라.
+[규칙] AC 1개만 통과시키는 최소 코드 — 여러 AC를 한 번에 구현 금지. 통과 후 다음 AC로.
 [제약] public API 유지, 외부 패키지 금지, allowed files만 수정.
 [멈춤] 구현 후 테스트 결과 + diff 요약 보고하고 멈춰.</code></pre></div>
   <div class="step"><div class="label">STEP 4 · 로컬 게이트</div>
