@@ -19,8 +19,8 @@ bash setup-mac.sh --check    # 교정 없이 점검만
 
 **Windows** (명령 프롬프트 cmd · winget 사용)
 ```bat
-setup-windows.cmd            REM 점검 + 자동 교정
-setup-windows.cmd --check    REM 교정 없이 점검만
+setup-windows.bat            REM 점검 + 자동 교정
+setup-windows.bat --check    REM 교정 없이 점검만
 ```
 
 설치/점검 대상:

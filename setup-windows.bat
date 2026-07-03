@@ -9,8 +9,8 @@ REM  정상인지 점검하고 누락/구버전을 자동으로 바로잡습니�
 REM  코드(labs)를 실제로 실행해 "수강 준비 완료(READY)" 여부를 판정합니다.
 REM
 REM  사용법:
-REM    setup-windows.cmd            점검 + 자동 교정(누락 설치 / Node 18+ 업그레이드)
-REM    setup-windows.cmd --check    교정 없이 점검만
+REM    setup-windows.bat            점검 + 자동 교정(누락 설치 / Node 18+ 업그레이드)
+REM    setup-windows.bat --check    교정 없이 점검만
 REM ============================================================
 
 set "CHECK_ONLY=0"

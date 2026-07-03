@@ -35,7 +35,7 @@
   <p>이 과정은 <strong>로컬 전용(local-only, <span class="tag gl">HE-14</span>)</strong>입니다. Codespaces·GitHub PR/Actions를 쓰지 않고 개인 PC의 VS Code·Git·Node에서 모든 실습을 합니다. 따라서 첫 시간에 환경이 흔들리면 이틀 내내 흔들립니다.</p>
   <div class="callout note"><strong>Local-only의 정확한 뜻:</strong> 코드 실행·테스트·검증·제출물은 로컬에서 만든다는 의미입니다. Copilot에 보내는 <em>질의 자체</em>는 조직 정책에 따라 서비스로 전송될 수 있으므로, 고객정보·키/토큰·반출 금지 로그는 입력하지 않습니다(<span class="tag gl">OR-12</span> 데이터 경계 · <span class="tag gl">OR-13</span> 민감정보).</p></div>
   <h3>환경 점검·교정 스크립트 (Dev Container 없이)</h3>
-  <p>참가자 PC마다 Node 버전·OS·전역 패키지가 달라 "제 PC에선 되는데요"가 반복됩니다. 이 과정은 컨테이너(Docker) 대신 <strong>현재 터미널의 환경을 직접 점검·교정하는 스크립트</strong>를 씁니다. <code>setup-mac.sh</code>(macOS) / <code>setup-windows.cmd</code>(Windows)가 Node·git·gh·VS Code 확장을 확인하고, 누락/구버전(Node 18+ 미만)을 자동 설치·업그레이드한 뒤 <code>labs</code> 테스트로 준비 완료까지 확인합니다. 별도 컨테이너·Docker가 필요 없습니다.</p>
+  <p>참가자 PC마다 Node 버전·OS·전역 패키지가 달라 "제 PC에선 되는데요"가 반복됩니다. 이 과정은 컨테이너(Docker) 대신 <strong>현재 터미널의 환경을 직접 점검·교정하는 스크립트</strong>를 씁니다. <code>setup-mac.sh</code>(macOS) / <code>setup-windows.bat</code>(Windows)가 Node·git·gh·VS Code 확장을 확인하고, 누락/구버전(Node 18+ 미만)을 자동 설치·업그레이드한 뒤 <code>labs</code> 테스트로 준비 완료까지 확인합니다. 별도 컨테이너·Docker가 필요 없습니다.</p>
 </section>
 
 <section class="section">
@@ -52,7 +52,7 @@ node -v &amp;&amp; npm -v</code></pre></div>
 <pre><code># macOS
 bash setup-mac.sh           # 점검 + 자동 교정
 # Windows (명령 프롬프트)
-setup-windows.cmd           # 점검 + 자동 교정
+setup-windows.bat           # 점검 + 자동 교정
 # 교정 없이 점검만: --check</code></pre></div>
 
   <div class="step"><div class="label">STEP 3 · baseline 테스트 &amp; 실습 브랜치</div>
