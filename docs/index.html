@@ -11,8 +11,6 @@
 <main>
 <nav class="top"><div class="wrap">
   <a href="index.html" class="cur">PORTAL</a>
-  <a href="../learning-objectives.html#frame">검증목표</a>
-  <a href="../facilitation-guide-2026-07-03.html">강사가이드</a>
   <a href="d1-s0.html">D1·S0</a><a href="d1-s1.html">S1</a><a href="d1-s2.html">S2</a><a href="d1-s3.html">S3</a><a href="d1-s4.html">S4</a><a href="d1-s5.html">S5</a><a href="d1-s6.html">S6</a>
   <a href="d2-s0.html">D2·S0</a><a href="d2-s1.html">S1</a><a href="d2-s2.html">S2</a><a href="d2-s3.html">S3</a><a href="d2-s4.html">S4</a><a href="d2-s5.html">S5</a><a href="d2-s6.html">S6</a><a href="d2-s7.html">S7</a>
 </div></nav>
@@ -35,7 +33,6 @@
     <div><b>나만의 솔루션</b><span>D2·S6: Custom Skill/Agent + Fleet</span></div>
     <div><b>경험 공유</b><span>D2·S7: 라이트닝 토크 + PL handoff</span></div>
   </div>
-  <div class="callout note"><strong>검증 목표(#frame):</strong> 이 과정의 결과물은 <a href="../learning-objectives.html#frame">페르소나 · 바라는 점 · 전달 내용 · 검증 목표</a> 기준으로 판단합니다 — 수료 시 본인 기능 1건이 <strong>end-to-end로 검증 가능 · 재사용 · 현업 이전 가능</strong>한 상태.</div>
   <div class="callout note"><strong>Local-only 정의:</strong> 코드 실행·테스트·검증·제출 산출물은 로컬 VS Code/로컬 Git에서 만듭니다(<span class="tag gl">HE-14</span>). Copilot 질의는 조직 정책에 따라 서비스로 전송될 수 있으므로 고객정보·키/토큰·반출 금지 로그는 입력하지 않습니다(<span class="tag gl">OR-12</span> · <span class="tag gl">OR-13</span>).</div>
 </section>
 
@@ -90,13 +87,10 @@
 </section>
 
 <section class="section" id="howto">
-  <h2>이 콘텐츠 사용법</h2>
+  <h2>이 콘텐츠 사용법 (수강생)</h2>
   <div class="grid">
-    <div class="card"><h3>강사</h3><p>각 세션 페이지의 <strong>미니강의 → 실습 → 체크포인트 → 공유</strong> 순서를 그대로 진행합니다. 시간 압박 시 각 페이지의 <span class="tag warn">컷라인</span>(최소 경로 <span class="tag gl">EV-10</span>)만 남기세요.</p></div>
-    <div class="card"><h3>참가자</h3><p>본인 기능 스펙 1건을 들고 와 매 세션 <strong>산출물</strong>을 키웁니다. 세션 하단 <strong>공유 포인트</strong>에 한 줄씩 기록하면 D2·S7 발표가 저절로 만들어집니다.</p></div>
-    <div class="card"><h3>운영진</h3><p>세션 간 <strong>handoff</strong>(<span class="tag gl">OR-16</span>)와 <strong>QnA 버퍼</strong>(<span class="tag gl">OR-11</span>)가 흐름에 들어 있습니다. 환경·평가·운영 상세는 기존 <code>program-content</code> 패키지와 함께 사용하세요.</p></div>
+    <div class="card"><h3>수강생</h3><p>본인 기능 스펙 1건을 들고 와 매 세션 <strong>산출물</strong>을 키욁니다. 각 세션의 <strong>미니강의 → 실습 → 체크포인트</strong>를 따라가고, 세션 하단 <strong>공유 포인트</strong>에 한 줄씩 기록하면 D2·S7 발표가 저절로 만들어집니다.</p></div>
   </div>
-  <div class="callout warn"><strong>운영 전 점검:</strong> 실제 운영 전 샘플 레포(<span class="tag gl">EN-12</span>·<span class="tag gl">EN-13</span>)·policy-check 샘플·완성 리뷰 패킷 예시를 강사 PC에서 end-to-end로 재현(dry-run, <span class="tag gl">OR-22</span>)해 확정하세요. CLI 옵션·모델명·조직 정책은 운영 시점 공식 문서/테넌트 설정으로 재확인합니다.</div>
 </section>
 
 <section class="section" id="labs">
@@ -120,24 +114,6 @@ npm run gate     # lint + test + policy-check (로컬 품질 게이트)</code></
     </tbody>
   </table>
   <div class="callout ok"><strong>연속 코드베이스:</strong> 가상 '결제(billing)' 기능을 Day1~Day2 같은 파일(<code>src/billing/tax.js</code>·<code>discount.js</code>)로 키워 갑니다. 전체 세션↔코드 지도는 <code>labs/README.md</code>.</div>
-</section>
-
-<section class="section" id="sources">
-  <h2>참조 자료 반영 (ref/harness-gen-output)</h2>
-  <p class="small">각 세션의 "참조 심화" 블록은 아래 1차 자료의 구체 패턴을 반영했습니다.</p>
-  <table>
-    <caption class="small">참조 자료 → 세션 반영</caption>
-    <thead><tr><th>자료</th><th>반영 내용</th><th>세션</th></tr></thead>
-    <tbody>
-      <tr><td>004 CLI Harness Guide</td><td>권한 플래그·차단 패턴·pre/post check·logging-first</td><td>D2·S1</td></tr>
-      <tr><td>005 Agent Team Composition</td><td>토폴로지·Decision Scorecard·Role Contract·G0~G4·CD_ratio</td><td>D2·S2</td></tr>
-      <tr><td>033 Long-Running Playbook</td><td>cost_burn·checkpoint SLI·canary·approval_id 만료</td><td>D2·S3</td></tr>
-      <tr><td>028 Agentic SDLC</td><td>3층 책임 모델·AI 레드라인·추적성·SLI/SLO</td><td>D2·S4·S5</td></tr>
-      <tr><td>031 AI-assisted SDLC Playbook</td><td>Definition of Done·BDD 브래킷·SMART AC·one/two-way door</td><td>D1·S2·S4, D2·S3·S4</td></tr>
-      <tr><td>035 Sub-agent Model Routing</td><td>YAML model 고정·단계별 모델 계층·세션 로그·OTel</td><td>D2·S6</td></tr>
-    </tbody>
-  </table>
-  <div class="callout note"><strong>주의:</strong> 위 자료는 제품 기능·CLI 옵션·모델명·가격이 시점에 따라 바뀝니다. 운영 전 공식 문서·테넌트 설정으로 재확인하세요(release-time recheck).</div>
 </section>
 
 <footer>program-sessions-2026-06-27 · 시간(세션)별 교육 콘텐츠 · 용어사전 ID 연동 · 재편안(2026-06-27) 기반 · 작성: 한익준 (Microsoft)</footer>
