@@ -11,6 +11,7 @@
 <main>
 <nav class="top"><div class="wrap">
   <a href="index.html" class="cur">PORTAL</a>
+  <a href="../learning-objectives.html#frame">검증목표</a>
   <a href="d1-s0.html">D1·S0</a><a href="d1-s1.html">S1</a><a href="d1-s2.html">S2</a><a href="d1-s3.html">S3</a><a href="d1-s4.html">S4</a><a href="d1-s5.html">S5</a><a href="d1-s6.html">S6</a>
   <a href="d2-s0.html">D2·S0</a><a href="d2-s1.html">S1</a><a href="d2-s2.html">S2</a><a href="d2-s3.html">S3</a><a href="d2-s4.html">S4</a><a href="d2-s5.html">S5</a><a href="d2-s6.html">S6</a><a href="d2-s7.html">S7</a>
 </div></nav>
@@ -33,6 +34,7 @@
     <div><b>나만의 솔루션</b><span>D2·S6: Custom Skill/Agent + Fleet</span></div>
     <div><b>경험 공유</b><span>D2·S7: 라이트닝 토크 + PL handoff</span></div>
   </div>
+  <div class="callout note"><strong>검증 목표(#frame):</strong> 이 과정의 결과물은 <a href="../learning-objectives.html#frame">페르소나 · 바라는 점 · 전달 내용 · 검증 목표</a> 기준으로 판단합니다 — 수료 시 본인 기능 1건이 <strong>end-to-end로 검증 가능 · 재사용 · 현업 이전 가능</strong>한 상태.</div>
   <div class="callout note"><strong>Local-only 정의:</strong> 코드 실행·테스트·검증·제출 산출물은 로컬 VS Code/로컬 Git에서 만듭니다(<span class="tag gl">HE-14</span>). Copilot 질의는 조직 정책에 따라 서비스로 전송될 수 있으므로 고객정보·키/토큰·반출 금지 로그는 입력하지 않습니다(<span class="tag gl">OR-12</span> · <span class="tag gl">OR-13</span>).</div>
 </section>
 
@@ -54,6 +56,7 @@
 <section class="section" id="day1">
   <h2><span class="chip">DAY 1</span> 토큰 · 좋은 프롬프트 · Plan Mode (좋은 입력 만들기)</h2>
   <table>
+    <caption class="small">Day 1 시간표 — 세션 · 산출물 · 핵심 용어</caption>
     <thead><tr><th>시간</th><th>세션</th><th>이 시간의 한 줄</th><th>산출물</th><th>핵심 용어</th></tr></thead>
     <tbody>
       <tr><td class="time">09:00–09:40</td><td><a href="d1-s0.html">S0. OT &amp; 로컬 환경 점검</a></td><td>2일 흐름 합의 + 로컬 환경 smoke test + baseline 브랜치</td><td class="deliverable">환경 체크리스트, baseline 결과</td><td><span class="tag gl">EN-01</span><span class="tag gl">EN-14</span><span class="tag gl">HE-14</span></td></tr>
@@ -70,6 +73,7 @@
 <section class="section" id="day2">
   <h2><span class="chip v">DAY 2</span> 하네스 · Agent Teams · Fleet/Loop · SDD · Skill (안전한 실행 + 나만의 솔루션)</h2>
   <table>
+    <caption class="small">Day 2 시간표 — 세션 · 산출물 · 핵심 용어</caption>
     <thead><tr><th>시간</th><th>세션</th><th>이 시간의 한 줄</th><th>산출물</th><th>핵심 용어</th></tr></thead>
     <tbody>
       <tr><td class="time">09:00–09:30</td><td><a href="d2-s0.html">S0. Day1 복습 &amp; 환경 재점검</a></td><td>리캡 + 환경 점검 재실행 + Spec Pack 로딩</td><td class="deliverable">재개 체크, clean branch</td><td><span class="tag gl">OR-16</span><span class="tag gl">EN-14</span></td></tr>
@@ -102,6 +106,7 @@ node -v          # v18 이상
 npm test         # baseline: 10 pass, 2 skip(Day2-S4에서 켤 테스트)
 npm run gate     # lint + test + policy-check (로컬 품질 게이트)</code></pre>
   <table>
+    <caption class="small">세션 ↔ labs 실행 코드</caption>
     <thead><tr><th>세션</th><th>직접 실행</th></tr></thead>
     <tbody>
       <tr><td>D1·S3 리팩토링</td><td><code>discount.js</code> 리팩토링 → <code>npm test</code> green 유지</td></tr>
@@ -120,6 +125,7 @@ npm run gate     # lint + test + policy-check (로컬 품질 게이트)</code></
   <h2>참조 자료 반영 (ref/harness-gen-output)</h2>
   <p class="small">각 세션의 "참조 심화" 블록은 아래 1차 자료의 구체 패턴을 반영했습니다.</p>
   <table>
+    <caption class="small">참조 자료 → 세션 반영</caption>
     <thead><tr><th>자료</th><th>반영 내용</th><th>세션</th></tr></thead>
     <tbody>
       <tr><td>004 CLI Harness Guide</td><td>권한 플래그·차단 패턴·pre/post check·logging-first</td><td>D2·S1</td></tr>

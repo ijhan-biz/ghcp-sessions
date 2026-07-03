@@ -79,6 +79,7 @@ console.log('policy-check passed');</code></pre></div>
   <h2>미니강의 ③ — Fleet &amp; Loop, 그리고 모델 라우팅</h2>
   <h3>Fleet 설계표 (<span class="tag gl">CF-05</span> · <span class="tag gl">OR-24</span>)</h3>
   <table>
+    <caption class="small">Fleet 설계표 — 역할·모델·도구·중단</caption>
     <thead><tr><th>Fleet 역할</th><th>모델 기준</th><th>노출 도구</th><th>중단 조건</th></tr></thead>
     <tbody>
       <tr><td>Planner agent</td><td>고추론/조직 표준</td><td>read·search</td><td>scope 불명확</td></tr>
@@ -90,6 +91,7 @@ console.log('policy-check passed');</code></pre></div>
   <div class="callout warn"><strong>모델 라우팅 원칙(<span class="tag gl">CF-10</span>):</strong> 프롬프트에 모델명을 적는 것은 <em>지시문</em>일 뿐 실제 라우팅 보장 수단이 아닙니다. custom agent의 <code>model:</code> 설정·model picker·실행 로그로 확인합니다. 안 쓰는 도구는 노출하지 않습니다(보안·컨텍스트 절약). 여기서는 <em>원칙</em>만 잡고, <code>model:</code> 고정 vs Fleet 런타임 라우팅의 <strong>구체 설정은 S6에서</strong> 다룹니다. 표의 모델·도구 값은 <strong>교육용 자리표시자</strong>이니 실제 적용 전 조직 허용 모델·정책을 재확인하세요.</div>
   <h3>Loop Canvas (<span class="tag gl">CF-06</span> · <span class="tag gl">OR-25</span>)</h3>
   <table>
+    <caption class="small">Loop Canvas — 단계·역할·게이트</caption>
     <thead><tr><th>단계</th><th>역할</th><th>산출물</th><th>Gate / Stop</th></tr></thead>
     <tbody>
       <tr><td>Plan</td><td>Planner</td><td>plan·Context Manifest·Test Matrix</td><td>scope 불명확 시 stop</td></tr>
@@ -117,6 +119,7 @@ console.log('policy-check passed');</code></pre></div>
   <h2>참조 심화 — 토폴로지 · 도입 로드맵 (출처: 005 Agent Team Composition)</h2>
   <h3>위험도에 따른 토폴로지 선택</h3>
   <table>
+    <caption class="small">위험도별 토폴로지 선택 (005)</caption>
     <thead><tr><th>위험</th><th>권장 토폴로지</th><th>하드 게이트</th></tr></thead>
     <tbody>
       <tr><td>Small</td><td>Solo · Planner-Generator</td><td>로컬 test</td></tr>

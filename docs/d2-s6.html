@@ -71,6 +71,7 @@ Context Manifest → Test Matrix → Risk/Human Gate를 만든다.
 금지: 코드 수정 · 외부 패키지 추가 제안 · prod/deploy/secret 자동 실행 제안.</code></pre></div>
   <div class="step"><div class="label">Fleet 구성 산출물</div>
   <table>
+    <caption class="small">Fleet 구성 — Agent별 모델·도구·중단</caption>
     <thead><tr><th>Agent</th><th>목적</th><th>모델 기준</th><th>도구</th><th>중단</th></tr></thead>
     <tbody>
       <tr><td>feature-sdd-planner</td><td>plan/test matrix</td><td>planning/auto</td><td>read·search</td><td>scope 불명확</td></tr>
@@ -86,6 +87,7 @@ Context Manifest → Test Matrix → Risk/Human Gate를 만든다.
   <h2>참조 심화 — 모델 라우팅 &amp; 관측성 (출처: 035 Sub-agent Model Routing)</h2>
   <h3>모델 지정 2가지 경로</h3>
   <table>
+    <caption class="small">모델 라우팅 2경로 (CF-10)</caption>
     <thead><tr><th>경로</th><th>방법</th><th>성격</th></tr></thead>
     <tbody>
       <tr><td>Custom Agent 고정</td><td>YAML frontmatter <code>model: ...</code></td><td>역할 고정(표준 역할 권장)</td></tr>

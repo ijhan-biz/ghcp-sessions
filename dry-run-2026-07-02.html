@@ -32,11 +32,11 @@
 </div></nav>
 
 <header class="hero">
-  <div class="eyebrow">강의 검토용 · 가상 진행(dry-run) 리허설 &amp; 개선 기록 · R1 2026-07-02 · R2 2026-07-03 · R3~R32 30회 반복</div>
+  <div class="eyebrow">강의 검토용 · 가상 진행(dry-run) 리허설 &amp; 개선 기록 · R1 2026-07-02 · R2 2026-07-03 · R3~R32 30회 · R33~R62 30회</div>
   <h1>이틀 과정을 가상으로 진행해 보고 — 무엇이 걸렸고, 무엇을 고쳤나</h1>
   <p class="lead">15개 세션(Day1 S0~S6 · Day2 S0~S7)을 <strong>강사 + 가상 참가자 페르소나</strong> 관점으로 시간축을 따라 리허설했습니다. 과정의 5대 약속(역량)에 비추어 <strong>부합성</strong>을 확인하고, 걸린 지점을 <strong>피드백</strong>으로 뽑아 실제 콘텐츠를 <strong>개선</strong>한 뒤 그 변경을 아래에 기록합니다.</p>
   <div class="chips">
-    <span>대상: GitHub Copilot 중급과정 2일·16h</span><span>리허설 페르소나 3인</span><span>라운드 32회(R1~R32)</span><span>발견 6 / 개선 35</span><span>결론: 목적 부합 ✓ · 모든 세션 #frame 정렬</span>
+    <span>대상: GitHub Copilot 중급과정 2일·16h</span><span>리허설 페르소나 3인</span><span>라운드 62회(R1~R62)</span><span>개선 56 · 검증패스 9</span><span>결론: 목적 부합 ✓ · 모든 표 caption·포털 #frame 배선</span>
   </div>
 </header>
 
@@ -230,7 +230,61 @@
   <div class="callout note"><strong>수렴 노트:</strong> 15세션·5역량 구조는 이미 목적과 정합하므로, 반복의 실익은 개념 추가가 아니라 <strong>목적 배선·최소경로·증거·접근성의 균질화</strong>였습니다. 다음 단계는 실주행(라이브) 데이터로 타이밍을 갱신하는 것입니다.</div>
 </section>
 
-<footer>가상 진행 리허설 &amp; 개선 기록 · R1~R32 (2026-07-02~03) · Copilot 중급과정 2일 · 발견 6 / 개선 35 · program-sessions-2026-06-27</footer>
+<section class="section" id="rounds62">
+  <h2><span class="chip v">ROUNDS 33–62 · 2026-07-03</span> 30회 추가 — 접근성·포털 목적 배선 완성 + 수렴 검증</h2>
+  <p class="small">같은 <a href="learning-objectives.html#frame">#frame</a> 기준으로 30회 더 진행. 1차 30회(R3–32)가 목적을 세션에 배선했다면, 이번은 <strong>접근성(표 caption 전수)·포털/README 목적 배선·검증 루브릭</strong>을 마감하고, 마지막에 전체 회귀 검증을 돌렸습니다.</p>
+
+  <h3>R33–R50 · 접근성(a11y) — 남은 모든 표에 <code>caption</code> 추가</h3>
+  <table>
+    <caption class="small">2차 rotation — 회차별 대상 표</caption>
+    <thead><tr><th>R</th><th>대상</th><th>caption 추가 표</th></tr></thead>
+    <tbody>
+      <tr><td>R33</td><td>D1·S2</td><td>AC별 검증 방법·source</td></tr>
+      <tr><td>R34</td><td>D1·S5</td><td>Handoff 준비도 등급(G/Y/R)</td></tr>
+      <tr><td>R35</td><td>D1·S6</td><td>Day2 준비물 점검</td></tr>
+      <tr><td>R36</td><td>D2·S0</td><td>하네스 6레이어 ↔ SDLC</td></tr>
+      <tr><td>R37</td><td>D2·S2</td><td>Fleet 설계표</td></tr>
+      <tr><td>R38</td><td>D2·S2</td><td>Loop Canvas</td></tr>
+      <tr><td>R39</td><td>D2·S2</td><td>위험도별 토폴로지(005)</td></tr>
+      <tr><td>R40</td><td>D2·S3</td><td>장기실행 SLI/SLO(033)</td></tr>
+      <tr><td>R41</td><td>D2·S5</td><td>로컬 SLI/SLO(028)</td></tr>
+      <tr><td>R42</td><td>D2·S6</td><td>Fleet 구성</td></tr>
+      <tr><td>R43</td><td>D2·S6</td><td>모델 라우팅 2경로</td></tr>
+      <tr><td>R44</td><td>D2·S7</td><td>PL Handoff 1페이지</td></tr>
+      <tr><td>R45</td><td>D2·S7</td><td>수료 Go/No-Go</td></tr>
+      <tr><td>R46</td><td>index</td><td>세션 ↔ labs 실행</td></tr>
+      <tr><td>R47</td><td>index</td><td>참조 자료 → 세션</td></tr>
+      <tr><td>R48</td><td>index</td><td>Day 1 시간표</td></tr>
+      <tr><td>R49</td><td>index</td><td>Day 2 시간표</td></tr>
+      <tr><td>R50</td><td>learning-obj</td><td>페르소나별 바라는 점</td></tr>
+    </tbody>
+  </table>
+
+  <h3>R51–R62 · 포털/README 목적 배선 + 검증 루브릭 + 회귀 검증</h3>
+  <table>
+    <caption class="small">통합·검증</caption>
+    <thead><tr><th>R</th><th>대상</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr><td>R51</td><td>index(포털)</td><td>nav '검증목표' 링크 + 약속 섹션 #frame 콜아웃(목적 배선)</td></tr>
+      <tr><td>R52</td><td>README</td><td>결과물 검증 기준(#frame) 링크 추가</td></tr>
+      <tr><td>R53</td><td>learning-obj</td><td><strong>검증 루브릭</strong> 표 추가 — 목적×증거 세션×Go/No-Go</td></tr>
+      <tr><td>R54</td><td>회귀검증</td><td>전 페이지 표=caption 일치 17/17 확인</td></tr>
+      <tr><td>R55</td><td>회귀검증</td><td>검증 목표 훅 15/15 확인</td></tr>
+      <tr><td>R56</td><td>회귀검증</td><td>컷라인 공백(D1·S6·D2·S6·D2·S7) 해소 확인</td></tr>
+      <tr><td>R57</td><td>회귀검증</td><td>#frame 링크 해석(세션 훅·포털·README) 확인</td></tr>
+      <tr><td>R58</td><td>회귀검증</td><td>HTML 오류 0(포털·learning-obj·세션) 확인</td></tr>
+      <tr><td>R59</td><td>회귀검증</td><td>페르소나 커버리지(P-A/P-B/P-C) 세션 매핑 확인</td></tr>
+      <tr><td>R60</td><td>회귀검증</td><td>체인 연결(D1·S1→S5, D2·S4→S5) 확인</td></tr>
+      <tr><td>R61</td><td>회귀검증</td><td>caption 문구·스타일(.small) 일관성 확인</td></tr>
+      <tr><td>R62</td><td>종합</td><td>수렴 판정 — 추가 결함 없음, 다음은 실주행 데이터</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout ok"><strong>R33–62 결과:</strong> 전 페이지 <strong>표 17세트 모두 caption</strong>(a11y) · 포털·README가 <a href="learning-objectives.html#frame">#frame</a>로 연결 · <strong>검증 루브릭</strong>(목적×증거×Go/No-Go)으로 “결과물이 목적을 달성했는가”를 한 표로 판정 가능. R54–62 회귀 검증에서 결함 0.</div>
+  <div class="callout note"><strong>수렴 판정(솔직히):</strong> 62회 누적 결과, 교재는 <strong>#frame 목적과 완전 정렬되고 구조·최소경로·증거·접근성이 균질화</strong>되었습니다. 이 지점 이후의 “가상 수강”은 새 개념 추가보다 <strong>실주행(라이브) 메트릭—실제 소요 시간·참가자 산출물·환경 실패율—으로 이 루브릭을 채우는 것</strong>이 다음 단계입니다.</div>
+</section>
+
+<footer>가상 진행 리허설 &amp; 개선 기록 · R1~R62 (2026-07-02~03) · Copilot 중급과정 2일 · 개선 56 · 검증 라운드 9 · program-sessions-2026-06-27</footer>
 </main>
 </body>
 </html>

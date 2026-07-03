@@ -56,6 +56,7 @@
 
   <h3>2 · 수업을 듣는 사람이 바라는 점 (왜 이 수업을 듣는가)</h3>
   <table>
+    <caption class="small">페르소나별 바라는 점</caption>
     <thead><tr><th>페르소나</th><th>이 수업에서 얻고 싶은 것</th></tr></thead>
     <tbody>
       <tr><td><strong>P-A 개발자</strong></td><td>토큰을 아끼면서 정확한 결과, 회귀 없는 안전한 변경, "내가 설명할 수 있는" 검증된 산출물</td></tr>
@@ -83,6 +84,19 @@
     <li>▢ <strong>현업 이전성</strong>: PL handoff 1페이지 + 현업 적용 액션 3개로 팀에 전파 가능(D+7 클리닉으로 연결).</li>
   </ul>
   <div class="callout ok"><strong>페르소나별 달성 상태:</strong> P-A = "내 기능을 검증 가능하게 구현하고 되돌릴 수 있다" · P-B = "팀에 적용할 통제·승인 기준을 정했다" · P-C = "재사용 Skill/게이트 1개를 자산으로 만들었다". 이 세 문장이 모두 참이면 강의는 목적을 달성한 것입니다.</div>
+  <h3>검증 루브릭 — 목적별 증거 · 판정 (결과물 검증 체크)</h3>
+  <table>
+    <caption class="small">검증 목표 → 어디서 증거가 나오나 → Go/No-Go</caption>
+    <thead><tr><th>검증 목표</th><th>증거가 나오는 세션</th><th>Go</th><th>No-Go</th></tr></thead>
+    <tbody>
+      <tr><td><strong>좋은 입력</strong></td><td>D1·S1~S5</td><td>토큰절약 프롬프트·AC·Plan이 Feature Spec Pack v1로 통합</td><td>비식별 누락·AC 없음</td></tr>
+      <tr><td><strong>안전한 실행</strong></td><td>D2·S1~S3</td><td>동작하는 로컬 게이트 1개 + 중단 조건</td><td>경계·게이트 없음</td></tr>
+      <tr><td><strong>검증 가능한 변경</strong></td><td>D2·S4~S5</td><td>test-first 1사이클 + 리뷰 패킷 + rollback note</td><td>테스트 없음·설명 불가</td></tr>
+      <tr><td><strong>나만의 솔루션</strong></td><td>D2·S3·S6</td><td>재사용 Custom Skill 1개(+동작 예시)</td><td>추상 지침만</td></tr>
+      <tr><td><strong>경험 공유</strong></td><td>D2·S7</td><td>PL handoff 1페이지 + 현업 액션 3</td><td>공유물 없음</td></tr>
+    </tbody>
+  </table>
+  <div class="callout note"><strong>사용법:</strong> 리허설·실주행 후 이 표의 <strong>Go</strong> 칸이 참가자 산출물로 채워지는지 확인하면, 강의가 위 검증 목표를 달성했는지 바로 판정됩니다.</div>
 </section>
 
 <section class="section" id="contract">
