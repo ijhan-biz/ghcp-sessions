@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="GitHub Copilot 중급과정 강사용 진행 가이드 — 세션별 오프닝·타이밍 큐·전환 문구·예상 Q&A·실패 신호. #frame 검증 목표를 실제 강의에서 확보하기 위한 퍼실리테이션 도구." />
+<title>강사 진행 가이드 — 세션별 퍼실리테이션 · Copilot 중급과정</title>
+<link rel="stylesheet" href="docs/ag-ui-program.css" />
+</head>
+<body>
+<main class="wide">
+<nav class="top"><div class="wrap">
+  <a href="docs/index.html">← PORTAL</a>
+  <a href="learning-objectives.html#frame">검증 목표(#frame)</a>
+  <a href="live-instrumentation-2026-07-03.html">실주행 계측</a>
+  <a href="#how">사용법</a>
+  <a href="#day1">DAY 1</a>
+  <a href="#day2">DAY 2</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">강사용 · 세션별 퍼실리테이션 가이드 · 2026-07-03</div>
+  <h1>강사 진행 가이드 — 각 세션을 "어떻게 굴리나"</h1>
+  <p class="lead">참가자 페이지(<a href="docs/index.html">docs</a>)가 <em>무엇을</em>이라면, 이 가이드는 강사가 <em>어떻게</em> 진행하는가입니다. 세션마다 <strong>오프닝 한 줄 · 타이밍 큐(언제 컷라인) · 전환 문구 · 예상 Q&amp;A · 실패 신호</strong>를 담아, <a href="learning-objectives.html#frame">#frame 검증 목표</a>가 실제 강의에서 산출물로 확보되도록 돕습니다.</p>
+  <div class="chips"><span>15 세션</span><span>오프닝·전환 스크립트</span><span>컷라인 발동 타이밍</span><span>예상 Q&amp;A</span><span>실패 신호 → 개입 시점</span></div>
+</header>
+
+<section class="section" id="how">
+  <h2>사용법</h2>
+  <ul>
+    <li><strong>오프닝</strong>은 그대로 읽어도 되는 30초 문구입니다. <strong>전환</strong>은 다음 세션으로 넘기는 한 줄.</li>
+    <li><strong>타이밍 큐</strong>가 오면 주저 말고 각 세션 페이지의 <span class="tag warn">컷라인</span>으로 전환합니다 — 완주보다 <strong>산출물 확보</strong>가 우선.</li>
+    <li><strong>실패 신호</strong>가 보이면 그 자리에서 개입(폴백·짝 실습·TA 큐). 세션이 끝난 뒤엔 늦습니다.</li>
+    <li>세션 종료 시 <a href="live-instrumentation-2026-07-03.html">실주행 계측 시트</a>에 실측을 남겨 다음 개편 근거로 씁니다.</li>
+  </ul>
+</section>
+
+<section class="section" id="day1">
+  <h2><span class="chip">DAY 1</span> 좋은 입력 만들기</h2>
+  <div class="grid">
+    <div class="card"><h3>S0 · 환경·baseline <span class="tag">40m</span></h3>
+      <p class="small"><strong>오프닝:</strong> "오늘 우리가 만들 건 하나 — 여러분의 기능 1건. 그 전에, 언제든 되돌아올 baseline부터 만듭니다."</p>
+      <p class="small"><strong>타이밍 큐:</strong> 15분 내 환경 GREEN 안 되면 즉시 <code>--check</code>만 하고 진도. 설치에 매달리지 말 것.</p>
+      <p class="small"><strong>전환:</strong> "환경이 섰으니, 이제 그 위에서 '좋은 입력'을 만듭니다 → 토큰."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q 프록시로 gh 인증 실패 → A Chat fallback + TA 큐 + D2·S0 재점검. / Q Node 구버전 → A setup 스크립트가 자동 업그레이드, 실패 시 짝 실습.</p>
+      <p class="small"><strong>실패 신호:</strong> 30분째 절반이 RED → 공유 baseline 환경/짝 실습으로 전환(환경 RED 브리지).</p></div>
+
+    <div class="card"><h3>S1 · 토큰·가드레일 <span class="tag">90m</span></h3>
+      <p class="small"><strong>오프닝:</strong> "컨텍스트는 공짜가 아닙니다 — 비용이자 정확도. 오늘은 '적게 줘서 더 정확히'를 연습합니다."</p>
+      <p class="small"><strong>타이밍 큐:</strong> Before/After 20m·비식별 스펙 카드 40m. 토큰 숫자에 집착 말고 체감 비교로.</p>
+      <p class="small"><strong>전환:</strong> "범위를 좁혔으니, 이제 그 요청을 구조화합니다 → R/C/T/C/V/O."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q 회사 코드 못 올림 → A 비식별 스펙 카드로 구조만 추상화. / Q #file 여러 개? → A 필요 최소만, 많으면 범위 재검토.</p>
+      <p class="small"><strong>실패 신호:</strong> 비식별 스펙 카드가 안 나옴 → 폴백 <code>FEATURE-SPEC.md</code> 채택.</p></div>
+
+    <div class="card"><h3>S2 · 프롬프트·AC <span class="tag">80m</span></h3>
+      <p class="small"><strong>오프닝:</strong> "좋은 프롬프트는 모델에게 '완료의 모양'을 못박습니다. 오늘은 검증 가능한 AC까지."</p>
+      <p class="small"><strong>타이밍 큐:</strong> 시간 부족하면 User Story 1 + AC 3개만 확실히(BP는 글머리로).</p>
+      <p class="small"><strong>전환:</strong> "요구를 못박았으니, 안전하게 바꾸는 법 → 리팩토링·Context Manifest."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q AC를 몇 개? → A must-have 1~3, 나머지 nice-to-have. / Q '빠르다'도 AC? → A 아니오, non-goal로 분리(테스트 불가).</p>
+      <p class="small"><strong>실패 신호:</strong> AC가 느낌 문장뿐 → 정상/예외/경계로 즉시 재작성 시연.</p></div>
+
+    <div class="card"><h3>S3 · 리팩토링·Manifest <span class="tag">80m</span></h3>
+      <p class="small"><strong>오프닝:</strong> "리팩토링은 동작 불변 + 작은 diff. Context Manifest로 '어디만 볼지'를 먼저 못박습니다."</p>
+      <p class="small"><strong>타이밍 큐:</strong> 복잡 로직 분리가 막히면 리팩토링 프롬프트 1 + Manifest 1로 컷.</p>
+      <p class="small"><strong>전환:</strong> "무엇을·어디서 정했으니, 어떤 순서로 → Plan Mode."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q 리팩토링에 기능도 추가하면? → A 분리하라, 섞으면 회귀. / Q blocked 강제는? → A D2·S2 policy-check로 자동 감지.</p>
+      <p class="small"><strong>실패 신호:</strong> 기존 테스트 없이 리팩토링 → 먼저 baseline 테스트 확보시키고 진행.</p></div>
+
+    <div class="card"><h3>S4 · Plan Mode <span class="tag">100m</span></h3>
+      <p class="small"><strong>오프닝:</strong> "코드보다 계획을 먼저 받습니다 — 잘못된 가정을 '싸게' 잡기 위해."</p>
+      <p class="small"><strong>타이밍 큐:</strong> 절반(50m) 지점 2분 브레이크. 시간 부족 시 STEP 1~2(계획+Test Matrix)만, 실행은 Day2 이월.</p>
+      <p class="small"><strong>전환:</strong> "계획·Test Matrix가 섰으니, 오늘 것을 하나로 묶습니다 → Spec Pack."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q 정말 5단계+ 필요? → A scope 재협상/slice/High-risk 승인. / Q AC→테스트 어떻게? → A 원문을 테스트 이름으로, 정상·예외·경계.</p>
+      <p class="small"><strong>실패 신호:</strong> 계획 받자마자 전 단계 일괄 실행 → "한 단계만" 규율 재시연.</p></div>
+
+    <div class="card"><h3>S5 · Spec Pack v1 <span class="tag">60m</span></h3>
+      <p class="small"><strong>오프닝:</strong> "새 개념 없습니다. 오늘 만든 걸 하나로 묶고, Day2로 넘길 준비도를 스스로 판정합니다."</p>
+      <p class="small"><strong>타이밍 큐:</strong> 45m 취합 + 15m Handoff 등급(G/Y/R). RED면 억지 진행 말고 폴백 예약.</p>
+      <p class="small"><strong>전환:</strong> "준비도를 표시했으니, 내일은 이걸 '안전하게 실행'합니다."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q YELLOW면? → A D2·S0에서 10분 보강. / Q RED면? → A 폴백 스펙으로 전환, 좌절 금지.</p>
+      <p class="small"><strong>실패 신호:</strong> 다수가 RED → 폴백 안내를 전체에 명확히, D2·S0 보강 시간 예고.</p></div>
+
+    <div class="card"><h3>S6 · QnA·버퍼 <span class="tag">30m</span></h3>
+      <p class="small"><strong>오프닝:</strong> "가장 막힌 것 하나씩. 공통은 여기서, 개별은 TA와."</p>
+      <p class="small"><strong>타이밍 큐:</strong> Blocker 10 + 준비물 10 + 회고 10. 최소: blocker 1 + 준비 체크 3 + 회고 1.</p>
+      <p class="small"><strong>전환:</strong> "내일 준비물(Spec Pack·환경·gh) 확인됐으면 오늘 끝. 회고 한 줄은 S7 발표 재료."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q 내일 뭘 가져오나 → A Spec Pack v1 + 환경 READY. / Q 못 끝낸 실습은? → A Day2 컷라인으로 최소만.</p>
+      <p class="small"><strong>실패 신호:</strong> 같은 blocker가 다수 → 공통 이슈로 승격해 다음날 오프닝에서 해소.</p></div>
+  </div>
+</section>
+
+<section class="section" id="day2">
+  <h2><span class="chip v">DAY 2</span> 안전한 실행 + 나만의 솔루션</h2>
+  <div class="grid">
+    <div class="card"><h3>S0 · 복습·재점검 + SDLC 지도 <span class="tag">30m</span></h3>
+      <p class="small"><strong>오프닝:</strong> "어제가 '좋은 입력'이면 오늘은 '안전한 실행'. 지도에서 우리가 어디를 하는지부터."</p>
+      <p class="small"><strong>타이밍 큐:</strong> SDLC 지도 5분(표는 참조), 나머지 25분은 복습·환경 재점검·must-have. 환경 RED면 5분 재시도 후 브리지.</p>
+      <p class="small"><strong>전환:</strong> "위치를 잡았으니, 그 통제면(하네스)을 직접 만듭니다 → CLI."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q Spec Pack이 RED면? → A 즉시 폴백 web-curation. / Q 지도를 외워야? → A 아니오, '오늘=구현~운영'만.</p>
+      <p class="small"><strong>실패 신호:</strong> 지도 설명이 15분 넘김 → 접고 실습으로. 실습 시간 사수.</p></div>
+
+    <div class="card"><h3>S1 · CLI 하네스 <span class="tag">70m</span></h3>
+      <p class="small"><strong>오프닝:</strong> "프롬프트 약속은 안전장치가 아닙니다. 권한·로그를 실행 경계에 둡니다."</p>
+      <p class="small"><strong>타이밍 큐:</strong> 처음엔 log-only로 관찰 → 차단 승격. 미설치자는 Chat fallback + 강사 데모 로그 분석.</p>
+      <p class="small"><strong>전환:</strong> "권한·로그를 잡았으니, 역할을 나누고 게이트를 만듭니다 → Agent Teams."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q gh copilot 옵션이 다름 → A preview/조직 정책 차이, 공식 문서 재확인. / Q 실 gh 호출 비용? → A 프리미엄 요청 소모 주의, 데모 최소화.</p>
+      <p class="small"><strong>실패 신호:</strong> 다수 CLI 미설치 → 강사 1대로 데모, 참가자는 로그 해석에 집중.</p></div>
+
+    <div class="card"><h3>S2 · Agent Teams·게이트 <span class="tag">80m</span></h3>
+      <p class="small"><strong>오프닝:</strong> "생성과 검토를 사람처럼 역할로 나눕니다. 그리고 게이트를 통과해야 다음으로."</p>
+      <p class="small"><strong>타이밍 큐:</strong> 개념 6개라 밀도 높음 — 컷라인: 동작 policy-check 1 + Loop 중단조건 1줄이면 통과. Fleet/Team 표는 초안.</p>
+      <p class="small"><strong>전환:</strong> "예제로 익혔으니, 이제 '내 업무'에 적용합니다 → 본인 워크플로."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q High-risk 판정 기준? → A 운영/API/데이터/의존성/보안 중 1개+. / Q 모델명 적으면 그 모델? → A 지시일 뿐, S6 설정·로그로 확인.</p>
+      <p class="small"><strong>실패 신호:</strong> 캔버스만 채우고 게이트 미실행 → "동작하는 게이트 하나"로 방향 전환.</p></div>
+
+    <div class="card"><h3>S3 · 본인 워크플로 <span class="tag">50m</span></h3>
+      <p class="small"><strong>오프닝:</strong> "지금부터 재료는 '내 업무'. 매번 똑같이 하는 일 하나를 하네스로 감쌉니다 — 오늘 솔루션의 씨앗."</p>
+      <p class="small"><strong>타이밍 큐:</strong> 컷라인: 반복 업무 1 + 자동화 후보 1 + 중단 조건. 큰 업무 고르면 50분에 안 끝남.</p>
+      <p class="small"><strong>전환:</strong> "업무를 분해했으니, 스펙→테스트→구현으로 실행합니다 → SDD."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q 뭘 자동화? → A 요약·테스트 후보·diff(사람은 scope·보안). / Q 장기 실행은? → A timebox·max retry·kill switch.</p>
+      <p class="small"><strong>실패 신호:</strong> 전부 자동화하려 함 → 사람 판단 지점을 남기게 유도.</p></div>
+
+    <div class="card"><h3>S4 · SDD test-first <span class="tag">80m</span></h3>
+      <p class="small"><strong>오프닝:</strong> "순서가 핵심입니다 — 스펙 → 테스트 → 구현. 실패 테스트를 '먼저' 켭니다."</p>
+      <p class="small"><strong>타이밍 큐:</strong> 컷라인: must-have AC 1개의 test-first 1사이클. 최소 구현은 AC 1개씩(배치 금지).</p>
+      <p class="small"><strong>전환:</strong> "구현이 섰으니, 리뷰 가능한 상태로 묶습니다 → 리뷰 패킷."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q 테스트 리뷰는 누가? → A 동료/PL이 AC 1:1·경계·mocking 확인. / Q 최소 구현이 뭔지? → A AC 1개만 통과하는 코드.</p>
+      <p class="small"><strong>실패 신호:</strong> 구현부터 하고 테스트 나중 → SDD 아님, 순서 재시연.</p></div>
+
+    <div class="card"><h3>S5 · 리뷰 패킷 <span class="tag">70m</span></h3>
+      <p class="small"><strong>오프닝:</strong> "PR이 없어도 '리뷰 가능한 상태'를 패킷으로 만듭니다 — 오늘의 핵심 산출물."</p>
+      <p class="small"><strong>타이밍 큐:</strong> 컷라인: 테스트 1 통과 + policy-check 1 + rollback note 1. P-B 승인 게이트(STEP5)까지 시연.</p>
+      <p class="small"><strong>전환:</strong> "검증을 묶었으니, 반복을 자산으로 → Custom Skill."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q PR 없이 승인은? → A 공유 폴더/Git tag + APPROVALS.log에 approve 기록. / Q rollback은 형식? → A 실제 명령+owner 필수.</p>
+      <p class="small"><strong>실패 신호:</strong> "테스트 통과"로 끝냄 → 증거·롤백 없으면 리뷰 불가, 패킷까지.</p></div>
+
+    <div class="card"><h3>S6 · Custom Skill <span class="tag">60m</span> <span class="tag warn">수료 필수</span></h3>
+      <p class="small"><strong>오프닝:</strong> "S3의 설계를 여기서 '자산'으로 굳힙니다. Skill=절차, Agent=역할까지."</p>
+      <p class="small"><strong>타이밍 큐:</strong> 컷라인: 동작 예시 1개가 딸린 Custom Skill 1개. Agent/Fleet 표는 초안.</p>
+      <p class="small"><strong>전환:</strong> "재사용 솔루션이 나왔으니, 팀에 공유합니다 → 라이트닝."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q model 값은 진짜? → A 교육용 자리표시자, 조직 허용 모델 재확인. / Q Skill vs Agent? → A 절차만이면 Skill, 역할·도구·모델이면 Agent.</p>
+      <p class="small"><strong>실패 신호:</strong> 추상 지침만 있고 동작 예시 없음 → "입력 1 → 기대 출력 1"을 붙이게.</p></div>
+
+    <div class="card"><h3>S7 · 공유 <span class="tag">40m</span></h3>
+      <p class="small"><strong>오프닝:</strong> "5분 라이트닝 — 스펙에서 Skill까지의 연결을 한 번에 보여줍니다."</p>
+      <p class="small"><strong>타이밍 큐:</strong> 최소 공유: Before/After 1개 + PL handoff 1페이지. go/no-go 자가 판정으로 마감.</p>
+      <p class="small"><strong>전환:</strong> "여기서 끝이 아니라 D+7 클리닉에서 실제 업무 적용 결과를 봅니다."</p>
+      <p class="small"><strong>예상 Q&amp;A:</strong> Q 발표가 부담 → A 3장(문제·Before/After·30초 시연)이면 충분. / Q 현업에 뭘 먼저? → A 반복 프롬프트 1개를 Skill로 표준화.</p>
+      <p class="small"><strong>실패 신호:</strong> 공유물이 추상적 → PL handoff 5칸(만든 것·적용 후보·효과·지원·다음)으로 구체화.</p></div>
+  </div>
+  <div class="callout note"><strong>마지막 당부(강사):</strong> 외부 공유 전 제품 기능·CLI 옵션·모델명·보안 정책을 공식 문서/테넌트로 재확인하세요. Harness PASS는 구조 검증이지 사실·보안·배포 승인이 아닙니다.</div>
+</section>
+
+<footer>강사 진행 가이드 · 2026-07-03 · 세션별 퍼실리테이션(#frame 확보용) · program-sessions-2026-06-27</footer>
+</main>
+</body>
+</html>
