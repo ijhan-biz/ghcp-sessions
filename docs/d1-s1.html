@@ -58,7 +58,7 @@
   <div class="callout note"><strong>토큰 소비량은 어떻게 확인하나?</strong> GitHub Copilot 과금은 <strong>2026-06-01부터 토큰 기반</strong>입니다 — 입력·출력·캐시 토큰 × 모델 multiplier가 <strong>AI Credits</strong>로 환산됩니다(1 credit=$0.01, <span class="tag gl">HE-12</span> cost burn). <strong>즉 토큰을 줄이면 비용이 그대로 줄어듭니다.</strong> 다만 Chat은 <em>요청당 토큰을 실시간으로 표시하지 않으므로</em>, 소비·절감은 이렇게 확인합니다.
     <ol class="small">
       <li><strong>실제 소비</strong> — 조직 <code>Usage</code> 대시보드의 AI Credits 사용량으로 사후 확인(요청당 실시간 계량기는 없음).</li>
-      <li><strong>첨부 규모 비교</strong> — Copilot Chat 응답의 <code>References</code>(사용된 파일)를 펼쳐 Before(전체 폴더)와 After(파일 1개)의 첨부를 눈으로 비교.</li>
+      <li><strong>첨부한 대상 비교</strong> — 컨텍스트는 <em>내가 넣은 것</em>이라, 프롬프트에 무엇을 붙였는지만 봐도 규모 차이가 드러납니다. Before는 폴더·여러 파일을 첨부, After는 <code>#file:...</code> 하나. <span class="small">(응답의 <code>References</code>/"Used references"는 Chat 버전·모드에 따라 안 보일 수 있으니, 보이면 참고하고 안 보여도 무방합니다.)</span></li>
       <li><strong>입력 토큰 근사치</strong> — 실제로 커지는 건 프롬프트 문장이 아니라 <em>첨부 파일 내용</em>입니다. 아래 <code>token-estimate</code>로 첨부 대상의 근사 토큰 합을 재 Before/After 비율을 봅니다(오프라인·근사치, 실제 청구 토큰과는 다름).</li>
     </ol>
   </div>
