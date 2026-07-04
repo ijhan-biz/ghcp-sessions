@@ -97,6 +97,42 @@ npm test                       # baseline 다시 통과? 실패면 원인 먼저
 </section>
 
 <section class="section">
+  <h2>Day2 실습 프로젝트 — VS Code 새 창에서 열기</h2>
+  <p>Day2의 <strong>구현 실습</strong>은 독립 프로젝트 <code>sample-project-web-curation</code>(검색결과 큐레이션 엔진)을 <strong>VS Code 새 창</strong>에 열어 진행합니다. 강의 문서와 분리된 <em>깨끗한 프로젝트 워크스페이스</em>여야 Copilot(특히 Agent 모드)의 파일·도구 범위가 이 프로젝트로 좁혀집니다. <span class="small">(본인 기능 코드가 있으면 그 폴더를 같은 방식으로 엽니다.)</span></p>
+
+  <h3>① 새 창에 프로젝트 열기</h3>
+  <div class="step"><div class="label">방법 A · 메뉴</div><p class="small"><strong>File → New Window</strong>(⌘⇧N / Ctrl+Shift+N) → <strong>File → Open Folder…</strong> → <code>sample-project-web-curation</code> 폴더 선택.</p></div>
+  <div class="step"><div class="label">방법 B · 터미널(code CLI)</div>
+<pre><code># -n = 새 창으로 열기 (code 명령이 설치돼 있어야 함)
+code -n sample-project-web-curation</code></pre></div>
+
+  <h3>② 실행에 필요한 파일</h3>
+  <table>
+    <caption class="small">sample-project-web-curation 구성 파일 · 용도</caption>
+    <thead><tr><th>파일</th><th>용도</th></tr></thead>
+    <tbody>
+      <tr><td><code>package.json</code></td><td>실행 진입점 — <code>"test": "node --test"</code>, Node 18+ (외부 의존성 0)</td></tr>
+      <tr><td><code>src/curate.js</code></td><td>대상 코드 — <code>normalizeUrl()</code>가 TODO(구현 대상)</td></tr>
+      <tr><td><code>test/curate.test.js</code></td><td>테스트 — 4 pass + <strong>2 skip</strong>(D2·S4에서 켤 대상)</td></tr>
+      <tr><td><code>src/curate.solution.js</code></td><td>참고 정답(막히면 비교)</td></tr>
+      <tr><td><code>FEATURE-SPEC.md</code> · <code>BACKLOG.md</code></td><td>기능 스펙 카드 · slice 후보(본인 스펙이 없을 때 채택)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>③ 어떻게 실행하나</h3>
+  <div class="step"><div class="label">새 창의 통합 터미널에서 (Terminal → New Terminal)</div>
+<pre><code>node -v              # v18 이상인지 확인
+npm test             # baseline: 4 pass, 2 skip(정상)
+
+# D2·S4 test-first 루프:
+#  1) test/curate.test.js 의 { skip: true } 제거 → npm test (실패=레드 확인)
+#  2) src/curate.js 의 normalizeUrl 구현        → npm test (통과=그린)</code></pre>
+  <p class="small">즉 <strong>skip을 켜 실패를 먼저 보고(레드) → 구현해서 통과(그린)</strong>가 Day2 test-first의 핵심 루프입니다. 전체 진행 순서는 프로젝트 <code>README.md</code>에 있습니다.</p></div>
+
+  <div class="callout note"><strong>왜 새 창에서 여나:</strong> ① Copilot(특히 Agent 모드)의 파일·도구 범위가 이 프로젝트로 한정돼 안전하고, ② 강의 문서와 섞이지 않아 컨텍스트·<code>git diff</code>·커밋이 깔끔하며, ③ 워크스페이스 설정을 프로젝트 단위로 관리할 수 있습니다.</div>
+</section>
+
+<section class="section">
   <h2>체크포인트 &amp; 산출물</h2>
   <div class="callout ok"><strong>산출물:</strong> 재개 체크 결과, clean branch, 오늘의 must-have AC 목록.</div>
   <ul>
