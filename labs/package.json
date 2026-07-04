@@ -6,7 +6,8 @@
   "description": "GitHub Copilot 중급과정 세션별 실습 코드 — 의존성 없이 Node 18+ 내장 도구(node --test)만으로 실행.",
   "engines": { "node": ">=18" },
   "scripts": {
-    "test": "node --test test",
+    "test": "node --test",
+    "spec-check": "node scripts/spec-check.mjs",
     "env": "node scripts/check-env.mjs",
     "lint": "node scripts/lint.mjs",
     "policy-check": "node scripts/policy-check.mjs",

@@ -23,7 +23,7 @@ for (const f of changed) {
 }
 
 // 2) 추적되는 소스에서 secret 유사 패턴 스캔
-const sourceList = sh('git ls-files src test scripts labs.gitignore 2>/dev/null')
+const sourceList = sh('git ls-files src test scripts 2>/dev/null')
   .split('\n').map(s => s.trim()).filter(Boolean);
 for (const f of sourceList) {
   if (!existsSync(f)) continue;

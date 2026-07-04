@@ -30,6 +30,7 @@
 | 완전 동일 URL 중복 제거 | 정상 | `npm test` |
 | 끝 슬래시 변형 URL 중복 제거 | 경계 | `npm test` (skip 해제 후) |
 | utm 트래킹 변형 URL 중복 제거 | 경계 | `npm test` (skip 해제 후) |
+| N이 숫자가 아니거나 누락 → 빈 배열(방어) | 예외 | `npm test` (테스트 추가) |
 
 ## Context Manifest (Day1·S3에서 채우기)
 | 구분 | 파일 |
