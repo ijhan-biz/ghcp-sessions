@@ -35,11 +35,13 @@ if "%CHECK_ONLY%"=="0" (
     echo   [!] winget is not available. Install App Installer from Microsoft Store, then retry.
   ) else (
     call :ensure git  Git.Git
-    call :ensure node OpenJS.NodeJS.LTS
+    call :ensure_node
     call :ensure gh   GitHub.cli
     call :ensure code Microsoft.VisualStudioCode
 
     REM Ensure Node major version is 18+
+    call :refresh_node_path
+    call :persist_node_path
     where node >nul 2>nul
     if not errorlevel 1 (
       for /f "tokens=1 delims=." %%v in ('node -v') do set "NMAJ=%%v"
@@ -47,6 +49,8 @@ if "%CHECK_ONLY%"=="0" (
       if !NMAJ! LSS 18 (
         echo   [..] Node !NMAJ!.x detected. Upgrading to Node 18+.
         winget upgrade -e --id OpenJS.NodeJS.LTS --accept-source-agreements --accept-package-agreements
+        call :refresh_node_path
+        call :persist_node_path
       )
     )
   )
@@ -71,6 +75,8 @@ echo.
 echo == Environment Validation ==
 set "PASS=1"
 
+call :refresh_node_path
+call :persist_node_path
 where node >nul 2>nul
 if errorlevel 1 (
   echo   [x] Node is missing - required
@@ -151,6 +157,43 @@ if "%PASS%"=="1" (
 )
 
 REM ---------------------------------------------------------------- Subroutines
+:ensure_node
+where node >nul 2>nul
+if not errorlevel 1 (
+  echo   [ok] Already installed: node
+  goto :eof
+)
+
+echo   [..] Installing: OpenJS.NodeJS.LTS
+winget install -e --id OpenJS.NodeJS.LTS --accept-source-agreements --accept-package-agreements
+call :refresh_node_path
+call :persist_node_path
+where node >nul 2>nul
+if errorlevel 1 (
+  echo   [!] Node install finished but node command is still not visible in this shell.
+  echo       Open a new cmd window and run setup-windows.bat --check again.
+) else (
+  echo   [ok] Node command detected after install
+)
+goto :eof
+
+:refresh_node_path
+for %%P in ("%ProgramFiles%\nodejs" "%ProgramFiles(x86)%\nodejs" "%LocalAppData%\Programs\nodejs") do (
+  if exist "%%~P\node.exe" (
+    echo "!PATH!" | find /I "%%~P" >nul
+    if errorlevel 1 set "PATH=%%~P;!PATH!"
+  )
+)
+goto :eof
+
+:persist_node_path
+for %%P in ("%ProgramFiles%\nodejs" "%ProgramFiles(x86)%\nodejs" "%LocalAppData%\Programs\nodejs") do (
+  if exist "%%~P\node.exe" (
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "$nodePath='%%~P'; $userPath=[Environment]::GetEnvironmentVariable('Path','User'); if ([string]::IsNullOrWhiteSpace($userPath)) { $userPath=$nodePath } elseif ($userPath -notmatch [Regex]::Escape($nodePath)) { $userPath=$userPath.TrimEnd(';') + ';' + $nodePath }; [Environment]::SetEnvironmentVariable('Path',$userPath,'User')" >nul 2>nul
+  )
+)
+goto :eof
+
 :ensure
 REM %1 = command to check, %2 = winget package id
 where %1 >nul 2>nul
