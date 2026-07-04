@@ -13,9 +13,12 @@
 6. Rollback note 초안: → templates/rollback-note.md
 
 ## Test Matrix (AC ↔ 테스트)
-| AC | 유형 | 테스트 이름 | 실행 | 완료 |
-| --- | --- | --- | --- | --- |
-| AC1 음수=오류 | unit | AC1 음수 금액은 오류 | `npm test` | pass |
-| AC2 면세=0 | unit | AC2 면세 품목은 VAT 0 | `npm test` | pass |
-| AC3 일반=10% | unit | AC3 일반 품목은 VAT 10% | `npm test` | pass |
-| 금지 파일 불변 | policy | policy-check | `npm run policy-check` | pass |
+
+> 각 AC를 **정상·예외·경계** 중 하나로 분류하세요. 세 범주가 모두 최소 1개면 취합한 `spec.md`가 `npm run spec-check` 통과 기준을 만족합니다.
+
+| AC | 범주 | 유형 | 테스트 이름 | 실행 | 완료 |
+| --- | --- | --- | --- | --- | --- |
+| AC1 음수=오류 | 예외 | unit | AC1 음수 금액은 오류 | `npm test` | pass |
+| AC2 면세=0 | 경계 | unit | AC2 면세 품목은 VAT 0 | `npm test` | pass |
+| AC3 일반=10% | 정상 | unit | AC3 일반 품목은 VAT 10% | `npm test` | pass |
+| 금지 파일 불변 | 정책 | policy | policy-check | `npm run policy-check` | pass |
