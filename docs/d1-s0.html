@@ -31,22 +31,6 @@
 </section>
 
 <section class="section">
-  <h2>실습 예제 시나리오 — 결제(부가세) 기능</h2>
-  <p>본인 기능이 없거나 감을 먼저 잡기 위해, 이 과정은 공통 예제로 <strong>결제 금액의 부가가치세(VAT) 계산</strong> 기능(<code>calcVat()</code>)을 씁니다. 이후 세션의 프롬프트·AC·테스트가 모두 이 도메인 위에서 이어집니다.</p>
-  <table>
-    <caption class="small">결제(부가세) 예제 — 무엇 · 규칙 · 언제 쓰나</caption>
-    <thead><tr><th>구분</th><th>내용</th></tr></thead>
-    <tbody>
-      <tr><td><strong>무슨 기능</strong></td><td>주문/청구 금액에 대해 부가세를 계산하는 순수 함수 <code>calcVat(금액, 옵션)</code>.</td></tr>
-      <tr><td><strong>규칙(도메인)</strong></td><td>일반 품목 <strong>VAT 10%</strong> · 면세 품목(도서·일부 식품 등) <strong>VAT 0%</strong> · 음수 금액은 <strong>오류</strong>(방어).</td></tr>
-      <tr><td><strong>언제 쓰나(실무)</strong></td><td>이커머스 장바구니 결제, 구독 청구서, POS 영수증, 정산 배치 — <strong>최종 청구액을 확정할 때</strong> 세금을 계산. 예: 장바구니 합계 = 상품가 + <code>calcVat(상품가)</code>.</td></tr>
-      <tr><td><strong>왜 예제로 좋나</strong></td><td>규칙이 명확해 AC(정상 10%·예외 음수·경계 면세 0)가 자연스럽고, <strong>순수 함수</strong>라 로컬 테스트가 쉬우며, "세금 오류 = 돈·신뢰 문제"라 <strong>회귀 리스크</strong>가 실감납니다.</td></tr>
-    </tbody>
-  </table>
-  <div class="callout note"><strong>안전 경계:</strong> 실제 결제·PG 연동·DB는 다루지 않고 <strong>계산 로직만</strong> 다룹니다(비식별·로컬). 본인 기능이 있으면 그걸 쓰고, 없으면 이 결제 예제 또는 폴백 <code>sample-project-web-curation</code>(검색결과 큐레이션)을 채택하면 됩니다.</div>
-</section>
-
-<section class="section">
   <h2>미니강의 — 왜 환경 점검부터 하는가</h2>
   <p>이 과정은 <strong>로컬 전용(local-only, <span class="tag gl">HE-14</span>)</strong>입니다. Codespaces·GitHub PR/Actions를 쓰지 않고 개인 PC의 VS Code·Git·Node에서 모든 실습을 합니다. 따라서 첫 시간에 환경이 흔들리면 이틀 내내 흔들립니다.</p>
   <div class="callout note"><strong>Local-only의 정확한 뜻:</strong> 코드 실행·테스트·검증·제출물은 로컬에서 만든다는 의미입니다. Copilot에 보내는 <em>질의 자체</em>는 조직 정책에 따라 서비스로 전송될 수 있으므로, 고객정보·키/토큰·반출 금지 로그는 입력하지 않습니다(<span class="tag gl">OR-12</span> 데이터 경계 · <span class="tag gl">OR-13</span> 민감정보).</p></div>
@@ -109,6 +93,22 @@ git status</code></pre></div>
 <section class="section">
   <h2>공유 포인트 (D2·S7로 연결)</h2>
   <div class="callout note">오늘의 환경 상태(Green/Yellow/Red)와 막힌 지점을 <strong>한 줄</strong>로 기록하세요. 마지막 날 "환경 셋업에서 무엇이 어려웠고 어떻게 풀었는가"는 동료에게 가장 도움이 되는 공유 주제입니다.</div>
+</section>
+
+<section class="section">
+  <h2>실습 예제 시나리오 — 결제(부가세) 기능</h2>
+  <p>본인 기능이 없거나 감을 먼저 잡기 위해, 이 과정은 공통 예제로 <strong>결제 금액의 부가가치세(VAT) 계산</strong> 기능(<code>calcVat()</code>)을 씁니다. 이후 세션의 프롬프트·AC·테스트가 모두 이 도메인 위에서 이어집니다.</p>
+  <table>
+    <caption class="small">결제(부가세) 예제 — 무엇 · 규칙 · 언제 쓰나</caption>
+    <thead><tr><th>구분</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr><td><strong>무슨 기능</strong></td><td>주문/청구 금액에 대해 부가세를 계산하는 순수 함수 <code>calcVat(금액, 옵션)</code>.</td></tr>
+      <tr><td><strong>규칙(도메인)</strong></td><td>일반 품목 <strong>VAT 10%</strong> · 면세 품목(도서·일부 식품 등) <strong>VAT 0%</strong> · 음수 금액은 <strong>오류</strong>(방어).</td></tr>
+      <tr><td><strong>언제 쓰나(실무)</strong></td><td>이커머스 장바구니 결제, 구독 청구서, POS 영수증, 정산 배치 — <strong>최종 청구액을 확정할 때</strong> 세금을 계산. 예: 장바구니 합계 = 상품가 + <code>calcVat(상품가)</code>.</td></tr>
+      <tr><td><strong>왜 예제로 좋나</strong></td><td>규칙이 명확해 AC(정상 10%·예외 음수·경계 면세 0)가 자연스럽고, <strong>순수 함수</strong>라 로컬 테스트가 쉬우며, "세금 오류 = 돈·신뢰 문제"라 <strong>회귀 리스크</strong>가 실감납니다.</td></tr>
+    </tbody>
+  </table>
+  <div class="callout note"><strong>안전 경계:</strong> 실제 결제·PG 연동·DB는 다루지 않고 <strong>계산 로직만</strong> 다룹니다(비식별·로컬). 본인 기능이 있으면 그걸 쓰고, 없으면 이 결제 예제 또는 폴백 <code>sample-project-web-curation</code>(검색결과 큐레이션)을 채택하면 됩니다.</div>
 </section>
 
 <section class="section">
