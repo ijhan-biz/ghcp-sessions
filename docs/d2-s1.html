@@ -16,8 +16,8 @@
 
 <header class="hero">
   <div class="eyebrow">DAY 2 · SESSION 1 · 09:30–10:40 (70m)</div>
-  <h1>하네스 (1) 기초·CLI — 자연어 제약을 검증으로</h1>
-  <p class="lead"><strong>하네스 엔지니어링</strong>의 개념(자연어 제약 → 실행 가능한 검증)을 세우고, Copilot CLI를 그냥 실행하지 않고 <strong>권한을 좁히고 로그를 남기는</strong> 습관을 만듭니다. 실행 로그를 해석하는 법까지 익힙니다.</p>
+  <h1>하네스 (1) 기초 — 자연어 제약을 검증으로 (CLI · VS Code Agent)</h1>
+  <p class="lead"><strong>하네스 엔지니어링</strong>의 개념(자연어 제약 → 실행 가능한 검증)을 세우고, Copilot CLI를 그냥 실행하지 않고 <strong>권한을 좁히고 로그를 남기는</strong> 습관을 만듭니다. 이 습관은 <strong>Copilot CLI</strong>와 <strong>VS Code Agent 모드</strong> 어느 쪽에서도 동일하게 적용합니다. 실행 로그를 해석하는 법까지 익힙니다.</p>
   <div class="chips"><span><strong>HE-01</strong> 하네스 엔지니어링</span><span><strong>CF-02</strong> Copilot CLI</span><span><strong>HE-13</strong> Logging-first</span><span><strong>CF-01</strong> Chat fallback</span></div>
 </header>
 
@@ -34,6 +34,24 @@
   <h2>미니강의 — 프롬프트 약속을 실행 밖으로 옮긴다</h2>
   <p>Day1에서 가드레일을 <em>프롬프트에 적었습니다</em>. 하지만 프롬프트 안의 약속은 모델이 어길 수 있습니다. 하네스는 그 약속을 <strong>실행 경로 바깥의 결정론적 검사</strong>(<span class="tag gl">HE-06</span>)로 옮깁니다. 오늘(S1)은 그 첫 단계로 CLI 권한과 로그를 다룹니다.</p>
   <div class="callout warn"><strong>주의:</strong> Copilot CLI 옵션은 preview/조직 정책에 따라 다를 수 있습니다. 실습 시작 시 <code>gh copilot -- --help</code> 출력을 현재 환경의 기준으로 삼습니다. CLI 불가 시 Copilot Chat(<span class="tag gl">CF-01</span>)으로 fallback하고 강사 데모 로그를 분석합니다.</div>
+</section>
+
+<section class="section">
+  <h2>VS Code 기반 — Agent 모드에서 같은 하네스</h2>
+  <p>참가자 대부분은 <strong>VS Code Copilot</strong>을 씁니다. CLI가 없어도 하네스의 핵심(권한 최소화·로그·차단)은 <strong>Agent 모드</strong>에서 그대로 만듭니다. Chat 모드 선택기의 <code>Ask · Edit · <strong>Agent</strong></code> 중 Agent가 도구를 실제로 실행하는 경로입니다.</p>
+  <table>
+    <caption class="small">CLI 하네스 ↔ VS Code Copilot 대응</caption>
+    <thead><tr><th>개념</th><th>Copilot CLI</th><th>VS Code Copilot</th></tr></thead>
+    <tbody>
+      <tr><td>도구 권한</td><td><code>--allow-tool</code>/<code>--deny-tool</code></td><td>Agent 모드의 <strong>도구 실행 승인</strong> 프롬프트 + 터미널 자동승인 allow/deny 목록(설정)</td></tr>
+      <tr><td>위험 명령 차단</td><td><code>--deny-tool 'shell(rm)'</code></td><td>터미널 자동승인 <strong>denyList</strong> + <code>.github/copilot-instructions.md</code>에 금지 작업 명시</td></tr>
+      <tr><td>경로/웹 경계</td><td><code>--add-dir</code>·<code>--allow-url</code></td><td>워크스페이스 신뢰 범위 + 도구 승인 시 확인</td></tr>
+      <tr><td>로그/관측</td><td><code>--log-dir</code></td><td>Chat의 <strong>도구 호출 내역</strong> 표시 + 세션 로그(<code>~/.copilot/session-state/&lt;id&gt;/events.jsonl</code>)</td></tr>
+      <tr><td>결정론적 검증</td><td>실행 후 <code>policy-check</code></td><td>동일 — 결과를 <strong>로컬 게이트</strong>(<code>npm run policy-check</code>·git hook)로 검사(S2)</td></tr>
+    </tbody>
+  </table>
+  <div class="callout note"><strong>왜 로컬 게이트가 공통인가:</strong> CLI든 VS Code든 <strong>모델·UI 승인만으로는 100% 막지 못합니다</strong>. 그래서 "실행 경계 밖"의 <code>policy-check</code>(D2·S2)가 두 경로 모두의 최종 안전장치입니다.</div>
+  <div class="callout warn"><strong>설정 키 주의:</strong> VS Code의 도구·터미널 자동승인 설정 키는 버전에 따라 다릅니다(설정 검색에서 "auto approve", "terminal" 등). CLI <code>--help</code>처럼, 현재 VS Code 버전의 설정 화면을 기준으로 삼으세요.</div>
 </section>
 
 <section class="section">
@@ -61,7 +79,7 @@ gh copilot -- --help</code></pre></div>
     <li><code>--deny-tool</code>로 위험 명령이 명시적으로 막혔는가?</li>
     <li>로그에서 "무엇을 했고 왜 멈췄는가"를 한 문장으로 말할 수 있는가?</li>
   </ul>
-  <div class="callout warn"><strong>컷라인:</strong> CLI 미설치자는 강사 데모 로그 분석으로 대체. 개념(권한 최소화·로깅)만 잡으면 통과입니다.</div>
+  <div class="callout warn"><strong>컷라인:</strong> <strong>VS Code 사용자는 Agent 모드로 동일 실습</strong>(도구 승인·터미널 denyList·도구 호출 내역 확인)을 합니다. CLI 미설치자는 이 경로 또는 강사 데모 로그 분석으로 대체 — 개념(권한 최소화·로깅)만 잡으면 통과입니다.</div>
 </section>
 
 <section class="section">
