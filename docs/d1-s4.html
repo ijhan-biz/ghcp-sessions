@@ -33,6 +33,7 @@
 <section class="section">
   <h2>미니강의 — 왜 계획을 먼저 받는가</h2>
   <p>에이전트는 한 번에 많은 것을 바꾸려 합니다. Plan Mode(<span class="tag gl">CF-04</span>)는 <strong>코드 작성 이전에</strong> "무엇을, 어느 파일에서, 어떤 순서로, 무엇으로 검증하는가"를 합의합니다. 계획을 보고 잘못된 가정·과한 범위를 <strong>싸게</strong> 잡아낼 수 있습니다.</p>
+  <div class="callout ok"><strong>Plan Mode는 GitHub Copilot의 기본(내장) 기능입니다.</strong> 별도 확장이나 프롬프트 트릭이 아니라, VS Code Copilot Chat의 <strong>모드 선택기</strong>에서 <code>Ask · Edit · Agent</code>와 함께 제공되는 <strong>Plan</strong> 모드를 고르면 됩니다. Plan 모드는 코드를 바로 수정하지 않고 <strong>단계별 실행 계획을 먼저 생성</strong>하며, 사용자가 그 계획을 <strong>검토·편집·승인</strong>한 뒤 실행(예: Agent 모드로 핸드오프)합니다. 즉 이 세션에서 연습하는 "계획만 먼저" 흐름이 <strong>제품에 그대로 내장</strong>돼 있는 셈이며, Plan 모드가 없거나 CLI를 쓸 때는 아래 프롬프트로 같은 흐름을 만듭니다.</div>
   <div class="flow">
     <span class="n">요구사항(AC)</span><span class="ar">→</span><span class="n">계획(단계+stop point)</span><span class="ar">→</span><span class="n">Test Matrix</span><span class="ar">→</span><span class="n">risk/gate</span><span class="ar">→</span><span class="n">단계별 실행</span>
   </div>
