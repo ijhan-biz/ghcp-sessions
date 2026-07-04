@@ -2,11 +2,11 @@
 // scripts/token-estimate.mjs
 // 입력(프롬프트·첨부 파일)의 토큰 "근사치"를 오프라인·의존성 0으로 추정한다.
 //
-// 왜 필요한가: GitHub Copilot Chat은 요청당 정확한 토큰 수를 보여주는 계량기를 UI로
-//   제공하지 않고, 과금도 토큰이 아니라 premium request 단위다(032 UBB). 그래서 이 실습의
-//   목표는 "정확 과금"이 아니라 범위 축소가 입력 토큰을 얼마나 줄이는지 "감각"으로 보는 것.
-//   Before/After에서 실제로 커지는 건 프롬프트 문장이 아니라 "첨부한 파일 내용"이므로,
-//   첨부 대상 파일들의 근사 토큰 합을 비교하면 절감이 눈에 보인다.
+// 왜 필요한가: GitHub Copilot 과금은 2026-06-01부터 토큰 기반이다(입력+출력+캐시 토큰 ×
+//   모델 multiplier → AI Credits, 1 credit=$0.01, 032 UBB). 즉 입력 토큰을 줄이면 비용이 바로 준다.
+//   다만 Chat UI는 요청당 토큰을 실시간으로 보여주지 않고(실제 소비는 조직 Usage 대시보드),
+//   Before/After에서 실제로 커지는 건 프롬프트 문장이 아니라 "첨부한 파일 내용"이다.
+//   그래서 첨부 대상 파일들의 근사 토큰 합을 비교해 범위 축소 효과를 "감각"으로 본다.
 //
 // 사용:
 //   node scripts/token-estimate.mjs <파일...>        # 파일 단위(여러 개면 합계)
@@ -14,7 +14,7 @@
 //   예) Before: node scripts/token-estimate.mjs src/**/*.js
 //       After : node scripts/token-estimate.mjs src/billing/tax.js
 //
-// 주의: 근사치다(±20~40%). 모델별 실제 BPE 토크나이저와 다르며, 정확 과금이 아니다.
+// 주의: 근사치다(±20~40%). 모델별 실제 BPE 토크나이저·실제 청구 토큰과는 다르다.
 //   절대값보다 Before/After "비율"을 보라.
 import { readFileSync, existsSync, statSync } from 'node:fs';
 
@@ -57,7 +57,7 @@ if (args.length === 0) {
   if (rows.length === 0) { console.error('✗ 읽을 파일이 없습니다.'); process.exit(2); }
 }
 
-console.log('토큰 근사치(±20~40%, 정확 과금 아님):\n');
+console.log('토큰 근사치(±20~40%, 실제 청구 토큰 아님):\n');
 for (const [name, e] of rows) {
   console.log(`  ~${String(e.tokens).padStart(6)} tokens  ·  ${String(e.chars).padStart(6)} chars  ·  ${name}`);
 }
