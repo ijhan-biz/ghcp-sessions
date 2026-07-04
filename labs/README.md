@@ -47,7 +47,7 @@ npm test         # baseline: 10 pass, 2 skip (Day2-S4에서 켤 테스트)
 | S3 본인 워크플로·장기실행 | 안전장치 체험 | `npm run sim` (seed 바꿔 재실행), 캔버스 작성 |
 | S4 SDD test-first | 실패 테스트 켜고 구현 | `test/tax.test.js`의 `skip` 제거 → `src/billing/tax.js` 구현 → `npm test` |
 | S5 통합·리뷰패킷 | 검증·패킷·롤백 | `npm run gate`, `npm run packet`, `templates/rollback-note.md` |
-| S6 Custom Skill/Agent·라우팅 | Skill/Agent·모델 라우팅 | `skills/sdd-skill.md`, `agents/feature-sdd-planner.agent.md`, `npm run routing` |
+| S6 Custom Skill/Agent·라우팅 | Skill/Agent·모델 라우팅 | `skills/sdd-skill.md`, `.github/agents/feature-sdd-planner.agent.md`, `npm run routing` |
 | S7 경험 공유 | 발표·핸드오프 | `templates/lightning-talk-and-handoff.md` |
 
 ## Day2-S4 핵심 실습 흐름 (test-first)
