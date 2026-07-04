@@ -86,11 +86,18 @@
 
 <section class="section">
   <h2>흔한 실수 &amp; 공유 포인트</h2>
-  <ul>
-    <li>리팩토링하면서 기능까지 추가 → 동작이 바뀌어 회귀 발생. 리팩토링과 기능 추가는 분리합니다.</li>
-    <li>Context Manifest 없이 큰 변경 → 엉뚱한 파일 수정. 먼저 범위를 못박습니다.</li>
-  </ul>
-  <div class="callout note"><strong>공유 포인트:</strong> "내 코드에서 Context Manifest가 막아준 위험" 한 줄. 데이터 경계 사례는 팀 보안 관점에서 공유 가치가 큽니다.</div>
+
+  <h3>실수 1 · 리팩토링에 기능 변경이 섞임 → 회귀</h3>
+  <p class="small">"동작은 그대로, 구조만" 이어야 하는데 모델이 로직까지 바꿔 회귀가 납니다.</p>
+  <div class="callout warn"><strong>✗ 예시:</strong> "<code>calcVat()</code> 가독성 좋게 정리해줘"만 요청 → 모델이 <strong>반올림 정책</strong>까지 바꿈(예: <code>Math.round</code> → <code>Math.floor</code>). 단위테스트는 통과해도 10원 단위 결과가 달라져 <strong>운영 회귀</strong>.</div>
+  <div class="callout ok"><strong>✓ 교정:</strong> 프롬프트에 <strong>"동작 불변 · 기존 테스트 전부 통과"</strong>를 명시하고, diff에서 <em>로직 변경이 없는지</em> 확인. 기능 추가는 <strong>별도 프롬프트·커밋</strong>으로 분리.</div>
+
+  <h3>실수 2 · Context Manifest 없이 큰 변경 → 엉뚱한 파일 수정</h3>
+  <p class="small">범위를 안 정하면 모델이 무관한 파일까지 손댑니다.</p>
+  <div class="callout warn"><strong>✗ 예시:</strong> "결제 로직 정리해줘" → 모델이 <code>src/billing/tax.js</code>뿐 아니라 무관한 <code>src/report/export.js</code>·<code>.env</code>까지 건드림.</div>
+  <div class="callout ok"><strong>✓ 교정:</strong> 먼저 Manifest로 범위를 못박음 — allowed <code>src/billing/tax.js</code> · blocked <code>.env</code>, <code>prod/*</code>. blocked는 Day2·S2 <strong>policy-check</strong>가 자동 차단합니다.</div>
+
+  <div class="callout note"><strong>공유 포인트:</strong> "내 코드에서 Context Manifest가 막아준 위험"을 한 줄로 — 예: <em>"결제 리팩토링에서 <code>prod/config</code>가 blocked라 실수로 운영 설정을 건드리지 않았다."</em> 데이터 경계 사례는 팀 보안 관점에서 공유 가치가 큽니다.</div>
 </section>
 
 <section class="section">
