@@ -97,11 +97,24 @@ git status</code></pre></div>
 
 <section class="section">
   <h2>이 세션의 실행 코드 (Hands-on)</h2>
+  <p>이 세션의 목표는 <strong>오늘 실습을 시작할 수 있는 로컬 baseline</strong>을 만드는 것입니다. 아래 세 명령으로 (1) 환경 준비도를 점검하고, (2) 통과 상태(baseline)를 기록하고, (3) 작업 브랜치를 팝니다.</p>
   <div class="callout ok"><strong>labs 에서 직접 실행</strong> — 리포 루트에서 baseline 을 확인합니다.</div>
 <pre><code>cd labs
-npm run env      # 환경 준비도 Green/Yellow/Red 자가 점검
-npm test         # baseline: 10 pass, 2 skip
-git checkout -b lab/copilot-workbook</code></pre>
+npm run env      # ① 환경 준비도 자가 점검 (Green/Yellow/Red)
+npm test         # ② baseline 테스트 실행
+git checkout -b lab/copilot-workbook   # ③ 작업 브랜치 생성</code></pre>
+
+  <h3>각 명령이 하는 일 · 어떻게 확인하나</h3>
+  <table>
+    <caption class="small">명령 · 동작 · 기대 결과(이렇게 나오면 성공)</caption>
+    <thead><tr><th>명령</th><th>동작</th><th>기대 결과 = 이 출력을 확인</th></tr></thead>
+    <tbody>
+      <tr><td><code>npm run env</code></td><td>Node 18+ · git · gh CLI 설치/버전을 점검해 준비도를 판정</td><td><code>준비도: GREEN → 바로 실습 가능</code>. YELLOW/RED면 안내대로 도구 설치·업데이트 후 재실행</td></tr>
+      <tr><td><code>npm test</code></td><td>내장 <code>node --test</code>로 유닛테스트 실행 — 지금 "통과하는 상태"가 곧 baseline</td><td><code># pass 10 · # skipped 2 · # fail 0</code>. skip 2개는 이후 실습에서 켤 예정이라 정상, <strong>fail 0</strong>이면 성공</td></tr>
+      <tr><td><code>git checkout -b …</code></td><td>실습 변경을 담을 작업 브랜치 생성(원본 보호)</td><td><code>git branch</code> 목록에 <code>* lab/copilot-workbook</code> 표시</td></tr>
+    </tbody>
+  </table>
+  <div class="callout note"><strong>왜 baseline을 남기나:</strong> 지금 <code># fail 0</code>을 확인해 두면, 이후 실습에서 실패가 나도 "내가 깬 건지 원래 그런지"를 바로 구분할 수 있습니다(되돌릴 기준점).</div>
   <p class="small">전체 실습 지도: <code>labs/README.md</code></p>
 </section>
 
