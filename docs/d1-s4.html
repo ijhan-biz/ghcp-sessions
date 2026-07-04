@@ -95,11 +95,18 @@
 
 <section class="section">
   <h2>흔한 실수 &amp; 공유 포인트</h2>
-  <ul>
-    <li>계획 받자마자 전 단계 일괄 실행 → 통제력 상실. 반드시 한 단계씩.</li>
-    <li>rollback note를 "나중에" → 구현 전에 초안이라도 만들어야 실패 시 빠릅니다.</li>
-  </ul>
-  <div class="callout note"><strong>공유 포인트:</strong> "계획 단계에서 잡아낸 잘못된 가정" 한 줄. 계획-실행 분리의 가치를 가장 잘 보여주는 사례입니다.</div>
+
+  <h3>실수 1 · 계획 받자마자 전 단계 일괄 실행 → 통제력 상실</h3>
+  <p class="small">계획을 "한꺼번에 다 해줘"로 넘기면 stop point가 무의미해집니다.</p>
+  <div class="callout warn"><strong>✗ 예시:</strong> Plan이 <em>1) 면세 분기 2) 음수 가드 3) 반올림 정리 4) 리팩토링</em>인데 "전부 구현해줘"로 한 번에 실행 → 테스트가 깨졌는데 <strong>어느 단계가 원인인지</strong> 알 수 없음.</div>
+  <div class="callout ok"><strong>✓ 교정:</strong> <code>"1단계만 구현. 끝나면 멈추고 변경 요약 + 테스트 결과 보고."</code> — stop point마다 <code>npm test</code>로 확인하고 다음 단계로.</div>
+
+  <h3>실수 2 · rollback note를 "나중에"</h3>
+  <p class="small">되돌릴 경로는 <strong>구현 전에</strong> 있어야 실패 시 빠릅니다.</p>
+  <div class="callout warn"><strong>✗ 예시:</strong> <code>calcVat()</code> 반올림 정책을 바꿨다가 운영 청구액이 틀어졌는데, <strong>되돌릴 커밋·설정 스냅샷</strong>을 안 적어둬 원복에 한참 걸림.</div>
+  <div class="callout ok"><strong>✓ 교정:</strong> 구현 전에 rollback note 초안 — 되돌릴 기준 커밋 <code>abc1234</code> · 명령 <code>git revert abc1234</code> · 확인 <code>npm test</code>(<span class="tag gl">HE-10</span>).</div>
+
+  <div class="callout note"><strong>공유 포인트:</strong> "계획 단계에서 잡아낸 잘못된 가정"을 한 줄로 — 예: <em>"Plan을 보다 '면세는 소수점 절사, 일반은 반올림'이라는 다른 규칙을 발견해 코드 쓰기 전에 AC를 고쳤다."</em> 계획-실행 분리의 가치를 가장 잘 보여주는 사례입니다.</div>
 </section>
 
 <section class="section">
