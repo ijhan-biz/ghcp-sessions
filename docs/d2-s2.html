@@ -39,9 +39,8 @@
       <li><strong>'약속을 코드로'의 의미</strong> — Day1에 <em>프롬프트로 적은</em> 가드레일("외부 패키지 금지" 등)은 모델이 어길 수 있는 <em>말</em>입니다. 그것을 <strong>실행 경계에서 강제되는 검사</strong>로 옮기는 것이 하네스의 핵심입니다.</li>
       <li><strong>두 층을 구분</strong> — <code>wrapper</code>는 <strong>사전(preventive)</strong> 통제(권한·로그·위험명령 차단 — 실행 <em>전/중</em>), <code>policy-check</code>는 <strong>사후(detective)</strong> 검증(금지 파일·secret·패키지 — 실행 <em>후</em>). 역할이 다릅니다.</li>
       <li><strong>결정론적이어야 한다</strong> — 게이트는 모델 판단이 아니라 <strong>규칙 기반</strong>이라 매번 같은 결과를 냅니다. 그래서 "통과 = 안전"을 신뢰할 수 있습니다.</li>
-      <li><strong>PR/Actions 없이 로컬에서</strong> — 원격 CI 대신 <code>npm run gate</code>(lint + test + policy-check) 하나로 같은 품질 통제를 로컬에 둡니다.</li>
     </ol>
-    <span class="small">→ 오늘 손으로 확인할 것: "프롬프트로 막던 것"을 <code>policy-check</code>가 <strong>코드로</strong> 막는지, 그리고 <code>gate</code>가 한 번에 통과/실패를 판정하는지.</span>
+    <span class="small">→ 오늘 손으로 확인할 것: "프롬프트로 막던 것"을 <code>policy-check</code>가 <strong>코드로</strong> 막아 통과/실패를 결정론적으로 판정하는지.</span>
   </div>
   <div class="step"><div class="label">교육용 wrapper (발췌)</div>
 <pre><code>#!/usr/bin/env zsh
@@ -62,6 +61,7 @@ if (hits.length){ console.error('Blocked files changed:\n'+hits.join('\n')); pro
 console.log('policy-check passed');</code></pre></div>
   <div class="step"><div class="label">로컬 게이트 실행</div>
 <pre><code>npm run lint &amp;&amp; npm test &amp;&amp; node scripts/policy-check.mjs</code></pre></div>
+  <div class="callout note"><strong>실행·이해 팁(크로스플랫폼):</strong> 위 <code>wrapper</code>는 mac/zsh·CLI 예시라 <strong>Windows에선 그대로 실행되지 않습니다</strong> — Windows·VS Code에서는 <strong>Agent 모드의 도구 승인·denyList</strong>로 같은 통제를 합니다(D2·S1 대응표). 코드를 외울 필요는 없고 <em>"금지 규칙이 사람 말이 아니라 코드로 강제된다"</em>만 이해하면 됩니다. 어디서든(Windows 포함) 손으로 돌려볼 부분은 node 기반 <code>node scripts/policy-check.mjs</code>와 <code>npm run gate</code>입니다.</div>
   <div class="callout note"><strong>운영 팁(<span class="tag gl">HE-13</span> logging-first):</strong> 처음엔 경고만 남기고 위반을 관찰한 뒤, 오탐을 줄이고 위험도가 높은 항목부터 block으로 승격합니다.</div>
 </section>
 
