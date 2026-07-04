@@ -17,6 +17,7 @@ npm test         # baseline: 10 pass, 2 skip (Day2-S4에서 켤 테스트)
 | `npm run env` | 환경 준비도 점검(Green/Yellow/Red) |
 | `npm test` | 유닛테스트(node --test) |
 | `npm run spec-check` | '좋은 입력' 스펙 자가검증(정상·예외·경계 AC·비식별 확인) |
+| `node scripts/token-estimate.mjs <파일...>` | 입력 토큰 근사치(Before/After 비율 비교·오프라인) |
 | `npm run lint` | 의존성 없는 구문 검사(node --check) |
 | `npm run policy-check` | 금지 파일/secret 패턴 감지 |
 | `npm run gate` | lint + test + policy-check (로컬 품질 게이트) |
