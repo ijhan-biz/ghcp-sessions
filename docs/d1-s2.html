@@ -98,8 +98,35 @@ So that [업무 가치/품질 효과].</code></pre></div>
 
 <section class="section">
   <h2>참조 심화 — SMART AC · BDD 브래킷</h2>
-  <div class="callout note"><strong>SMART + 측정 source:</strong> AC는 "잘 동작한다" 같은 모호한 문장이 아니라 <strong>측정 가능한 조건 + 측정 source</strong>(어느 테스트/명령으로 확인하는가)를 함께 적습니다.</div>
-  <div class="callout ok"><strong>BDD 브래킷:</strong> 한 단계를 <code>Given-When-Then</code> 문장으로 <em>열고</em>, 끝나면 <em>같은 문장 + 증거 링크</em>로 <em>닫습니다</em>. 시작과 끝을 같은 기준으로 묶어 "완료"를 못박습니다.</div>
+
+  <h3>SMART AC — 검증 가능한 조건의 5가지 기준</h3>
+  <p>AC가 "잘 동작한다"에 머물면 모델도 사람도 <strong>완료를 판정할 수 없습니다</strong>. SMART는 AC를 <strong>측정 가능한 문장</strong>으로 만드는 체크리스트입니다. 특히 마지막 <strong>T</strong>는 "무엇으로 확인하나" — 즉 <strong>측정 source</strong>(테스트/명령)를 함께 적는다는 뜻입니다.</p>
+  <table>
+    <caption class="small">SMART 기준 · 질문 · 결제(VAT) 예</caption>
+    <thead><tr><th>기준</th><th>질문</th><th>예</th></tr></thead>
+    <tbody>
+      <tr><td><strong>S</strong>pecific · 구체적</td><td>무엇이, 어떤 조건에서?</td><td>"면세 품목"이라는 입력 조건을 명시</td></tr>
+      <tr><td><strong>M</strong>easurable · 측정가능</td><td>숫자/불리언으로 판정되나?</td><td>VAT = 0 (정확한 기대값)</td></tr>
+      <tr><td><strong>A</strong>chievable · 달성가능</td><td>이번 slice로 가능한가?</td><td><code>calcVat()</code> 한 함수 범위</td></tr>
+      <tr><td><strong>R</strong>elevant · 관련성</td><td>기능 목표에 닿나?</td><td>세금 정확도 목표에 직결</td></tr>
+      <tr><td><strong>T</strong>estable · 테스트가능</td><td>무엇으로 확인하나?(source)</td><td><code>tax.test.js</code>의 "AC2 면세=0"</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><strong>✗ 모호한 AC:</strong> "면세 처리가 잘 된다." — 무엇이 '잘'인지, 무엇으로 확인하는지가 없습니다.</div>
+  <div class="callout ok"><strong>✓ SMART AC:</strong> "면세 품목을 입력하면 VAT는 <strong>0</strong>을 반환한다 — <code>npm test</code>의 <code>AC2 면세 품목은 VAT 0</code>으로 확인."</div>
+
+  <h3>BDD 브래킷 — Given·When·Then으로 열고, 증거로 닫는다</h3>
+  <p>한 작업 단위를 <strong>시작할 때</strong> 기대를 <code>Given-When-Then</code>으로 <em>열고</em>, <strong>끝날 때</strong> 같은 문장에 <em>증거</em>(테스트 통과·커밋)를 붙여 <em>닫습니다</em>. 시작과 끝의 기준이 같아 "완료"가 흔들리지 않습니다.</p>
+  <div class="step"><div class="label">① 열기 — 작업 전, 기대 정의</div>
+<pre><code>Given  면세 품목과 금액이 주어지고
+When   calcVat(금액, { 면세: true }) 를 호출하면
+Then   VAT 는 0 을 반환한다.</code></pre></div>
+  <div class="step"><div class="label">② 닫기 — 작업 후, 같은 문장 + 증거</div>
+<pre><code>Given 면세 품목 … When calcVat … Then VAT = 0   ✅
+증거:
+- npm test → "AC2 면세 품목은 VAT 0" pass
+- commit abc1234 (tax.js: 면세 분기 추가)</code></pre></div>
+  <div class="callout note"><strong>왜 브래킷인가:</strong> 열기만 있으면 "했다"는 선언에 그치고, <strong>닫기(증거)</strong>가 있어야 검증 가능한 변경이 됩니다. 이 열기/닫기 한 쌍은 Day2·S4 test-first(실패 테스트 → 통과)와 리뷰 패킷(증거 번들)으로 그대로 이어집니다.</div>
 </section>
 
 <section class="section">
