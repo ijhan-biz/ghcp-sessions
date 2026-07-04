@@ -75,9 +75,9 @@ npm run sim       # 장기 실행 안전장치 시뮬레이션
 npm run routing   # 단계별 모델 라우팅 데모
 ```
 
-> 연속 코드베이스: 가상 '결제(billing)' 기능을 Day1~Day2 같은 파일(`src/billing/tax.js`·`discount.js`)로 키워 갑니다. 세션↔코드 지도는 `labs/README.md`.
+> 두 코드베이스: **Day1**은 결제(billing) 예제(`labs/` — `src/billing/tax.js`·`discount.js`)로 기법을 익히고, **Day2**는 실습 프로젝트를 **VS Code 새 창**에 열어 구현합니다. 세션↔코드 지도는 각 프로젝트의 `README.md`.
 >
-> 폴백 샘플: 본인 기능을 못 가져온 참가자는 `sample-project-web-curation/`(검색 결과 정리 엔진)를 "내 기능"으로 채택해 진행합니다 — `cd sample-project-web-curation && npm test` (baseline 4 pass, 2 skip).
+> Day2 실습 프로젝트(폴백): 본인 기능을 못 가져온 참가자는 `sample-project-web-curation/`(검색 결과 정리 엔진)를 "내 기능"으로 채택해 새 창에서 진행합니다 — `cd sample-project-web-curation && npm test` (baseline 4 pass, 2 skip).
 
 ## 특징
 
