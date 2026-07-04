@@ -65,7 +65,7 @@ gh copilot -- --help</code></pre></div>
 </section>
 
 <section class="section">
-  <h2>참조 심화 — CLI 하네스 플래그 · 차단 패턴 (출처: 004 CLI Harness Guide)</h2>
+  <h2>참조 심화 — CLI 하네스 플래그 · 차단 패턴</h2>
   <h3>권한·로그 플래그 모음</h3>
   <table>
     <caption class="small">Copilot CLI 권한·로그 플래그</caption>
@@ -81,7 +81,7 @@ gh copilot -- --help</code></pre></div>
   </table>
   <h3>차단 권장 명령 패턴</h3>
   <p class="small"><code>rm -rf</code> · <code>git push --force</code> · <code>kubectl delete</code> · <code>terraform apply</code> · <code>git rebase -i</code> — 위험도에 따라 warn 또는 block.</p>
-  <div class="callout warn"><strong>핵심 원칙(004):</strong> "프롬프트만으로는 안전하지 않다 — 정책은 실행 경계에 붙인다." 실행 <strong>전(pre-check)</strong>과 <strong>후(post-check)</strong>를 모두 검사하고, 처음 1~2주는 <strong>log-only</strong>로 오탐을 관찰한 뒤 차단으로 승격합니다(logging-first).</div>
+  <div class="callout warn"><strong>핵심 원칙:</strong> "프롬프트만으로는 안전하지 않다 — 정책은 실행 경계에 붙인다." 실행 <strong>전(pre-check)</strong>과 <strong>후(post-check)</strong>를 모두 검사하고, 처음 1~2주는 <strong>log-only</strong>로 오탐을 관찰한 뒤 차단으로 승격합니다(logging-first).</div>
 </section>
 
 <section class="section">

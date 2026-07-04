@@ -114,10 +114,10 @@ console.log('policy-check passed');</code></pre></div>
 </section>
 
 <section class="section">
-  <h2>참조 심화 — 토폴로지 · 도입 로드맵 (출처: 005 Agent Team Composition)</h2>
+  <h2>참조 심화 — 토폴로지 · 도입 로드맵</h2>
   <h3>위험도에 따른 토폴로지 선택</h3>
   <table>
-    <caption class="small">위험도별 토폴로지 선택 (005)</caption>
+    <caption class="small">위험도별 토폴로지 선택</caption>
     <thead><tr><th>위험</th><th>권장 토폴로지</th><th>하드 게이트</th></tr></thead>
     <tbody>
       <tr><td>Small</td><td>Solo · Planner-Generator</td><td>로컬 test</td></tr>
@@ -126,7 +126,7 @@ console.log('policy-check passed');</code></pre></div>
       <tr><td>Critical</td><td>Control Tower + Human Approval</td><td>100% 사람 리뷰</td></tr>
     </tbody>
   </table>
-  <div class="callout note"><strong>원칙(005):</strong> "리스크 게이트를 통과하는 <em>가장 작은 팀</em>으로 시작" — 위험이 커지면 Generator를 늘리기 전에 <strong>Evaluator·Harness·Rollback Owner</strong>를 먼저 추가합니다. Decision Scorecard 4행(목표 명확성·권한 범위·관측성·리스크 정의)으로 점검합니다.</div>
+  <div class="callout note"><strong>원칙:</strong> "리스크 게이트를 통과하는 <em>가장 작은 팀</em>으로 시작" — 위험이 커지면 Generator를 늘리기 전에 <strong>Evaluator·Harness·Rollback Owner</strong>를 먼저 추가합니다. Decision Scorecard 4행(목표 명확성·권한 범위·관측성·리스크 정의)으로 점검합니다.</div>
   <h3>도입 로드맵 G0→G4</h3>
   <div class="flow">
     <span class="n">G0 읽기전용 파일럿</span><span class="ar">→</span><span class="n">G1 PR-first(Evaluator)</span><span class="ar">→</span><span class="n">G2 Harness-gated</span><span class="ar">→</span><span class="n">G3 Human-gated(approval_id)</span><span class="ar">→</span><span class="n">G4 SLO 운영</span>

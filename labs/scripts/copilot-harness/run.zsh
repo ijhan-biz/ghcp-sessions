@@ -28,5 +28,5 @@ else
   echo "[dry-run] deny    : shell(rm), shell(git push --force)"
   echo "[dry-run] log-dir : .copilot-harness/logs"
   echo "[dry-run] format  : json"
-  echo "[dry-run] 원칙(004): 프롬프트만으로는 안전하지 않다 — 정책은 실행 경계에 붙인다."
+  echo "[dry-run] 원칙: 프롬프트만으로는 안전하지 않다 — 정책은 실행 경계에 붙인다."
 fi

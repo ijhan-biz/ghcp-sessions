@@ -6,4 +6,4 @@
 - Verify: `npm run gate`
 - Completion: baseline green, 스펙 v1 상태로 복구
 
-> release-readiness 진입 시 dry-run 으로 MTTR·owner·신호를 미리 기록한다(033). 되돌림을 "처음" 해보는 일이 없게.
+> release-readiness 진입 시 dry-run 으로 MTTR·owner·신호를 미리 기록한다. 되돌림을 "처음" 해보는 일이 없게.

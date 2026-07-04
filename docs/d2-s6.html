@@ -80,7 +80,7 @@ Context Manifest → Test Matrix → Risk/Human Gate를 만든다.
 </section>
 
 <section class="section">
-  <h2>참조 심화 — 모델 라우팅 &amp; 관측성 (출처: 035 Sub-agent Model Routing)</h2>
+  <h2>참조 심화 — 모델 라우팅 &amp; 관측성</h2>
   <h3>모델 지정 2가지 경로</h3>
   <table>
     <caption class="small">모델 라우팅 2경로 (CF-10)</caption>
@@ -94,7 +94,7 @@ Context Manifest → Test Matrix → Risk/Human Gate를 만든다.
   <h3>단계별 모델 계층(토큰 효율)</h3>
   <div class="flow"><span class="n">계획=고추론</span><span class="ar">→</span><span class="n">구현=빠른/auto</span><span class="ar">→</span><span class="n">리뷰=auto/중간</span></div>
   <p class="small">고추론 모델은 <strong>의사결정 병목에만</strong> 씁니다. 구현 단계가 합의된 계획을 다시 의심하면 토큰이 폭증합니다.</p>
-  <div class="callout warn"><strong>핵심 원칙(035):</strong> 표준 에이전트엔 <code>model:</code>을 명시해 UI 기본값 누수를 막고, <strong>UI model picker 표시와 실제 호출 모델이 다를 수 있으니 세션 로그로 확인</strong>합니다(<code>~/.copilot/session-state/&lt;id&gt;/events.jsonl</code>). 안 쓰는 MCP/도구는 컨텍스트·비용을 늘리므로 <code>tools:</code>로 좁힙니다.</div>
+  <div class="callout warn"><strong>핵심 원칙:</strong> 표준 에이전트엔 <code>model:</code>을 명시해 UI 기본값 누수를 막고, <strong>UI model picker 표시와 실제 호출 모델이 다를 수 있으니 세션 로그로 확인</strong>합니다(<code>~/.copilot/session-state/&lt;id&gt;/events.jsonl</code>). 안 쓰는 MCP/도구는 컨텍스트·비용을 늘리므로 <code>tools:</code>로 좁힙니다.</div>
   <div class="callout note"><strong>관측성:</strong> 토큰 단위 상세는 OpenTelemetry <code>gen_ai.usage.*</code>(input/output/reasoning tokens), 비용 원장은 Billing/Usage API(집계, 토큰 단위 아님). hook(preToolUse/postToolUse)은 정책·감사용이지 토큰 집계용이 아니며, 토큰/secret을 로그에 남기지 않습니다.</div>
 </section>
 

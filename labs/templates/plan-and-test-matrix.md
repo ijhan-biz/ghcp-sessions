@@ -1,6 +1,6 @@
 # Plan + Test Matrix (Day1-S4)
 
-> 코드 작성 전에 계획·검증·롤백을 먼저 고정한다. Definition of Done(031): Code + Test + Required Check + Doc + Rollback Path.
+> 코드 작성 전에 계획·검증·롤백을 먼저 고정한다. Definition of Done: Code + Test + Required Check + Doc + Rollback Path.
 
 ## 구현 계획 (2~4단계, 각 단계 stop point)
 1. 변경 목표:

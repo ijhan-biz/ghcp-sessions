@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // scripts/model-routing-demo.mjs
 // Day2-S6: 단계별 모델 라우팅 데모.
-// 원칙(035): 고추론 모델은 "의사결정 병목"에만, 구현은 빠른/auto 로 재추론 낭비를 막는다.
+// 원칙: 고추론 모델은 "의사결정 병목"에만, 구현은 빠른/auto 로 재추론 낭비를 막는다.
 // routeModel 은 순수 함수라 test/routing.test.js 로도 검증된다.
 
 export function routeModel(stage) {
@@ -21,6 +21,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     const r = routeModel(stage);
     console.log(`  ${stage.padEnd(9)} → ${r.tier.padEnd(15)} (${r.why})`);
   }
-  console.log('\n주의(035): 프롬프트에 모델명을 적는 것은 보장이 아니다.');
+  console.log('\n주의: 프롬프트에 모델명을 적는 것은 보장이 아니다.');
   console.log('  custom agent 의 model: / model picker / 세션 로그(events.jsonl)로 실제 호출 모델을 확인하라.');
 }

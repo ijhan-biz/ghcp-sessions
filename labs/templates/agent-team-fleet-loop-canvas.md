@@ -9,7 +9,7 @@
 | Harness | 품질/플랫폼 | policy-check·wrapper·gate |
 | Approval Owner | PL/아키텍트/보안 | 고위험 승인 또는 block |
 
-## 위험도별 토폴로지(005)
+## 위험도별 토폴로지
 | 위험 | 토폴로지 | 하드 게이트 |
 | --- | --- | --- |
 | Small | Solo·Planner-Generator | 로컬 test |

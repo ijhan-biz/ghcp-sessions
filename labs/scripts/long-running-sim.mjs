@@ -54,5 +54,5 @@ const rate = ckptOk / ckptTotal;
 const pass = rate >= SLO.checkpointSuccessMin;
 console.log('--- 게이트 판정 ---');
 console.log(`checkpoint_restore_success_rate=${(rate * 100).toFixed(1)}% (기준 ≥99%) → ${pass ? 'PASS ✓' : 'BLOCK ✗'}`);
-console.log('원칙(033): 비용 소모가 보이지 않으면 확장하지 않는다. soft gate=신호, hard gate=go/no-go.');
+console.log('원칙: 비용 소모가 보이지 않으면 확장하지 않는다. soft gate=신호, hard gate=go/no-go.');
 process.exit(pass ? 0 : 1);
