@@ -150,13 +150,18 @@ if not exist "labs\package.json" (
 echo.
 if "%PASS%"=="1" (
   echo Result: READY - You can start the training labs.
-  endlocal & exit /b 0
+  call :leave 0
 ) else (
   echo Result: NOT READY - Resolve [x] items and re-run setup-windows.bat or use --check again.
-  endlocal & exit /b 1
+  call :leave 1
 )
 
 REM ---------------------------------------------------------------- Subroutines
+:leave
+set "EXITCODE=%~1"
+set "FINALPATH=%PATH%"
+endlocal & set "PATH=%FINALPATH%" & exit /b %EXITCODE%
+
 :ensure_node
 where node >nul 2>nul
 if not errorlevel 1 (
