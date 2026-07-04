@@ -24,10 +24,20 @@
 <section class="section">
   <h2>운영 목표</h2>
   <ul>
-    <li>blocker를 모아 빠르게 처리하고, YELLOW/RED 참가자를 식별해 D2·S0 보강 대상으로 표시한다.</li>
+    <li>blocker를 모아 빠르게 처리하고, <strong>준비도가 YELLOW/RED인 참가자</strong>(아래 정의)를 식별해 D2·S0 보강 대상으로 표시한다.</li>
     <li>Day2 준비물(본인 기능 스펙/코드, 환경)을 점검한다.</li>
     <li>한 줄 회고로 학습을 고정한다.</li>
   </ul>
+  <div class="callout note"><strong>GREEN/YELLOW/RED 참가자란?</strong> Day1을 마친 시점의 <strong>준비도 신호</strong>입니다(<span class="tag gl">EN-18</span> 환경 · <span class="tag gl">OR-16</span> Handoff 준비도). "Feature Spec Pack v1과 로컬 환경이 <strong>Day2 실습을 바로 시작할 만큼</strong> 갖춰졌는가"를 스스로/강사가 판정한 색입니다.</div>
+  <table>
+    <caption class="small">준비도 신호 — 참가자 상태 · Day2 시작 행동</caption>
+    <thead><tr><th>신호</th><th>뜻 (참가자 상태)</th><th>D2·S0에서 할 일</th></tr></thead>
+    <tbody>
+      <tr><td><strong>GREEN</strong></td><td>Spec Pack v1의 6항목 충족 + 환경 READY. 바로 구현 가능.</td><td>보강 없이 D2·S1로 진입.</td></tr>
+      <tr><td><strong>YELLOW</strong></td><td>일부 미흡 — 예: Test Matrix가 빈약하거나 AC가 3개 미만, 또는 환경이 gh/확장 <em>경고</em> 수준.</td><td>D2·S0에서 <strong>10분 보강</strong>(빠진 AC·Test Matrix 채우기).</td></tr>
+      <tr><td><strong>RED</strong></td><td>스펙/AC 자체가 모호하거나, 환경이 Node/git 미설치로 <strong>로컬 실행 불가</strong>.</td><td><strong>폴백</strong> — <code>sample-project-web-curation</code> 스펙 채택 + 환경은 짝 실습/강사 공유 baseline으로 이어가기.</td></tr>
+    </tbody>
+  </table>
 </section>
 
 <section class="section">
