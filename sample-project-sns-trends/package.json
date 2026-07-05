@@ -7,6 +7,9 @@
   "engines": { "node": ">=18" },
   "scripts": {
     "test": "node --test",
+    "demo": "node src/cli.js",
+    "serve": "node src/server.js",
+    "snapshot": "node scripts/save-snapshot.mjs",
     "spec-check": "node scripts/spec-check.mjs",
     "token-estimate": "node scripts/token-estimate.mjs",
     "env": "node scripts/check-env.mjs",

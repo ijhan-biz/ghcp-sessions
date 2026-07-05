@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SNS 트렌드 분석 엔진</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; margin: 0;
+      background: #0f172a; color: #e2e8f0; }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 32px 20px 64px; }
+    h1 { font-size: 22px; margin: 0 0 4px; }
+    .sub { color: #94a3b8; font-size: 13px; margin: 0 0 24px; }
+    form { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    input, button { font-size: 14px; padding: 10px 12px; border-radius: 8px;
+      border: 1px solid #334155; background: #1e293b; color: #e2e8f0; }
+    input#q { flex: 1 1 260px; }
+    input#topN { width: 84px; }
+    button { cursor: pointer; background: #2563eb; border-color: #2563eb; font-weight: 600; }
+    button:hover { background: #1d4ed8; }
+    .meta { color: #94a3b8; font-size: 13px; margin-bottom: 12px; }
+    .row { display: flex; align-items: center; gap: 12px; margin: 8px 0; }
+    .rank { width: 22px; color: #64748b; text-align: right; font-variant-numeric: tabular-nums; }
+    .tag { width: 130px; font-weight: 600; }
+    .barwrap { flex: 1; background: #1e293b; border-radius: 6px; overflow: hidden; }
+    .bar { height: 22px; background: linear-gradient(90deg, #38bdf8, #2563eb); border-radius: 6px; }
+    .score { width: 96px; text-align: right; font-variant-numeric: tabular-nums; color: #cbd5e1; font-size: 13px; }
+    .desc { margin: 2px 0 14px 34px; font-size: 12px; color: #94a3b8; line-height: 1.6; }
+    .desc .dline { margin: 2px 0; }
+    .desc .dline.ctx { color: #e2e8f0; font-weight: 600; }
+    .desc .rel { color: #93c5fd; }
+    .empty { color: #94a3b8; padding: 24px 0; }
+    .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px;
+      border-radius: 999px; margin-left: 8px; vertical-align: middle; }
+    .badge.web { background: #064e3b; color: #6ee7b7; }
+    .badge.sample { background: #422006; color: #fdba74; }
+    .insight { margin-top: 24px; background: #1e293b; border: 1px solid #334155;
+      border-radius: 10px; padding: 16px 18px; }
+    .insight h2 { font-size: 15px; margin: 0 0 8px; display: flex; align-items: center; gap: 6px; }
+    .insight ul { margin: 0; padding-left: 18px; }
+    .insight li { margin: 4px 0; font-size: 14px; color: #cbd5e1; }
+    .insight .src { font-size: 11px; color: #64748b; margin-top: 10px; }
+    .segments { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+    @media (max-width: 560px) { .segments { grid-template-columns: 1fr; } }
+    .seg { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 14px 16px; }
+    .seg h3 { font-size: 14px; margin: 0 0 10px; }
+    .seg .item { display: flex; justify-content: space-between; gap: 8px; margin: 6px 0; font-size: 13px; }
+    .seg .key { color: #93c5fd; font-weight: 600; min-width: 52px; }
+    .seg .tags { color: #cbd5e1; text-align: right; }
+    footer { margin-top: 32px; color: #64748b; font-size: 12px; }
+    code { background: #1e293b; padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>유명 SNS 트렌드 분석 엔진</h1>
+    <p class="sub">내장 샘플 데이터(fake fetcher)로 동작 · 실제 API 키·네트워크 불필요</p>
+
+    <form id="f">
+      <input id="q" type="text" placeholder="검색어 (예: #ai, 비우면 전체)" />
+      <input id="topN" type="number" min="1" max="20" value="5" title="상위 N" />
+      <button type="submit">분석</button>
+    </form>
+
+    <div id="meta" class="meta"></div>
+    <div id="list"></div>
+    <div id="insight"></div>
+    <div id="segments" class="segments"></div>
+
+    <footer>점수 = Σ (1 + engagement) × recencyWeight(반감기 7일) · 동점이면 언급 수</footer>
+  </div>
+
+  <script>
+    const listEl = document.getElementById('list');
+    const metaEl = document.getElementById('meta');
+    const insightEl = document.getElementById('insight');
+    const segmentsEl = document.getElementById('segments');
+
+    async function load() {
+      const q = document.getElementById('q').value.trim();
+      const topN = document.getElementById('topN').value || 5;
+      const res = await fetch(`/api/trends?q=${encodeURIComponent(q)}&topN=${encodeURIComponent(topN)}`);
+      const data = await res.json();
+      render(data);
+    }
+
+    function render(data) {
+      const label = data.source === 'web' ? '실시간 웹'
+        : data.source === 'mastodon' ? '실시간 Mastodon'
+        : data.source === 'bluesky' ? '실시간 Bluesky'
+        : data.source === 'snapshot' ? '스냅샷(오프라인)'
+        : '샘플 데이터';
+      const isReal = data.source === 'web' || data.source === 'mastodon' || data.source === 'bluesky';
+      const badge = `<span class="badge ${isReal ? 'web' : 'sample'}">${label}</span>`;
+      const win = data.windowLabel ? `  ·  ${escapeHtml(data.windowLabel)}` : (data.windowDays ? `  ·  최근 ${data.windowDays}일` : '');
+      const langMap = { ko: '한국어', en: '영어', ja: '일본어', de: '독일어' };
+      const langTag = (data.langs && data.langs.length) ? `  ·  ${data.langs.map((l) => langMap[l] || l).join('·')}` : '';
+      const tagScriptTag = data.tagScript === 'hangul' ? '  ·  한글 태그만' : '';
+      const cachedTag = data.cached ? '  ·  캐시' : '';
+      metaEl.innerHTML = `검색어: "${escapeHtml(data.query || '(전체)')}"  ·  수집 ${data.collected}건${win}${langTag}${tagScriptTag}${cachedTag}  ·  상위 ${data.topN}` + badge;
+      renderInsight(data.insight);
+      renderSegments(data.byRegion, data.byAge);
+      const trends = data.trends || [];
+      if (trends.length === 0) {
+        listEl.innerHTML = '<div class="empty">해시태그 트렌드가 없습니다. 검색어를 바꿔보세요.</div>';
+        return;
+      }
+      const max = trends[0].score || 1;
+      const details = data.details || {};
+      listEl.innerHTML = trends.map((t, i) => {
+        const pct = Math.max(4, Math.round((t.score / max) * 100));
+        const d = details[t.tag];
+        const desc = d ? renderDesc(d) : '';
+        return `<div class="row">
+          <div class="rank">${i + 1}</div>
+          <div class="tag">#${escapeHtml(t.tag)}</div>
+          <div class="barwrap"><div class="bar" style="width:${pct}%"></div></div>
+          <div class="score">${t.score.toFixed(2)} · ${t.count}회</div>
+        </div>${desc}`;
+      }).join('');
+    }
+
+    function renderDesc(d) {
+      const lines = (d.explanation || []).map((line) => {
+        const isCtx = line.startsWith('맥락:');
+        return `<div class="dline${isCtx ? ' ctx' : ''}">${escapeHtml(line)}</div>`;
+      }).join('');
+      const body = lines || `<div class="dline">${escapeHtml(d.summary || '')}</div>`;
+      return `<div class="desc">${body}</div>`;
+    }
+
+    function renderInsight(insight) {
+      if (!insight) { insightEl.innerHTML = ''; return; }
+      const bullets = (insight.bullets || []).map((b) => `<li>${escapeHtml(b)}</li>`).join('');
+      const srcLabel = insight.source === 'llm' ? 'GitHub Copilot (GitHub Models)' : '로컬 요약(결정론)';
+      insightEl.innerHTML = `<div class="insight">
+        <h2>💡 ${escapeHtml(insight.summary || '인사이트')}</h2>
+        <ul>${bullets || '<li>표시할 인사이트가 없습니다.</li>'}</ul>
+        <div class="src">인사이트 출처: ${srcLabel}</div>
+      </div>`;
+    }
+
+    function renderSegments(byRegion, byAge) {
+      const card = (title, seg) => {
+        const entries = Object.entries(seg || {});
+        if (entries.length === 0) return '';
+        const rows = entries.map(([key, list]) => {
+          const tags = (list || []).slice(0, 3).map((t) => `#${escapeHtml(t.tag)}`).join(', ');
+          return `<div class="item"><span class="key">${escapeHtml(key)}</span><span class="tags">${tags}</span></div>`;
+        }).join('');
+        return `<div class="seg"><h3>${title}</h3>${rows}</div>`;
+      };
+      segmentsEl.innerHTML = card('지역별 주요 키워드', byRegion) + card('연령대별 주요 키워드', byAge);
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, (c) => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+      ));
+    }
+
+    document.getElementById('f').addEventListener('submit', (e) => { e.preventDefault(); load(); });
+    load();
+  </script>
+</body>
+</html>

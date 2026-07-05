@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { extractHashtags, engagement, rankTrends, searchPosts } from '../src/trends.js';
+import { extractHashtags, engagement, rankTrends, searchPosts, isHangulTag } from '../src/trends.js';
 
 // Day2-S4: 아래 { skip: true } 두 곳을 제거하고 src/trends.js 의 recencyWeight 를 구현하세요(test-first).
 
@@ -55,8 +55,8 @@ test('searchPosts: fetch 실패(throw) → 빈 배열(안전 처리)', async () 
   assert.deepEqual(await searchPosts('q', { fetch: boom }), []);
 });
 
-// --- Day2-S4 test-first (recencyWeight 구현 전이라 skip) ---
-test('최근성: 동일 조건이면 최근 게시물의 태그가 상위', { skip: true }, () => {
+// --- Day2-S4 test-first (recencyWeight 구현) ---
+test('최근성: 동일 조건이면 최근 게시물의 태그가 상위', () => {
   const p = [
     { text: '#old', likes: 0, reposts: 0, createdAt: day(60) }, // 먼저(오래됨)
     { text: '#new', likes: 0, reposts: 0, createdAt: day(0) },  // 나중(최근)
@@ -65,8 +65,29 @@ test('최근성: 동일 조건이면 최근 게시물의 태그가 상위', { sk
   assert.equal(r[0].tag, 'new'); // 감쇠 구현 시 최근 #new 가 위. (stub 은 동점→입력순 #old)
 });
 
-test('최근성: 7일 지난 게시물 태그 점수는 감쇠(1 미만)', { skip: true }, () => {
+test('최근성: 7일 지난 게시물 태그 점수는 감쇠(1 미만)', () => {
   const p = [{ text: '#x', likes: 0, reposts: 0, createdAt: day(7) }]; // 반감기 1회
   const r = rankTrends(p, { now: NOW, topN: 10 });
   assert.ok(r[0].score < 1); // 반감기 7일 → (1+0)*0.5 = 0.5 < 1 (stub 은 1)
+});
+
+test('isHangulTag: 한글 태그 판별', () => {
+  assert.equal(isHangulTag('인공지능'), true);
+  assert.equal(isHangulTag('클로드'), true);
+  assert.equal(isHangulTag('ai'), false);
+  assert.equal(isHangulTag('tech2'), false);
+});
+
+test('rankTrends: tagFilter(한글 태그)로 한글 태그만 반환', () => {
+  const p = [
+    { text: '#인공지능 #ai 발표', likes: 3, reposts: 0, createdAt: day(0) },
+    { text: '#클로드 #llm 후기', likes: 1, reposts: 0, createdAt: day(0) },
+    { text: '#ai only english', likes: 5, reposts: 0, createdAt: day(0) },
+  ];
+  const r = rankTrends(p, { now: NOW, topN: 10, tagFilter: isHangulTag });
+  const tags = r.map((x) => x.tag);
+  assert.ok(tags.includes('인공지능'));
+  assert.ok(tags.includes('클로드'));
+  assert.ok(!tags.includes('ai'));
+  assert.ok(!tags.includes('llm'));
 });
