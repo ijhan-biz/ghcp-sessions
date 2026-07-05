@@ -101,6 +101,21 @@ npm test                       # baseline 다시 통과? 실패면 원인 먼저
   <p>Day2의 <strong>구현 실습</strong>은 독립 프로젝트 <code>sample-project-sns-trends</code>(유명 SNS 트렌드 분석 엔진)을 <strong>VS Code 새 창</strong>에 열어 진행합니다. 강의 문서와 분리된 <em>깨끗한 프로젝트 워크스페이스</em>여야 Copilot(특히 Agent 모드)의 파일·도구 범위가 이 프로젝트로 좁혀집니다. <span class="small">(본인 기능 코드가 있으면 그 폴더를 같은 방식으로 엽니다.)</span></p>
   <div class="callout note"><strong>폴백 프로젝트는 둘 중 택1(구조·진행 동일):</strong> ① <code>sample-project-sns-trends</code>(SNS 트렌드 — 슬라이스 <code>recencyWeight</code>) 또는 ② <code>sample-project-activity-log</code>(개인 활동 로그 분석 — 슬라이스 <code>sessionize</code>). 둘 다 무의존·<code>npm test</code>로 baseline(각각 9·5 pass + 2 skip)이 돌고, 하네스 스크립트·에이전트가 동일하게 들어 있습니다.</div>
 
+  <div class="callout warn"><strong>activity-log로 진행할 때 — 명령 치환 안내:</strong> 이후 S1~S7의 명령·코드 예시는 문서 기본값인 <code>sns-trends</code> 기준입니다. <code>activity-log</code>를 골랐다면 아래 표대로 <strong>폴더명·파일명·함수명·pass 수만 치환</strong>하면 그대로 따라올 수 있습니다. 하네스 스크립트(<code>npm run env/gate/packet</code> 등)와 에이전트는 두 프로젝트가 동일합니다.</div>
+  <table>
+    <caption class="small">세션 명령 치환표 — sns-trends(기본) ↔ activity-log(대안)</caption>
+    <thead><tr><th>항목</th><th><code>sns-trends</code> (문서 기본)</th><th><code>activity-log</code> (대안)</th></tr></thead>
+    <tbody>
+      <tr><td>프로젝트 폴더</td><td><code>sample-project-sns-trends</code></td><td><code>sample-project-activity-log</code></td></tr>
+      <tr><td>대상 코드</td><td><code>src/trends.js</code></td><td><code>src/activity.js</code></td></tr>
+      <tr><td>구현 슬라이스(TODO)</td><td><code>recencyWeight</code> — 최근성 반감기 7일 가중</td><td><code>sessionize</code> — 유휴 간격 기준 집중 세션 분리</td></tr>
+      <tr><td>참고 정답</td><td><code>src/trends.solution.js</code></td><td><code>src/activity.solution.js</code></td></tr>
+      <tr><td>테스트 파일</td><td><code>test/trends.test.js</code></td><td><code>test/activity.test.js</code></td></tr>
+      <tr><td>baseline</td><td>9 pass / 2 skip</td><td>5 pass / 2 skip</td></tr>
+      <tr><td>스펙·백로그</td><td colspan="2"><code>FEATURE-SPEC.md</code> · <code>BACKLOG.md</code> (두 프로젝트 동일 위치·역할)</td></tr>
+    </tbody>
+  </table>
+
   <h3>① 새 창에 프로젝트 열기</h3>
   <div class="step"><div class="label">방법 A · 메뉴</div><p class="small"><strong>File → New Window</strong>(⌘⇧N / Ctrl+Shift+N) → <strong>File → Open Folder…</strong> → <code>sample-project-sns-trends</code> 폴더 선택.</p></div>
   <div class="step"><div class="label">방법 B · 터미널(code CLI)</div>
