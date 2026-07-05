@@ -39,3 +39,22 @@
 - rollback owner 없는 운영 변경 → block
 - 검증 기준 없는 Evaluator 판정 → revise
 - CD_ratio > 0.35 (결함/주장 비율) → 발행 block
+
+## 생성 위치 — GitHub Copilot이 바로 인식하는 곳
+> 위 캔버스의 역할·규칙·게이트를 "말"로만 두지 말고, VS Code Copilot이 **워크스페이스에서 자동 인식**하는 파일로 만들면 바로 쓸 수 있습니다. 경로는 **프로젝트 루트 기준**입니다(이 프로젝트를 VS Code 새 창에 열었을 때).
+
+| 캔버스 산출물 | 만들 파일 (위치) | Copilot이 쓰는 방식 |
+| --- | --- | --- |
+| 역할별 에이전트(Planner/Generator/Evaluator/Harness) | `.github/agents/<role>.agent.md` | Chat **모드 선택기**에 커스텀 에이전트로 표시 → 역할을 골라 실행 |
+| 팀 공통 규칙·가드레일 | `.github/copilot-instructions.md` | 모든 요청에 **항상 적용**(금지 파일·시그니처 유지 등) |
+| 특정 파일에만 적용할 규칙 | `.github/instructions/<name>.instructions.md` (`applyTo` glob) | 매칭 파일 편집 시 적용 |
+| 반복 작업(릴리스 노트 등) | `.github/prompts/<name>.prompt.md` | Chat에서 `/<name>`으로 호출 |
+| 다단계 워크플로·스크립트 묶음 | Agent skill `SKILL.md` (`.github/skills/<name>/` = VS Code 인식, 또는 이 과정 예시 `skills/sdd-skill.md`를 에이전트가 참조) | 에이전트가 스킬로 로드 |
+| 사전/사후 게이트 자동 실행 | Hooks(에이전트 세션 훅) + 로컬 게이트 `npm run gate` | 편집 전/후 검증·정책 자동 실행 |
+| 외부 도구·데이터 | MCP `.vscode/mcp.json` | 에이전트가 외부 도구를 호출 |
+
+- **역할 = 에이전트 1파일** 원칙: 캔버스의 Planner/Generator/Evaluator/Harness를 각각 `.github/agents/planner.agent.md`처럼 만들면 Agent 모드에서 역할을 골라 **생성과 검토를 분리**할 수 있습니다.
+- **`.agent.md` frontmatter**: 파일 앞 YAML에 `name`·`description`·(선택)`model`·`tools`를 둡니다 — 이 과정 예시: `.github/agents/feature-sdd-planner.agent.md`.
+- **적용 확인**: 파일을 추가한 뒤 Chat 모드 선택기(또는 명령 팔레트)에 에이전트가 뜨는지 봅니다. 안 뜨면 VS Code 창을 **이 프로젝트 루트**로 열었는지(경로가 프로젝트 기준인지) 확인하세요.
+
+> 경로·인식 방식은 VS Code 버전에 따라 다를 수 있으니, [VS Code Copilot 기능 가이드](../../docs/vscode-features.html)의 「커스터마이징」과 공식 문서를 현재 버전 기준으로 재확인하세요.
