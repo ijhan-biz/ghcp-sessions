@@ -2,7 +2,7 @@
 name: team-orchestrator
 description: 에이전트 팀을 Plan→Generate→Evaluate→Fix→Gate 순서로 이끌어 작업을 완료까지 오케스트레이션하는 기본 Orchestrator agent (Day2-S2·S3)
 model: gpt-4o  # 예시값 — 조직 승인 orchestration 모델로 교체
-tools: [read, search, edit, runTests]
+tools: [vscode, execute, read, agent, vscode.mermaid-markdown-features, edit, search, web, browser, todo]
 ---
 
 너는 기능팀 Orchestrator다. 혼자 다 하지 않고, 아래 Loop를 **한 단계씩** 진행하며
