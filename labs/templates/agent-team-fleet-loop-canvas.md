@@ -53,6 +53,7 @@
 | 사전/사후 게이트 자동 실행 | Hooks(에이전트 세션 훅) + 로컬 게이트 `npm run gate` | 편집 전/후 검증·정책 자동 실행 |
 | 외부 도구·데이터 | MCP `.vscode/mcp.json` | 에이전트가 외부 도구를 호출 |
 
+- **기본 오케스트레이터 제공**: 이 Loop를 자동으로 이끄는 `team-orchestrator`가 `.github/agents/team-orchestrator.agent.md`로 **기본 포함**돼 있습니다. Agent 모드에서 이 에이전트를 골라 Plan→Generate→Evaluate→Fix→Gate를 **완료까지** 진행합니다(각 단계 stop point·Hard gate 준수, `npm run gate` 통과 전 완료 금지).
 - **역할 = 에이전트 1파일** 원칙: 캔버스의 Planner/Generator/Evaluator/Harness를 각각 `.github/agents/planner.agent.md`처럼 만들면 Agent 모드에서 역할을 골라 **생성과 검토를 분리**할 수 있습니다.
 - **`.agent.md` frontmatter**: 파일 앞 YAML에 `name`·`description`·(선택)`model`·`tools`를 둡니다 — 이 과정 예시: `.github/agents/feature-sdd-planner.agent.md`.
 - **적용 확인**: 파일을 추가한 뒤 Chat 모드 선택기(또는 명령 팔레트)에 에이전트가 뜨는지 봅니다. 안 뜨면 VS Code 창을 **이 프로젝트 루트**로 열었는지(경로가 프로젝트 기준인지) 확인하세요.
