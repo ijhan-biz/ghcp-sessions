@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="original-filename" content="052-github-copilot-vscode-features-guide-2026-07-05.html" />
+  <meta name="original-date-signal" content="2026-07-05" />
+  <meta name="final-updated" content="2026-07-05" />
+  <meta name="source-basis" content="VS Code 공식 Docs (code.visualstudio.com/docs/copilot*) + VS Code v1.127 릴리스 노트(updates/v1_127), 라이브 확인 2026-07-05 KST, 문서 갱신 표기 2026-07-01" />
+  <meta name="filename-date-policy" content="filename date is the stable registry identifier and the live verification date of the cited official docs" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VS Code에서 GitHub Copilot: 전체 기능과 사용처 가이드</title>
+  <style>
+    :root { --bg:#f6f8fb; --paper:#fff; --ink:#111827; --soft:#263247; --muted:#647084; --line:#dce5ef; --blue:#0969da; --green:#1f7a4d; --amber:#a65c00; --red:#cf222e; --teal:#0f766e; --shadow:0 16px 42px rgba(15,23,42,.08); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif; line-height:1.66; letter-spacing:0; }
+    a { color:var(--blue); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .shell { width:min(calc(100% - 44px),1220px); margin:0 auto; padding:24px 0 88px; }
+    .topbar { display:flex; justify-content:space-between; gap:16px; color:var(--muted); font-size:14px; padding:8px 0 18px; }
+    .hero { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr); gap:26px; align-items:start; padding:38px; border:1px solid var(--line); border-radius:8px; background:var(--paper); box-shadow:var(--shadow); }
+    .eyebrow { color:var(--blue); font-weight:850; font-size:13px; text-transform:uppercase; }
+    h1 { margin:8px 0 16px; max-width:860px; font-size:clamp(34px,5vw,54px); line-height:1.08; letter-spacing:0; }
+    h2 { margin:0 0 12px; font-size:28px; letter-spacing:0; }
+    h3 { margin:18px 0 8px; font-size:18px; }
+    h4 { margin:14px 0 6px; font-size:15px; color:var(--soft); }
+    p { margin:8px 0; color:var(--soft); }
+    .lead { font-size:18px; max-width:880px; }
+    .muted { color:var(--muted); }
+    .summary { border:1px solid var(--line); border-radius:8px; background:#fbfdff; padding:20px; }
+    .metric { display:grid; grid-template-columns:132px 1fr; gap:10px; padding:12px 0; border-top:1px solid var(--line); }
+    .metric:first-of-type { border-top:0; }
+    .toc,.section { margin-top:24px; border:1px solid var(--line); border-radius:8px; background:var(--paper); box-shadow:0 8px 22px rgba(15,23,42,.04); }
+    .toc { padding:18px 22px; }
+    .toc ol { margin:8px 0 0; padding-left:22px; columns:2; }
+    .section { padding:30px; scroll-margin-top:24px; }
+    .grid-2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+    .card { border:1px solid var(--line); border-radius:8px; background:#fff; padding:18px; }
+    .card.info { background:#f1f7ff; border-color:rgba(9,105,218,.35); }
+    .card.good { background:#f3fbf5; border-color:rgba(31,122,77,.35); }
+    .card.warn { background:#fff8ed; border-color:rgba(166,92,0,.35); }
+    .card.risk { background:#fff5f5; border-color:rgba(207,34,46,.35); }
+    .pill { display:inline-flex; align-items:center; border:1px solid var(--line); border-radius:999px; background:#fff; padding:4px 9px; font-size:12px; font-weight:850; color:var(--muted); margin:2px 4px 2px 0; }
+    .pill.blue { color:var(--blue); border-color:rgba(9,105,218,.35); }
+    .pill.green { color:var(--green); border-color:rgba(31,122,77,.35); }
+    .pill.orange { color:var(--amber); border-color:rgba(166,92,0,.35); }
+    .pill.red { color:var(--red); border-color:rgba(207,34,46,.35); }
+    table { width:100%; border-collapse:separate; border-spacing:0; border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-top:14px; }
+    th,td { padding:12px 14px; text-align:left; vertical-align:top; border-bottom:1px solid var(--line); font-size:15px; }
+    th { background:#f4f7fb; color:#25324a; font-size:13px; }
+    tr:last-child td { border-bottom:0; }
+    .callout { margin-top:16px; padding:16px 18px; border-left:4px solid var(--blue); border-radius:8px; background:#f1f7ff; }
+    .callout.warn { border-left-color:var(--amber); background:#fff8ed; }
+    .callout.risk { border-left-color:var(--red); background:#fff5f5; }
+    code { padding:1px 5px; border:1px solid var(--line); border-radius:5px; background:#eef2f7; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:13px; }
+    ol { margin:10px 0; padding-left:22px; }
+    ol li, ul li { color:var(--soft); margin:6px 0; }
+    ol.steps { counter-reset:step; list-style:none; padding-left:0; margin:12px 0; }
+    ol.steps li { position:relative; padding:8px 0 8px 40px; border-bottom:1px solid var(--line); }
+    ol.steps li:last-child { border-bottom:0; }
+    ol.steps li::before { counter-increment:step; content:counter(step); position:absolute; left:0; top:7px; width:26px; height:26px; border-radius:999px; background:var(--blue); color:#fff; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; }
+    .ex { margin-top:12px; padding:14px 16px; border-left:4px solid var(--green); border-radius:8px; background:#f3fbf5; }
+    .ex strong { color:var(--green); }
+    .kbd { display:inline-block; padding:2px 7px; border:1px solid var(--line); border-bottom-width:2px; border-radius:6px; background:#fff; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:12px; color:var(--soft); }
+    .path { font-weight:700; color:var(--soft); }
+    @media (max-width:900px) { .shell { width:min(calc(100% - 22px),1220px); } .hero,.grid-2,.grid-3 { grid-template-columns:1fr; } .toc ol { columns:1; } table,thead,tbody,tr,th,td { display:block; } thead { display:none; } tr { border-bottom:1px solid var(--line); } td { border-bottom:0; } td::before { content:attr(data-label); display:block; color:var(--muted); font-size:12px; font-weight:850; margin-bottom:4px; } .hero { padding:26px; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar"><span><a href="index.html">← 과정 포털</a> · VS Code × GitHub Copilot 전체 기능 가이드 · 업데이트 2026-07-05 KST</span><span>공식 Docs + v1.127 릴리스 노트 기반</span></div>
+    <header class="hero">
+      <div>
+        <div class="eyebrow">GitHub Copilot in VS Code · 기능 & 사용처</div>
+        <h1>VS Code에서 GitHub Copilot: 전체 기능과 사용처 가이드</h1>
+        <p class="lead">VS Code에서 GitHub Copilot을 쓸 때 쓸 수 있는 기능을 <strong>표면(surface) → 자동완성 → 에이전트 → 컨텍스트 → 도구/MCP → 커스터마이징 → 세션/원격 → 검토·안전</strong>의 축으로 정리하고, 각 기능을 <strong>언제 어떤 작업에 쓰면 좋은지</strong>까지 제안한다.</p>
+        <p class="lead">모든 기능 명칭·단축키·상태(Preview/Experimental 포함)는 VS Code 공식 Docs(<code>code.visualstudio.com/docs/copilot*</code>)와 <strong>v1.127 릴리스 노트</strong>를 근거로 하며 <strong>2026-07-05 KST 라이브 확인</strong>했다(최신 릴리스 v1.127, 문서 갱신 표기 2026-07-01).</p>
+      </div>
+      <aside class="summary">
+        <h2>한눈에</h2>
+        <div class="metric"><strong>대상 편집기</strong><span>Visual Studio Code (Copilot 확장 내장/기본 활성)</span></div>
+        <div class="metric"><strong>핵심 표면</strong><span>Agents window · Chat view · Inline chat · Quick Chat · 코드 자동완성(NES 포함) · Smart actions</span></div>
+        <div class="metric"><strong>내장 에이전트</strong><span>Agent · Plan · Ask + 커스텀 에이전트</span></div>
+        <div class="metric"><strong>커스터마이징</strong><span>Instructions · Prompt files · Agent skills · Custom agents · MCP · Hooks · Plugins · Language models</span></div>
+        <div class="metric"><strong>검증 경계</strong><span>이 문서의 구조 검증은 사실 검증이 아니다. 상태·가용성은 공식 Docs로 재확인한다.</span></div>
+      </aside>
+    </header>
+
+    <nav class="toc" aria-label="목차">
+      <strong>목차</strong>
+      <ol>
+        <li><a href="#overview">1. 큰 그림: Copilot의 AI 표면들</a></li>
+        <li><a href="#surfaces">2. 채팅 표면 4종과 사용처</a></li>
+        <li><a href="#completions">3. 코드 자동완성: Ghost text · NES</a></li>
+        <li><a href="#smart-actions">4. Smart actions(스마트 액션)</a></li>
+        <li><a href="#agents">5. 내장 에이전트: Agent · Plan · Ask</a></li>
+        <li><a href="#context">6. 컨텍스트 추가 방법</a></li>
+        <li><a href="#tools-mcp">7. 도구와 MCP</a></li>
+        <li><a href="#customization">8. 커스터마이징 7종</a></li>
+        <li><a href="#sessions">9. 세션과 원격 에이전트</a></li>
+        <li><a href="#review-safety">10. 변경 검토와 안전 장치</a></li>
+        <li><a href="#task-guides">11. 작업별 활용(테스트·노트북·디버그·브라우저)</a></li>
+        <li><a href="#scenarios">12. 시나리오별 기능 조합</a></li>
+        <li><a href="#feature-map">13. 기능 → 사용처 요약표</a></li>
+        <li><a href="#changelog">14. 최신 릴리스(v1.127) 변경</a></li>
+        <li><a href="#fact-ledger">15. 현행 상태 팭트 원장</a></li>
+        <li><a href="#references">16. 참고 문서</a></li>
+      </ol>
+    </nav>
+
+    <section class="section" id="overview">
+      <h2>1. 큰 그림: Copilot의 AI 표면들</h2>
+      <p>VS Code의 Copilot은 하나의 기능이 아니라 여러 <strong>AI 표면(surface)</strong>의 묶음이다. 공식 문서는 이를 크게 <strong>자율적으로 다중 파일 작업을 수행하는 에이전트</strong>, <strong>대화형 채팅</strong>, <strong>코드 자동완성(inline suggestions)</strong>, <strong>스마트 액션</strong>으로 구분한다. 작업의 성격에 맞는 표면을 고르는 것이 활용의 출발점이다.</p>
+      <div class="grid-2">
+        <div class="card info"><h3>자율 · 다중 파일</h3><p>에이전트가 스스로 컨텍스트를 모으고, 편집하고, 도구를 호출한다. 기능 구현·리팩터링·버그 수정 등 여러 파일에 걸친 작업에 적합.</p><span class="pill blue">Agents window</span><span class="pill blue">Chat view (Agent)</span></div>
+        <div class="card good"><h3>대화형 · 국소</h3><p>질문·설명·부분 편집을 대화로 처리. 코드 이해, 국소 수정, 빠른 제안에 적합.</p><span class="pill green">Ask</span><span class="pill green">Inline chat</span><span class="pill green">Quick Chat</span></div>
+        <div class="card"><h3>흐름 유지 · 타이핑</h3><p>타이핑하는 자리에서 다음 코드/편집을 예측. 코드를 직접 쓰는 흐름을 끊지 않는다.</p><span class="pill">Ghost text</span><span class="pill">Next edit suggestions</span></div>
+        <div class="card"><h3>단발 · 컨텍스트 액션</h3><p>커밋 메시지 작성, 코드 설명, 수정 제안 같은 정형 작업을 버튼/메뉴로.</p><span class="pill">Smart actions</span></div>
+      </div>
+      <div class="callout">공식 문서 기준 VS Code의 두 주요 에이전트 표면은 <strong>Agents window</strong>(여러 프로젝트에 걸친 고수준 작업 지향)와 <strong>Chat view</strong>(에디터 사이드바의 코드 중심 경험)이며, 여기에 경량 표면인 <strong>Inline chat</strong>과 <strong>Quick Chat</strong>이 더해진다.</div>
+    </section>
+
+    <section class="section" id="surfaces">
+      <h2>2. 채팅 표면 4종과 사용처</h2>
+      <p>같은 채팅이라도 표면마다 최적 용도가 다르다. 단축키는 macOS 기준이며 괄호는 Windows/Linux다(공식 Docs 표기).</p>
+      <table>
+        <thead><tr><th>표면</th><th>여는 법</th><th>성격</th><th>추천 사용처</th></tr></thead>
+        <tbody>
+          <tr>
+            <td data-label="표면"><strong>Agents window</strong> <span class="pill orange">Preview</span></td>
+            <td data-label="여는 법">타이틀바 <strong>Open in Agents</strong> · <code>Chat: Open Agents Window</code> · <code>code --agents</code></td>
+            <td data-label="성격">채팅을 1차 인터페이스로 삼는 전용 창. 여러 프로젝트에 걸친 작업 오케스트레이션.</td>
+            <td data-label="추천 사용처">여러 repo/작업을 병렬로 돌리는 고수준 태스크, 백그라운드로 긴 작업 위임.</td>
+          </tr>
+          <tr>
+            <td data-label="표면"><strong>Chat view</strong></td>
+            <td data-label="여는 법">타이틀바 채팅 아이콘 · <code>Chat: Open Chat</code> · <span class="kbd">⌃⌘I</span> (<span class="kbd">Ctrl+Alt+I</span>)</td>
+            <td data-label="성격">에디터 사이드바의 코드 중심 경험. 현재 워크스페이스 작업 보조.</td>
+            <td data-label="추천 사용처">지금 열어둔 프로젝트에서 기능 추가·설명·수정을 대화로 진행하는 일상 작업.</td>
+          </tr>
+          <tr>
+            <td data-label="표면"><strong>Inline chat</strong></td>
+            <td data-label="여는 법"><span class="kbd">⌘I</span> (<span class="kbd">Ctrl+I</span>)</td>
+            <td data-label="성격">편집기/터미널 그 자리에서의 빠른 즉석 편집·제안.</td>
+            <td data-label="추천 사용처">선택한 코드 블록 국소 수정, 터미널 명령 제안 등 흐름을 끊지 않는 소규모 작업.</td>
+          </tr>
+          <tr>
+            <td data-label="표면"><strong>Quick Chat</strong></td>
+            <td data-label="여는 법"><span class="kbd">⇧⌥⌘L</span> (<span class="kbd">Ctrl+Shift+Alt+L</span>)</td>
+            <td data-label="성격">에디터 상단의 경량 채팅 패널.</td>
+            <td data-label="추천 사용처">사이드바를 열지 않고 던지는 짧은 질문/한 줄 요청.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="ex"><strong>고르는 법</strong> — “이 함수 한 곳만 고치자” → Inline chat. “이 repo에 로그인 기능을 붙이자” → Chat view(Agent). “여러 repo에 걸친 마이그레이션을 밤새 돌리자” → Agents window. “이거 뭐였지?” 한 줄 질문 → Quick Chat.</div>
+      <h3>요청 실행 중 제어: Queue · Steer · Stop and Send</h3>
+      <p>응답이 끝나기 전에도 다음 메시지를 보낼 수 있다. 전송 버튼 드롭다운에서 세 가지 처리 방식을 고른다.</p>
+      <div class="grid-3">
+        <div class="card"><h3>Add to Queue</h3><p>현재 응답을 방해하지 않고, 끝난 뒤 자동으로 다음 메시지를 보낸다.</p></div>
+        <div class="card"><h3>Steer with Message</h3><p>진행 중 도구 실행을 마친 뒤 방향을 즉시 바꾼다. 에이전트가 엉뚱하게 갈 때 궤도 수정용.</p></div>
+        <div class="card"><h3>Stop and Send</h3><p>현재 요청을 취소하고 새 메시지를 바로 처리한다.</p></div>
+      </div>
+      <p class="muted">여러 대기 메시지는 드래그로 순서를 바꿀 수 있고, 기본 동작은 <code>chat.requestQueuing.defaultAction</code>로 <em>steer</em>/<em>queue</em> 중 설정한다.</p>
+      <h3>응답 알림</h3>
+      <p>다른 창/앱에서 일할 때 OS 알림으로 중요한 채팅 이벤트를 받는다. <code>chat.notifyWindowOnResponseReceived</code>(응답 도착), <code>chat.notifyWindowOnConfirmation</code>(입력/승인 필요)로 <em>off / windowNotFocused(기본) / always</em>를 설정한다. 긴 백그라운드 작업을 돌릴 때 <em>always</em>가 유용하다.</p>
+    </section>
+
+    <section class="section" id="completions">
+      <h2>3. 코드 자동완성: Ghost text · NES</h2>
+      <p>Copilot은 타이핑하는 동안 코드·주석·테스트 등을 완성하는 AI 인라인 제안을 제공한다. 폭넓은 언어·프레임워크에서 동작하며, 두 종류가 있다.</p>
+      <div class="grid-2">
+        <div class="card good"><h3>Ghost text suggestions</h3><p>커서 위치에 흐린 미리보기 텍스트로 이어질 코드를 제안한다. 한 구간을 자동완성하는 데 강하다.</p><h4>사용처</h4><p>보일러플레이트, 반복 패턴, 함수 본문 채우기, 주석 → 코드 변환.</p></div>
+        <div class="card good"><h3>Next edit suggestions (Copilot NES)</h3><p>지금까지의 편집을 바탕으로 <strong>다음 편집의 위치와 내용</strong>을 예측한다. 커서에서 떨어진 곳의 편집도 화살표로 안내한다.</p><h4>사용처</h4><p>이름 변경 후 연쇄 수정, 시그니처 변경에 따른 호출부 정리 등 “편집이 편집을 부르는” 상황.</p></div>
+      </div>
+      <p class="muted">인라인 제안은 켜고 끌 수 있고, 제안에 쓰는 AI 모델도 바꿀 수 있다(공식 Docs: <em>Inline Suggestions</em>). Copilot Free는 매월 인라인 제안·AI 크레딧 할당량이 주어진다.</p>
+      <div class="callout warn">완성 제안은 항상 검토 후 수락한다. 스타일·보안·라이선스 측면에서 그대로 쓰기 부적절한 코드가 섞일 수 있다.</div>
+    </section>
+
+    <section class="section" id="smart-actions">
+      <h2>4. Smart actions(스마트 액션)</h2>
+      <p>스마트 액션은 프롬프트를 직접 쓰지 않고도 정형 작업을 실행하는 컨텍스트 액션이다. 코드 완성·에이전트·채팅과 나란히 존재하는 AI 표면 중 하나로 문서에 명시되어 있다.</p>
+      <ul>
+        <li><strong>코드 설명·수정 제안</strong>: 편집기 컨텍스트 메뉴/전구(💡) 아이콘에서 호출.</li>
+        <li><strong>커밋 메시지 생성</strong>: Source Control 뷰에서 스테이지된 변경 기반으로 메시지 초안.</li>
+        <li><strong>정형 반복 작업</strong>: 프롬프트를 기억하지 않아도 되는 버튼형 진입점.</li>
+      </ul>
+      <div class="ex"><strong>사용처</strong> — 리뷰 전 커밋 메시지를 빠르게 뽑거나, 낯선 코드 블록을 오른쪽 클릭 한 번으로 설명받을 때. 프롬프트 작성 부담 없이 자주 쓰는 동작을 처리한다.</div>
+    </section>
+
+    <section class="section" id="agents">
+      <h2>5. 내장 에이전트: Agent · Plan · Ask</h2>
+      <p>세션마다 <strong>내장 에이전트</strong>(Agent, Plan, Ask)를 고르거나, 특정 역할에 특화된 <strong>커스텀 에이전트</strong>를 쓸 수 있다. 세션 설정에서 에이전트 유형·권한 수준·언어 모델을 함께 지정한다.</p>
+      <table>
+        <thead><tr><th>에이전트</th><th>성격</th><th>추천 사용처</th></tr></thead>
+        <tbody>
+          <tr><td data-label="에이전트"><strong>Agent</strong></td><td data-label="성격">자율적으로 컨텍스트 수집·편집·도구 호출·검증을 반복.</td><td data-label="사용처">여러 파일에 걸친 기능 구현, 리팩터링, 버그 수정, 테스트 작성.</td></tr>
+          <tr><td data-label="에이전트"><strong>Plan</strong></td><td data-label="성격">바로 편집하기 전에 접근 계획을 세우는 데 초점.</td><td data-label="사용처">범위가 큰 작업을 착수 전에 단계로 쪼개고 합의할 때.</td></tr>
+          <tr><td data-label="에이전트"><strong>Ask</strong></td><td data-label="성격">코드 변경 없이 질문·설명 중심의 대화.</td><td data-label="사용처">코드 이해, 개념 학습, 옵션 비교 등 읽기 위주 작업.</td></tr>
+          <tr><td data-label="에이전트"><strong>Custom agent</strong></td><td data-label="성격">보안 전문가·문서 작성자·코드 리뷰어 등 페르소나/역할로 특화.</td><td data-label="사용처">팀 표준에 맞춘 리뷰, 특정 도메인 반복 작업.</td></tr>
+        </tbody>
+      </table>
+      <div class="callout">에이전트 세션은 <strong>Approvals &amp; Permissions</strong>로 도구 실행 승인 범위를 정하고, 큰 작업은 <strong>Planning</strong>·<strong>Memory</strong>·<strong>Subagents</strong>로 나눠 처리한다(공식 Docs의 Agents 계열 문서).</div>
+    </section>
+
+    <section class="section" id="context">
+      <h2>6. 컨텍스트 추가 방법</h2>
+      <p>좋은 컨텍스트가 좋은 답을 만든다. VS Code는 여러 방식으로 컨텍스트를 주입한다.</p>
+      <div class="grid-2">
+        <div class="card"><h3>Implicit context</h3><p>현재 파일·선택 영역·파일 이름을 자동 포함. 에이전트는 필요 시 스스로 컨텍스트를 더 모은다.</p></div>
+        <div class="card"><h3>#-mentions</h3><p>입력창에 <code>#</code>로 명시 참조: <code>#file</code>, 폴더, 심볼, <code>#codebase</code>, <code>#terminalSelection</code>, <code>#fetch</code> 같은 도구.</p></div>
+        <div class="card"><h3>Vision(이미지)</h3><p>스크린샷·UI 목업을 첨부해 프롬프트 컨텍스트로 사용.</p></div>
+        <div class="card"><h3>Browser elements</h3><p>통합 브라우저에서 요소를 선택해 HTML·CSS·스크린샷을 컨텍스트로 추가.</p></div>
+      </div>
+      <p class="muted"><strong>Image carousel</strong> <span class="pill orange">Experimental</span>: <code>imageCarousel.chat.enabled</code>를 켜면 채팅 응답의 이미지/영상(예: 통합 브라우저·Playwright·MCP 서버 결과)을 전용 캐러셀 뷰로 본다.</p>
+      <div class="ex"><strong>사용처</strong> — 버그 리포트 스크린샷을 붙여 “이 화면의 오류를 재현·수정”을 요청하거나, <code>#codebase</code>로 “이 규칙이 어디에 구현됐는지” 전역 탐색을 시킨다.</div>
+    </section>
+
+    <section class="section" id="tools-mcp">
+      <h2>7. 도구와 MCP</h2>
+      <p>에이전트는 <strong>도구(tools)</strong>를 호출해 파일 읽기/쓰기, 터미널 실행, 검색 등을 수행한다. 도구는 내장 도구와 확장/MCP가 기여하는 도구로 나뉜다.</p>
+      <ul>
+        <li><strong>MCP 서버</strong>: 데이터베이스·API·외부 서비스에 접근하는 도구를 에이전트에 연결. 워크스페이스/사용자 설정으로 구성(공식 Docs: <em>MCP</em>, <em>MCP Configuration</em>).</li>
+        <li><strong>확장 기여 도구</strong>: 마켓플레이스 확장이 제공하는 도구로 능력을 확장.</li>
+        <li><strong>도구 선택</strong>: 채팅에서 사용할 도구 집합을 켜고 끄며, <code>#</code>로 특정 도구를 직접 지목.</li>
+      </ul>
+      <div class="ex"><strong>사용처</strong> — 사내 이슈 트래커/DB에 MCP로 연결해 “최근 실패한 배포의 로그를 조회하고 원인 후보를 정리”처럼 외부 데이터와 코드를 함께 다루는 작업.</div>
+      <div class="callout warn">MCP 서버와 확장은 조직 정책으로 제한될 수 있다. 관리자가 허용한 서버·확장만 쓰이며, 신뢰할 수 없는 MCP 서버는 연결하지 않는다.</div>
+    </section>
+
+    <section class="section" id="customization">
+      <h2>8. 커스터마이징 7종</h2>
+      <p>에이전트가 처음부터 팀 코드 스타일·관행에 맞춰 동작하도록 조정하는 수단이다(공식 Docs: <em>Agent Customization</em>).</p>
+      <table>
+        <thead><tr><th>기능</th><th>무엇</th><th>추천 사용처</th></tr></thead>
+        <tbody>
+          <tr><td data-label="기능"><strong>Instructions</strong></td><td data-label="무엇">프로젝트 전역 규칙·컨벤션을 정의(custom instructions).</td><td data-label="사용처">코딩 표준, 금지 패턴, 언어/프레임워크 규칙을 항상 적용.</td></tr>
+          <tr><td data-label="기능"><strong>Prompt files</strong></td><td data-label="무엇">재사용 가능한 단일 프롬프트를 파일로 저장.</td><td data-label="사용처">반복되는 요청(예: “PR 설명 생성”)을 표준화.</td></tr>
+          <tr><td data-label="기능"><strong>Agent skills</strong></td><td data-label="무엇">다단계 워크플로·스크립트·템플릿 파일을 스킬로 패키징.</td><td data-label="사용처">정형 반복 작업(릴리스 노트, 마이그레이션 절차) 자동화.</td></tr>
+          <tr><td data-label="기능"><strong>Custom agents</strong></td><td data-label="무엇">역할/페르소나 특화 에이전트 정의.</td><td data-label="사용처">코드 리뷰어·보안 전문가·테스터 역할 상시화.</td></tr>
+          <tr><td data-label="기능"><strong>Language models</strong></td><td data-label="무엇">작업에 쓸 언어 모델을 선택/구성.</td><td data-label="사용처">비용·속도·품질 트레이드오프에 맞춘 모델 라우팅.</td></tr>
+          <tr><td data-label="기능"><strong>Hooks</strong></td><td data-label="무엇">에이전트 세션의 특정 시점에 스크립트를 실행.</td><td data-label="사용처">편집 전후 검증·포맷·정책 게이트 자동 실행.</td></tr>
+          <tr><td data-label="기능"><strong>Plugins</strong></td><td data-label="무엇">기능 묶음을 플러그인 형태로 확장.</td><td data-label="사용처">팀 공통 도구·워크플로 배포.</td></tr>
+        </tbody>
+      </table>
+      <div class="ex"><strong>사용처 조합</strong> — <code>Instructions</code>로 팀 표준을 고정 + <code>Custom agent</code>로 “코드 리뷰어” 역할 + <code>Hooks</code>로 커밋 전 린트/테스트 게이트 → 일관되고 통제된 에이전트 경험.</div>
+    </section>
+
+    <section class="section" id="sessions">
+      <h2>9. 세션과 원격 에이전트</h2>
+      <p>여러 세션을 병렬로 돌려 서로 다른 작업을 동시에 진행할 수 있다. 새 세션을 시작해도 이전 세션은 백그라운드로 유지되어 컨텍스트를 잃지 않고 오갈 수 있다.</p>
+      <div class="grid-2">
+        <div class="card"><h3>세션 관리</h3><ul><li>병렬 세션 실행·전환</li><li><strong>Session Insights</strong>로 세션 현황 파악</li><li><strong>Sync Sessions</strong>로 기기 간 동기화</li></ul></div>
+        <div class="card"><h3>에이전트 유형</h3><ul><li><strong>Local Agents</strong>: 로컬 실행</li><li><strong>Copilot CLI</strong>: 터미널 기반 에이전트</li><li><strong>Cloud Agents</strong>: 클라우드에서 백그라운드 실행</li><li><strong>Third-Party Agents</strong>: 외부 에이전트 연동</li></ul></div>
+      </div>
+      <div class="ex"><strong>사용처</strong> — 세션 A에서 기능 구현을 돌리는 동안 세션 B에서 별개 버그를 수정하고, 긴 리팩터링은 Cloud Agent로 백그라운드에 위임한다. 결과는 알림으로 받아 검토.</div>
+    </section>
+
+    <section class="section" id="review-safety">
+      <h2>10. 변경 검토와 안전 장치</h2>
+      <p>AI가 파일을 바꾼 뒤에는 반드시 검토하고 수락/폐기한다. VS Code는 이를 돕는 장치를 제공한다.</p>
+      <div class="grid-3">
+        <div class="card good"><h3>Inline diffs</h3><p>변경 파일에서 인라인 diff를 보고, 오버레이 컨트롤로 편집을 넘나들며 개별로 Keep/Undo.</p></div>
+        <div class="card good"><h3>Checkpoints</h3><p>채팅 도중 주요 시점의 파일 스냅샷을 자동 생성해 이전 상태로 롤백.</p></div>
+        <div class="card good"><h3>Stage to accept</h3><p>Source Control에서 스테이지하면 대기 편집을 수락, 폐기하면 대기 편집도 폐기.</p></div>
+      </div>
+      <h3>승인·정책</h3>
+      <ul>
+        <li><strong>Approvals &amp; Permissions</strong>: 터미널·편집 등 위험 도구 실행에 승인 요구.</li>
+        <li><strong>관리자 정책</strong>: 에이전트 능력, MCP 서버/확장 제한, 컴플라이언스 강제로 통제된 기본 경험 제공.</li>
+      </ul>
+      <h3>문제 진단</h3>
+      <p><strong>Agent Logs</strong>는 도구 호출·LLM 요청·프롬프트 파일 탐색을 시간순 이벤트로 보여주고, <strong>Chat Debug</strong> 뷰는 각 상호작용의 원시 시스템/사용자 프롬프트·컨텍스트·도구 페이로드를 보여준다. 왜 그렇게 답했는지 추적할 때 쓴다.</p>
+    </section>
+
+    <section class="section" id="task-guides">
+      <h2>11. 작업별 활용(테스트·노트북·디버그·브라우저)</h2>
+      <p>공식 Docs의 Guides는 특정 작업에 Copilot을 붙이는 방법을 제시한다. 대표 활용처는 다음과 같다.</p>
+      <div class="grid-2">
+        <div class="card"><h3>테스트</h3><p>Test-Driven Development, Test with AI로 테스트 생성·보강·실행 보조.</p></div>
+        <div class="card"><h3>노트북</h3><p>Edit Notebooks with AI로 Jupyter 노트북 셀 편집·분석 지원.</p></div>
+        <div class="card"><h3>디버그</h3><p>Debug with AI로 오류 원인 추적과 수정 제안.</p></div>
+        <div class="card"><h3>웹앱/브라우저</h3><p>Test Web Apps with Browser Tools로 통합 브라우저를 통한 UI 확인·요소 컨텍스트 활용. <strong>v1.127에서 browser tools가 GA로 기본 활성화</strong>(<code>workbench.browser.enableChatTools</code>).</p></div>
+        <div class="card"><h3>관측성</h3><p>OpenTelemetry Monitoring 연동으로 에이전트 활동 관측.</p></div>
+        <div class="card"><h3>비용</h3><p>Optimize AI Credit Usage로 모델·컨텍스트 선택을 통한 크레딧 절약.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="scenarios">
+      <h2>12. 시나리오별 기능 조합</h2>
+      <div class="grid-2">
+        <div class="card info"><h3>신규 기능 구현</h3><ol class="steps"><li>Chat view에서 <strong>Plan</strong>으로 접근 계획 합의</li><li><strong>Agent</strong>로 다중 파일 편집 실행</li><li><strong>Inline diffs</strong>·<strong>Checkpoints</strong>로 검토·롤백</li><li>Smart action으로 커밋 메시지 생성</li></ol></div>
+        <div class="card good"><h3>레거시 코드 이해</h3><ol class="steps"><li><strong>Ask</strong> + <code>#codebase</code>로 구조 파악</li><li>Inline chat로 국소 블록 설명</li><li>Prompt file로 “아키텍처 요약” 재사용</li></ol></div>
+        <div class="card warn"><h3>병렬 다중 작업</h3><ol class="steps"><li><strong>Agents window</strong>에서 여러 세션 오케스트레이션</li><li>긴 작업은 <strong>Cloud Agent</strong>로 위임</li><li>알림(<code>always</code>)으로 완료 감지 후 검토</li></ol></div>
+        <div class="card risk"><h3>팀 표준 강제</h3><ol class="steps"><li><strong>Instructions</strong>로 규칙 고정</li><li><strong>Custom agent</strong> “리뷰어” 상시화</li><li><strong>Hooks</strong>로 커밋 전 게이트</li><li>관리자 정책으로 MCP/확장 제한</li></ol></div>
+      </div>
+    </section>
+
+    <section class="section" id="feature-map">
+      <h2>13. 기능 → 사용처 요약표</h2>
+      <table>
+        <thead><tr><th>범주</th><th>기능</th><th>대표 사용처</th><th>상태</th></tr></thead>
+        <tbody>
+          <tr><td data-label="범주">표면</td><td data-label="기능">Agents window</td><td data-label="사용처">다중 프로젝트 고수준 오케스트레이션</td><td data-label="상태"><span class="pill orange">Preview</span></td></tr>
+          <tr><td data-label="범주">표면</td><td data-label="기능">Chat view</td><td data-label="사용처">일상적 워크스페이스 코딩 보조</td><td data-label="상태"><span class="pill green">GA</span></td></tr>
+          <tr><td data-label="범주">표면</td><td data-label="기능">Inline chat</td><td data-label="사용처">국소 편집·터미널 제안</td><td data-label="상태"><span class="pill green">GA</span></td></tr>
+          <tr><td data-label="범주">표면</td><td data-label="기능">Quick Chat</td><td data-label="사용처">짧은 단발 질문</td><td data-label="상태"><span class="pill green">GA</span></td></tr>
+          <tr><td data-label="범주">완성</td><td data-label="기능">Ghost text</td><td data-label="사용처">보일러플레이트·패턴 자동완성</td><td data-label="상태"><span class="pill green">GA</span></td></tr>
+          <tr><td data-label="범주">완성</td><td data-label="기능">Next edit suggestions (NES)</td><td data-label="사용처">연쇄 편집 예측</td><td data-label="상태"><span class="pill green">GA</span></td></tr>
+          <tr><td data-label="범주">액션</td><td data-label="기능">Smart actions</td><td data-label="사용처">커밋 메시지·코드 설명 등 정형 작업</td><td data-label="상태"><span class="pill green">GA</span></td></tr>
+          <tr><td data-label="범주">에이전트</td><td data-label="기능">Agent · Plan · Ask</td><td data-label="사용처">자율 구현 / 계획 / 질문</td><td data-label="상태"><span class="pill green">GA</span></td></tr>
+          <tr><td data-label="범주">컨텍스트</td><td data-label="기능">#-mentions · Vision · Browser elements</td><td data-label="사용처">명시 컨텍스트·이미지·웹 요소 주입</td><td data-label="상태"><span class="pill green">GA</span></td></tr>
+          <tr><td data-label="범주">컨텍스트</td><td data-label="기능">Image carousel</td><td data-label="사용처">응답 내 미디어 캐러셀 보기</td><td data-label="상태"><span class="pill red">Experimental</span></td></tr>
+          <tr><td data-label="범주">도구</td><td data-label="기능">MCP · 확장 도구</td><td data-label="사용처">외부 데이터/서비스 연동</td><td data-label="상태"><span class="pill green">GA</span></td></tr>
+          <tr><td data-label="범주">커스터마이징</td><td data-label="기능">Instructions · Prompt files · Skills · Custom agents · Hooks · Plugins · Language models</td><td data-label="사용처">표준화·역할화·자동화·모델 라우팅</td><td data-label="상태"><span class="pill green">GA</span></td></tr>
+          <tr><td data-label="범주">세션</td><td data-label="기능">병렬 세션 · Insights · Sync</td><td data-label="사용처">멀티태스킹·기기 간 동기화</td><td data-label="상태"><span class="pill green">GA</span></td></tr>
+          <tr><td data-label="범주">세션</td><td data-label="기능">Local · CLI · Cloud · Third-Party Agents</td><td data-label="사용처">실행 위치별 에이전트 선택</td><td data-label="상태"><span class="pill blue">문서상 확인</span></td></tr>
+          <tr><td data-label="범주">검토</td><td data-label="기능">Inline diffs · Checkpoints · Stage to accept</td><td data-label="사용처">변경 검토·롤백·수락</td><td data-label="상태"><span class="pill green">GA</span></td></tr>
+          <tr><td data-label="범주">진단</td><td data-label="기능">Agent Logs · Chat Debug</td><td data-label="사용처">응답/도구 호출 추적</td><td data-label="상태"><span class="pill green">GA</span></td></tr>
+        </tbody>
+      </table>
+      <div class="callout warn">표의 “상태” 중 <strong>GA</strong> 표기는 공식 Docs가 별도의 Preview/Experimental 라벨을 붙이지 않은 정식 기능이라는 뜻으로 이 문서가 부여한 요약이며, 개별 기능의 정확한 릴리스 단계는 각 Docs 페이지·릴리스 노트로 확정한다. 명시 라벨이 붙은 <strong>Agents window(Preview)</strong>·<strong>Image carousel(Experimental)</strong>은 공식 라벨 그대로다.</div>
+    </section>
+
+    <section class="section" id="changelog">
+      <h2>14. 최신 릴리스(v1.127) 변경</h2>
+      <p>최신 VS Code 릴리스는 <strong>v1.127</strong>이며(라이브 확인 2026-07-05 KST), 이 릴리스의 Copilot 관련 주요 변경은 다음과 같다. 앞 섹션의 기능 명칭·상태를 이 changelog로 재확인했다.</p>
+      <table>
+        <thead><tr><th>변경</th><th>내용</th><th>상태 · 설정</th></tr></thead>
+        <tbody>
+          <tr><td data-label="변경"><strong>Browser tools → GA</strong></td><td data-label="내용">외부 MCP 서버 없이 에이전트가 브라우저를 조작. 여러 preview 마일스톤 뒤 <strong>정식 기능이 되어 기본 활성화</strong>.</td><td data-label="상태"><span class="pill green">GA</span> · <code>workbench.browser.enableChatTools</code></td></tr>
+          <tr><td data-label="변경"><strong>Subagent credits</strong></td><td data-label="내용">에이전트가 서브에이전트에 위임한 작업의 비용을 호버로 확인. 비용 가시성 향상.</td><td data-label="상태"><span class="pill green">신규</span></td></tr>
+          <tr><td data-label="변경"><strong>/troubleshoot 스킬</strong></td><td data-label="내용">채팅 세션 로그를 분석해 응답 지연·instructions 무시 등 문제를 진단. Agents window에서 <code>/troubleshoot #session</code>으로 호출.</td><td data-label="상태"><span class="pill green">신규</span></td></tr>
+          <tr><td data-label="변경"><strong>Chat input banners</strong></td><td data-label="내용">Agents window에서 대화를 떠나지 않고 실패한 CI 체크·수신된 PR 코멘트에 바로 대응.</td><td data-label="상태"><span class="pill green">신규</span></td></tr>
+          <tr><td data-label="변경"><strong>Responsive sessions sidebar</strong></td><td data-label="내용">창이 좁으면 세션 사이드바를 자동 접기.</td><td data-label="상태"><span class="pill red">Experimental</span> · <code>sessions.layout.autoCollapseSessionsSidebar</code></td></tr>
+          <tr><td data-label="변경"><strong>내장 Ollama provider deprecated</strong></td><td data-label="내용">모델 provider는 확장(extension)으로 기여하는 방식으로 전환. 내장 Ollama provider는 <strong>deprecated</strong>.</td><td data-label="상태"><span class="pill orange">Deprecated</span></td></tr>
+          <tr><td data-label="변경"><strong>Agents window 개선</strong></td><td data-label="내용">자동 생성 제목/설명 개선, 열면 키보드 포커스가 채팅 입력란으로 이동, 세션 드래그 정렬 등.</td><td data-label="상태"><span class="pill orange">Preview</span> 유지</td></tr>
+        </tbody>
+      </table>
+      <div class="callout warn"><strong>상태 재확인:</strong> v1.127 릴리스 노트에서 <strong>Agents window는 여전히 (Preview)</strong>임을 명시적으로 확인했고, <strong>browser tools는 이번 릴리스에서 GA</strong>로 승격했다. VS Code는 점진적(gradual)으로 배포되므로 일부 기능은 로컬 버전에 지연 도달할 수 있다.</div>
+    </section>
+
+    <section class="section" id="fact-ledger">
+      <h2>15. 현행 상태 팩트 원장</h2>
+      <p>숫자·상태·명칭 주장은 재검증 가능하도록 아래 원장으로 관리한다. 검증 시각은 <strong>2026-07-05 KST</strong>이며, 링크 도달성과 본문 일치를 확인했다. 재검증 명령: <code>curl -sL &lt;source_url&gt; | grep -i &lt;exact_text&gt;</code>.</p>
+      <table>
+        <thead><tr><th>claim_id</th><th>주장(exact_text)</th><th>유형</th><th>출처</th><th>상태</th><th>TTL(일)</th></tr></thead>
+        <tbody>
+          <tr><td data-label="id">C1</td><td data-label="주장">Agents window는 “(Preview)”로 표기되는 전용 창</td><td data-label="유형">status</td><td data-label="출처">Docs Overview(S1)</td><td data-label="상태"><span class="pill green">verified</span></td><td data-label="ttl">30</td></tr>
+          <tr><td data-label="id">C2</td><td data-label="주장">내장 에이전트는 Agent · Plan · Ask</td><td data-label="유형">naming</td><td data-label="출처">Docs Overview(S1)</td><td data-label="상태"><span class="pill green">verified</span></td><td data-label="ttl">30</td></tr>
+          <tr><td data-label="id">C3</td><td data-label="주장">Chat view 단축키 ⌃⌘I / Ctrl+Alt+I, Inline chat ⌘I / Ctrl+I, Quick Chat ⇧⌥⌘L / Ctrl+Shift+Alt+L</td><td data-label="유형">naming</td><td data-label="출처">Docs Using Chat(S2)</td><td data-label="상태"><span class="pill green">verified</span></td><td data-label="ttl">30</td></tr>
+          <tr><td data-label="id">C4</td><td data-label="주장">인라인 제안 두 종류: Ghost text, Next edit suggestions(Copilot NES)</td><td data-label="유형">naming</td><td data-label="출처">Docs Inline Suggestions(S3)</td><td data-label="상태"><span class="pill green">verified</span></td><td data-label="ttl">30</td></tr>
+          <tr><td data-label="id">C5</td><td data-label="주장">Image carousel은 “(Experimental)”, 설정 <code>imageCarousel.chat.enabled</code></td><td data-label="유형">status</td><td data-label="출처">Docs Using Chat(S2)</td><td data-label="상태"><span class="pill green">verified</span></td><td data-label="ttl">30</td></tr>
+          <tr><td data-label="id">C6</td><td data-label="주장">커스터마이징 항목: Instructions·Agent Skills·Custom Agents·Language Models·MCP·Hooks·Plugins·Prompt Files</td><td data-label="유형">naming</td><td data-label="출처">Docs 네비게이션(S1/S4)</td><td data-label="상태"><span class="pill green">verified</span></td><td data-label="ttl">30</td></tr>
+          <tr><td data-label="id">C7</td><td data-label="주장">공식 Docs 페이지 갱신 표기 2026-07-01</td><td data-label="유형">date</td><td data-label="출처">Docs Using Chat(S2) 페이지 하단</td><td data-label="상태"><span class="pill green">verified</span></td><td data-label="ttl">14</td></tr>
+          <tr><td data-label="id">C8</td><td data-label="주장">최신 VS Code 릴리스는 v1.127</td><td data-label="유형">version</td><td data-label="출처">updates(S8) → v1_127 리다이렉트</td><td data-label="상태"><span class="pill green">verified</span></td><td data-label="ttl">14</td></tr>
+          <tr><td data-label="id">C9</td><td data-label="주장">v1.127에서 browser tools가 “generally available and enabled by default”</td><td data-label="유형">status</td><td data-label="출처">v1.127 릴리스 노트(S8)</td><td data-label="상태"><span class="pill green">verified</span></td><td data-label="ttl">30</td></tr>
+          <tr><td data-label="id">C10</td><td data-label="주장">v1.127 기준 Agents window는 여전히 “(Preview)”</td><td data-label="유형">status</td><td data-label="출처">v1.127 릴리스 노트(S8)</td><td data-label="상태"><span class="pill green">verified</span></td><td data-label="ttl">30</td></tr>
+          <tr><td data-label="id">C11</td><td data-label="주장">v1.127에서 내장 Ollama provider deprecated, Subagent credits·/troubleshoot 신규</td><td data-label="유형">status</td><td data-label="출처">v1.127 릴리스 노트(S8)</td><td data-label="상태"><span class="pill green">verified</span></td><td data-label="ttl">30</td></tr>
+        </tbody>
+      </table>
+      <div class="callout risk"><strong>검증 경계:</strong> HTTP 200 도달만으로 사실을 단정하지 않았고 본문 문자열 일치까지 확인했다. 그러나 릴리스 단계(GA/Preview/Experimental)와 단축키·설정 키는 VS Code 릴리스마다 바뀔 수 있다. TTL 경과 또는 외부 공유 전 각 Docs로 재확인한다.</div>
+    </section>
+
+    <section class="section" id="references">
+      <h2>16. 참고 문서</h2>
+      <ol>
+        <li id="src-overview">S1: <a href="https://code.visualstudio.com/docs/copilot/overview">Copilot in VS Code — Overview (Build with agents)</a></li>
+        <li id="src-chat">S2: <a href="https://code.visualstudio.com/docs/copilot/chat/copilot-chat">Use chat in VS Code</a></li>
+        <li id="src-suggestions">S3: <a href="https://code.visualstudio.com/docs/copilot/ai-powered-suggestions">Inline suggestions (Ghost text · Next edit suggestions)</a></li>
+        <li id="src-customization">S4: <a href="https://code.visualstudio.com/docs/copilot/customization/overview">Customize AI in VS Code (Agent Customization)</a></li>
+        <li id="src-agent-mode">S5: <a href="https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode">Agent mode / Build with agents</a></li>
+        <li id="src-mcp">S6: <a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a></li>
+        <li id="src-cheatsheet">S7: <a href="https://code.visualstudio.com/docs/copilot/reference/copilot-vscode-features">Copilot in VS Code — Cheat Sheet / Settings Reference</a></li>
+        <li id="src-updates">S8: <a href="https://code.visualstudio.com/updates/v1_127">VS Code v1.127 Release Notes</a> — browser tools GA, Subagent credits, /troubleshoot, Ollama provider deprecation</li>
+      </ol>
+      <div class="callout risk"><strong>Final caveat:</strong> 이 문서의 구조 검증(Harness PASS)은 사실 검증이 아니다. 기능 명칭·단축키·설정 키·릴리스 단계·가용성은 제품 업데이트에 따라 바뀔 수 있으므로, 발표·외부 공유 전 위 공식 Docs와 VS Code 릴리스 노트로 재확인한다. 근거 기준일: 2026-07-05 KST 라이브 확인(최신 릴리스 v1.127, 문서 갱신 표기 2026-07-01).</div>
+    </section>
+  </div>
+</body>
+</html>
