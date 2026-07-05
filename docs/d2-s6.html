@@ -70,12 +70,14 @@ Context Manifest → Test Matrix → Risk/Human Gate를 만든다.
     <caption class="small">Fleet 구성 — Agent별 모델·도구·중단</caption>
     <thead><tr><th>Agent</th><th>목적</th><th>모델 기준</th><th>도구</th><th>중단</th></tr></thead>
     <tbody>
+      <tr><td><strong>team-orchestrator</strong>(기본)</td><td>Loop 전체를 완료까지 진행·조율</td><td>orchestration/고추론</td><td>read·search·edit·test</td><td>stop point·Hard gate</td></tr>
       <tr><td>feature-sdd-planner</td><td>plan/test matrix</td><td>planning/auto</td><td>read·search</td><td>scope 불명확</td></tr>
       <tr><td>feature-code-generator</td><td>test-first 구현</td><td>coding/auto</td><td>allowed files edit</td><td>blocked file</td></tr>
       <tr><td>feature-evaluator</td><td>diff/test review</td><td>auto/중간</td><td>read·test log</td><td>AC 미충족</td></tr>
       <tr><td>feature-harness</td><td>gate 실행 요약</td><td>checker 우선</td><td>npm test·policy-check</td><td>gate 실패</td></tr>
     </tbody>
   </table></div>
+  <div class="callout ok"><strong>기본 Orchestrator:</strong> 이 팀을 순서대로 이끄는 <code>team-orchestrator</code>가 <code>.github/agents/team-orchestrator.agent.md</code>로 <strong>기본 포함</strong>됩니다. Agent 모드에서 골라 <strong>Plan→Generate→Evaluate→Fix→Gate</strong>를 완료까지 진행하며, 각 단계 stop point·Hard gate를 지키고 <code>npm run gate</code> 통과 전에는 완료로 가지 않습니다. 상세: <code>templates/agent-team-fleet-loop-canvas.md</code>.</div>
   <div class="callout warn"><strong>주의:</strong> <code>model:</code> 값은 교육용 자리표시자입니다. 배포 전 VS Code/GitHub Custom Agent 문서와 조직 허용 모델명을 확인합니다. 프롬프트 모델명 주입이 아니라 설정·로그로 라우팅을 확인합니다(<span class="tag gl">CF-10</span>).</div>
 </section>
 
@@ -124,7 +126,7 @@ Context Manifest → Test Matrix → Risk/Human Gate를 만든다.
 <pre><code># (새 창) sample-project-web-curation 터미널에서
 npm run routing  # 단계별 모델 라우팅 데모(routeModel)
 npm test         # 프로젝트 테스트(curate)
-# 파일: skills/sdd-skill.md, .github/agents/feature-sdd-planner.agent.md</code></pre>
+# 파일: skills/sdd-skill.md, .github/agents/feature-sdd-planner.agent.md, .github/agents/team-orchestrator.agent.md</code></pre>
   <p class="small">전체 실습 지도: <code>README.md</code></p>
 </section>
 
