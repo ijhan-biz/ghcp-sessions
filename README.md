@@ -51,7 +51,7 @@ ghcp-sessions/
 | `docs/d2-s0.html` ~ `d2-s7.html` | Day 2 — 복습 → 하네스·CLI → Agent Teams·Fleet·Loop → 본인 워크플로 → SDD(1)(2) → Custom Skill/Agent → 경험 공유 |
 | `docs/ag-ui-program.css` | 공통 테마(AG-UI inspired) |
 | `labs/` | 세션별 실행 코드 + 템플릿(상세: `labs/README.md`) |
-| `sample-project-web-curation/` | 폴백 실습 프로젝트 — 본인 기능 미지참 시 채택(검색 결과 정리 엔진) |
+| `sample-project-sns-trends/` | 폴백 실습 프로젝트 — 본인 기능 미지참 시 채택(유명 SNS 트렌드 분석 엔진) |
 
 ## 보기 (설명)
 
@@ -77,7 +77,7 @@ npm run routing   # 단계별 모델 라우팅 데모
 
 > 두 코드베이스: **Day1**은 결제(billing) 예제(`labs/` — `src/billing/tax.js`·`discount.js`)로 기법을 익히고, **Day2**는 실습 프로젝트를 **VS Code 새 창**에 열어 구현합니다. 세션↔코드 지도는 각 프로젝트의 `README.md`.
 >
-> Day2 실습 프로젝트(폴백): 본인 기능을 못 가져온 참가자는 `sample-project-web-curation/`(검색 결과 정리 엔진)를 "내 기능"으로 채택해 새 창에서 진행합니다 — `cd sample-project-web-curation && npm test` (baseline 4 pass, 2 skip).
+> Day2 실습 프로젝트(폴백): 본인 기능을 못 가져온 참가자는 `sample-project-sns-trends/`(유명 SNS 트렌드 분석 엔진)를 "내 기능"으로 채택해 새 창에서 진행합니다 — `cd sample-project-sns-trends && npm test` (baseline 9 pass, 2 skip).
 
 ## 특징
 

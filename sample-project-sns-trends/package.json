@@ -1,9 +1,9 @@
 {
-  "name": "sample-project-web-curation",
+  "name": "sample-project-sns-trends",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "폴백 실습용 샘플 기능(대안) — 검색 결과 정리(큐레이션) 엔진. 실제 웹 fetch 없이, 수집된 결과 목록을 정규화·중복제거·랭킹·요약하는 순수 로직. 의존성 없이 Node 18+ 로 동작.",
+  "description": "폴백 실습용 샘플 기능(대안) — 유명 SNS 트렌드 분석 엔진. 실제 SNS 호출은 주입형 fetch로 분리(테스트는 fake), 해시태그 추출·점수·랭킹은 순수 로직. 의존성 없이 Node 18+ 로 동작.",
   "engines": { "node": ">=18" },
   "scripts": {
     "test": "node --test",
