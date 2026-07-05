@@ -99,6 +99,7 @@ npm test                       # baseline 다시 통과? 실패면 원인 먼저
 <section class="section">
   <h2>Day2 실습 프로젝트 — VS Code 새 창에서 열기</h2>
   <p>Day2의 <strong>구현 실습</strong>은 독립 프로젝트 <code>sample-project-sns-trends</code>(유명 SNS 트렌드 분석 엔진)을 <strong>VS Code 새 창</strong>에 열어 진행합니다. 강의 문서와 분리된 <em>깨끗한 프로젝트 워크스페이스</em>여야 Copilot(특히 Agent 모드)의 파일·도구 범위가 이 프로젝트로 좁혀집니다. <span class="small">(본인 기능 코드가 있으면 그 폴더를 같은 방식으로 엽니다.)</span></p>
+  <div class="callout note"><strong>폴백 프로젝트는 둘 중 택1(구조·진행 동일):</strong> ① <code>sample-project-sns-trends</code>(SNS 트렌드 — 슬라이스 <code>recencyWeight</code>) 또는 ② <code>sample-project-activity-log</code>(개인 활동 로그 분석 — 슬라이스 <code>sessionize</code>). 둘 다 무의존·<code>npm test</code>로 baseline(각각 9·5 pass + 2 skip)이 돌고, 하네스 스크립트·에이전트가 동일하게 들어 있습니다.</div>
 
   <h3>① 새 창에 프로젝트 열기</h3>
   <div class="step"><div class="label">방법 A · 메뉴</div><p class="small"><strong>File → New Window</strong>(⌘⇧N / Ctrl+Shift+N) → <strong>File → Open Folder…</strong> → <code>sample-project-sns-trends</code> 폴더 선택.</p></div>

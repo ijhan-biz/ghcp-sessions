@@ -77,7 +77,9 @@ npm run routing   # 단계별 모델 라우팅 데모
 
 > 두 코드베이스: **Day1**은 결제(billing) 예제(`labs/` — `src/billing/tax.js`·`discount.js`)로 기법을 익히고, **Day2**는 실습 프로젝트를 **VS Code 새 창**에 열어 구현합니다. 세션↔코드 지도는 각 프로젝트의 `README.md`.
 >
-> Day2 실습 프로젝트(폴백): 본인 기능을 못 가져온 참가자는 `sample-project-sns-trends/`(유명 SNS 트렌드 분석 엔진)를 "내 기능"으로 채택해 새 창에서 진행합니다 — `cd sample-project-sns-trends && npm test` (baseline 9 pass, 2 skip).
+> Day2 실습 프로젝트(폴백, 둘 중 택1): 본인 기능을 못 가져온 참가자는 아래 중 하나를 "내 기능"으로 채택해 새 창에서 진행합니다(구조·진행 동일).
+> - `sample-project-sns-trends/`(유명 SNS 트렌드 분석 — 슬라이스 `recencyWeight`) — `npm test` baseline 9 pass, 2 skip
+> - `sample-project-activity-log/`(개인 활동 로그 분석 — 슬라이스 `sessionize`) — `npm test` baseline 5 pass, 2 skip
 
 ## 특징
 
