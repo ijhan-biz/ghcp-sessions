@@ -55,7 +55,7 @@
 <pre><code>[작업] 아래 흩어진 산출물을 Feature Spec Pack v1로 합쳐라.
 [포함] 비식별 스펙, AC, Context Manifest, Plan(2~4단계), Test Matrix, Risk/Gate.
 [제약] 새 요구사항 추가 금지(있으면 unknown으로 표기), 민감정보 금지.
-[출력] 단일 마크다운, 섹션 제목 포함.</code></pre></div>
+[출력] 단일 마크다운(파일명 <strong>spec.md</strong>), 섹션 제목 포함.</code></pre></div>
 </section>
 
 <section class="section">
@@ -83,12 +83,14 @@
 
 <section class="section">
   <h2>이 세션의 실행 코드 (Hands-on)</h2>
-  <div class="callout ok"><strong>Feature Spec Pack v1 취합 + '좋은 입력' 게이트</strong> — 앞 세션 산출물을 묶고, Day1에도 게이트를 한 번 통과해 봅니다.</div>
-<pre><code># 취합: feature-spec-card + context-manifest + plan-and-test-matrix → 내 spec.md
-cd labs
-npm run spec-check                 # '좋은 입력' 자가검증: 정상·예외·경계 AC·비식별 확인
-#   (특정 파일 지정)  node scripts/spec-check.mjs ../path/to/spec.md</code></pre>
-  <p class="small">전체 실습 지도: <code>labs/README.md</code>. spec-check가 <em>보완</em>을 표시하면 AC를 정상/예외/경계로 나눠 채우세요.</p>
+  <div class="callout ok"><strong>Feature Spec Pack v1 춨합 + '좋은 입력' 게이트</strong> — 앉 세션 산출물을 묶어 본인 프로젝트의 <code>spec.md</code>로 저장하고, Day1에도 게이트를 한 번 통과해 봅니다.</div>
+<pre><code># 1) 취합: feature-spec-card + context-manifest + plan-and-test-matrix
+#    → 본인 프로젝트(없으면 폴백 sample-project-activity-log)의 spec.md 로 저장
+# 2) 그 프로젝트에서 '좋은 입력' 게이트 실행 — spec-check는 spec.md 를 자동으로 집습니다
+cd sample-project-activity-log     # 본인 기능 폴더가 있으면 그 폴더에서
+npm run spec-check                 # 내 spec.md 자가검증: 정상·예외·경계 AC·비식별 확인
+#   (labs 데모로 형식만 보려면)  cd labs &amp;&amp; npm run spec-check</code></pre>
+  <p class="small">spec-check가 <em>보완</em>을 표시하면 AC를 정상/예외/경계로 나눠 채우고 다시 실행 → <strong>통과가 '좋은 입력' 검증 목표의 증거</strong>입니다. 전체 실습 지도: 각 프로젝트의 <code>README.md</code>.</p>
 </section>
 
 <div class="pager">
