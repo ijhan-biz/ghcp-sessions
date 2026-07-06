@@ -41,19 +41,19 @@
 <section class="section">
   <h2>실습 1 — spec.md 정형화</h2>
   <div class="step"><div class="label">spec.md 표준 형식 (<span class="tag gl">SD-07</span>)</div>
-<pre><code># Feature: SNS 트렌드 최근성 가중 (예시)
+<pre><code># Feature: 집중 세션 분리 (예시)
 ## Context
-- 비식별 스펙: 게시물 목록을 받아 해시태그별 트렌드 점수를 계산. 오래된 글은 낮게(순수 로직)
+- 비식별 스펙: 활동 이벤트 목록을 받아 유휴 간격 기준으로 집중 세션을 나눈(순수 로직)
 ## Requirements
-- R1 최근 글일수록 태그 점수↑ / R2 반감기 7일 감쇠 / R3 시각 정보 없으면 감쇠 없음(가중 1)
+- R1 유휴 간격이 임계 초과면 새 세션 / R2 임계 이하면 같은 세션(end 확장) / R3 무효 이벤트(start&gt;=end)는 제외
 ## Acceptance Criteria
-- AC1 동일 조건이면 최근 글 태그가 상위 (경계)
-- AC2 7일 지난 글 태그 점수는 감쇠(1 미만) (경계)
-- AC3 public API(recencyWeight/rankTrends) 시그니처 불변
+- AC1 유휴 간격 초과 시 세션 분리 (정상)
+- AC2 간격이 정확히 임계면 같은 세션 (경계)
+- AC3 public API(sessionize) 시그니처 불변
 ## Tests First
-- trends.test.js: 최근성 2건 (현재 skip)
+- activity.test.js: 세션화 2건 (현재 skip)
 ## Constraints
-- 외부 패키지 금지, 실제 SNS 호출 금지(fetch 주입), allowed: src/trends.js</code></pre></div>
+- 외부 패키지 금지, 실제 OS 수집 금지(collector 주입), allowed: src/activity.js</code></pre></div>
 </section>
 
 <section class="section">
@@ -106,12 +106,12 @@
 
 <section class="section">
   <h2>이 세션의 실행 코드 (Hands-on)</h2>
-  <div class="callout ok"><strong>test-first 핵심 실습</strong> — Day2 실습 프로젝트(새 창의 <code>sample-project-sns-trends</code>)에서 실패 테스트를 먼저 켜고 구현합니다.</div>
-<pre><code># 새 창의 sample-project-sns-trends 통합 터미널에서
-npm test         # baseline 9 pass / 2 skip(최근성 2건)
-# 1) test/trends.test.js 의 { skip: true } 2곳 제거 → RED
-# 2) src/trends.js 의 recencyWeight 구현(반감기 7일: 0.5 ** (경과일/7))
-npm test         # GREEN  (정답 비교: src/trends.solution.js)</code></pre>
+  <div class="callout ok"><strong>test-first 핵심 실습</strong> — Day2 실습 프로젝트(새 창의 <code>sample-project-activity-log</code>)에서 실패 테스트를 먼저 켜고 구현합니다.</div>
+<pre><code># 새 창의 sample-project-activity-log 통합 터미널에서
+npm test         # baseline 5 pass / 2 skip(세션화 2건)
+# 1) test/activity.test.js 의 { skip: true } 2곳 제거 → RED
+# 2) src/activity.js 의 sessionize 구현(유휴 간격 초과 시 새 세션)
+npm test         # GREEN  (정답 비교: src/activity.solution.js)</code></pre>
   <p class="small">진행 순서: 프로젝트 <code>README.md</code> · 프로젝트 열기: D2·S0 "VS Code 새 창에서 열기"</p>
 </section>
 

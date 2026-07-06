@@ -97,12 +97,12 @@
   <h2>실습 코드 — 직접 실행하며 이해하기</h2>
   <p class="small">설명(<code>docs/</code>)과 별도로 <strong>직접 실행</strong>해볼 코드가 두 곳에 있습니다. 의존성 없이 <strong>Node 18+ 내장 도구</strong>만으로 동작합니다.<br>
     · <strong>Day1 설명 예제</strong> = <code>labs/</code>(결제 <code>calcVat</code>) — 강의가 기법을 보여줄 때 씁니다.<br>
-    · <strong>Day2 실습 프로젝트</strong> = <code>sample-project-sns-trends/</code>(유명 SNS 트렌드 분석) — 본인 기능이 없으면 폴백으로 채택해 <strong>VS Code 새 창</strong>에 열고 구현합니다(D2·S0).</p>
+    · <strong>Day2 실습 프로젝트</strong> = <code>sample-project-activity-log/</code>(개인 활동 로그 분석) — 본인 기능이 없으면 폴백으로 채택해 <strong>VS Code 새 창</strong>에 열고 구현합니다(D2·S0).</p>
   <pre><code># Day1 예제(labs)
 cd labs &amp;&amp; npm test                       # baseline: 10 pass, 2 skip
 
 # Day2 실습 — 새 창의 sample-project
-cd sample-project-sns-trends &amp;&amp; npm test  # baseline: 9 pass, 2 skip
+cd sample-project-activity-log &amp;&amp; npm test  # baseline: 5 pass, 2 skip
 npm run gate                                # lint + test + policy-check</code></pre>
   <table>
     <caption class="small">세션 ↔ 실행 코드</caption>
@@ -114,12 +114,12 @@ npm run gate                                # lint + test + policy-check</code><
       <tr><td>D2·S1 하네스</td><td>sample-project</td><td><code>zsh scripts/copilot-harness/run.zsh "..."</code></td></tr>
       <tr><td>D2·S2 게이트</td><td>sample-project</td><td><code>npm run gate</code> · <code>scripts/policy-check.mjs</code></td></tr>
       <tr><td>D2·S3 장기실행</td><td>sample-project</td><td><code>npm run sim</code> (seed 바꿔 롤백/STOP 관찰)</td></tr>
-      <tr><td>D2·S4 SDD</td><td>sample-project</td><td><code>trends.test.js</code> skip 제거 → <code>recencyWeight</code> 구현 → <code>npm test</code></td></tr>
+      <tr><td>D2·S4 SDD</td><td>sample-project</td><td><code>activity.test.js</code> skip 제거 → <code>sessionize</code> 구현 → <code>npm test</code></td></tr>
       <tr><td>D2·S5 리뷰패킷</td><td>sample-project</td><td><code>npm run packet</code> → review-packet.md</td></tr>
       <tr><td>D2·S6 라우팅</td><td>sample-project</td><td><code>npm run routing</code></td></tr>
     </tbody>
   </table>
-  <div class="callout ok"><strong>두 코드베이스:</strong> Day1은 <strong>결제(billing) 예제</strong>(<code>labs/</code>)로 기법을 익히고, Day2는 <strong>본인 프로젝트</strong>(없으면 폴백 <code>sample-project-sns-trends/</code>)를 새 창에 열어 구현합니다. 세션↔코드 지도는 각 프로젝트의 <code>README.md</code>.</div>
+  <div class="callout ok"><strong>두 코드베이스:</strong> Day1은 <strong>결제(billing) 예제</strong>(<code>labs/</code>)로 기법을 익히고, Day2는 <strong>본인 프로젝트</strong>(없으면 폴백 <code>sample-project-activity-log/</code>)를 새 창에 열어 구현합니다. 세션↔코드 지도는 각 프로젝트의 <code>README.md</code>.</div>
 </section>
 
 <footer>program-sessions-2026-06-27 · 시간(세션)별 교육 콘텐츠 · 용어사전 ID 연동 · 재편안(2026-06-27) 기반 · 작성: 한익준 (Microsoft)</footer>

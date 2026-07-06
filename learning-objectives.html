@@ -128,25 +128,25 @@
 
 <section class="section" id="sample">
   <h2>샘플 프로젝트로 실습하는 법 (본인 기능 미지참 시)</h2>
-  <p class="small">본인 기능 스펙을 못 가져온 참가자는 <strong><code>sample-project-sns-trends/</code></strong>(SNS 트렌드 분석 엔진)을 "내 기능"으로 채택해 <strong>2일 전 과정을 동일하게</strong> 진행합니다. 무설치·의존성 0(<code>cd sample-project-sns-trends &amp;&amp; npm test</code> → 9 pass / 2 skip). 실제 웹 fetch는 제외하고 "수집된 게시물에서 트렌드를 뽑는 순수 로직"만 다룹니다.</p>
-  <div class="callout note"><strong>폴백은 둘 중 택1(구조·진행 동일):</strong> ① <code>sample-project-sns-trends</code>(SNS 트렌드 — 슬라이스 <code>recencyWeight</code>, baseline 9 pass/2 skip) 또는 ② <code>sample-project-activity-log</code>(개인 활동 로그 분석 — 슬라이스 <code>sessionize</code>, baseline 5 pass/2 skip). 아래 표·흐름은 <code>sns-trends</code> 기준이며, <code>activity-log</code>를 고르면 <code>src/trends.js→src/activity.js</code>·<code>recencyWeight→sessionize</code>·<code>test/trends.test.js→test/activity.test.js</code>로 치환하면 동일하게 진행됩니다. 하네스 스크립트·에이전트는 두 프로젝트가 동일합니다.</div>
-  <div class="callout ok"><strong>한 줄 흐름:</strong> <code>FEATURE-SPEC.md</code> 채택 → <code>BACKLOG.md</code>에서 slice 1개(권장: 최근성 가중(반감기 7일 감쇠)) → Day1에 스펙·프롬프트·Plan → Day2에 <code>recencyWeight</code>을 test-first로 구현 → 리뷰 패킷 → Custom Skill → 공유.</div>
+  <p class="small">본인 기능 스펙을 못 가져온 참가자는 <strong><code>sample-project-activity-log/</code></strong>(개인 활동 로그 분석 엔진)을 "내 기능"으로 채택해 <strong>2일 전 과정을 동일하게</strong> 진행합니다. 무설치·의존성 0(<code>cd sample-project-activity-log &amp;&amp; npm test</code> → 5 pass / 2 skip). 실제 OS 수집은 제외하고 "수집된 활동 이벤트에서 집중 세션을 뽑는 순수 로직"만 다룹니다.</p>
+  <div class="callout note"><strong>참고: <code>sample-project-sns-trends</code>는 완성된 참고 앱입니다.</strong> 실제 SNS 통합(Bluesky·Mastodon·웹검색)·대시보드·SSE 서버까지 구현된 풀 코드베이스(81 pass / 0 skip)로, test-first 슬라이스가 아니라 하네스·리뷰·라우팅을 더 큰 코드베이스에 적용해 보고 싶을 때 탐색용으로 엽니다.</div>
+  <div class="callout ok"><strong>한 줄 흐름:</strong> <code>FEATURE-SPEC.md</code> 채택 → <code>BACKLOG.md</code>에서 slice 1개(권장: 집중 세션 분리(유휴 간격 기준)) → Day1에 스펙·프롬프트·Plan → Day2에 <code>sessionize</code>을 test-first로 구현 → 리뷰 패킷 → Custom Skill → 공유.</div>
   <table>
     <caption class="small">세션별 — 샘플 프로젝트를 어떻게 쓰는가</caption>
     <thead><tr><th>세션</th><th>샘플로 무엇을 하나</th><th>산출물</th></tr></thead>
     <tbody>
       <tr><td><strong>D1·S1</strong></td><td><code>FEATURE-SPEC.md</code>를 내 기능 스펙 카드로 채택(비식별 확인) + BACKLOG에서 slice 선택</td><td class="deliverable">채택한 스펙 카드 + slice</td></tr>
-      <tr><td><strong>D1·S2</strong></td><td>트렌드 분석 기능의 User Story·AC 정제(정상/예외/경계 — 예: 빈 목록·오래된 글)</td><td class="deliverable">AC 표</td></tr>
-      <tr><td><strong>D1·S3</strong></td><td>Context Manifest(allowed: <code>src/trends.js</code>) + 리팩토링 대상 확인</td><td class="deliverable">Context Manifest</td></tr>
-      <tr><td><strong>D1·S4</strong></td><td><code>recencyWeight</code> 구현 계획 + Test Matrix(7일 반감기·최근 글 우선 케이스)</td><td class="deliverable">Plan · Test Matrix</td></tr>
+      <tr><td><strong>D1·S2</strong></td><td>활동 로그 분석 기능의 User Story·AC 정제(정상/예외/경계 — 예: 빈 목록·무효 이벤트·유휴 경계)</td><td class="deliverable">AC 표</td></tr>
+      <tr><td><strong>D1·S3</strong></td><td>Context Manifest(allowed: <code>src/activity.js</code>) + 리팩토링 대상 확인</td><td class="deliverable">Context Manifest</td></tr>
+      <tr><td><strong>D1·S4</strong></td><td><code>sessionize</code> 구현 계획 + Test Matrix(유휴 임계 초과·경계 간격 케이스)</td><td class="deliverable">Plan · Test Matrix</td></tr>
       <tr><td><strong>D1·S5</strong></td><td>위 산출물을 Feature Spec Pack v1로 묶기(Day2 입력)</td><td class="deliverable">Spec Pack v1</td></tr>
       <tr><td><strong>D2·S1~S3</strong></td><td>이 프로젝트에 하네스·로컬 게이트·Agent Teams/Fleet/Loop 적용</td><td class="deliverable">게이트·캔버스</td></tr>
-      <tr><td><strong>D2·S4~S5</strong></td><td><code>test/trends.test.js</code>의 skip 해제 → <code>recencyWeight</code> test-first 구현 → 로컬 게이트·리뷰 패킷</td><td class="deliverable">구현 + review packet</td></tr>
-      <tr><td><strong>D2·S6</strong></td><td>"SNS 트렌드 분석" 반복 작업을 Custom Skill로 정형화</td><td class="deliverable">Custom Skill 1개</td></tr>
+      <tr><td><strong>D2·S4~S5</strong></td><td><code>test/activity.test.js</code>의 skip 해제 → <code>sessionize</code> test-first 구현 → 로컬 게이트·리뷰 패킷</td><td class="deliverable">구현 + review packet</td></tr>
+      <tr><td><strong>D2·S6</strong></td><td>"활동 로그 분석" 반복 작업을 Custom Skill로 정형화</td><td class="deliverable">Custom Skill 1개</td></tr>
       <tr><td><strong>D2·S7</strong></td><td>스펙→구현→검증→Skill 연결을 라이트닝 토크로 공유</td><td class="deliverable">공유 1페이지</td></tr>
     </tbody>
   </table>
-  <div class="callout note"><strong>정답 비교:</strong> 직접 구현 후 <code>src/trends.solution.js</code>와 비교. <strong>slice 확장:</strong> 여유가 있으면 <code>BACKLOG.md</code>의 불용 태그·최소 언급 수 필터로 한 사이클 더.</div>
+  <div class="callout note"><strong>정답 비교:</strong> 직접 구현 후 <code>src/activity.solution.js</code>와 비교. <strong>slice 확장:</strong> 여유가 있으면 <code>BACKLOG.md</code>의 카테고리별 집계·집중 점수로 한 사이클 더.</div>
   <div class="callout warn"><strong>강사용 메모:</strong> 이 샘플은 가이드 예제(<code>labs/</code>, billing)와 별개입니다. labs는 강사 설명용, 이 샘플은 참가자가 "자기 기능"으로 가져가는 폴백입니다.</div>
 </section>
 
