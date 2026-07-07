@@ -25,7 +25,7 @@
   <h2>학습 목표</h2>
   <ul>
     <li>2일 과정의 산출물 줄기(기능 스펙 → … → Custom Skill → 공유)를 이해하고, 본인 기능 스펙 후보 1건을 정한다.</li>
-    <li>VS Code · Copilot · Git · Node · gh 를 <strong>환경 점검·교정 스크립트</strong>로 점검·자동 교정하고 <strong>Green/Yellow/Red</strong>를 자가 판정한다(<span class="tag gl">EN-18</span>).</li>
+    <li>VS Code · Copilot · Git · Node 를 <strong>환경 점검·교정 스크립트</strong>로 점검·자동 교정하고 <strong>Green/Yellow/Red</strong>를 자가 판정한다(<span class="tag gl">EN-18</span>).</li>
     <li>실습 브랜치와 baseline 테스트 결과를 남겨 <strong>되돌아올 지점</strong>을 확보한다.</li>
   </ul>
 </section>
@@ -44,7 +44,6 @@
   <p class="small">터미널에서 아래를 실행해 버전이 출력되는지 확인합니다(<span class="tag gl">EN-14</span>).</p>
 <pre><code>code --version
 git --version
-gh --version &amp;&amp; gh auth status
 node -v &amp;&amp; npm -v</code></pre></div>
 
   <div class="step"><div class="label">STEP 2 · 환경 점검·교정 스크립트 실행</div>
@@ -62,7 +61,7 @@ git checkout -b lab/copilot-workbook   # 로컬 전용 브랜치 (OR-15)
 git status</code></pre></div>
 
   <div class="step"><div class="label">STEP 4 · Copilot 동작 확인</div>
-  <p class="small">Copilot Chat(<span class="tag gl">CF-01</span>)에 한 줄 질의해 응답이 오는지, Inline 제안(<span class="tag gl">CF-11</span>)이 뜨는지 확인합니다. Chat은 CLI 불가 시 1차 fallback 경로입니다.</p></div>
+  <p class="small">Copilot Chat(<span class="tag gl">CF-01</span>)에 한 줄 질의해 응답이 오는지, Inline 제안(<span class="tag gl">CF-11</span>)이 뜨는지 확인합니다. Chat은 Agent 모드가 안 될 때 1차 fallback 경로입니다.</p></div>
   <div class="callout note"><strong>VS Code Copilot 기능 전체 지도:</strong> 환경이 준비됐으면, VS Code에서 쓸 수 있는 Copilot 기능(채팅 표면 · Agent/Plan/Ask · 자동완성 · 컨텍스트 · 도구/MCP · 커스터마이징 등)을 <a href="vscode-features.html">VS Code Copilot 기능 가이드</a>에서 한눈에 확인하세요.</div>
 </section>
 
@@ -126,7 +125,7 @@ git checkout -b lab/copilot-workbook   # ③ 작업 브랜치 생성</code></pre
     <caption class="small">명령 · 동작 · 기대 결과(이렇게 나오면 성공)</caption>
     <thead><tr><th>명령</th><th>동작</th><th>기대 결과 = 이 출력을 확인</th></tr></thead>
     <tbody>
-      <tr><td><code>npm run env</code></td><td>Node 18+ · git · gh CLI 설치/버전을 점검해 준비도를 판정</td><td><code>준비도: GREEN → 바로 실습 가능</code>. YELLOW/RED면 안내대로 도구 설치·업데이트 후 재실행</td></tr>
+      <tr><td><code>npm run env</code></td><td>Node 18+ · git 설치/버전을 점검해 준비도를 판정</td><td><code>준비도: GREEN → 바로 실습 가능</code>. YELLOW/RED면 안내대로 도구 설치·업데이트 후 재실행</td></tr>
       <tr><td><code>npm test</code></td><td>내장 <code>node --test</code>로 유닛테스트 실행 — 지금 "통과하는 상태"가 곧 baseline</td><td><code># pass 10 · # skipped 2 · # fail 0</code>. skip 2개는 이후 실습에서 켤 예정이라 정상, <strong>fail 0</strong>이면 성공</td></tr>
       <tr><td><code>git checkout -b …</code></td><td>실습 변경을 담을 작업 브랜치 생성(원본 보호)</td><td><code>git branch</code> 목록에 <code>* lab/copilot-workbook</code> 표시</td></tr>
     </tbody>

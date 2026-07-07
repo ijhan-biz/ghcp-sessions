@@ -24,7 +24,6 @@ npm test         # baseline: 10 pass, 2 skip (Day2-S4에서 켤 테스트)
 | `npm run sim` | 장기 실행 안전장치 시뮬레이션(cost burn·checkpoint·canary) |
 | `npm run packet` | local review packet(review-packet.md) 생성 |
 | `npm run routing` | 단계별 모델 라우팅 데모 |
-| `zsh scripts/copilot-harness/run.zsh "<prompt>"` | Copilot CLI 하네스 래퍼(미설치 시 dry-run) |
 
 ## 세션 ↔ 실습 코드 매핑
 
@@ -42,7 +41,7 @@ npm test         # baseline: 10 pass, 2 skip (Day2-S4에서 켤 테스트)
 | 세션 | 무엇을 실행/작성 | 파일·명령 |
 | --- | --- | --- |
 | S0 복습·재점검 | baseline 재확인 | `npm run env`, `npm test`, `git status` |
-| S1 하네스·CLI | 권한·로그 래퍼 실행 | `zsh scripts/copilot-harness/run.zsh "..."` |
+| S1 하네스 기초 | Agent 모드 권한·로그 관찰 | VS Code Agent 도구 승인·denyList → `npm run policy-check` |
 | S2 Agent Teams·게이트 | 로컬 게이트 + 캔버스 | `npm run gate`, `scripts/policy-check.mjs`, `templates/agent-team-fleet-loop-canvas.md` |
 | S3 본인 워크플로·장기실행 | 안전장치 체험 | `npm run sim` (seed 바꿔 재실행), 캔버스 작성 |
 | S4 SDD test-first | 실패 테스트 켜고 구현 | `test/tax.test.js`의 `skip` 제거 → `src/billing/tax.js` 구현 → `npm test` |

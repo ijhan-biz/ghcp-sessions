@@ -75,7 +75,7 @@
     <thead><tr><th>시간</th><th>세션</th><th>이 시간의 한 줄</th><th>산출물</th><th>핵심 용어</th></tr></thead>
     <tbody>
       <tr><td class="time">09:00–09:30</td><td><a href="d2-s0.html">S0. Day1 복습 &amp; 환경 재점검</a></td><td>리캡 + 환경 점검 재실행 + Spec Pack 로딩</td><td class="deliverable">재개 체크, clean branch</td><td><span class="tag gl">OR-16</span><span class="tag gl">EN-14</span></td></tr>
-      <tr><td class="time">09:30–10:40</td><td><a href="d2-s1.html">S1. 하네스 (1) — 기초·CLI</a></td><td>자연어 제약→검증 개념 + Copilot CLI 권한·로그</td><td class="deliverable">CLI 로그, JSON 출력</td><td><span class="tag gl">HE-01</span><span class="tag gl">CF-02</span><span class="tag gl">HE-13</span></td></tr>
+      <tr><td class="time">09:30–10:40</td><td><a href="d2-s1.html">S1. 하네스 (1) — 기초</a></td><td>자연어 제약→검증 개념 + VS Code Agent 도구 권한·로그</td><td class="deliverable">Agent 도구 호출 내역, 로그 해석</td><td><span class="tag gl">HE-01</span><span class="tag gl">CF-11</span><span class="tag gl">HE-13</span></td></tr>
       <tr><td class="time">10:40–12:00</td><td><a href="d2-s2.html">S2. 하네스 (2) — Agent Teams·Fleet·Loop 게이트</a></td><td>로컬 게이트 + 역할 분리 + Fleet/Loop 설계</td><td class="deliverable">Agent Team Canvas, Fleet/Loop, 게이트</td><td><span class="tag gl">HE-03</span><span class="tag gl">CF-07</span><span class="tag gl">CF-06</span></td></tr>
       <tr><td class="time">13:00–13:50</td><td><a href="d2-s3.html">S3. 하네스 (3) — 본인 워크플로 설계</a></td><td>내 기능팀 반복 업무를 하네스로 분해 (나만의 솔루션 설계 시작)</td><td class="deliverable">본인용 하네스 워크플로 초안</td><td><span class="tag gl">HE-07</span><span class="tag gl">CF-05</span><span class="tag gl">OR-25</span></td></tr>
       <tr><td class="time">13:50–15:10</td><td><a href="d2-s4.html">S4. SDD (1) — 요구사항 → 구현</a></td><td>spec.md 정형화 + test-first + 스펙 기반 구현</td><td class="deliverable">spec.md, 스펙 기반 구현</td><td><span class="tag gl">SD-01</span><span class="tag gl">SD-07</span><span class="tag gl">SD-06</span></td></tr>
@@ -111,7 +111,7 @@ npm run gate                                # lint + test + policy-check</code><
       <tr><td>D1·S1 토큰</td><td>labs</td><td><code>node scripts/token-estimate.mjs src/**/*.js</code></td></tr>
       <tr><td>D1·S3 리팩토링</td><td>labs</td><td><code>discount.js</code> 리팩토링 → <code>npm test</code> green 유지</td></tr>
       <tr><td>D1·S5 스펙 게이트</td><td>labs</td><td><code>npm run spec-check</code></td></tr>
-      <tr><td>D2·S1 하네스</td><td>sample-project</td><td><code>zsh scripts/copilot-harness/run.zsh "..."</code></td></tr>
+      <tr><td>D2·S1 하네스</td><td>sample-project</td><td>Agent 모드 도구 승인·denyList → <code>npm run policy-check</code></td></tr>
       <tr><td>D2·S2 게이트</td><td>sample-project</td><td><code>npm run gate</code> · <code>scripts/policy-check.mjs</code></td></tr>
       <tr><td>D2·S3 장기실행</td><td>sample-project</td><td><code>npm run sim</code> (seed 바꿔 롤백/STOP 관찰)</td></tr>
       <tr><td>D2·S4 SDD</td><td>sample-project</td><td><code>activity.test.js</code> skip 제거 → <code>sessionize</code> 구현 → <code>npm test</code></td></tr>

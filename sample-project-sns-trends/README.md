@@ -23,7 +23,6 @@ npm test        # baseline: 9 pass, 2 skip(Day2-S4에서 켤 테스트)
 | `npm run env` | 환경 준비도 점검(Green/Yellow/Red) | D2·S0 |
 | `npm run spec-check` | '좋은 입력' 스펙 자가검증 | D1·S5 |
 | `node scripts/token-estimate.mjs <파일...>` | 입력 토큰 근사치 | D1·S1 |
-| `zsh scripts/copilot-harness/run.zsh "..."` | 권한·로그 좁힌 하네스 래퍼 | D2·S1 |
 | `npm run lint` · `npm run policy-check` · `npm run gate` | 로컬 품질 게이트 | D2·S2 |
 | `npm run sim` | 장기 실행 안전장치 시뮬레이션 | D2·S3 |
 | `npm run packet` | 로컬 리뷰 패킷 생성 | D2·S5·S7 |

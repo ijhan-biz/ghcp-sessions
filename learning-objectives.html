@@ -68,7 +68,7 @@
   <h3>3 · 수업을 통해 전달해야 하는 내용 (무엇을 가르치는가)</h3>
   <div class="kpi">
     <div><b>좋은 입력</b><span>토큰 최적화·가드레일·구조화 프롬프트(R/C/T/C/V/O)·Plan Mode</span></div>
-    <div><b>안전한 실행</b><span>하네스(CLI 권한·로그)·로컬 게이트·Agent Teams·Fleet/Loop 중단조건</span></div>
+    <div><b>안전한 실행</b><span>하네스(Agent 권한·로그)·로컬 게이트·Agent Teams·Fleet/Loop 중단조건</span></div>
     <div><b>검증 가능한 변경</b><span>SDD test-first·spec.md·evidence bundle·rollback note·리뷰 패킷</span></div>
     <div><b>나만의 솔루션</b><span>반복 업무를 Custom Skill/Agent + Fleet 기준으로 자산화</span></div>
     <div><b>경험 공유</b><span>라이트닝 토크·현업 적용 액션 3·PL handoff 1페이지</span></div>
@@ -247,13 +247,13 @@
         <td><span class="tag gl">OR-16</span><span class="tag gl">EN-14</span><span class="tag gl">OR-15</span></td>
       </tr>
       <tr>
-        <td><strong>S1</strong><br><span class="time">09:30–10:40<br>(70m)</span><br>하네스 (1) 기초·CLI</td>
+        <td><strong>S1</strong><br><span class="time">09:30–10:40<br>(70m)</span><br>하네스 (1) 기초</td>
         <td><ul>
           <li>하네스 = 자연어 제약을 로컬 실행 가능한 검증/게이트로 바꾸는 작업임을 이해한다.</li>
-          <li>Copilot CLI에서 allow/deny-tool·log-dir·output-format으로 권한·로그·출력을 제어한다.</li>
+          <li>VS Code Agent 모드에서 도구 승인·denyList·도구 호출 내역으로 권한·로그를 제어한다.</li>
           <li>실행 로그를 읽고 "무엇을 했고 왜 멈췄는가"를 해석한다.</li>
         </ul></td>
-        <td class="deliverable">권한 플래그 적용 CLI 로그 + 로그 해석 메모</td>
+        <td class="deliverable">도구 승인·denyList 적용 Agent 도구 호출 내역 + 해석 메모</td>
         <td><span class="tag gl">HE-01</span><span class="tag gl">CF-02</span><span class="tag gl">HE-13</span><span class="tag gl">CF-01</span></td>
       </tr>
       <tr>
@@ -340,7 +340,7 @@
     <h3>2 · 안전한 실행 <span class="tag v">Day2</span></h3>
     <ul>
       <li>하네스 개념(자연어 제약→실행 가능한 검증)을 설명한다</li>
-      <li>Copilot CLI 권한·로그(allow/deny-tool·log-dir)를 제어하고 로그를 해석한다</li>
+      <li>VS Code Agent 권한·로그(도구 승인·denyList·도구 호출 내역)를 제어하고 로그를 해석한다</li>
       <li>wrapper·policy-check로 로컬 검증 게이트를 만든다</li>
       <li>Agent Teams 역할을 분리하고 기능팀에 매핑한다</li>
       <li>Fleet 설계표·Loop Canvas로 모델·도구·중단 조건·게이트를 정의한다</li>
