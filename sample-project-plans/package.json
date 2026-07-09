@@ -1,0 +1,23 @@
+{
+  "name": "sample-project-plans",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "완성본 예시 — Trello 유형 칸반 'Plans' 보드 엔진. 순수 함수 코어(보드/리스트/카드/라벨/멤버/마감/체크리스트/코멘트/첨부/검색/통계) + 주입형 저장 경계(store). 의존성 없이 Node 18+ 로 동작. 강의 전 과정(스펙→하네스→게이트→SDD→커스텀 스킬/에이전트)을 담은 레퍼런스.",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.js",
+    "serve": "node server.js",
+    "test": "node --test",
+    "demo": "node scripts/demo.mjs",
+    "spec-check": "node scripts/spec-check.mjs",
+    "token-estimate": "node scripts/token-estimate.mjs",
+    "env": "node scripts/check-env.mjs",
+    "lint": "node scripts/lint.mjs",
+    "policy-check": "node scripts/policy-check.mjs",
+    "gate": "npm run lint && npm test && npm run policy-check",
+    "sim": "node scripts/long-running-sim.mjs",
+    "packet": "node scripts/make-review-packet.mjs",
+    "routing": "node scripts/model-routing-demo.mjs"
+  }
+}
