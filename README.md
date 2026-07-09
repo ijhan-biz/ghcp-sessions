@@ -48,10 +48,10 @@ ghcp-sessions/
 | --- | --- |
 | `docs/index.html` | 포탈 — 전체 세션 맵, 실습 코드 안내, 참조 자료 반영표 |
 | `docs/d1-s0.html` ~ `d1-s6.html` | Day 1 — 환경 점검 → 토큰·가드레일 → 좋은 프롬프트(1)(2) → Plan Mode → 종합 미니랩 → QnA |
-| `docs/d2-s0.html` ~ `d2-s7.html` | Day 2 — 복습 → 하네스·CLI → Agent Teams·Fleet·Loop → 본인 워크플로 → SDD(1)(2) → Custom Skill/Agent → 경험 공유 |
+| `docs/d2-s0.html` ~ `d2-s7.html` | Day 2 — 복습 → 하네스 기초 → Agent Teams·Fleet·Loop → 본인 워크플로 → SDD(1)(2) → Custom Skill/Agent → 경험 공유 |
 | `docs/ag-ui-program.css` | 공통 테마(AG-UI inspired) |
 | `labs/` | 세션별 실행 코드 + 템플릿(상세: `labs/README.md`) |
-| `sample-project-sns-trends/` | 폴백 실습 프로젝트 — 본인 기능 미지참 시 채택(유명 SNS 트렌드 분석 엔진) |
+| `sample-project-activity-log/` | 폴백 실습 프로젝트 — 본인 기능 미지참 시 채택(개인 활동 로그 분석 엔진) |
 
 ## 보기 (설명)
 
@@ -77,9 +77,7 @@ npm run routing   # 단계별 모델 라우팅 데모
 
 > 두 코드베이스: **Day1**은 결제(billing) 예제(`labs/` — `src/billing/tax.js`·`discount.js`)로 기법을 익히고, **Day2**는 실습 프로젝트를 **VS Code 새 창**에 열어 구현합니다. 세션↔코드 지도는 각 프로젝트의 `README.md`.
 >
-> Day2 실습 프로젝트(폴백, 둘 중 택1): 본인 기능을 못 가져온 참가자는 아래 중 하나를 "내 기능"으로 채택해 새 창에서 진행합니다(구조·진행 동일).
-> - `sample-project-sns-trends/`(유명 SNS 트렌드 분석 — 슬라이스 `recencyWeight`) — `npm test` baseline 9 pass, 2 skip
-> - `sample-project-activity-log/`(개인 활동 로그 분석 — 슬라이스 `sessionize`) — `npm test` baseline 5 pass, 2 skip
+> Day2 실습 프로젝트(폴백): 본인 기능을 못 가져온 참가자는 `sample-project-activity-log/`(개인 활동 로그 분석 — 슬라이스 `sessionize`)를 "내 기능"으로 채택해 새 창에서 진행합니다. `npm test` baseline 5 pass, 2 skip.
 
 ## 특징
 

@@ -129,7 +129,6 @@
 <section class="section" id="sample">
   <h2>샘플 프로젝트로 실습하는 법 (본인 기능 미지참 시)</h2>
   <p class="small">본인 기능 스펙을 못 가져온 참가자는 <strong><code>sample-project-activity-log/</code></strong>(개인 활동 로그 분석 엔진)을 "내 기능"으로 채택해 <strong>2일 전 과정을 동일하게</strong> 진행합니다. 무설치·의존성 0(<code>cd sample-project-activity-log &amp;&amp; npm test</code> → 5 pass / 2 skip). 실제 OS 수집은 제외하고 "수집된 활동 이벤트에서 집중 세션을 뽑는 순수 로직"만 다룹니다.</p>
-  <div class="callout note"><strong>참고: <code>sample-project-sns-trends</code>는 완성된 참고 앱입니다.</strong> 실제 SNS 통합(Bluesky·Mastodon·웹검색)·대시보드·SSE 서버까지 구현된 풀 코드베이스(81 pass / 0 skip)로, test-first 슬라이스가 아니라 하네스·리뷰·라우팅을 더 큰 코드베이스에 적용해 보고 싶을 때 탐색용으로 엽니다.</div>
   <div class="callout ok"><strong>한 줄 흐름:</strong> <code>FEATURE-SPEC.md</code> 채택 → <code>BACKLOG.md</code>에서 slice 1개(권장: 집중 세션 분리(유휴 간격 기준)) → Day1에 스펙·프롬프트·Plan → Day2에 <code>sessionize</code>을 test-first로 구현 → 리뷰 패킷 → Custom Skill → 공유.</div>
   <table>
     <caption class="small">세션별 — 샘플 프로젝트를 어떻게 쓰는가</caption>

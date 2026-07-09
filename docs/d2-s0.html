@@ -100,7 +100,6 @@ npm test                       # baseline 다시 통과? 실패면 원인 먼저
   <h2>Day2 실습 프로젝트 — VS Code 새 창에서 열기</h2>
   <p>Day2의 <strong>구현 실습</strong>은 독립 프로젝트 <code>sample-project-activity-log</code>(개인 활동 로그 분석 엔진)을 <strong>VS Code 새 창</strong>에 열어 진행합니다. 강의 문서와 분리된 <em>깨끗한 프로젝트 워크스페이스</em>여야 Copilot(특히 Agent 모드)의 파일·도구 범위가 이 프로젝트로 좁혀집니다. <span class="small">(본인 기능 코드가 있으면 그 폴더를 같은 방식으로 엽니다.)</span></p>
   <div class="callout ok"><strong>기본 실습 프로젝트 = <code>sample-project-activity-log</code>:</strong> 개인 활동 로그 분석 — 구현 슬라이스 <code>sessionize</code>(유휴 간격 기준 집중 세션 분리). 무의존·<code>npm test</code> baseline <strong>5 pass + 2 skip</strong>이며, Day2에서 그 <strong>2 skip</strong>을 test-first로 켜서 구현합니다. 하네스 스크립트·에이전트가 모두 포함됩니다.</div>
-  <div class="callout note"><strong>참고 — <code>sample-project-sns-trends</code>는 "완성된 참고 앱"입니다:</strong> 실제 SNS 통합(Bluesky·Mastodon·웹검색)·대시보드·SSE 서버까지 구현된 <strong>풀 코드베이스(81 pass / 0 skip)</strong>로, test-first 슬라이스가 아니라 <em>하네스·리뷰·모델 라우팅을 더 큰 프로젝트에 적용해 보고 싶을 때</em> 탐색용으로 엽니다. 오늘의 test-first 구현 대상은 <code>activity-log</code>입니다.</div>
 
   <h3>① 새 창에 프로젝트 열기</h3>
   <div class="step"><div class="label">방법 A · 메뉴</div><p class="small"><strong>File → New Window</strong>(⌘⇧N / Ctrl+Shift+N) → <strong>File → Open Folder…</strong> → <code>sample-project-activity-log</code> 폴더 선택.</p></div>
