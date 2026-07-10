@@ -6,7 +6,7 @@ REM ============================================================
 REM GitHub Copilot Intermediate Course - Windows cmd setup helper
 REM
 REM Checks host environment, auto-fixes missing tools and old Node,
-REM then runs labs tests to verify readiness.
+REM then runs Day1 labs and Day2 activity-log tests to verify readiness.
 REM
 REM Usage:
 REM   setup-windows.bat           Check + auto-fix
@@ -36,7 +36,6 @@ if "%CHECK_ONLY%"=="0" (
   ) else (
     call :ensure git  Git.Git
     call :ensure_node
-    call :ensure gh   GitHub.cli
     call :ensure code Microsoft.VisualStudioCode
 
     REM Ensure Node major version is 18+
@@ -53,13 +52,6 @@ if "%CHECK_ONLY%"=="0" (
         call :persist_node_path
       )
     )
-  )
-
-  REM Install gh-copilot extension (best effort)
-  where gh >nul 2>nul
-  if not errorlevel 1 (
-    gh extension list 2>nul | findstr /I "gh-copilot" >nul
-    if errorlevel 1 gh extension install github/gh-copilot 2>nul
   )
 
   REM Ensure VS Code extensions (Copilot / Copilot Chat)
@@ -100,23 +92,6 @@ if errorlevel 1 (
   echo   [ok] git
 )
 
-where gh >nul 2>nul
-if errorlevel 1 (
-  echo   [!] gh CLI is missing - optional if you use Copilot Chat in VS Code
-) else (
-  echo   [ok] gh CLI
-)
-
-where gh >nul 2>nul
-if not errorlevel 1 (
-  gh auth status >nul 2>nul
-  if errorlevel 1 (
-    echo   [!] gh is not authenticated. Run: gh auth login
-  ) else (
-    echo   [ok] gh authenticated
-  )
-)
-
 where code >nul 2>nul
 if errorlevel 1 (
   echo   [!] VS Code code CLI not found - GUI installation alone is still fine
@@ -124,11 +99,12 @@ if errorlevel 1 (
   echo   [ok] VS Code code CLI
 )
 
-REM ---------------------------------------------------------------- Labs smoke test
+REM ---------------------------------------------------------------- Course smoke tests
 echo.
-echo == Labs Test Run ==
+echo == Course Test Run: Day1 labs + Day2 activity-log ==
 if not exist "labs\package.json" (
   echo   [!] labs\package.json not found - skipping labs test
+  set "PASS=0"
 ) else (
   where node >nul 2>nul
   if errorlevel 1 (
@@ -142,6 +118,28 @@ if not exist "labs\package.json" (
       echo   [ok] labs tests passed - ready for hands-on work
     ) else (
       echo   [x] labs tests failed - review test output
+      set "PASS=0"
+    )
+  )
+)
+
+if not exist "sample-project-activity-log\package.json" (
+  echo   [x] sample-project-activity-log\package.json not found
+  set "PASS=0"
+) else (
+  where node >nul 2>nul
+  if errorlevel 1 (
+    echo   [x] Node missing - skipping activity-log test
+    set "PASS=0"
+  ) else (
+    pushd sample-project-activity-log
+    call npm test
+    set "ACTIVITYCODE=!errorlevel!"
+    popd
+    if "!ACTIVITYCODE!"=="0" (
+      echo   [ok] activity-log tests passed - Day2 fallback ready
+    ) else (
+      echo   [x] activity-log tests failed - review test output
       set "PASS=0"
     )
   )

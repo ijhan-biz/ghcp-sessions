@@ -29,12 +29,11 @@ setup-windows.bat --check    REM 교정 없이 점검만
 | --- | --- | --- |
 | Node 18+ | **필수** | 스크립트가 자동 설치/업그레이드 |
 | git | **필수** | 스크립트가 자동 설치 |
-| gh CLI (+ `gh-copilot`) | 권장 | Copilot Chat 으로 대체 |
 | VS Code (+ Copilot·Copilot Chat 확장) | 권장 | — |
 
-스크립트는 마지막에 `labs` 테스트(`npm test`)를 실행합니다. 출력에 **`# pass 10` / `# skipped 2` / `# fail 0`** 와 **`READY ✅`** 가 보이면 수강 준비 완료입니다.
+스크립트는 마지막에 Day1 `labs`와 Day2 폴백 `sample-project-activity-log` 테스트를 모두 실행합니다. 출력에 각각 **`10 pass / 2 skip / 0 fail`**, **`5 pass / 2 skip / 0 fail`** 과 **`READY ✅`** 가 보이면 이틀 실습 준비 완료입니다.
 
-> 사내 정책상 Homebrew/winget 자동 설치가 막혀 있으면, 위 표의 도구를 수동 설치한 뒤 `--check`(mac) / `--check`(Windows cmd) 로 점검만 수행하세요. gh copilot 라이브 호출은 AI Credits(토큰 기반, 2026-06-01~)를 소비하므로, 수업 중에는 하네스 래퍼의 dry-run을 기본으로 사용합니다.
+> 사내 정책상 Homebrew/winget 자동 설치가 막혀 있으면, 위 표의 도구를 수동 설치한 뒤 `--check`(mac) / `--check`(Windows cmd) 로 점검만 수행하세요. 모델 호출·과금 정책은 조직 테넌트마다 다르므로 공식 Usage/정책을 확인하고, 수업의 하네스·장기 실행 데모는 로컬 결정론 스크립트(`npm run sim`, `npm run routing`)를 기본으로 사용합니다.
 
 ## 구성
 
@@ -70,7 +69,7 @@ python3 -m http.server 8080 # 이후 http://localhost:8080/docs/
 
 ```sh
 cd labs
-npm test          # baseline: 10 pass, 2 skip(Day2-S4에서 켜서 구현)
+npm test          # Day1 설명 예제 baseline: 10 pass, 2 skip(선택형 SDD 미니 예제)
 npm run gate      # lint + test + policy-check
 npm run sim       # 장기 실행 안전장치 시뮬레이션
 npm run routing   # 단계별 모델 라우팅 데모
@@ -80,17 +79,17 @@ npm run routing   # 단계별 모델 라우팅 데모
 >
 > Day2 실습 프로젝트(폴백): 본인 기능을 못 가져온 참가자는 `sample-project-activity-log/`(개인 활동 로그 분석 — 슬라이스 `sessionize`)를 "내 기능"으로 채택해 새 창에서 진행합니다. `npm test` baseline 5 pass, 2 skip.
 >
-> 완성본 레퍼런스: `sample-project-plans/`(Trello 유형 칸반 엔진)는 스펙→하네스→게이트→SDD 구현→커스텀 스킬/에이전트까지 **끝까지 완성한** 예시입니다. "실습이 완성되면 이런 모습"을 보여줄 때 사용하세요. `cd sample-project-plans && npm test`(전부 green), `npm run demo`(보드 렌더).
+> 완성본 레퍼런스: `sample-project-plans/`(Trello 유형 칸반 엔진)는 스펙→하네스→게이트→SDD 구현→커스텀 스킬/에이전트까지 **끝까지 완성한** 예시입니다. "실습이 완성되면 이런 모습"을 보여줄 때 사용하세요. `cd sample-project-plans && npm test`(전부 green), `npm start`(웹 서비스).
 
 ## 특징
 
 - **용어 일관성**: 도메인 용어사전 ID(`CF/HE/SD/PT/EN/OR/EV/GN`)를 각 세션에 인라인 태그로 인용.
-- **근거 기반 심화**: 각 세션의 "참조 심화" 블록은 1차 자료(`ref/harness-gen-output`의 004 CLI 하네스 · 005 Agent Team · 028 Agentic SDLC · 031 AI-assisted SDLC · 033 Long-Running · 035 Model Routing)의 구체 패턴을 반영.
+- **근거 기반 심화**: 각 세션의 "참조 심화" 블록은 1차 자료(`ref/harness-gen-output`의 004 실행 하네스 원칙 · 005 Agent Team · 028 Agentic SDLC · 031 AI-assisted SDLC · 033 Long-Running · 035 Model Routing)의 구체 패턴을 반영.
 - **로컬 전용 전제**: 실습은 개인 로컬 VS Code + 로컬 Git + 로컬 검증 게이트 기준(Codespaces·GitHub PR/Actions 미사용).
 
 ## 주의
 
-- 제품 기능·CLI 옵션·모델명·가격은 시점에 따라 바뀝니다. 운영 전 공식 문서·테넌트 설정으로 재확인하세요(release-time recheck).
+- 제품 기능·Agent 도구/설정·모델명·가격은 시점에 따라 바뀝니다. 운영 전 공식 문서·테넌트 설정으로 재확인하세요(release-time recheck).
 - 콘텐츠에는 고객정보·키/토큰·운영 로그 원문을 포함하지 않습니다(교육용 비식별 전제).
 
 ---

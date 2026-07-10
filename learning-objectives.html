@@ -44,7 +44,7 @@
 
 <section class="section" id="frame">
   <h2>결과물 검증 기준 — 페르소나 · 바라는 점 · 전달 내용 · 목적 (확정 기준)</h2>
-  <div class="callout ok"><strong>이 섹션의 역할(확정):</strong> 아래 네 가지는 강의(결과물)가 잘 만들어졌는지를 <strong>검증하는 기준점</strong>입니다 — 모든 세션·산출물·리허설·계측이 이 목표에 비춰 판정됩니다. <strong>확정 사항:</strong> 주 대상 = <strong>P-A(기능팀 실무 개발자)</strong>, 아래 4개 검증 목표 = <strong>수료 판정 기준</strong>(P-B·P-C는 보조 대상). 조정이 필요하면 <em>이 섹션만</em> 고치면 하위 검증이 함께 갱신됩니다.</div>
+  <div class="callout ok"><strong>이 섹션의 역할(확정):</strong> 아래 <strong>4개 검증 차원</strong>(① 페르소나 · ② 바라는 점 · ③ 전달 내용 · ④ 수료 목적)은 강의 결과물이 잘 만들어졌는지를 판단하는 기준점입니다. 수료 판정은 <strong>④의 목적 체크 4개</strong>(체인·검증 가능성·재사용성·현업 이전성)와 아래 <strong>5개 역량별 증거</strong>(좋은 입력·안전한 실행·검증 가능한 변경·나만의 솔루션·경험 공유)을 함께 봅니다. 주 대상은 <strong>P-A(기능팀 실무 개발자)</strong>이며 P-B·P-C는 보조 대상입니다.</div>
 
   <h3>1 · 수업을 듣는 사람의 페르소나 (누가 배우는가)</h3>
   <div class="grid">
@@ -84,10 +84,10 @@
     <li>▢ <strong>현업 이전성</strong>: PL handoff 1페이지 + 현업 적용 액션 3개로 팀에 전파 가능(D+7 클리닉으로 연결).</li>
   </ul>
   <div class="callout ok"><strong>페르소나별 달성 상태:</strong> P-A = "내 기능을 검증 가능하게 구현하고 되돌릴 수 있다" · P-B = "팀에 적용할 통제·승인 기준을 정했다" · P-C = "재사용 Skill/게이트 1개를 자산으로 만들었다". 이 세 문장이 모두 참이면 강의는 목적을 달성한 것입니다.</div>
-  <h3>검증 루브릭 — 목적별 증거 · 판정 (결과물 검증 체크)</h3>
+  <h3>검증 루브릭 — 5개 수료 역량별 증거 · 판정</h3>
   <table>
-    <caption class="small">검증 목표 → 어디서 증거가 나오나 → Go/No-Go</caption>
-    <thead><tr><th>검증 목표</th><th>증거가 나오는 세션</th><th>Go</th><th>No-Go</th></tr></thead>
+    <caption class="small">수료 역량 → 어디서 증거가 나오나 → Go/No-Go</caption>
+    <thead><tr><th>수료 역량</th><th>증거가 나오는 세션</th><th>Go</th><th>No-Go</th></tr></thead>
     <tbody>
       <tr><td><strong>좋은 입력</strong></td><td>D1·S1~S5</td><td>토큰절약 프롬프트·AC·Plan이 Feature Spec Pack v1로 통합</td><td>비식별 누락·AC 없음</td></tr>
       <tr><td><strong>안전한 실행</strong></td><td>D2·S1~S3</td><td>동작하는 로컬 게이트 1개 + 중단 조건</td><td>경계·게이트 없음</td></tr>
@@ -96,7 +96,7 @@
       <tr><td><strong>경험 공유</strong></td><td>D2·S7</td><td>PL handoff 1페이지 + 현업 액션 3</td><td>공유물 없음</td></tr>
     </tbody>
   </table>
-  <div class="callout note"><strong>사용법:</strong> 리허설·실주행 후 이 표의 <strong>Go</strong> 칸이 참가자 산출물로 채워지는지 확인하면, 강의가 위 검증 목표를 달성했는지 바로 판정됩니다.</div>
+  <div class="callout note"><strong>사용법:</strong> 리허설·실주행 후 이 표의 <strong>Go</strong> 칸이 참가자 산출물로 채워지는지 확인하고, 바로 위 ④의 목적 체크 4개가 모두 참인지 함께 보면 수료 목적 달성을 판정할 수 있습니다.</div>
 </section>
 
 <section class="section" id="contract">
@@ -130,6 +130,7 @@
   <h2>샘플 프로젝트로 실습하는 법 (본인 기능 미지참 시)</h2>
   <p class="small">본인 기능 스펙을 못 가져온 참가자는 <strong><code>sample-project-activity-log/</code></strong>(개인 활동 로그 분석 엔진)을 "내 기능"으로 채택해 <strong>2일 전 과정을 동일하게</strong> 진행합니다. 무설치·의존성 0(<code>cd sample-project-activity-log &amp;&amp; npm test</code> → 5 pass / 2 skip). 실제 OS 수집은 제외하고 "수집된 활동 이벤트에서 집중 세션을 뽑는 순수 로직"만 다룹니다.</p>
   <div class="callout ok"><strong>한 줄 흐름:</strong> <code>FEATURE-SPEC.md</code> 채택 → <code>BACKLOG.md</code>에서 slice 1개(권장: 집중 세션 분리(유휴 간격 기준)) → Day1에 스펙·프롬프트·Plan → Day2에 <code>sessionize</code>을 test-first로 구현 → 리뷰 패킷 → Custom Skill → 공유.</div>
+  <div class="callout note"><strong>완성 참고(선택):</strong> “실습이 완성되면 이런 모습”을 보고 싶다면 <code>sample-project-plans/</code>(Trello 유형 칸반 웹앱)를 참고하세요 — 스택은 다르지만(백엔드+프론트엔드) <strong>순수 코어 + 주입 경계</strong> 설계 원칙은 실습과 같습니다. <code>npm test</code>(전부 green) · <code>npm start</code>(웹 서비스). <em>2일차 실습 자체는 <code>sample-project-activity-log</code>로 진행합니다.</em></div>
   <table>
     <caption class="small">세션별 — 샘플 프로젝트를 어떻게 쓰는가</caption>
     <thead><tr><th>세션</th><th>샘플로 무엇을 하나</th><th>산출물</th></tr></thead>

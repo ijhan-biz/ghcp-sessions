@@ -5,11 +5,12 @@
 ```sh
 cd labs
 node -v          # v18 이상인지 확인
-npm test         # baseline: 10 pass, 2 skip (Day2-S4에서 켤 테스트)
+npm test         # baseline: 10 pass, 2 skip (선택형 SDD 미니 예제)
 ```
 
-> 연속 코드베이스: 가상의 "결제(billing) 기능"을 Day1~Day2 내내 같은 파일로 키워 갑니다.
-> `src/billing/tax.js`(부가세) · `src/billing/discount.js`(할인, 리팩토링 대상).
+> 이 폴더는 <strong>Day1 설명 예제</strong>입니다. 가상의 결제(billing) 기능으로 토큰·프롬프트·AC·리팩토링·Plan을 익힙니다.
+> <strong>Day2 구현 실습</strong>은 본인 기능(없으면 <code>sample-project-activity-log/</code>)을 VS Code 새 창에 열어 진행합니다.
+> 아래 skip 2개는 강사 시연·복습용 <strong>선택형 SDD 미니 예제</strong>이며, 현재 Day2 수료 경로의 구현 대상은 <code>sessionize</code>입니다.
 
 ## 빠른 명령
 | 명령 | 설명 |
@@ -37,19 +38,19 @@ npm test         # baseline: 10 pass, 2 skip (Day2-S4에서 켤 테스트)
 | S4 Plan Mode·Test Matrix | 계획·매트릭스 작성 | `templates/plan-and-test-matrix.md`, `npm test` |
 | S5 종합(Spec Pack v1) | 산출물 묶기 | 위 templates 취합 |
 
-### Day 2 — 안전한 실행 + 나만의 솔루션
+### Day 2 보조 데모 — 공식 실습은 `sample-project-activity-log/`
 | 세션 | 무엇을 실행/작성 | 파일·명령 |
 | --- | --- | --- |
 | S0 복습·재점검 | baseline 재확인 | `npm run env`, `npm test`, `git status` |
 | S1 하네스 기초 | Agent 모드 권한·로그 관찰 | VS Code Agent 도구 승인·denyList → `npm run policy-check` |
 | S2 Agent Teams·게이트 | 로컬 게이트 + 캔버스 | `npm run gate`, `scripts/policy-check.mjs`, `templates/agent-team-fleet-loop-canvas.md` |
 | S3 본인 워크플로·장기실행 | 안전장치 체험 | `npm run sim` (seed 바꿔 재실행), 캔버스 작성 |
-| S4 SDD test-first | 실패 테스트 켜고 구현 | `test/tax.test.js`의 `skip` 제거 → `src/billing/tax.js` 구현 → `npm test` |
+| S4 SDD test-first(선택형 미니 예제) | 실패 테스트 켜고 구현 | `test/tax.test.js`의 `skip` 제거 → `src/billing/tax.js` 구현 → `npm test` |
 | S5 통합·리뷰패킷 | 검증·패킷·롤백 | `npm run gate`, `npm run packet`, `templates/rollback-note.md` |
 | S6 Custom Skill/Agent·라우팅 | Skill/Agent·모델 라우팅 | `skills/sdd-skill.md`, `.github/agents/feature-sdd-planner.agent.md`, `npm run routing` |
 | S7 경험 공유 | 발표·핸드오프 | `templates/lightning-talk-and-handoff.md` |
 
-## Day2-S4 핵심 실습 흐름 (test-first)
+## 선택형 SDD 미니 예제 (공식 Day2-S4는 activity-log/sessionize)
 ```sh
 npm test                                   # AC1/AC2 는 skip 상태(baseline green)
 # 1) test/tax.test.js 에서 두 곳의 { skip: true } 제거 → 테스트가 빨갛게 실패(RED)

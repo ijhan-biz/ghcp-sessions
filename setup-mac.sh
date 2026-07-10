@@ -2,7 +2,8 @@
 # GitHub Copilot 중급과정 — macOS 개발 환경 점검 & 자동 교정
 #
 # Dev Container/Docker 없이, "현재 터미널(host)"의 개발 환경이 정상인지 점검하고
-# 누락/구버전을 자동으로 바로잡습니다. 마지막에 실습 코드(labs)를 실제로 실행해
+# 누락/구버전을 자동으로 바로잡습니다. 마지막에 Day1 예제(labs)와 Day2 폴백
+# (sample-project-activity-log)을 실제로 실행해
 # "수강 준비 완료(READY)" 여부를 판정합니다.
 #
 # 사용법:
@@ -37,14 +38,7 @@ if [ "$CHECK_ONLY" = "0" ]; then
     if have node; then
       if [ "$(node_major)" -lt 18 ] 2>/dev/null; then fix "Node $(node -v) → 18+ 업그레이드"; brew upgrade node || brew install node; fi
     else fix "Node 설치"; brew install node; fi
-    have gh   || { fix "gh CLI 설치"; brew install gh; }
     have code || { fix "VS Code 설치"; brew install --cask visual-studio-code; }
-  fi
-
-  # gh copilot CLI 확장 (best effort)
-  if have gh; then
-    if gh extension list 2>/dev/null | grep -q 'gh-copilot'; then ok "gh-copilot 확장 확인"
-    else fix "gh-copilot 확장 설치"; gh extension install github/gh-copilot 2>/dev/null || warn "gh-copilot 확장 설치 건너뜀(인증/네트워크 확인)"; fi
   fi
 
   # VS Code 확장 (Copilot / Copilot Chat)
@@ -65,23 +59,25 @@ if have node; then
   if [ "${NMAJ:-0}" -ge 18 ] 2>/dev/null; then ok "Node $NV"; else bad "Node $NV (18+ 필요 — '--check' 없이 다시 실행하면 자동 업그레이드)"; PASS=0; fi
 else bad "Node 미설치 (필수)"; PASS=0; fi
 have git && ok "git $(git --version | awk '{print $3}')" || { bad "git 미설치 (필수)"; PASS=0; }
-have gh  && ok "gh $(gh --version | head -1 | awk '{print $3}')" || warn "gh CLI 미설치 (Copilot Chat 으로 대체 가능)"
-if have gh; then gh auth status >/dev/null 2>&1 && ok "gh 인증됨" || warn "gh 미인증 — 'gh auth login' 실행(Copilot CLI 사용 시 필요)"; fi
 have code && ok "VS Code (code CLI)" || warn "VS Code code CLI 미확인(GUI만 있어도 무방)"
 
 # ---------------------------------------------------------------- 준비 완료 테스트(실습 코드 실행)
 echo
-cyan "== 실습 코드 실행 테스트 (labs) =="
-if have node && [ -f labs/package.json ]; then
-  if ( cd labs && npm test ) >/tmp/ghcp_labs_test.out 2>&1; then
-    grep -E "^# (tests|pass|fail|skipped)" /tmp/ghcp_labs_test.out | sed 's/^/  /'
-    ok "labs 테스트 실행 성공 — 실습 준비 완료"
+cyan "== 실습 코드 실행 테스트 (Day1 labs + Day2 activity-log) =="
+for project in labs sample-project-activity-log; do
+  out="/tmp/ghcp_${project//-/_}_test.out"
+  if have node && [ -f "$project/package.json" ]; then
+    if ( cd "$project" && npm test ) >"$out" 2>&1; then
+      echo "  [$project]"
+      grep -E "^# (tests|pass|fail|skipped)" "$out" | sed 's/^/    /'
+      ok "$project 테스트 실행 성공"
+    else
+      bad "$project 테스트 실패 — 아래 출력 확인"; tail -n 15 "$out" | sed 's/^/    /'; PASS=0
+    fi
   else
-    bad "labs 테스트 실패 — 아래 출력 확인"; tail -n 15 /tmp/ghcp_labs_test.out | sed 's/^/    /'; PASS=0
+    bad "$project 실행 테스트 불가(Node 또는 package.json 없음)"; PASS=0
   fi
-else
-  warn "labs 실행 테스트 건너뜀(Node 또는 labs/package.json 없음)"
-fi
+done
 
 echo
 if [ "$PASS" = "1" ]; then

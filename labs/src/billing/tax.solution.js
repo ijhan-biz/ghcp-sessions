@@ -1,5 +1,5 @@
 // src/billing/tax.solution.js
-// 참고용 정답 구현 — Day2-S4 SDD 실습을 직접 해본 뒤 비교용으로만 보세요.
+// 참고용 정답 구현 — 선택형 SDD 미니 예제를 직접 해본 뒤 비교용으로만 보세요.
 // (테스트는 tax.js 를 대상으로 합니다. 이 파일은 import 되지 않습니다.)
 
 export const VAT_RATE = 0.1;

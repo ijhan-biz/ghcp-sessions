@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 // scripts/spec-check.mjs
 // Day1 '좋은 입력' 자가검증 게이트 — 스펙(마크다운)이 "검증 가능한 형태"를 갖췄는지 결정론적으로 점검한다.
-// 의존성 0. 사용: node scripts/spec-check.mjs [경로]   (기본: spec.md → templates/feature-spec-card.md)
+// 의존성 0. 사용: node scripts/spec-check.mjs [경로]
+// 기본: spec.md → FEATURE-SPEC.md(완성 폴백) → templates/feature-spec-card.md
 //
 // 목적: Day2-S4 test-first 전에, 본인 스펙이 정상/예외/경계 AC와 제외 범위·비식별을 갖췄는지
 //       스스로 "통과/보완"을 확인해 '좋은 입력'에도 게이트 경험을 준다.
 import { readFileSync, existsSync } from 'node:fs';
 
 const arg = process.argv[2];
-const file = [arg, 'spec.md', 'templates/feature-spec-card.md'].find(f => f && existsSync(f));
+const file = [arg, 'spec.md', 'FEATURE-SPEC.md', 'templates/feature-spec-card.md'].find(f => f && existsSync(f));
 if (!file) {
   console.error('✗ 점검할 스펙 파일이 없습니다.');
   console.error('  사용: node scripts/spec-check.mjs <스펙.md>   (또는 spec.md 를 만드세요)');
