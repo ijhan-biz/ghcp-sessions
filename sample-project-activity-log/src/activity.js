@@ -1,5 +1,5 @@
 // src/activity.js
-// 개인 활동 로그 분석 엔진 — 폴백 실습용(대안 도메인: 혼자 쓰는 업무 도구).
+// 개인 활동 로그 분석 엔진 — 전원 공통 self-paced 실습용 순수 로직.
 //
 // 설계 결정(중요):
 //   - 실제 OS 프로세스·브라우저 기록 수집은 **주입 가능한 collector**로 분리합니다.
@@ -54,7 +54,8 @@ export function topApps(byApp, n = 5) {
  *      - 초과면 새 세션 시작.
  *   3) 반환: [{ start, end, count }]  (count = 세션에 포함된 이벤트 수)
  *   현재는 빈 배열(미구현)이라 "유휴로 끊긴 집중 블록"이 계산되지 않습니다.
- *   test/activity.test.js 의 { skip: true } 2곳을 제거하고 구현하세요. 정답: src/activity.solution.js
+ *   test/activity.test.js 의 { skip: true } 2곳을 제거하고 직접 구현하세요.
+ *   마지막 수단은 npm run lab -- recover d2-s4-green이며 FALLBACK으로 기록됩니다.
  */
 export function sessionize(events, idleGapMs = 5 * 60 * 1000) {
   // TODO(Day2-S4)

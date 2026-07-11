@@ -1,10 +1,12 @@
 # 경험 공유 — 라이트닝 토크 + PL Handoff (완성 예시 · Day2-S7)
 
-## 라이트닝 토크 (5분, 슬라이드 3장)
+## 라이트닝 토크 자료 (전원 작성 · 대표 3명만 각 3분 발표)
 1. 문제 한 줄: 팀의 일 관리(칸반)를 순수 로직으로 만들어 **테스트로 보장**하고 싶었다.
 2. Before/After: "실제 저장까지 다 만들려다 테스트 불가" → **부수효과를 `store`/`engine` 경계로 분리** →
    fake 주입으로 전 기능을 결정론 테스트(43 pass, 0 skip).
 3. 나의 솔루션 30초 시연: `npm run demo` → 라벨·마감·체크리스트·통계가 있는 보드가 렌더된다.
+
+> Day1 발표는 없습니다. D2·S7 대표 3명은 서로 다른 학습 사례(구현·검증·복구)를 기준으로 선정하며, 전원은 이 3장과 PL handoff를 제출합니다.
 
 ## 현업 적용 액션 3개
 1. 반복 프롬프트 1개를 Skill/prompt 파일로 표준화 → [`skills/plans-board-skill.md`](../skills/plans-board-skill.md), `.github/prompts/card-slice.prompt.md`

@@ -1,0 +1,46 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import {
+  isValidEvent, durationByApp, categorize, topApps, collectEvents, sessionize,
+} from '../src/activity.js';
+
+const T = (h, m = 0) => Date.parse(`2026-07-05T${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:00Z`);
+const MIN = 60 * 1000;
+const events = [
+  { app: 'vscode', start: T(9, 0), end: T(9, 30) },
+  { app: 'chrome', start: T(9, 35), end: T(9, 50) },
+  { app: 'vscode', start: T(11, 0), end: T(11, 20) },
+  { app: 'slack', start: T(9, 50), end: T(9, 50) },
+];
+
+test('isValidEvent: app 문자열 + start<end', () => {
+  assert.equal(isValidEvent({ app: 'x', start: T(9), end: T(10) }), true);
+  assert.equal(isValidEvent({ app: 'x', start: T(10), end: T(9) }), false);
+});
+test('durationByApp: 앱별 사용시간 합(무효 이벤트는 제외)', () => {
+  const result = durationByApp(events);
+  assert.equal(result.vscode, 50 * MIN);
+  assert.equal(result.chrome, 15 * MIN);
+});
+test('categorize: 규칙에 없으면 other', () => {
+  assert.equal(categorize('vscode', { vscode: 'work' }), 'work');
+  assert.equal(categorize('unknown', {}), 'other');
+});
+test('topApps: 사용시간 내림차순 상위 N', () => {
+  assert.equal(topApps(durationByApp(events), 1)[0].app, 'vscode');
+  assert.deepEqual(topApps(durationByApp(events), 0), []);
+});
+test('collectEvents: collector 미주입/실패 → 빈 배열, 성공 → 그대로', async () => {
+  assert.deepEqual(await collectEvents('today', {}), []);
+  assert.equal((await collectEvents('today', { collector: async () => events })).length, events.length);
+});
+test('sessionize: 유휴 간격(>gap) 기준으로 집중 세션 분리', { skip: true }, () => {
+  assert.equal(sessionize(events, 5 * MIN).length, 2);
+});
+test('sessionize: 간격이 정확히 gap이면 같은 세션(경계 ≤)', { skip: true }, () => {
+  const same = [
+    { app: 'x', start: T(9, 0), end: T(9, 10) },
+    { app: 'y', start: T(9, 15), end: T(9, 20) },
+  ];
+  assert.equal(sessionize(same, 5 * MIN).length, 1);
+});

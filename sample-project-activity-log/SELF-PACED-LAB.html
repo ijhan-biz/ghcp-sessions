@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="45명·강사 1인용 GitHub Copilot 중급과정 self-paced activity-log lab." />
+<title>Self-paced Activity Log Lab — Copilot 중급과정</title>
+<link rel="stylesheet" href="../docs/ag-ui-program.css" />
+<style>
+  .cmd{position:relative}.cmd code{display:block;white-space:pre-wrap}
+  .route{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+  .route .card{min-height:150px}.code{font-family:var(--mono);font-weight:700;color:var(--accent)}
+  .pass{color:#7df0c4}.block{color:#ff9c9c}.clock{font-family:var(--mono);color:#ffd970}
+  .ladder{counter-reset:step}.ladder li{margin:7px 0}.ladder li::marker{font-family:var(--mono);color:var(--accent)}
+</style>
+</head>
+<body>
+<main class="wide">
+<nav class="top"><div class="wrap">
+  <a href="../docs/index.html">← PORTAL</a>
+  <a href="#start">START</a><a href="#rules">운영 규칙</a><a href="#day1">DAY 1</a>
+  <a href="#day2">DAY 2</a><a href="#recovery">복구</a><a href="#question">질문</a>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow">45명 · 강사 1인 · 공통 activity-log 트랙 · 16 deterministic checkpoints</div>
+  <h1>그대로 따라 하는 Self-paced Lab</h1>
+  <p class="lead">화면의 명령을 순서대로 실행하고 <strong>PASS</strong>를 확인한 뒤 다음으로 갑니다. 일반 단계는 <strong>check → hint 1 → hint 2 → reset → example → 질문</strong> 순서로 복구합니다. <code>recover</code>는 <strong>D2·S4 GREEN 전용 마지막 수단</strong>입니다.</p>
+  <div class="chips"><span>Node 18+</span><span>외부 패키지 0</span><span>Day1 발표 없음</span><span>Day2 대표 발표 3명×3분</span><span>개인 프로젝트는 공통 GREEN 후 선택</span></div>
+</header>
+
+<section class="section" id="start">
+  <h2>0. 시작 — 이 네 줄만 먼저</h2>
+<pre><code>cd sample-project-activity-log
+npm run lab -- doctor
+npm run lab -- status
+npm run lab -- start d1-s0</code></pre>
+  <div class="callout ok"><strong>기대 출력:</strong> <code>PASS doctor · 환경 GREEN · baseline 5/2/0</code>. 다르면 아래 복구 사다리를 먼저 사용하세요.</div>
+  <table>
+    <caption class="small">lab runner 명령</caption>
+    <thead><tr><th>명령</th><th>의미</th></tr></thead>
+    <tbody>
+      <tr><td><code>npm run lab -- status</code></td><td>16개 checkpoint의 PASS/PENDING/FALLBACK 현황</td></tr>
+      <tr><td><code>npm run lab -- start &lt;step&gt;</code></td><td>그 단계의 명령·기대값 출력 + starter 파일 생성</td></tr>
+      <tr><td><code>npm run lab -- check &lt;step&gt;</code></td><td>결정론 검사. 실패 시 <code>E-...</code> 오류코드와 다음 행동 출력</td></tr>
+      <tr><td><code>npm run lab -- hint &lt;step&gt; 1|2</code></td><td>정답을 바로 주지 않는 단계형 힌트</td></tr>
+      <tr><td><code>npm run lab -- reset &lt;step&gt;</code></td><td>현재 파일 백업 후 해당 단계 starter/baseline 복구</td></tr>
+      <tr><td><code>npm run lab -- example &lt;step&gt;</code></td><td>정답 대신 도메인이 다른 구조 예시 출력</td></tr>
+      <tr><td><code>npm run lab -- recover d2-s4-green</code></td><td>마지막 수단: solution checkpoint 복구 + FALLBACK 기록</td></tr>
+      <tr><td><code>npm run lab -- next</code></td><td>다음 PENDING 단계 표시</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section" id="rules">
+  <h2>1. 45명 운영 규칙</h2>
+  <div class="grid">
+    <div class="card"><h3>전원 공통 트랙</h3><p>수업 중에는 모두 이 프로젝트의 <code>sessionize</code>를 사용합니다. 개인 프로젝트는 <code>d2-s4-green</code> PASS 후 선택입니다.</p></div>
+    <div class="card"><h3>강사는 에러코드만 받음</h3><p>질문은 복구 사다리를 끝낸 뒤 <code>[E-D2S4-GREEN] 명령 + 마지막 8줄</code> 형식으로만 합니다.</p></div>
+    <div class="card"><h3>시간 하드스톱</h3><p>세션 종료 +5분 예상이면 컷라인을 실행합니다. 일반 미완은 오류코드로 질문하고, D2·S4 구현 미완만 <code>recover</code> 후 D+7에 재구현합니다.</p></div>
+    <div class="card"><h3>발표</h3><p>Day1 발표는 없습니다. Day2 S7은 대표 3명만 3분씩 발표하지만, 슬라이드 3장과 handoff는 전원이 제출합니다.</p></div>
+  </div>
+  <div class="callout warn"><strong>하지 말 것:</strong> 전체 폴더를 Agent에 맡기기 · 다른 참가자 파일 복사 · gate 미통과인데 완료 선언 · 힌트 없이 solution 먼저 열기.</div>
+</section>
+
+<section class="section" id="day1">
+  <h2>2. Day 1 — 좋은 입력 (발표 없음)</h2>
+  <div class="route">
+    <div class="card"><h3>D1·S0 <span class="clock">40m</span></h3><p>환경·baseline</p><pre><code>npm run lab -- start d1-s0
+npm run lab -- check d1-s0</code></pre><p class="pass">PASS: 5/2/0</p></div>
+    <div class="card"><h3>D1·S1 <span class="clock">90m</span></h3><p>스펙 채택·비식별</p><pre><code>npm run lab -- start d1-s1
+npm run lab -- check d1-s1</code></pre><p>파일: <code>lab-work/feature-spec.md</code></p></div>
+    <div class="card"><h3>D1·S2 <span class="clock">80m</span></h3><p>정상·예외·경계 AC</p><pre><code>npm run lab -- start d1-s2
+npm run lab -- check d1-s2</code></pre><p>발표 대신 AC 한 줄 메모.</p></div>
+    <div class="card"><h3>D1·S3 <span class="clock">80m</span></h3><p>Context Manifest</p><pre><code>npm run lab -- start d1-s3
+npm run lab -- check d1-s3</code></pre><p>allowed 2개·blocked·unknown.</p></div>
+    <div class="card"><h3>D1·S4 <span class="clock">100m</span></h3><p>Plan·Test Matrix</p><pre><code>npm run lab -- start d1-s4
+npm run lab -- check d1-s4</code></pre><p>RED→GREEN→gate stop point.</p></div>
+    <div class="card"><h3>D1·S5 <span class="clock">60m</span></h3><p>Spec Pack</p><pre><code>npm run lab -- start d1-s5
+npm run lab -- check d1-s5</code></pre><p class="pass">PASS: spec-check</p></div>
+    <div class="card"><h3>D1·S6 <span class="clock">30m</span></h3><p>준비도·한 줄 회고</p><pre><code>npm run lab -- start d1-s6
+  npm run lab -- check d1-s6
+npm run lab -- next</code></pre><p>회고는 기록, 발표 아님.</p></div>
+  </div>
+</section>
+
+<section class="section" id="day2">
+  <h2>3. Day 2 — 안전한 실행·구현·자산화</h2>
+  <div class="route">
+    <div class="card"><h3>D2·S0 <span class="clock">30m</span></h3><p>새 창·경로 재개</p><p>Terminal → Run Task → <strong>Lab: Verify Workspace Root</strong></p><pre><code>npm run lab -- doctor
+npm run lab -- check d2-s0</code></pre></div>
+    <div class="card"><h3>D2·S1 <span class="clock">70m</span></h3><p>권한·로그·policy</p><pre><code>npm run lab -- start d2-s1
+  npm run policy-check
+npm run lab -- check d2-s1</code></pre></div>
+    <div class="card"><h3>D2·S2 <span class="clock">80m</span></h3><p>Team·Loop·gate</p><pre><code>npm run lab -- start d2-s2
+  npm run gate
+npm run lab -- check d2-s2</code></pre></div>
+    <div class="card"><h3>D2·S3 <span class="clock">50m</span></h3><p>워크플로·중단조건</p><pre><code>npm run lab -- start d2-s3
+npm run sim
+npm run lab -- check d2-s3</code></pre></div>
+    <div class="card"><h3>D2·S4 RED <span class="clock">20m</span></h3><p>skip만 해제, 구현 금지</p><pre><code>npm run lab -- start d2-s4-red
+npm run lab -- check d2-s4-red</code></pre><p class="pass">PASS = 테스트가 의도대로 실패</p></div>
+    <div class="card"><h3>D2·S4 GREEN <span class="clock">60m</span></h3><p>AI 첫 답 판단·최소 구현</p><pre><code>npm run lab -- start d2-s4-green
+  npm run lab -- check d2-s4-green</code></pre><p class="pass">PASS: 수용/거부 근거 + 7/0/0</p></div>
+    <div class="card"><h3>D2·S5 <span class="clock">70m</span></h3><p>gate·packet·provenance</p><pre><code>npm run gate
+npm run packet
+  npm run lab -- check d2-s5</code></pre><p>CLEAN/FALLBACK/REFERENCE-MATCH·부채·rollback owner를 직접 작성.</p></div>
+    <div class="card"><h3>D2·S6 <span class="clock">60m</span></h3><p>Custom Skill</p><pre><code>npm run lab -- start d2-s6
+npm run lab -- check d2-s6</code></pre></div>
+    <div class="card"><h3>D2·S7 <span class="clock">40m</span></h3><p>Handoff·대표 발표</p><pre><code>npm run lab -- start d2-s7
+  npm run lab -- check d2-s7</code></pre><p>대표 3명×3분, 전원 3장/handoff, 교육/실제 적용 판정 분리.</p></div>
+  </div>
+</section>
+
+<section class="section" id="recovery">
+  <h2>4. 복구 사다리 — 강사에게 묻기 전 필수</h2>
+  <ol class="ladder">
+    <li><code>npm run lab -- check &lt;step&gt;</code>로 오류코드를 받습니다.</li>
+    <li><code>npm run lab -- hint &lt;step&gt; 1</code>을 적용하고 다시 check.</li>
+    <li><code>npm run lab -- hint &lt;step&gt; 2</code>를 적용하고 다시 check.</li>
+    <li><code>npm run lab -- reset &lt;step&gt;</code>: 현재 파일은 자동 백업되고 starter/baseline으로 돌아갑니다.</li>
+    <li><code>npm run lab -- example &lt;step&gt;</code>: 구조 예시를 현재 근거로 바꾸어 다시 작성합니다.</li>
+    <li>그래도 막히면 오류코드 형식으로 질문합니다. D2·S4 GREEN만 마지막 수단으로 <code>recover</code>할 수 있습니다.</li>
+  </ol>
+  <div class="callout note"><strong>reset과 recover 차이:</strong> reset은 다시 직접 풀기, recover는 solution checkpoint로 진행을 보장하기입니다. recover 사용자는 D+7에서 같은 slice를 다시 구현합니다.</div>
+</section>
+
+<section class="section" id="question">
+  <h2>5. 질문 프로토콜 — 이 형식 아니면 먼저 self-check</h2>
+<pre><code>[오류코드] E-D2S4-GREEN
+[실행 명령] npm run lab -- check d2-s4-green
+[마지막 로그 8줄] ...
+[시도] hint 1 / hint 2 / reset 완료
+[질문] 기대값 7/0/0과 다른 한 지점은?</code></pre>
+  <p class="small">같은 오류코드가 3명 이상이면 강사는 개인 답변 대신 전체에 3분 공지합니다. 오류코드가 다르면 참가자는 계속 개별 복구 사다리를 사용합니다.</p>
+</section>
+
+<footer>Self-paced Activity Log Lab · 45명/강사 1인 · 16 checkpoints · Day1 발표 없음 · Day2 대표 3명×3분</footer>
+</main>
+</body>
+</html>

@@ -24,7 +24,7 @@
 <section class="section">
   <h2>학습 목표</h2>
   <ul>
-    <li>2일 과정의 산출물 줄기(기능 스펙 → … → Custom Skill → 공유)를 이해하고, 본인 기능 스펙 후보 1건을 정한다.</li>
+    <li>2일 과정의 산출물 줄기와 전원 공통 <code>activity-log/sessionize</code> slice를 이해한다.</li>
     <li>VS Code · Copilot · Git · Node 를 <strong>환경 점검·교정 스크립트</strong>로 점검·자동 교정하고 <strong>Green/Yellow/Red</strong>를 자가 판정한다(<span class="tag gl">EN-18</span>).</li>
     <li>실습 브랜치와 baseline 테스트 결과를 남겨 <strong>되돌아올 지점</strong>을 확보한다.</li>
   </ul>
@@ -35,7 +35,7 @@
   <p>이 과정은 <strong>로컬 전용(local-only, <span class="tag gl">HE-14</span>)</strong>입니다. Codespaces·GitHub PR/Actions를 쓰지 않고 개인 PC의 VS Code·Git·Node에서 모든 실습을 합니다. 따라서 첫 시간에 환경이 흔들리면 이틀 내내 흔들립니다.</p>
   <div class="callout note"><strong>Local-only의 정확한 뜻:</strong> 코드 실행·테스트·검증·제출물은 로컬에서 만든다는 의미입니다. Copilot에 보내는 <em>질의 자체</em>는 조직 정책에 따라 서비스로 전송될 수 있으므로, 고객정보·키/토큰·반출 금지 로그는 입력하지 않습니다(<span class="tag gl">OR-12</span> 데이터 경계 · <span class="tag gl">OR-13</span> 민감정보).</p></div>
   <h3>환경 점검·교정 스크립트 (Dev Container 없이)</h3>
-  <p>참가자 PC마다 Node 버전·OS·전역 패키지가 달라 "제 PC에선 되는데요"가 반복됩니다. 이 과정은 컨테이너(Docker) 대신 <strong>현재 터미널의 환경을 직접 점검·교정하는 스크립트</strong>를 씁니다. <code>setup-mac.sh</code>(macOS) / <code>setup-windows.bat</code>(Windows)가 Node·git·gh·VS Code 확장을 확인하고, 누락/구버전(Node 18+ 미만)을 자동 설치·업그레이드한 뒤 <code>labs</code> 테스트로 준비 완료까지 확인합니다. 별도 컨테이너·Docker가 필요 없습니다.</p>
+  <p>참가자 PC마다 Node 버전·OS·전역 패키지가 달라 "제 PC에선 되는데요"가 반복됩니다. 이 과정은 현재 터미널의 환경을 직접 점검합니다. <code>setup-mac.sh</code>/<code>setup-windows.bat</code>는 Node·git·VS Code를 확인하고, <code>labs</code> 10/2와 <code>activity-log</code> 5/2를 모두 smoke-test해야 READY로 판정합니다.</p>
 </section>
 
 <section class="section">
@@ -78,7 +78,7 @@ git status</code></pre></div>
   </table>
   <div class="callout ok"><strong>산출물:</strong> ① 환경 정상동작 체크리스트(자가 Green/Yellow/Red), ② baseline 테스트 결과 메모, ③ <code>lab/copilot-workbook</code> 브랜치.</div>
   <div class="callout warn"><strong>컷라인(최소 경로 <span class="tag gl">EV-10</span>):</strong> 환경 점검에서 막히면 시간 끌지 말고 <code>--check</code>로 현재 상태만 확인하고 진행합니다. Red(Node/git 미설치)는 TA 큐로 보내고 본 세션은 진도를 유지합니다.</div>
-  <div class="callout note"><strong>환경 RED 브리지(연속성):</strong> 이 과정은 이후 세션이 모두 로컬 실행을 전제합니다. 그래서 D1·S0가 끝나도 RED가 안 풀리면 다음 중 하나로 <strong>이어갑니다</strong> — ① 옆 참가자와 <strong>짝 실습(pair)</strong>(실행은 공유 화면, 입력·판단은 본인), ② 강사 <strong>공유 baseline 환경</strong>에서 명령 따라가기, ③ 그래도 안 되면 <strong>Chat-only 관찰 경로</strong>(강사 데모 로그를 함께 해석). 어느 경우든 <strong>D2·S0 재점검</strong>에서 로컬 복구를 한 번 더 시도하고, 끝까지 RED면 폴백 스펙 + 짝 실습으로 수료 산출물을 만듭니다. 목표는 <strong>환경 때문에 이틀을 잃지 않는 것</strong>입니다(<span class="tag gl">EN-15</span> Fallback).</div>
+  <div class="callout note"><strong>환경 RED 브리지(연속성):</strong> D1·S0가 끝나도 RED가 안 풀리면 ① 짝 실습, ② 강사 공유 baseline, ③ Chat-only 관찰 경로로 이어갑니다. 어느 경로에서도 입력·판단·handoff는 본인이 공통 activity-log 기준으로 작성하며, D2·S0에서 로컬 복구를 다시 시도합니다.</div>
 </section>
 
 <section class="section">
@@ -97,7 +97,7 @@ git status</code></pre></div>
 
 <section class="section">
   <h2>실습 예제 시나리오 — 결제(부가세) 기능</h2>
-  <p>본인 기능이 없거나 감을 먼저 잡기 위해, 이 과정은 <strong>공통 설명 예제</strong>로 <strong>결제 금액의 부가가치세(VAT) 계산</strong> 기능(<code>calcVat()</code>)을 씁니다. <strong>Day1</strong>의 프롬프트·AC 설명이 이 도메인 위에서 이어집니다. 다만 <strong>Day2의 구현 실습</strong>은 본인 기능(없으면 폴백 <code>sample-project-activity-log</code>)을 <strong>VS Code 새 창</strong>에 열어 진행합니다(D2·S0).</p>
+  <p>Day1 미니강의는 <strong>설명 예제</strong>로 결제 VAT 계산(<code>calcVat()</code>)을 씁니다. 그러나 학생이 직접 작성하고 16개 checkpoint로 검증받는 산출물은 전원 공통 <code>sample-project-activity-log/sessionize</code>입니다.</p>
   <table>
     <caption class="small">결제(부가세) 예제 — 무엇 · 규칙 · 언제 쓰나</caption>
     <thead><tr><th>구분</th><th>내용</th></tr></thead>
@@ -108,17 +108,20 @@ git status</code></pre></div>
       <tr><td><strong>왜 예제로 좋나</strong></td><td>규칙이 명확해 AC(정상 10%·예외 음수·경계 면세 0)가 자연스럽고, <strong>순수 함수</strong>라 로컬 테스트가 쉬우며, "세금 오류 = 돈·신뢰 문제"라 <strong>회귀 리스크</strong>가 실감납니다.</td></tr>
     </tbody>
   </table>
-  <div class="callout note"><strong>두 가지 역할 구분:</strong> ① <strong>설명 예제</strong> = 결제(<code>calcVat</code>) — 강의가 기법을 보여줄 때 쓰는 공통 예입니다(실제 결제·PG·DB 없이 <strong>계산 로직만</strong>, 비식별·로컬). ② <strong>실습 프로젝트</strong> = 본인 기능, 없으면 폴백 <code>sample-project-activity-log</code>(개인 활동 로그 분석) — <strong>Day2에서 새 창으로 열어</strong> 직접 구현합니다.</div>
+  <div class="callout note"><strong>두 가지 역할 구분:</strong> ① <strong>설명 데모</strong> = <code>labs/calcVat</code> 10/2. ② <strong>학습 checkpoint</strong> = 전원 공통 <code>sample-project-activity-log</code> 5/2에서 시작해 7/0까지 진행. 개인 프로젝트 적용은 공통 GREEN 후 또는 D+7입니다.</div>
 </section>
 
 <section class="section">
   <h2>이 세션의 실행 코드 (Hands-on)</h2>
   <p>이 세션의 목표는 <strong>오늘 실습을 시작할 수 있는 로컬 baseline</strong>을 만드는 것입니다. 아래 세 명령으로 (1) 환경 준비도를 점검하고, (2) 통과 상태(baseline)를 기록하고, (3) 작업 브랜치를 팝니다.</p>
-  <div class="callout ok"><strong>labs 에서 직접 실행</strong> — 리포 루트에서 baseline 을 확인합니다.</div>
+  <div class="callout ok"><strong>두 baseline을 구분해 확인:</strong> setup readiness는 labs와 activity-log를 모두 보고, 학습 checkpoint는 activity-log의 5/2/0을 사용합니다.</div>
 <pre><code>cd labs
 npm run env      # ① 환경 준비도 자가 점검 (Green/Yellow/Red)
-npm test         # ② baseline 테스트 실행
-git checkout -b lab/copilot-workbook   # ③ 작업 브랜치 생성</code></pre>
+npm test         # 설명 데모 baseline: 10/2/0
+cd ../sample-project-activity-log
+npm run lab -- doctor                  # 학습 baseline: 5/2/0
+npm run lab -- check d1-s0
+git checkout -b lab/copilot-workbook</code></pre>
 
   <h3>각 명령이 하는 일 · 어떻게 확인하나</h3>
   <table>
@@ -126,7 +129,7 @@ git checkout -b lab/copilot-workbook   # ③ 작업 브랜치 생성</code></pre
     <thead><tr><th>명령</th><th>동작</th><th>기대 결과 = 이 출력을 확인</th></tr></thead>
     <tbody>
       <tr><td><code>npm run env</code></td><td>Node 18+ · git 설치/버전을 점검해 준비도를 판정</td><td><code>준비도: GREEN → 바로 실습 가능</code>. YELLOW/RED면 안내대로 도구 설치·업데이트 후 재실행</td></tr>
-      <tr><td><code>npm test</code></td><td>내장 <code>node --test</code>로 유닛테스트 실행 — 지금 "통과하는 상태"가 곧 baseline</td><td><code># pass 10 · # skipped 2 · # fail 0</code>. skip 2개는 이후 실습에서 켤 예정이라 정상, <strong>fail 0</strong>이면 성공</td></tr>
+      <tr><td><code>npm test</code></td><td>설명 데모 baseline 확인</td><td>labs는 <code>10/2/0</code>, 학습 프로젝트는 <code>5/2/0</code>. 이후 켤 skip은 activity-log의 2개입니다.</td></tr>
       <tr><td><code>git checkout -b …</code></td><td>실습 변경을 담을 작업 브랜치 생성(원본 보호)</td><td><code>git branch</code> 목록에 <code>* lab/copilot-workbook</code> 표시</td></tr>
     </tbody>
   </table>

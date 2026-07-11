@@ -17,7 +17,7 @@
 <header class="hero">
   <div class="eyebrow">DAY 1 · SESSION 5 · 16:30–17:30 (60m)</div>
   <h1>데일리 종합 미니 실습 — Day2로 넘길 패킷을 완성한다</h1>
-  <p class="lead">오늘 배운 토큰·프롬프트·Plan을 <strong>본인 기능 스펙 1건</strong>에 모두 적용해 <strong>Feature Spec Pack v1</strong>을 완성합니다. 이 패킷이 Day2의 입력(handoff)입니다.</p>
+  <p class="lead">오늘 직접 작성한 공통 activity-log의 스펙·AC·Manifest·Plan을 <strong>Feature Spec Pack v1</strong>로 묶습니다. 이 패킷이 Day2의 입력입니다.</p>
   <div class="chips"><span><strong>SD-08</strong> Feature Spec Pack</span><span><strong>OR-16</strong> Handoff</span><span><strong>EN-18</strong> Green/Yellow/Red</span><span><strong>EV-10</strong> 최소 경로</span></div>
 </header>
 
@@ -66,7 +66,7 @@
     <tbody>
       <tr><td><span class="tag pass">GREEN</span></td><td>6개 항목 모두 충족</td><td>바로 구현/하네스로 진입</td></tr>
       <tr><td><span class="tag warn">YELLOW</span></td><td>일부 미흡(예: Test Matrix 빈약)</td><td>D2·S0에서 10분 보강</td></tr>
-      <tr><td><span class="tag block">RED</span></td><td>스펙/AC 자체가 모호</td><td><code>sample-project-activity-log/FEATURE-SPEC.md</code> 채택(폴백)</td></tr>
+      <tr><td><span class="tag block">RED</span></td><td>스펙/AC 자체가 모호</td><td>같은 프로젝트의 hint/reset으로 누락 보완</td></tr>
     </tbody>
   </table>
   <div class="callout ok"><strong>산출물:</strong> Feature Spec Pack v1(단일 마크다운) + handoff 준비도 등급.</div>
@@ -76,20 +76,17 @@
   <h2>흔한 실수 &amp; 공유 포인트</h2>
   <ul>
     <li>미니 실습에서 새 기능을 더 붙임 → 범위 폭발. 오늘은 <em>정리</em>만 합니다.</li>
-    <li>RED인데 억지로 진행 → Day2 내내 막힘. 샘플 스펙으로 빠르게 전환합니다.</li>
+    <li>RED인데 억지로 진행 → 같은 activity-log starter의 미작성 항목을 먼저 보완합니다.</li>
   </ul>
   <div class="callout note"><strong>공유 포인트:</strong> "내 기능을 한 문장으로" 적어두면 D2·S7 발표의 첫 줄이 됩니다.</div>
 </section>
 
 <section class="section">
   <h2>이 세션의 실행 코드 (Hands-on)</h2>
-  <div class="callout ok"><strong>Feature Spec Pack v1 춨합 + '좋은 입력' 게이트</strong> — 앉 세션 산출물을 묶어 본인 프로젝트의 <code>spec.md</code>로 저장하고, Day1에도 게이트를 한 번 통과해 봅니다.</div>
-<pre><code># 1) 취합: feature-spec-card + context-manifest + plan-and-test-matrix
-#    → 본인 프로젝트(없으면 폴백 sample-project-activity-log)의 spec.md 로 저장
-# 2) 그 프로젝트에서 '좋은 입력' 게이트 실행 — spec-check는 spec.md 를 자동으로 집습니다
-cd sample-project-activity-log     # 본인 기능 폴더가 있으면 그 폴더에서
-npm run spec-check                 # 내 spec.md 자가검증: 정상·예외·경계 AC·비식별 확인
-#   (labs 데모로 형식만 보려면)  cd labs &amp;&amp; npm run spec-check</code></pre>
+  <div class="callout ok"><strong>Feature Spec Pack v1 취합 + 좋은 입력 게이트:</strong> 이전 단계에서 직접 작성한 파일을 runner가 단일 <code>spec.md</code>로 묶습니다.</div>
+<pre><code>cd sample-project-activity-log
+npm run lab -- start d1-s5
+npm run lab -- check d1-s5   # 미작성 placeholder 없음 + spec-check PASS</code></pre>
   <p class="small">spec-check가 <em>보완</em>을 표시하면 AC를 정상/예외/경계로 나눠 채우고 다시 실행 → <strong>통과가 '좋은 입력' 검증 목표의 증거</strong>입니다. 전체 실습 지도: 각 프로젝트의 <code>README.md</code>.</p>
 </section>
 

@@ -38,7 +38,7 @@
 
 <section class="section" id="thread">
   <h2>역량 빌드업 — 한 줄기로 이어지는 산출물</h2>
-  <p class="small">참가자는 <strong>본인 기능 스펙 1건</strong>을 들고 와, 세션을 지나며 같은 산출물을 키워 나갑니다. 각 시간은 앞 시간의 결과를 입력으로 받습니다.</p>
+  <p class="small">수업 중에는 전원이 <strong><code>sample-project-activity-log/sessionize</code></strong> 공통 slice로 같은 산출물을 키웁니다. 개인 업무 매핑은 D2·S3/S6에서 설계하고, 개인 코드 적용은 공통 GREEN 후 선택하거나 D+7에 진행합니다.</p>
   <div class="flow">
     <span class="n">기능 스펙 카드</span><span class="ar">→</span>
     <span class="n">토큰절약 프롬프트</span><span class="ar">→</span>
@@ -53,6 +53,7 @@
 
 <section class="section" id="day1">
   <h2><span class="chip">DAY 1</span> 토큰 · 좋은 프롬프트 · Plan Mode (좋은 입력 만들기)</h2>
+  <div class="callout note"><strong>Day1에는 정식 발표가 없습니다.</strong> 세션별 공유 포인트는 개인 메모·짝 확인으로 쌓아 Day2 대표 발표와 전원 handoff 자료로 사용합니다.</div>
   <table>
     <caption class="small">Day 1 시간표 — 세션 · 산출물 · 핵심 용어</caption>
     <thead><tr><th>시간</th><th>세션</th><th>이 시간의 한 줄</th><th>산출물</th><th>핵심 용어</th></tr></thead>
@@ -62,7 +63,7 @@
       <tr><td class="time">11:10–12:30</td><td><a href="d1-s2.html">S2. 좋은 프롬프트 (1)</a></td><td>R/C/T/C/V/O 구조화 프롬프트 + User Story/AC 정제</td><td class="deliverable">프롬프트 3종, AC 표</td><td><span class="tag gl">PT-07</span><span class="tag gl">PT-08</span><span class="tag gl">SD-03</span></td></tr>
       <tr><td class="time">13:30–14:50</td><td><a href="d1-s3.html">S3. 좋은 프롬프트 (2) — 리팩토링·복잡 로직</a></td><td>까다로운 작업 안전 지시 + Context Manifest로 범위 좁히기</td><td class="deliverable">리팩토링 전/후, Context Manifest</td><td><span class="tag gl">SD-04</span><span class="tag gl">GN-06</span><span class="tag gl">PT-10</span></td></tr>
       <tr><td class="time">14:50–16:30</td><td><a href="d1-s4.html">S4. Plan Mode 실습</a></td><td>계획-실행 분리 + 단계별 stop point + Test Matrix</td><td class="deliverable">Plan 기록, Test Matrix</td><td><span class="tag gl">CF-04</span><span class="tag gl">SD-05</span><span class="tag gl">GN-05</span></td></tr>
-      <tr><td class="time">16:30–17:30</td><td><a href="d1-s5.html">S5. 데일리 종합 미니 실습</a></td><td>토큰·프롬프트·Plan을 본인 기능 1건에 통합</td><td class="deliverable">Feature Spec Pack v1</td><td><span class="tag gl">SD-08</span><span class="tag gl">OR-16</span></td></tr>
+      <tr><td class="time">16:30–17:30</td><td><a href="d1-s5.html">S5. 데일리 종합 미니 실습</a></td><td>토큰·프롬프트·Plan을 공통 sessionize slice에 통합</td><td class="deliverable">Feature Spec Pack v1</td><td><span class="tag gl">SD-08</span><span class="tag gl">OR-16</span></td></tr>
       <tr><td class="time">17:30–18:00</td><td><a href="d1-s6.html">S6. QnA &amp; 버퍼</a></td><td>막힘 해소 + Day2 준비물 안내 + 회고</td><td class="deliverable">blocker log, Day2 준비 체크</td><td><span class="tag gl">OR-11</span><span class="tag gl">OR-16</span></td></tr>
     </tbody>
   </table>
@@ -89,7 +90,7 @@
 <section class="section" id="howto">
   <h2>이 콘텐츠 사용법 (수강생)</h2>
   <div class="grid">
-    <div class="card"><h3>수강생</h3><p>본인 기능 스펙 1건을 들고 와 매 세션 <strong>산출물</strong>을 키욁니다. 각 세션의 <strong>미니강의 → 실습 → 체크포인트</strong>를 따라가고, 세션 하단 <strong>공유 포인트</strong>에 한 줄씩 기록하면 D2·S7 발표가 저절로 만들어집니다.</p></div>
+    <div class="card"><h3>수강생</h3><p>공통 activity-log slice로 매 세션 <strong>산출물</strong>을 키웁니다. <strong>미니강의 → 실습 → 체크포인트</strong>를 따라가며 본인 판단을 starter에 직접 기록하고, 공유 포인트를 모아 D2·S7의 전원 3장·handoff를 완성합니다.</p></div>
   </div>
 </section>
 
@@ -97,7 +98,8 @@
   <h2>실습 코드 — 직접 실행하며 이해하기</h2>
   <p class="small">설명(<code>docs/</code>)과 별도로 <strong>직접 실행</strong>해볼 코드가 있습니다. 의존성 없이 <strong>Node 18+ 내장 도구</strong>만으로 동작합니다.<br>
     · <strong>Day1 설명 예제</strong> = <code>labs/</code>(결제 <code>calcVat</code>) — 강의가 기법을 보여줄 때 씁니다.<br>
-    · <strong>Day2 실습 프로젝트</strong> = <code>sample-project-activity-log/</code>(개인 활동 로그 분석) — 본인 기능이 없으면 폴백으로 채택해 <strong>VS Code 새 창</strong>에 열고 구현합니다(D2·S0).<br>
+    · <strong>공통 실습 프로젝트</strong> = <code>sample-project-activity-log/</code>(개인 활동 로그 분석) — 전원이 <strong>VS Code 새 창</strong>에 열고 같은 <code>sessionize</code> slice를 구현합니다(D2·S0).<br>
+    · <strong>45명 Self-paced Lab</strong> = <a href="../sample-project-activity-log/SELF-PACED-LAB.html"><code>sample-project-activity-log/SELF-PACED-LAB.html</code></a> — 일반 단계는 hint/reset 후 질문, D2·S4 GREEN만 recover를 사용합니다.<br>
     · <strong>완성 참고(선택)</strong> = <code>sample-project-plans/</code>(Trello 유형 칸반 웹앱) — "실습이 완성되면 이런 모습"을 볼 때. 스택은 달라도 <strong>순수 코어 + 주입 경계</strong> 설계 원칙은 실습과 동일(<code>npm start</code>로 기동).</p>
   <pre><code># Day1 예제(labs)
 cd labs &amp;&amp; npm test                       # baseline: 10 pass, 2 skip
@@ -120,7 +122,7 @@ npm run gate                                # lint + test + policy-check</code><
       <tr><td>D2·S6 라우팅</td><td>sample-project</td><td><code>npm run routing</code></td></tr>
     </tbody>
   </table>
-  <div class="callout ok"><strong>두 코드베이스:</strong> Day1은 <strong>결제(billing) 예제</strong>(<code>labs/</code>)로 기법을 익히고, Day2는 <strong>본인 프로젝트</strong>(없으면 폴백 <code>sample-project-activity-log/</code>)를 새 창에 열어 구현합니다. 세션↔코드 지도는 각 프로젝트의 <code>README.md</code>.</div>
+  <div class="callout ok"><strong>두 코드베이스:</strong> Day1 설명 데모는 <strong>결제(billing) 예제</strong>(<code>labs/</code>), 16개 학습 checkpoint와 Day2 구현은 전원 공통 <code>sample-project-activity-log/</code>입니다. 개인 프로젝트 적용은 공통 GREEN 후 선택하거나 D+7로 보냅니다.</div>
 </section>
 
 <footer>program-sessions-2026-06-27 · 시간(세션)별 교육 콘텐츠 · 용어사전 ID 연동 · 재편안(2026-06-27) 기반 · 작성: 한익준 (Microsoft)</footer>

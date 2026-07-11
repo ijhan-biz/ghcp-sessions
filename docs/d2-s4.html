@@ -36,6 +36,7 @@
   <div class="flow">
     <span class="n">spec.md</span><span class="ar">→</span><span class="n">실패 테스트(test-first)</span><span class="ar">→</span><span class="n">사람 검토</span><span class="ar">→</span><span class="n">최소 구현</span><span class="ar">→</span><span class="n">로컬 테스트</span>
   </div>
+  <div class="callout note"><strong>RED의 이중 의미:</strong> 테스트 명령은 실패하지만 <code>d2-s4-red</code> checkpoint는 PASS할 수 있습니다. 이는 오류를 숨긴 것이 아니라 구현 전 테스트가 미구현 요구를 정확히 감지했다는 순서 증거입니다.</div>
 </section>
 
 <section class="section">
@@ -53,7 +54,7 @@
 ## Tests First
 - activity.test.js: 세션화 2건 (현재 skip)
 ## Constraints
-- 외부 패키지 금지, 실제 OS 수집 금지(collector 주입), allowed: src/activity.js</code></pre></div>
+- 외부 패키지 금지, 실제 OS 수집 금지(collector 주입), allowed: src/activity.js, test/activity.test.js</code></pre></div>
 </section>
 
 <section class="section">
@@ -64,7 +65,8 @@
 [검토] 정상·예외·금지 케이스가 분리되어야 함.
 [출력] 테스트 코드 + 각 테스트가 검증하는 AC 매핑.</code></pre></div>
   <div class="step"><div class="label">STEP 2 · 사람이 테스트 검토</div><p class="small">Copilot이 만든 테스트가 스펙을 제대로 검증하는지 <strong>동료/PL이</strong> 확인합니다 — 테스트가 약하면 구현도 약해집니다. 검토 기준: ① AC와 <strong>1:1 매핑</strong> ② 정상·예외·경계 케이스 <strong>분리</strong> ③ 과도한 mocking 없이 <strong>state·결과</strong> 검증. 미흡하면 <strong>request-changes</strong>(사유+개선 방향을 적어 재요청), 통과하면 approve 후 STEP 3으로.</p></div>
-  <div class="step"><div class="label">STEP 3 · 최소 구현</div>
+  <div class="step"><div class="label">STEP 3 · AI 첫 답 판단 후 최소 구현</div>
+  <p class="small">AI 첫 답은 정답이 아니라 후보입니다. <code>lab-work/implementation-decision.md</code>에 수용/거부와 AC·테스트 근거를 먼저 기록합니다. 근거 없이 첫 답을 붙여 넣으면 checkpoint가 BLOCK됩니다.</p>
 <pre><code>[작업] 방금 만든 테스트를 통과시킬 최소 변경만 구현하라.
 [규칙] AC 1개만 통과시키는 최소 코드 — 여러 AC를 한 번에 구현 금지. 통과 후 다음 AC로.
 [제약] public API 유지, 외부 패키지 금지, allowed files만 수정.
@@ -109,9 +111,12 @@
   <div class="callout ok"><strong>test-first 핵심 실습</strong> — Day2 실습 프로젝트(새 창의 <code>sample-project-activity-log</code>)에서 실패 테스트를 먼저 켜고 구현합니다.</div>
 <pre><code># 새 창의 sample-project-activity-log 통합 터미널에서
 npm test         # baseline 5 pass / 2 skip(세션화 2건)
-# 1) test/activity.test.js 의 { skip: true } 2곳 제거 → RED
-# 2) src/activity.js 의 sessionize 구현(유휴 간격 초과 시 새 세션)
-npm test         # GREEN  (정답 비교: src/activity.solution.js)</code></pre>
+npm run lab -- start d2-s4-red
+# test/activity.test.js 의 { skip: true } 2곳 제거
+npm run lab -- check d2-s4-red       # 테스트 FAIL · checkpoint PASS
+npm run lab -- start d2-s4-green     # AI 첫 답 수용/거부 기록 starter
+# sessionize 최소 구현 + implementation-decision.md 작성
+npm run lab -- check d2-s4-green     # 판단 근거 + 7/0/0</code></pre>
   <p class="small">진행 순서: 프로젝트 <code>README.md</code> · 프로젝트 열기: D2·S0 "VS Code 새 창에서 열기"</p>
 </section>
 

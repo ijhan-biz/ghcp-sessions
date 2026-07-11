@@ -1,5 +1,8 @@
 # 생성물(generated) — 커밋하지 않음
 .copilot-harness/
 review-packet.md
+.lab-state.json
+.lab-backups/
+lab-work/
 node_modules/
 .DS_Store

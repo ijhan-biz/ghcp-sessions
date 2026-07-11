@@ -17,7 +17,7 @@
 <header class="hero">
   <div class="eyebrow">DAY 1 · SESSION 1 · 09:40–11:10 (90m)</div>
   <h1>토큰 최적화 &amp; 가드레일 — 적게 주고 더 정확하게</h1>
-  <p class="lead">전체 레포를 던지는 습관을 버리고 <strong>범위를 좁혀</strong> 같은 결과를 더 적은 토큰으로 얻는 법을 익힙니다. 동시에 <strong>가드레일</strong>을 프롬프트에 명시하고, 이후 모든 실습에 쓸 <strong>본인 기능 스펙을 비식별화</strong>합니다.</p>
+  <p class="lead">전체 레포를 던지는 습관을 버리고 범위를 좁힙니다. billing은 설명 데모로 보고, 전원 공통 activity-log 스펙에는 <strong>금지 범위와 실행할 검증 명령</strong>을 직접 작성합니다.</p>
   <div class="chips"><span><strong>PT-01</strong> 토큰 최적화</span><span><strong>PT-09</strong> 범위 축소</span><span><strong>PT-06</strong> #file</span><span><strong>PT-03</strong> 가드레일</span><span><strong>OR-14</strong> 비식별화</span><span><strong>HE-12</strong> Cost burn</span></div>
 </header>
 
@@ -26,7 +26,7 @@
   <ul>
     <li>토큰이 어디서 새는지(과다 컨텍스트·반복 첨부·긴 로그) 이해하고, <strong>파일 범위·#file·로그 제한</strong>으로 줄인다.</li>
     <li>제약을 <strong>가드레일</strong>로 프롬프트에 명시한다(외부 패키지 금지·시그니처 유지·민감정보 출력 금지).</li>
-    <li>본인 기능 스펙 1건을 <strong>비식별화</strong>해 이후 세션의 공용 재료로 만든다.</li>
+    <li>공통 activity-log 스펙의 비식별 경계를 확인하고 금지 범위·검증 명령을 작성한다.</li>
   </ul>
 </section>
 
@@ -79,8 +79,8 @@ node scripts/token-estimate.mjs src/billing/tax.js                       # After
 </section>
 
 <section class="section">
-  <h2>실습 2 — 본인 기능 스펙 정하기 (비식별 원칙)</h2>
-  <p class="small">Day2까지 이어갈 <strong>얇은 end-to-end 기능 1건</strong>을 정해 스펙으로 <strong>작성</strong>하되, 고객명·키·로그는 넣지 않는 <strong>비식별 원칙</strong>을 지킵니다(<span class="tag gl">OR-14</span>). 1~2개 파일에서 구현 가능하고, 테스트로 확인 가능하며, 운영 배포·실제 결제·DB 마이그레이션이 필요 없는 기능을 고릅니다.</p>
+  <h2>실습 2 — 공통 기능 스펙 작성 (비식별 원칙)</h2>
+  <p class="small"><code>npm run lab -- start d1-s1</code>로 starter를 만들고 activity-log의 목적·제외 범위·민감정보 경계·검증 명령을 직접 채웁니다. 실제 고객명·키·로그는 넣지 않습니다.</p>
 <pre><code>## 비식별 기능 스펙 카드
 - 기능명:
 - 현재 동작:
@@ -98,7 +98,7 @@ node scripts/token-estimate.mjs src/billing/tax.js                       # After
 
 <section class="section">
   <h2>체크포인트 &amp; 산출물</h2>
-  <div class="callout ok"><strong>산출물:</strong> ① 범위를 좁힌 토큰 절약 프롬프트 1개 이상, ② 가드레일이 명시된 프롬프트, ③ 비식별 기능 스펙 카드(이후 모든 세션의 재료).</div>
+  <div class="callout ok"><strong>산출물:</strong> 범위를 좁힌 프롬프트 + 금지 범위와 검증 명령이 있는 <code>lab-work/feature-spec.md</code>.</div>
   <ul>
     <li>전체 레포가 아니라 파일/함수로 범위가 좁혀졌는가?</li>
     <li>금지 작업·민감정보 경계가 프롬프트에 들어갔는가?</li>
@@ -130,7 +130,7 @@ cd labs
 node scripts/token-estimate.mjs src/**/*.js          # Before: 전체 첨부 규모
 node scripts/token-estimate.mjs src/billing/tax.js   # After: 범위 한정</code></pre>
   <p class="small">전체 실습 지도: <code>labs/README.md</code></p>
-  <div class="callout note"><strong>본인 기능이 없다면(폴백):</strong> <code>sample-project-activity-log/</code>(개인 활동 로그 분석 엔진)의 <code>FEATURE-SPEC.md</code>를 "내 기능 스펙 카드"로 채택하고, <code>BACKLOG.md</code>에서 slice 1개를 골라 2일 과정을 그대로 진행합니다(<code>cd sample-project-activity-log &amp;&amp; npm test</code>).</div>
+  <div class="callout note"><strong>학습 checkpoint:</strong> billing 데모 뒤에는 전원이 <code>sample-project-activity-log</code>에서 <code>npm run lab -- start d1-s1</code> → 직접 작성 → <code>npm run lab -- check d1-s1</code>을 수행합니다.</div>
 </section>
 
   <div class="callout note"><strong>빌드업 연결:</strong> 여기서 만든 비식별 스펙 카드·토큰절약 프롬프트는 <strong>D1·S5 Feature Spec Pack v1</strong>의 입력이 됩니다(검증 기준: end-to-end 체인).</div>

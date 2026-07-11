@@ -9,7 +9,7 @@ npm test         # baseline: 10 pass, 2 skip (선택형 SDD 미니 예제)
 ```
 
 > 이 폴더는 <strong>Day1 설명 예제</strong>입니다. 가상의 결제(billing) 기능으로 토큰·프롬프트·AC·리팩토링·Plan을 익힙니다.
-> <strong>Day2 구현 실습</strong>은 본인 기능(없으면 <code>sample-project-activity-log/</code>)을 VS Code 새 창에 열어 진행합니다.
+> 학생이 직접 작성·검증하는 16개 checkpoint와 Day2 구현은 전원 <code>sample-project-activity-log/</code>를 VS Code 새 창에 열어 진행합니다.
 > 아래 skip 2개는 강사 시연·복습용 <strong>선택형 SDD 미니 예제</strong>이며, 현재 Day2 수료 경로의 구현 대상은 <code>sessionize</code>입니다.
 
 ## 빠른 명령

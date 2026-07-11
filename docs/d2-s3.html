@@ -104,9 +104,11 @@
   <h2>이 세션의 실행 코드 (Hands-on)</h2>
   <div class="callout ok"><strong>장기 실행 안전장치를 “실행”으로 체험:</strong></div>
 <pre><code># (새 창) sample-project-activity-log 터미널에서
+npm run lab -- start d2-s3          # lab-work/workflow.md 생성
 npm run sim                          # cost burn·checkpoint·canary 게이트
-node scripts/long-running-sim.mjs 99 # seed 변경 → 롤백/STOP 시나리오 관찰</code></pre>
-  <p class="small">캔버스: <code>templates/agent-team-fleet-loop-canvas.md</code> · 전체 지도: <code>README.md</code></p>
+node scripts/long-running-sim.mjs 99 # seed 변경 → 롤백/STOP 시나리오 관찰
+npm run lab -- check d2-s3           # 자동화 범위·Human Gate·중단조건 검사</code></pre>
+  <p class="small">starter: <code>templates/workflow-starter.md</code> · 전체 지도: <code>README.md</code></p>
 </section>
 
 <div class="pager">

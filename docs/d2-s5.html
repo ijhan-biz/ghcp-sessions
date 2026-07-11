@@ -41,7 +41,7 @@
 <pre><code>npm test
 node scripts/policy-check.mjs
 git diff --stat
-git diff -- src tests</code></pre></div>
+git diff -- src/activity.js test/activity.test.js</code></pre></div>
   <div class="step"><div class="label">STEP 2 · Evidence Bundle (<span class="tag gl">HE-18</span>)</div>
   <ul>
     <li>변경 요약: 어떤 AC를 위해 어떤 파일을 바꿨는가</li>
@@ -49,6 +49,8 @@ git diff -- src tests</code></pre></div>
     <li>정책 체크 결과: 금지 파일/secret/외부 패키지 여부</li>
     <li>리스크: 남은 known gap, manual check 필요 여부</li>
   </ul></div>
+  <div class="step"><div class="label">STEP 2.5 · Execution Provenance와 학습부채</div>
+  <p class="small"><code>npm run packet</code>은 <strong>CLEAN</strong>, runner recover의 <strong>FALLBACK</strong>, solved checkpoint와 일치한 <strong>REFERENCE-MATCH</strong>를 구분합니다. FALLBACK/REFERENCE-MATCH이면 사유, 부채 owner·due, D+7 직접 재구현 검증을 채워야 합니다.</p></div>
   <div class="step"><div class="label">STEP 3 · Rollback Note (<span class="tag gl">HE-10</span>·<span class="tag gl">HE-11</span>)</div>
 <pre><code>## Rollback Note
 - Trigger: AC 회귀 / 테스트 실패 / 금지 파일 변경 감지
@@ -64,7 +66,7 @@ git diff -- src tests</code></pre></div>
 
 <section class="section">
   <h2>체크포인트 &amp; 산출물</h2>
-  <div class="callout ok"><strong>산출물:</strong> 유닛테스트 포함 변경 세트(로컬 커밋) + local review packet(evidence bundle·rollback note·no-cloud attestation 포함).</div>
+  <div class="callout ok"><strong>산출물:</strong> local review packet(evidence bundle·CLEAN/FALLBACK/REFERENCE-MATCH provenance·학습부채·rollback owner·no-cloud attestation 포함).</div>
   <table>
     <caption class="small">리뷰 패킷 go/no-go 기준</caption>
     <thead><tr><th>패킷 항목</th><th>go</th><th>no-go</th></tr></thead>
@@ -72,6 +74,7 @@ git diff -- src tests</code></pre></div>
       <tr><td>구현</td><td>테스트 통과·diff 설명 가능</td><td>테스트 실패 또는 diff 설명 불가</td></tr>
       <tr><td>게이트</td><td>test/policy-check 실행됨</td><td>게이트 없음</td></tr>
       <tr><td>rollback</td><td>되돌림 명령·owner 명시</td><td>없음</td></tr>
+      <tr><td>provenance</td><td>CLEAN/FALLBACK·부채 owner/due 명시</td><td>FALLBACK 숨김·미작성 placeholder</td></tr>
     </tbody>
   </table>
   <div class="callout warn"><strong>컷라인:</strong> 테스트 1개 통과 + policy-check 1회 + rollback note 1개 = 최소 수료 경로(<span class="tag gl">EV-10</span>).</div>
@@ -111,6 +114,8 @@ git diff -- src tests</code></pre></div>
 <pre><code># (새 창) sample-project-activity-log 터미널에서
 npm run gate     # lint + test + policy-check
 npm run packet   # review-packet.md 생성
+# provenance·Learning Debt·Rollback Owner 직접 작성
+npm run lab -- check d2-s5
 # 파일: templates/rollback-note.md</code></pre>
   <p class="small">전체 실습 지도: <code>README.md</code></p>
 </section>

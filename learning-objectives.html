@@ -52,7 +52,7 @@
     <div class="card"><h3>P-B · 팀 리드 / PL</h3><p>팀에 Copilot을 <strong>안전하게 도입</strong>하고 싶다. 자율성을 어디까지 허용할지, 사람 승인·리뷰·비용/보안 경계를 <strong>기준으로</strong> 잡고 싶다.</p></div>
     <div class="card"><h3>P-C · 품질 / 플랫폼 담당</h3><p>반복 업무와 검증을 <strong>재사용 자산(Skill/Agent)·로컬 게이트·정책</strong>으로 표준화해 팀 전체에 퍼뜨리고 싶다.</p></div>
   </div>
-  <p class="small">준비도 축(리허설용): <strong>준비형</strong>(본인 기능 지참·환경 GREEN) · <strong>표준형</strong>(초안·환경 YELLOW) · <strong>폴백형</strong>(기능 미지참·환경 RED → 샘플 폴백). 페르소나는 역할×준비도로 교차합니다.</p>
+  <p class="small">준비도 축(리허설용): <strong>준비형</strong>(환경·Spec Pack GREEN) · <strong>표준형</strong>(일부 YELLOW) · <strong>복구집중형</strong>(환경 또는 작성 증거 RED). 역할×준비도로 교차하되 수업 중 실습 코드는 전원 공통 activity-log입니다.</p>
 
   <h3>2 · 수업을 듣는 사람이 바라는 점 (왜 이 수업을 듣는가)</h3>
   <table>
@@ -78,7 +78,7 @@
   <h3>4 · 수업을 듣고 이루어야 하는 목적 (검증 목표)</h3>
   <p class="small">수료 시점에 다음이 <strong>증거물로 존재</strong>하면 결과물(강의)은 목적을 달성한 것으로 검증합니다.</p>
   <ul>
-    <li>▢ 본인 기능 1건으로 <strong>end-to-end 체인</strong> 완성: 기능 스펙 → 토큰절약 프롬프트 → AC/Plan/Test Matrix → Feature Spec Pack v1 → 로컬 게이트 → spec.md·테스트·리뷰패킷 → Custom Skill/Agent → 공유 1페이지.</li>
+    <li>▢ 공통 <code>sessionize</code> slice로 <strong>end-to-end 체인</strong> 완성: 기능 스펙 → 토큰절약 프롬프트 → AC/Plan/Test Matrix → Feature Spec Pack v1 → 로컬 게이트 → spec.md·테스트·리뷰패킷 → Custom Skill/Agent → 공유 1페이지.</li>
     <li>▢ <strong>검증 가능성</strong>: 모든 변경이 test + policy-check + rollback note로 <strong>되돌릴 수 있고 설명 가능</strong>한 상태(Go/No-Go 통과).</li>
     <li>▢ <strong>재사용성</strong>: 산출물이 일회성이 아니라 다음 주 바로 쓸 수 있는 Skill/Agent·게이트로 남음.</li>
     <li>▢ <strong>현업 이전성</strong>: PL handoff 1페이지 + 현업 적용 액션 3개로 팀에 전파 가능(D+7 클리닉으로 연결).</li>
@@ -113,7 +113,7 @@
 
 <section class="section" id="thread">
   <h2>역량 빌드업 — 하나의 산출물이 자라는 흐름</h2>
-  <p class="small">수강생은 <strong>본인 기능 스펙 1건</strong>을 들고 와 세션을 지나며 같은 산출물을 키웁니다. 각 시간은 앞 시간의 결과를 입력으로 받습니다.</p>
+  <p class="small">수강생은 공통 <code>sample-project-activity-log/sessionize</code>를 세션마다 키웁니다. 본인 업무는 D2·S3/S6에서 워크플로·Skill로 매핑하고 실제 코드 적용은 공통 GREEN 후 또는 D+7에 수행합니다.</p>
   <div class="flow">
     <span class="n">기능 스펙 카드</span><span class="ar">→</span>
     <span class="n">토큰절약 프롬프트</span><span class="ar">→</span>
@@ -127,8 +127,8 @@
 </section>
 
 <section class="section" id="sample">
-  <h2>샘플 프로젝트로 실습하는 법 (본인 기능 미지참 시)</h2>
-  <p class="small">본인 기능 스펙을 못 가져온 참가자는 <strong><code>sample-project-activity-log/</code></strong>(개인 활동 로그 분석 엔진)을 "내 기능"으로 채택해 <strong>2일 전 과정을 동일하게</strong> 진행합니다. 무설치·의존성 0(<code>cd sample-project-activity-log &amp;&amp; npm test</code> → 5 pass / 2 skip). 실제 OS 수집은 제외하고 "수집된 활동 이벤트에서 집중 세션을 뽑는 순수 로직"만 다룹니다.</p>
+  <h2>전원 공통 프로젝트로 실습하는 법</h2>
+  <p class="small">모든 참가자는 <strong><code>sample-project-activity-log/</code></strong>에서 2일의 16개 checkpoint를 진행합니다. 무설치·의존성 0이며 baseline은 <code>5 pass / 2 skip / 0 fail</code>입니다. 실제 OS 수집 없이 비식별 이벤트에서 집중 세션을 뽑는 순수 로직만 다룹니다.</p>
   <div class="callout ok"><strong>한 줄 흐름:</strong> <code>FEATURE-SPEC.md</code> 채택 → <code>BACKLOG.md</code>에서 slice 1개(권장: 집중 세션 분리(유휴 간격 기준)) → Day1에 스펙·프롬프트·Plan → Day2에 <code>sessionize</code>을 test-first로 구현 → 리뷰 패킷 → Custom Skill → 공유.</div>
   <div class="callout note"><strong>완성 참고(선택):</strong> “실습이 완성되면 이런 모습”을 보고 싶다면 <code>sample-project-plans/</code>(Trello 유형 칸반 웹앱)를 참고하세요 — 스택은 다르지만(백엔드+프론트엔드) <strong>순수 코어 + 주입 경계</strong> 설계 원칙은 실습과 같습니다. <code>npm test</code>(전부 green) · <code>npm start</code>(웹 서비스). <em>2일차 실습 자체는 <code>sample-project-activity-log</code>로 진행합니다.</em></div>
   <table>
@@ -137,7 +137,7 @@
     <tbody>
       <tr><td><strong>D1·S1</strong></td><td><code>FEATURE-SPEC.md</code>를 내 기능 스펙 카드로 채택(비식별 확인) + BACKLOG에서 slice 선택</td><td class="deliverable">채택한 스펙 카드 + slice</td></tr>
       <tr><td><strong>D1·S2</strong></td><td>활동 로그 분석 기능의 User Story·AC 정제(정상/예외/경계 — 예: 빈 목록·무효 이벤트·유휴 경계)</td><td class="deliverable">AC 표</td></tr>
-      <tr><td><strong>D1·S3</strong></td><td>Context Manifest(allowed: <code>src/activity.js</code>) + 리팩토링 대상 확인</td><td class="deliverable">Context Manifest</td></tr>
+      <tr><td><strong>D1·S3</strong></td><td>Context Manifest(allowed: <code>src/activity.js</code>, <code>test/activity.test.js</code>) + 리팩토링 대상 확인</td><td class="deliverable">Context Manifest</td></tr>
       <tr><td><strong>D1·S4</strong></td><td><code>sessionize</code> 구현 계획 + Test Matrix(유휴 임계 초과·경계 간격 케이스)</td><td class="deliverable">Plan · Test Matrix</td></tr>
       <tr><td><strong>D1·S5</strong></td><td>위 산출물을 Feature Spec Pack v1로 묶기(Day2 입력)</td><td class="deliverable">Spec Pack v1</td></tr>
       <tr><td><strong>D2·S1~S3</strong></td><td>이 프로젝트에 하네스·로컬 게이트·Agent Teams/Fleet/Loop 적용</td><td class="deliverable">게이트·캔버스</td></tr>
@@ -146,8 +146,8 @@
       <tr><td><strong>D2·S7</strong></td><td>스펙→구현→검증→Skill 연결을 라이트닝 토크로 공유</td><td class="deliverable">공유 1페이지</td></tr>
     </tbody>
   </table>
-  <div class="callout note"><strong>정답 비교:</strong> 직접 구현 후 <code>src/activity.solution.js</code>와 비교. <strong>slice 확장:</strong> 여유가 있으면 <code>BACKLOG.md</code>의 카테고리별 집계·집중 점수로 한 사이클 더.</div>
-  <div class="callout warn"><strong>강사용 메모:</strong> 이 샘플은 가이드 예제(<code>labs/</code>, billing)와 별개입니다. labs는 강사 설명용, 이 샘플은 참가자가 "자기 기능"으로 가져가는 폴백입니다.</div>
+  <div class="callout note"><strong>복구 원칙:</strong> 공개 정답 파일은 제공하지 않습니다. 직접 구현이 끝까지 막힐 때만 <code>npm run lab -- recover d2-s4-green</code>을 사용하며 FALLBACK·D+7 재구현 부채가 기록됩니다. 여유가 있으면 <code>BACKLOG.md</code>의 다음 slice로 확장합니다.</div>
+  <div class="callout warn"><strong>강사용 메모:</strong> <code>labs/</code> billing은 설명 데모이고, 학습 증거를 판정하는 16개 checkpoint는 전원 공통 activity-log입니다.</div>
 </section>
 
 <section class="section obj" id="day1">
@@ -159,8 +159,8 @@
       <tr>
         <td><strong>S0</strong><br><span class="time">09:00–09:40<br>(40m)</span><br>OT &amp; 환경 점검</td>
         <td><ul>
-          <li>2일 산출물 줄기를 이해하고 본인 기능 스펙 후보 1건을 정한다.</li>
-          <li>VS Code·Copilot·Git·Node·gh를 환경 점검·교정 스크립트로 점검·자동 교정하고 Green/Yellow/Red를 자가 판정한다.</li>
+          <li>2일 산출물 줄기와 전원 공통 activity-log slice를 이해한다.</li>
+          <li>VS Code·Copilot·Git·Node를 환경 점검·교정 스크립트로 확인하고 Green/Yellow/Red를 자가 판정한다.</li>
           <li>실습 브랜치와 baseline 결과를 남겨 되돌아올 지점을 확보한다.</li>
         </ul></td>
         <td class="deliverable">환경 체크리스트, baseline 결과 메모, <code>lab/*</code> 브랜치</td>
@@ -171,7 +171,7 @@
         <td><ul>
           <li>토큰이 새는 곳을 이해하고 파일 범위·#file·로그 제한으로 줄인다.</li>
           <li>제약을 가드레일로 프롬프트에 명시한다(패키지 금지·시그니처 유지·민감정보 금지).</li>
-          <li>본인 기능 스펙 1건을 비식별화해 공용 재료로 만든다.</li>
+          <li>공통 기능 스펙을 비식별 상태로 확인하고 금지 범위와 검증 명령을 직접 작성한다.</li>
         </ul></td>
         <td class="deliverable">토큰 절약 프롬프트, 가드레일 프롬프트, 비식별 기능 스펙 카드</td>
         <td><span class="tag gl">PT-01</span><span class="tag gl">PT-09</span><span class="tag gl">PT-06</span><span class="tag gl">PT-03</span><span class="tag gl">OR-14</span><span class="tag gl">HE-12</span></td>
@@ -254,7 +254,7 @@
           <li>실행 로그를 읽고 "무엇을 했고 왜 멈췄는가"를 해석한다.</li>
         </ul></td>
         <td class="deliverable">도구 승인·denyList 적용 Agent 도구 호출 내역 + 해석 메모</td>
-        <td><span class="tag gl">HE-01</span><span class="tag gl">CF-02</span><span class="tag gl">HE-13</span><span class="tag gl">CF-01</span></td>
+        <td><span class="tag gl">HE-01</span><span class="tag gl">CF-11</span><span class="tag gl">HE-13</span><span class="tag gl">CF-01</span></td>
       </tr>
       <tr>
         <td><strong>S2</strong><br><span class="time">10:40–12:00<br>(80m)</span><br>하네스 (2) Agent Teams·Fleet·Loop</td>
@@ -283,6 +283,7 @@
           <li>기능 스펙을 spec.md 표준 형식(Context·Requirements·AC·Tests First·Constraints)으로 정형화한다.</li>
           <li>AC를 테스트 이름으로 바꿔 실패하는 테스트를 먼저 만든다.</li>
           <li>테스트를 통과시키는 최소 변경만 allowed files에 구현한다.</li>
+          <li>AI 첫 답을 후보로 취급하고 수용/거부를 AC·테스트 근거로 기록한다.</li>
         </ul></td>
         <td class="deliverable">spec.md + 실패 테스트(검토) + 스펙 기반 최소 구현</td>
         <td><span class="tag gl">SD-01</span><span class="tag gl">SD-07</span><span class="tag gl">SD-06</span><span class="tag gl">SD-03</span><span class="tag gl">EN-12</span></td>
@@ -292,7 +293,7 @@
         <td><ul>
           <li>유닛테스트를 보강하고 통합 관점(주변 영향)을 점검한다.</li>
           <li>evidence bundle(변경요약·테스트·정책체크·diff·리스크)을 만든다.</li>
-          <li>rollback note·no-cloud attestation을 포함한 local review packet을 제출한다.</li>
+          <li>실행 provenance(CLEAN/FALLBACK)·학습부채·rollback note를 포함한 local review packet을 제출한다.</li>
         </ul></td>
         <td class="deliverable">테스트 포함 변경 세트 + local review packet</td>
         <td><span class="tag gl">HE-03</span><span class="tag gl">HE-18</span><span class="tag gl">HE-15</span><span class="tag gl">HE-10</span><span class="tag gl">HE-16</span></td>
@@ -310,9 +311,9 @@
       <tr>
         <td><strong>S7</strong><br><span class="time">17:20–18:00<br>(40m)</span><br>종합·경험 공유 <span class="tag">운영</span></td>
         <td><ul>
-          <li>5분 라이트닝 토크로 "스펙→프롬프트→계획→테스트→검증→롤백→Skill" 연결을 공유한다.</li>
+          <li>대표 3명이 각 3분 라이트닝 토크로 "스펙→프롬프트→계획→테스트→검증→롤백→Skill" 연결을 공유한다. 대표 외 참가자는 동일한 3장과 PL handoff를 제출한다.</li>
           <li>현업 적용 액션 3개와 PL handoff 1페이지를 만든다.</li>
-          <li>go/no-go로 자가 판정하고 D+7 클리닉으로 잇는다.</li>
+          <li>교육 산출물 GO와 실제 업무·차량 적용 GO를 분리 판정하고 FALLBACK 부채를 D+7로 잇는다.</li>
         </ul></td>
         <td class="deliverable">라이트닝 토크 3장 + 현업 적용 액션 3개 + PL handoff + 회고</td>
         <td><span class="tag gl">OR-17</span><span class="tag gl">OR-18</span><span class="tag gl">OR-19</span><span class="tag gl">EV-11</span><span class="tag gl">GN-08</span></td>
@@ -364,8 +365,8 @@
 
     <h3>5 · 경험 공유 <span class="tag v">Day2</span></h3>
     <ul>
-      <li>라이트닝 토크로 전체 연결을 5분에 설명한다</li>
-      <li>현업 적용 액션 3개와 PL handoff 1페이지를 만든다</li>
+      <li>전원 3장과 handoff를 제출하고, 대표 3명은 각 3분에 전체 연결을 설명한다</li>
+      <li>현업 적용 액션 3개와 PL handoff 1페이지를 만들고 교육/실제 적용 GO를 분리한다</li>
     </ul>
   </div>
   <div class="callout ok"><strong>수료 필수(최소):</strong> 로컬 테스트 1회 통과(또는 실패→수정 기록) + local review packet 제출 + Custom Skill 초안 제출. (<span class="tag gl">EV-09</span>)</div>

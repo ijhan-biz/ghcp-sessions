@@ -24,26 +24,39 @@
 <section class="section">
   <h2>운영 목표</h2>
   <ul>
-    <li>각자 5분 <strong>라이트닝 토크</strong>로 "스펙 → 프롬프트 → 계획 → 테스트 → 검증 → 롤백 → Skill"의 연결을 공유한다.</li>
-    <li>현업 적용 액션 3개와 PL handoff 1페이지를 만든다.</li>
-    <li>go/no-go로 본인 산출물을 자가 판정하고 D+7 클리닉으로 잇는다.</li>
+    <li><strong>대표 3명만 각 3분</strong> 라이트닝 토크로 "스펙 → 프롬프트 → 계획 → 테스트 → 검증 → 롤백 → Skill"의 연결을 공유한다.</li>
+    <li>발표 여부와 관계없이 <strong>전원이 동일한 3장·현업 적용 액션 3개·PL handoff 1페이지</strong>를 제출한다.</li>
+    <li><strong>교육 산출물 GO</strong>와 <strong>실제 업무·차량 기능 적용 GO</strong>를 분리하고, FALLBACK 사용자는 D+7 재학습 부채를 명시한다.</li>
   </ul>
 </section>
 
 <section class="section">
   <h2>미니강의 — 공유가 학습을 완성한다</h2>
-  <p>이 과정의 약속 다섯 번째는 "경험을 공유할 수 있다"였습니다. 혼자 만든 솔루션은 한 사람의 생산성이지만, <strong>공유된 솔루션</strong>은 팀의 표준이 됩니다. 발표는 길 필요가 없습니다 — <strong>Before/After 한 장</strong>과 <strong>30초 시연</strong>이면 충분합니다.</p>
+  <p>이 과정의 약속 다섯 번째는 "경험을 공유할 수 있다"였습니다. 혼자 만든 솔루션은 한 사람의 생산성이지만, <strong>공유된 솔루션</strong>은 팀의 표준이 됩니다. 공유 역량은 무대에 선 사람 수로 판단하지 않습니다. 대표는 3명만 말하지만, <strong>전원이 같은 3장과 handoff를 제출</strong>해 무엇을 허용했고 무엇으로 검증했으며 어디서 막혔는지 설명합니다.</p>
+  <div class="callout note"><strong>학생 경험에서 확인한 핵심:</strong> "AI를 잘 썼다"보다 <strong>어디까지 맡겼고, 어떤 RED·gate·rollback·사람 승인으로 조건부 신뢰했는가</strong>를 전달할 수 있어야 현업 handoff입니다.</div>
 </section>
 
 <section class="section">
-  <h2>활동 1 — 라이트닝 토크 (5분/인)</h2>
+  <h2>활동 1 — 전원 3장 제출 · 대표 3명×3분 발표</h2>
   <div class="step"><div class="label">발표 템플릿 (슬라이드 3장)</div>
   <ol>
     <li><strong>문제 한 줄</strong>: 내 기능/반복 업무는 무엇이고 왜 골랐나 (D1·S5·S3에서 적은 문장)</li>
     <li><strong>Before/After</strong>: 토큰·프롬프트·게이트·Skill 중 가장 효과 본 것 1개</li>
     <li><strong>나의 솔루션 30초 시연</strong>: Custom Skill/Agent 입력 1개 → 기대 출력 1개</li>
   </ol></div>
-  <div class="callout note">세션마다 적어 둔 <strong>공유 포인트</strong> 메모를 모으면 이 3장이 거의 완성됩니다.</div>
+  <div class="callout note">세션마다 적어 둔 <strong>공유 포인트</strong> 메모를 모으면 이 3장이 거의 완성됩니다. 발표자는 대표 3명이지만 제출자는 전원입니다.</div>
+  <table>
+    <caption class="small">S7 40분 하드스톱</caption>
+    <thead><tr><th>활동</th><th>시간</th><th>완료 신호</th></tr></thead>
+    <tbody>
+      <tr><td>안내</td><td>3분</td><td>3장·handoff 제출 위치 확인</td></tr>
+      <tr><td>대표 발표</td><td>9분</td><td>3명 × 3분</td></tr>
+      <tr><td>전원 handoff</td><td>10분</td><td>5칸 작성·제출</td></tr>
+      <tr><td>Go/No-Go</td><td>8분</td><td>교육/실제 적용 판정 분리</td></tr>
+      <tr><td>현업 액션</td><td>6분</td><td>액션 3개·owner</td></tr>
+      <tr><td>QnA·마무리</td><td>4분</td><td>D+7 부채·다음 행동 확인</td></tr>
+    </tbody>
+  </table>
 </section>
 
 <section class="section">
@@ -69,17 +82,19 @@
 </section>
 
 <section class="section">
-  <h2>활동 3 — go/no-go 자가 판정 &amp; QnA</h2>
+  <h2>활동 3 — 교육 GO와 실제 적용 GO를 분리 판정</h2>
   <table>
-    <caption class="small">수료 Go/No-Go 자가 판정</caption>
+    <caption class="small">수료 증거와 현업 적용 준비도는 별도 판정</caption>
     <thead><tr><th>패킷</th><th>go</th><th>no-go</th></tr></thead>
     <tbody>
       <tr><td>Feature Spec Pack</td><td>AC·scope 명확</td><td>민감정보 포함·non-goal 없음</td></tr>
       <tr><td>Harness</td><td>로컬 test/policy-check 실행</td><td>경계 없음</td></tr>
-      <tr><td>Implementation</td><td>테스트 통과·diff 설명 가능</td><td>실패·설명 불가</td></tr>
+      <tr><td>Implementation</td><td>테스트 통과·diff 설명 가능·FALLBACK 여부 고지</td><td>실패·설명 불가·FALLBACK 숨김</td></tr>
       <tr><td>Skill/Fleet</td><td>재사용 가능</td><td>추상적 지침만</td></tr>
+      <tr><td>실제 적용</td><td>실제 빌드·보안/데이터·리뷰·운영 rollback 승인 완료</td><td>교육 gate만 PASS했거나 승인 증거 없음</td></tr>
     </tbody>
   </table>
+  <div class="callout warn"><strong>판정 원칙:</strong> <code>16/16</code>과 <code>7/0/0</code>은 <strong>교육 산출물 GO</strong>의 증거입니다. 실제 차량·고객 기능 적용은 별도 빌드, 보안·데이터 검토, PL/리뷰어 승인, 운영 rollback 검증 전까지 <strong>NO-GO</strong>입니다. <code>recover</code> 사용자는 교육 진도는 GO여도 D+7 직접 재구현 부채를 남깁니다.</div>
   <div class="callout ok"><strong>산출물:</strong> 라이트닝 토크 3장 + 현업 적용 액션 3개 + PL handoff 1페이지 + 회고 노트.</div>
 </section>
 
@@ -91,14 +106,16 @@
 
 <section class="section">
   <h2>이 세션의 실행 코드 (Hands-on)</h2>
-  <div class="callout ok"><strong>발표·핵드오프 템플릿과 최종 패킷:</strong></div>
+  <div class="callout ok"><strong>발표·핸드오프 템플릿과 최종 체크포인트:</strong></div>
 <pre><code># 템플릿: templates/lightning-talk-and-handoff.md
 # (새 창) sample-project-activity-log 터미널에서
-npm run packet   # 공유용 최종 패킷 점검</code></pre>
+npm run lab -- start d2-s7
+npm run packet
+npm run lab -- check d2-s7   # handoff 5칸 · 현업 액션 3개</code></pre>
   <p class="small">전체 실습 지도: <code>README.md</code></p>
 </section>
 
-  <div class="callout warn"><strong>최소 공유:</strong> 라이트닝 3장 중 <strong>Before/After 1개</strong>라도 공유 + PL handoff 1페이지면 '경험 공유' 목표는 달성입니다.</div>
+  <div class="callout warn"><strong>최소 완료:</strong> 대표 발표 여부와 무관하게 <strong>전원이 3장 + PL handoff 1페이지 + 현업 액션 3개</strong>를 제출해야 '경험 공유' 목표를 달성합니다.</div>
 
 <div class="pager">
   <a href="d2-s6.html">← S6 Custom Skill/Agent</a>

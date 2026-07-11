@@ -33,7 +33,8 @@
 
 <section class="section">
   <h2>미니강의 — Agentic SDLC 지도로 "오늘 위치" 잡기</h2>
-  <div class="callout note"><strong>시간 배분(30분):</strong> 이 지도는 <strong>약 5분</strong> 동안 "오늘 어디를 하는지"만 훑습니다 — 아래 두 표는 <em>참조용</em>이라 외우지 않습니다. 나머지 <strong>25분</strong>은 <strong>복습·환경 재점검(아래 실습)</strong>과 must-have AC 좁히기에 씁니다. Spec Pack이 RED면 설명을 접고 즉시 <code>sample-project-activity-log/</code> 폴백으로 넘어갑니다.</div>
+  <div class="callout note"><strong>08:50 사전 self-check(45명 운영):</strong> <code>sample-project-activity-log</code>를 새 창에 열고 <code>npm run lab -- doctor</code>를 실행합니다. 실패하면 오류코드 → hint 1 → hint 2 → reset → example 뒤 질문합니다. <code>recover</code>는 이후 D2·S4 GREEN에만 사용합니다.</div>
+  <div class="callout note"><strong>시간 배분(30분):</strong> 이 지도는 <strong>약 5분</strong> 동안 "오늘 어디를 하는지"만 훑습니다. 나머지 <strong>25분</strong>은 전원 공통 <code>sample-project-activity-log</code>의 복습·환경 재점검과 must-have AC 좁히기에 씁니다. Spec Pack이 RED면 새 프로젝트로 바꾸지 말고 오류코드로 누락 항목을 복구합니다.</div>
   <p>Day1이 <strong>좋은 입력</strong>(의도·명세·설계)을 만들었다면, Day2는 그것을 <strong>안전하게 실행</strong>(구현·검증·배포·운영)하는 날입니다. 전체를 한 장의 지도로 보면 각 세션이 어디에 앉는지 분명해집니다. 핵심은 단계마다 <strong>권한을 좁히고 · 로그를 남기고 · 게이트를 통과해야 다음으로 간다</strong>는 폐루프 구조입니다.</p>
 
   <div class="flow">
@@ -84,12 +85,13 @@
 <section class="section">
   <h2>실습 — 재개 체크</h2>
   <div class="step"><div class="label">STEP 1 · 브랜치/환경 확인</div>
+  <p class="small">VS Code에서 <strong>Terminal → Run Task → Lab: Verify Workspace Root</strong>를 먼저 실행합니다. 이 task는 <code>${workspaceFolder}</code>를 runner에 전달해 실제 창 루트가 activity-log인지 proof를 남깁니다.</p>
 <pre><code>git status
 git branch --show-current      # lab/copilot-workbook 인지
 git diff --stat                # 비어있거나 의도된 변경인지
 npm test                       # baseline 다시 통과? 실패면 원인 먼저 기록</code></pre></div>
   <div class="step"><div class="label">STEP 2 · Feature Spec Pack 로딩 &amp; must-have 표시</div>
-  <p class="small">YELLOW였던 참가자는 여기서 10분 보강합니다(빠진 AC/Test Matrix 채우기). RED는 <code>sample-project-activity-log/</code> 폴백 스펙으로 전환합니다(FEATURE-SPEC.md 채택 → BACKLOG에서 slice 선택).</p>
+  <p class="small">YELLOW였던 참가자는 여기서 10분 보강합니다(빠진 AC/Test Matrix 채우기). 전원 같은 activity-log 스펙을 사용하므로 RED는 프로젝트를 바꾸지 않고 runner hint/reset으로 누락을 복구합니다.</p>
 <pre><code>오늘 구현할 must-have AC:
 [ ] AC1 ...
 [ ] AC2 ...
@@ -98,7 +100,7 @@ npm test                       # baseline 다시 통과? 실패면 원인 먼저
 
 <section class="section">
   <h2>Day2 실습 프로젝트 — VS Code 새 창에서 열기</h2>
-  <p>Day2의 <strong>구현 실습</strong>은 독립 프로젝트 <code>sample-project-activity-log</code>(개인 활동 로그 분석 엔진)을 <strong>VS Code 새 창</strong>에 열어 진행합니다. 강의 문서와 분리된 <em>깨끗한 프로젝트 워크스페이스</em>여야 Copilot(특히 Agent 모드)의 파일·도구 범위가 이 프로젝트로 좁혀집니다. <span class="small">(본인 기능 코드가 있으면 그 폴더를 같은 방식으로 엽니다.)</span></p>
+  <p>Day2의 <strong>구현 실습</strong>은 전원이 독립 프로젝트 <code>sample-project-activity-log</code>를 <strong>VS Code 새 창</strong>에 열어 진행합니다. 강의 문서와 분리된 <em>깨끗한 프로젝트 워크스페이스</em>여야 Copilot의 파일·도구 범위가 이 프로젝트로 좁혀집니다. 개인 프로젝트 적용은 <code>d2-s4-green</code> PASS 후 선택하거나 D+7로 보냅니다.</p>
   <div class="callout ok"><strong>기본 실습 프로젝트 = <code>sample-project-activity-log</code>:</strong> 개인 활동 로그 분석 — 구현 슬라이스 <code>sessionize</code>(유휴 간격 기준 집중 세션 분리). 무의존·<code>npm test</code> baseline <strong>5 pass + 2 skip</strong>이며, Day2에서 그 <strong>2 skip</strong>을 test-first로 켜서 구현합니다. 하네스 스크립트·에이전트가 모두 포함됩니다.</div>
 
   <h3>① 새 창에 프로젝트 열기</h3>
@@ -115,8 +117,8 @@ code -n sample-project-activity-log</code></pre></div>
       <tr><td><code>package.json</code></td><td>실행 진입점 — <code>"test": "node --test"</code>, Node 18+ (외부 의존성 0)</td></tr>
       <tr><td><code>src/activity.js</code></td><td>대상 코드 — <code>sessionize()</code>가 TODO(구현 대상)</td></tr>
       <tr><td><code>test/activity.test.js</code></td><td>테스트 — 5 pass + <strong>2 skip</strong>(D2·S4에서 켤 대상)</td></tr>
-      <tr><td><code>src/activity.solution.js</code></td><td>참고 정답(막히면 비교)</td></tr>
-      <tr><td><code>FEATURE-SPEC.md</code> · <code>BACKLOG.md</code></td><td>기능 스펙 카드 · slice 후보(본인 스펙이 없을 때 채택)</td></tr>
+      <tr><td><code>npm run lab -- recover d2-s4-green</code></td><td>D2·S4 구현의 마지막 수단. solved checkpoint 적용 + FALLBACK 기록</td></tr>
+      <tr><td><code>FEATURE-SPEC.md</code> · <code>BACKLOG.md</code></td><td>전원 공통 참고 스펙 · 확장 slice 후보</td></tr>
     </tbody>
   </table>
 
@@ -140,16 +142,18 @@ npm test             # baseline: 5 pass, 2 skip(정상)
     <li>baseline이 통과하는가(혹은 실패 원인이 기록되었는가)?</li>
     <li>오늘 범위가 must-have 1~3개로 좁혀졌는가?</li>
   </ul>
-  <div class="callout warn"><strong>컷라인:</strong> Spec Pack이 RED면 즉시 <code>sample-project-activity-log/</code> 폴백으로 전환 — 환경/스펙 복구에 30분을 다 쓰지 않습니다. <strong>환경이 아직 RED</strong>면 로컬 복구를 5분만 재시도하고, 안 되면 D1·S0의 <strong>환경 RED 브리지</strong>(짝 실습·공유 환경·Chat-only 관찰)로 이어 갑니다.</div>
+  <div class="callout warn"><strong>컷라인:</strong> Spec Pack이 RED면 같은 activity-log 프로젝트에서 오류코드·hint/reset으로 5분만 복구합니다. <strong>환경이 아직 RED</strong>면 D1·S0의 환경 RED 브리지(짝 실습·공유 환경·Chat-only 관찰)로 이어 갑니다.</div>
 </section>
 
 <section class="section">
   <h2>이 세션의 실행 코드 (Hands-on)</h2>
   <div class="callout ok"><strong>재개 확인</strong> — baseline 이 여전히 green 인지:</div>
 <pre><code># (새 창) sample-project-activity-log 터미널에서
+# Terminal → Run Task → Lab: Verify Workspace Root
 npm run env      # 환경 재점검(Green/Yellow/Red)
 git status
-npm test         # baseline green (5 pass / 2 skip)</code></pre>
+npm test         # baseline green (5 pass / 2 skip)
+npm run lab -- check d2-s0</code></pre>
   <p class="small">전체 실습 지도: 프로젝트 <code>README.md</code></p>
 </section>
 

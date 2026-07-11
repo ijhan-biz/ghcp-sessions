@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Lab: Verify Workspace Root",
+      "type": "process",
+      "command": "node",
+      "args": ["scripts/verify-workspace-root.mjs", "${workspaceFolder}"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -50,7 +50,8 @@ ghcp-sessions/
 | `docs/d2-s0.html` ~ `d2-s7.html` | Day 2 — 복습 → 하네스 기초 → Agent Teams·Fleet·Loop → 본인 워크플로 → SDD(1)(2) → Custom Skill/Agent → 경험 공유 |
 | `docs/ag-ui-program.css` | 공통 테마(AG-UI inspired) |
 | `labs/` | 세션별 실행 코드 + 템플릿(상세: `labs/README.md`) |
-| `sample-project-activity-log/` | 폴백 실습 프로젝트 — 본인 기능 미지참 시 채택(개인 활동 로그 분석 엔진, 일부 TODO·skip) |
+| `sample-project-activity-log/` | **전원 공통 실습 프로젝트** — activity-log/sessionize, 16개 checkpoint |
+| `sample-project-activity-log/SELF-PACED-LAB.html` | **45명·강사 1인용 따라하기** — 일반 hint/reset, D2·S4 GREEN 전용 recover |
 | `sample-project-plans/` | **완성본 레퍼런스** — 강의 전 과정을 끝까지 채운 예시(Trello 유형 칸반 엔진, 테스트 전부 green) |
 
 ## 보기 (설명)
@@ -75,9 +76,7 @@ npm run sim       # 장기 실행 안전장치 시뮬레이션
 npm run routing   # 단계별 모델 라우팅 데모
 ```
 
-> 두 코드베이스: **Day1**은 결제(billing) 예제(`labs/` — `src/billing/tax.js`·`discount.js`)로 기법을 익히고, **Day2**는 실습 프로젝트를 **VS Code 새 창**에 열어 구현합니다. 세션↔코드 지도는 각 프로젝트의 `README.md`.
->
-> Day2 실습 프로젝트(폴백): 본인 기능을 못 가져온 참가자는 `sample-project-activity-log/`(개인 활동 로그 분석 — 슬라이스 `sessionize`)를 "내 기능"으로 채택해 새 창에서 진행합니다. `npm test` baseline 5 pass, 2 skip.
+> 두 코드베이스: `labs/` billing은 Day1 설명 데모(10/2), 전원이 작성·검증받는 16개 checkpoint와 Day2 구현은 `sample-project-activity-log/`(5/2→7/0)입니다. 개인 코드 적용은 공통 GREEN 후 선택하거나 D+7로 보냅니다.
 >
 > 완성본 레퍼런스: `sample-project-plans/`(Trello 유형 칸반 엔진)는 스펙→하네스→게이트→SDD 구현→커스텀 스킬/에이전트까지 **끝까지 완성한** 예시입니다. "실습이 완성되면 이런 모습"을 보여줄 때 사용하세요. `cd sample-project-plans && npm test`(전부 green), `npm start`(웹 서비스).
 
