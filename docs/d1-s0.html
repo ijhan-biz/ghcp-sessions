@@ -30,6 +30,34 @@
   </ul>
 </section>
 
+<section class="section" id="program-map">
+  <h2>첫 8분 OT — 2일 전체 프로그램을 먼저 읽는 법</h2>
+  <p>이 과정은 매시간 새 과제를 끝내는 모음이 아니라, <strong>같은 공통 기능을 이틀 동안 한 줄기로 완성하는 과정</strong>입니다. 모든 참가자는 <code>sample-project-activity-log</code>의 <code>sessionize</code> slice를 기준으로 준비·구현·검증 증거를 차례로 쌓습니다.</p>
+  <div class="flow">
+    <span class="n">스펙 카드</span><span class="ar">→</span>
+    <span class="n">User Story·AC</span><span class="ar">→</span>
+    <span class="n">Context Manifest</span><span class="ar">→</span>
+    <span class="n">Plan·Test Matrix</span><span class="ar">→</span>
+    <span class="n">하네스·로컬 게이트</span><span class="ar">→</span>
+    <span class="n">test-first 구현·검증</span><span class="ar">→</span>
+    <span class="n">리뷰 패킷</span><span class="ar">→</span>
+    <span class="n">Custom Skill·공유</span>
+  </div>
+
+  <table>
+    <caption class="small">Day 1과 Day 2의 역할 — 준비와 구현의 경계</caption>
+    <thead><tr><th>구간</th><th>핵심 질문</th><th>실제로 하는 일</th><th>경계</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Day 1</strong><br>좋은 입력 만들기</td><td>무엇을, 어떤 범위와 기준으로 바꿀 것인가?</td><td>스펙·프롬프트·AC·허용 범위·Plan·Test Matrix를 만들고 <strong>Feature Spec Pack v1</strong>로 묶습니다.</td><td><code>sessionize</code> 공통 구현은 아직 하지 않습니다. Day 1의 산출물이 Day 2 구현의 입력입니다.</td></tr>
+      <tr><td><strong>Day 2</strong><br>안전하게 실행하기</td><td>어떻게 구현하고, 실패를 감지하고, 검증할 것인가?</td><td>하네스·로컬 게이트를 적용하고 D2·S4에서 실패 테스트를 켠 뒤 <code>sessionize</code>를 test-first로 구현합니다.</td><td>구현·통합·리뷰 패킷·Custom Skill·공유까지 완료합니다.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn"><strong>“실습 2”를 읽는 법:</strong> 하나의 고유한 <em>2번 실습</em>을 계속 반복하는 뜻이 아닙니다. 번호는 <strong>각 세션 안에서 다시 시작</strong>합니다. 예를 들어 D1·S1의 실습 2는 스펙 작성, D1·S2의 실습 2는 요구사항 정제, D1·S3의 실습 2는 Context Manifest 작성입니다. 실제 test-first 구현은 <strong>D2·S4의 실습 2</strong>에서 합니다.</div>
+  <div class="callout note"><strong>D1에서 D2를 미리 언급하는 이유:</strong> “지금 구현하라”는 지시가 아니라, <strong>지금 만든 산출물이 다음에 어디에 쓰이는지</strong> 알려주는 연결 표시입니다. 공통 <code>activity-log/sessionize</code> 경로에서는 D1에 준비 산출물만 완성하고, 구현은 D2의 지정된 단계까지 보류합니다.</div>
+  <div class="callout ok"><strong>이틀 뒤 남는 것:</strong> Feature Spec Pack v1 · 검증 가능한 구현 · 로컬 리뷰 패킷 · Custom Skill/Agent · 전원 handoff 1건. Day 1에는 정식 발표 없이 메모만 쌓고, D2·S7에서 대표 3명이 공유하며 전원은 handoff를 제출합니다.</div>
+</section>
+
 <section class="section" id="model-guide">
   <h2>이 세션의 활동별 권장 모델</h2>
   <table>
