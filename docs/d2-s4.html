@@ -30,6 +30,23 @@
   </ul>
 </section>
 
+<section class="section" id="model-guide">
+  <h2>이 세션의 활동별 권장 모델</h2>
+  <table>
+    <caption class="small">D2·S4 활동 · 책임 주체 · 권장 모델</caption>
+    <thead><tr><th>활동</th><th>주체·과업군</th><th>권장 모델</th><th>한 줄 이유</th></tr></thead>
+    <tbody>
+      <tr><td>구현 스펙 정형화</td><td>AI 보조 · F1</td><td><strong>GPT-5.6 Luna</strong></td><td>경계·예외·허용 범위를 3회 품질 gate로 구조화</td></tr>
+      <tr><td>test-first RED 활성화</td><td>사람·도구 · N0</td><td><strong>모델 미사용</strong></td><td>skip 제거와 실패 위치를 직접 확인</td></tr>
+      <tr><td>sessionize 최소 구현</td><td>AI 보조 · F3</td><td><strong>GPT-5.4 mini</strong></td><td>작은 구현을 sandbox 테스트로 3회 검증</td></tr>
+      <tr><td>독립 AI의 결함·AC 근거 검토 보조</td><td>AI 보조 · F4</td><td><strong>Claude Sonnet 5</strong></td><td>결함·근거 검토를 3회 품질 gate로 재현</td></tr>
+      <tr><td>학습자·동료의 수용/거부 결정</td><td>사람 · N0</td><td><strong>모델 미사용</strong></td><td>AI 첫 답의 채택 책임은 사람에게 유지</td></tr>
+      <tr><td>GREEN·gate 확인</td><td>사람·도구 · N0</td><td><strong>모델 미사용</strong></td><td>테스트와 gate의 실제 출력으로 판정</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+</section>
+
 <section class="section">
   <h2>미니강의 — SDD는 "검증 가능한 스펙 → 구현"</h2>
   <p>SDD(<span class="tag gl">SD-01</span>)는 요구사항을 정형화하고 Acceptance Criteria·Test Matrix로 <strong>검증 가능하게</strong> 만든 뒤 구현하는 방식입니다. 핵심은 순서입니다: <strong>스펙 → 테스트 → 구현</strong>. 구현을 먼저 하면 테스트가 구현을 따라가며 의미가 약해집니다.</p>

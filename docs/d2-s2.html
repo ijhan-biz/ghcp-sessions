@@ -31,6 +31,21 @@
   </ul>
 </section>
 
+<section class="section" id="model-guide">
+  <h2>이 세션의 활동별 권장 모델</h2>
+  <table>
+    <caption class="small">D2·S2 활동 · 책임 주체 · 권장 모델</caption>
+    <thead><tr><th>활동</th><th>주체·과업군</th><th>권장 모델</th><th>한 줄 이유</th></tr></thead>
+    <tbody>
+      <tr><td>Agent Team·Fleet·Loop 설계</td><td>사람 계획 · F2</td><td><strong>모델 미사용</strong></td><td>자동 계획 후보가 안정적으로 gate를 통과하지 못함</td></tr>
+      <tr><td>독립 Evaluator의 결함·근거 검토</td><td>AI 보조 · F4</td><td><strong>Claude Sonnet 5</strong></td><td>결함·근거 검토를 3회 품질 gate로 재현</td></tr>
+      <tr><td>Approval Owner 최종 승인</td><td>사람 · N0</td><td><strong>모델 미사용</strong></td><td>AI 판정과 분리해 사람이 최종 승인</td></tr>
+      <tr><td>로컬 gate</td><td>도구 · N0</td><td><strong>모델 미사용</strong></td><td>lint·test·policy 결과로 통과를 판정</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable) 결과입니다. F2는 5개 후보가 안정적으로 통과하지 못해 사람 계획·모델 미사용입니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+</section>
+
 <section class="section">
   <h2>미니강의 ① — 로컬 게이트: 약속을 코드로</h2>
   <p>GitHub PR/Actions가 없는 환경에서 동일한 품질 게이트를 <strong>로컬</strong>에 둡니다(<span class="tag gl">HE-03</span>). Day1에 <em>프롬프트로 적은</em> 가드레일("외부 패키지 금지", "운영 파일 수정 금지" 등)은 모델이 어길 수 있는 <em>말</em>입니다. 이 세션은 그 약속을 <strong>실행되는 검사(게이트)</strong>로 바꿉니다.</p>
@@ -83,13 +98,13 @@
     <caption class="small">Fleet 설계표 — 역할·모델·도구·중단</caption>
     <thead><tr><th>Fleet 역할</th><th>모델 기준</th><th>노출 도구</th><th>중단 조건</th></tr></thead>
     <tbody>
-      <tr><td>Planner agent</td><td>고추론/조직 표준</td><td>read·search</td><td>scope 불명확</td></tr>
-      <tr><td>Generator agent</td><td>구현용 기본/중간</td><td>allowed files edit</td><td>blocked file 변경</td></tr>
-      <tr><td>Evaluator agent</td><td>auto/비용 효율</td><td>read·test log</td><td>AC 미충족</td></tr>
-      <tr><td>Harness agent</td><td>모델보다 deterministic checker 우선</td><td>test·lint·policy-check</td><td>gate 실패</td></tr>
+      <tr><td>Planner agent · F2</td><td><strong>모델 미사용</strong></td><td>사람 plan·read</td><td>scope 불명확</td></tr>
+      <tr><td>Generator agent · F3</td><td><strong>GPT-5.4 mini</strong></td><td>allowed files edit</td><td>blocked file 변경</td></tr>
+      <tr><td>Evaluator agent · F4</td><td><strong>Claude Sonnet 5</strong></td><td>read·test log</td><td>AC 미충족</td></tr>
+      <tr><td>Harness agent · N0</td><td><strong>모델 미사용</strong></td><td>test·lint·policy-check</td><td>gate 실패</td></tr>
     </tbody>
   </table>
-  <div class="callout warn"><strong>모델 라우팅 원칙(<span class="tag gl">CF-10</span>):</strong> 프롬프트에 모델명을 적는 것은 <em>지시문</em>일 뿐 실제 라우팅 보장 수단이 아닙니다. custom agent의 <code>model:</code> 설정·model picker·실행 로그로 확인합니다. 안 쓰는 도구는 노출하지 않습니다(보안·컨텍스트 절약). 여기서는 <em>원칙</em>만 잡고, <code>model:</code> 고정 vs Fleet 런타임 라우팅의 <strong>구체 설정은 S6에서</strong> 다룹니다. 표의 모델·도구 값은 <strong>교육용 자리표시자</strong>이니 실제 적용 전 조직 허용 모델·정책을 재확인하세요.</div>
+  <div class="callout warn"><strong>모델 라우팅 원칙(<span class="tag gl">CF-10</span>):</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable) 결과입니다. F2는 5개 후보가 3회 품질 gate를 모두 통과하지 못해 사람 계획·모델 미사용입니다. 프롬프트 모델명은 라우팅 보장이 아니므로 custom agent 설정·model picker·handoff·실행 로그로 확인합니다. 실제 적용 전 조직 정책을 재확인하세요.</div>
   <h3>Loop Canvas (<span class="tag gl">CF-06</span> · <span class="tag gl">OR-25</span>)</h3>
   <table>
     <caption class="small">Loop Canvas — 단계·역할·게이트</caption>

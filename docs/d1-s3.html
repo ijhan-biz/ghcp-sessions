@@ -31,6 +31,20 @@
   </ul>
 </section>
 
+<section class="section" id="model-guide">
+  <h2>이 세션의 활동별 권장 모델</h2>
+  <table>
+    <caption class="small">D1·S3 활동 · 책임 주체 · 권장 모델</caption>
+    <thead><tr><th>활동</th><th>주체·과업군</th><th>권장 모델</th><th>한 줄 이유</th></tr></thead>
+    <tbody>
+      <tr><td>리팩토링 후보와 실패 교정</td><td>AI 보조 · F3</td><td><strong>GPT-5.4 mini</strong></td><td>작은 구현을 sandbox 테스트로 3회 검증</td></tr>
+      <tr><td>Context Manifest 작성</td><td>AI 보조 · F1</td><td><strong>GPT-5.6 Luna</strong></td><td>경계·예외·허용 범위를 3회 품질 gate로 구조화</td></tr>
+      <tr><td>회귀 테스트</td><td>사람·도구 · N0</td><td><strong>모델 미사용</strong></td><td>회귀 여부는 테스트 결과로 판정</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+</section>
+
 <section class="section">
   <h2>미니강의 — 리팩토링은 "동작 불변 + 작은 diff"</h2>
   <p>리팩토링의 핵심 가드레일은 두 가지입니다: <strong>동작을 바꾸지 않는다</strong>(기존 테스트 모두 통과)와 <strong>작은 diff</strong>(<span class="tag gl">GN-06</span>, 1~2파일·소규모)입니다. 작은 diff는 리뷰와 롤백을 쉽게 만들어 Day2의 로컬 게이트와 직접 연결됩니다.</p>

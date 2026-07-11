@@ -30,6 +30,20 @@
   </ul>
 </section>
 
+<section class="section" id="model-guide">
+  <h2>이 세션의 활동별 권장 모델</h2>
+  <table>
+    <caption class="small">D2·S5 활동 · 책임 주체 · 권장 모델</caption>
+    <thead><tr><th>활동</th><th>주체·과업군</th><th>권장 모델</th><th>한 줄 이유</th></tr></thead>
+    <tbody>
+      <tr><td>evidence·rollback·provenance 요약</td><td>AI 보조 · F4</td><td><strong>Claude Sonnet 5</strong></td><td>결함·근거 검토를 3회 품질 gate로 재현</td></tr>
+      <tr><td>gate·packet 생성</td><td>도구 · N0</td><td><strong>모델 미사용</strong></td><td>결정론적 gate와 packet 명령으로 증거 생성</td></tr>
+      <tr><td>PL 승인</td><td>사람 · N0</td><td><strong>모델 미사용</strong></td><td>발행·적용 책임은 PL이 승인</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+</section>
+
 <section class="section">
   <h2>미니강의 — PR 없이도 "리뷰 가능한 상태"를 만든다</h2>
   <p>GitHub PR이 없는 환경에서 리뷰어가 볼 수 있도록 제출물을 <strong>패킷</strong>으로 묶습니다(<span class="tag gl">HE-15</span>). 패킷은 spec.md·diff·test log·정책/수동 게이트 결과·rollback note·no-cloud attestation으로 구성됩니다. 이것이 Day2의 핵심 산출물이자 수료 필수 항목(<span class="tag gl">EV-09</span>)입니다.</p>

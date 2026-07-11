@@ -30,6 +30,19 @@
   </ul>
 </section>
 
+<section class="section" id="model-guide">
+  <h2>이 세션의 활동별 권장 모델</h2>
+  <table>
+    <caption class="small">D2·S6 활동 · 책임 주체 · 권장 모델</caption>
+    <thead><tr><th>활동</th><th>주체·과업군</th><th>권장 모델</th><th>한 줄 이유</th></tr></thead>
+    <tbody>
+      <tr><td>Custom Skill·Agent·Fleet 설계</td><td>사람 계획 · F2</td><td><strong>모델 미사용</strong></td><td>자동 계획 후보가 안정적으로 gate를 통과하지 못함</td></tr>
+      <tr><td>routing demo·로그 확인</td><td>사람·도구 · N0</td><td><strong>모델 미사용</strong></td><td>설정과 실제 호출 로그가 일치하는지 확인</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable) 결과입니다. F2는 안정 후보가 없어 모델 미사용·사람 계획입니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+</section>
+
 <section class="section">
   <h2>미니강의 — Skill은 절차, Agent는 역할까지</h2>
   <p><strong>Skill</strong>은 "이 반복 업무를 이렇게 한다"는 절차·지식을 MD로 재사용하는 단위입니다. <strong>Custom Agent</strong>는 거기에 <strong>역할·노출 도구·모델 기준</strong>까지 묶습니다. D2·S3에서 설계한 본인 워크플로를 여기서 자산으로 굳힙니다.</p>
@@ -58,27 +71,30 @@
   <div class="step"><div class="label">Custom Agent 설계 (자리표시자)</div>
 <pre><code>---
 name: feature-sdd-planner
-description: 기능 스펙을 SDD 실행 패킷으로 정리하는 Planner agent
-model: [조직에서 승인한 planning 모델]
+description: F1 기능 스펙·Context Manifest 초안을 만들고 사람 Planner에게 넘기는 보조 agent
+model: gpt-5.6-luna
 tools: [read, search]
 ---
-너는 기능팀 SDD Planner다. 구현 전 비식별 확인 → User Story → AC →
-Context Manifest → Test Matrix → Risk/Human Gate를 만든다.
+너는 F1 명세 보조다. 비식별 확인 → User Story → AC → Context Manifest →
+Test Matrix 후보를 만든 뒤, F2 Plan·중단·rollback은 사람 Planner에게 넘긴다.
 금지: 코드 수정 · 외부 패키지 추가 제안 · prod/deploy/secret 자동 실행 제안.</code></pre></div>
   <div class="step"><div class="label">Fleet 구성 산출물</div>
   <table>
     <caption class="small">Fleet 구성 — Agent별 모델·도구·중단</caption>
     <thead><tr><th>Agent</th><th>목적</th><th>모델 기준</th><th>도구</th><th>중단</th></tr></thead>
     <tbody>
-      <tr><td><strong>team-orchestrator</strong>(기본)</td><td>Loop 전체를 완료까지 진행·조율</td><td>orchestration/고추론</td><td>read·search·edit·test</td><td>stop point·Hard gate</td></tr>
-      <tr><td>feature-sdd-planner</td><td>plan/test matrix</td><td>planning/auto</td><td>read·search</td><td>scope 불명확</td></tr>
-      <tr><td>feature-code-generator</td><td>test-first 구현</td><td>coding/auto</td><td>allowed files edit</td><td>blocked file</td></tr>
-      <tr><td>feature-evaluator</td><td>diff/test review</td><td>auto/중간</td><td>read·test log</td><td>AC 미충족</td></tr>
-      <tr><td>feature-harness</td><td>gate 실행 요약</td><td>checker 우선</td><td>npm test·policy-check</td><td>gate 실패</td></tr>
+      <tr><td>connection helper · F0</td><td>연결 확인·다음 행동</td><td><strong>GPT-5.3-Codex</strong></td><td>read</td><td>환경 명령 실패</td></tr>
+      <tr><td>feature-spec-writer · F1</td><td>스펙·AC·Context Manifest</td><td><strong>GPT-5.6 Luna</strong></td><td>read·search</td><td>민감정보·scope 불명확</td></tr>
+      <tr><td>human planner · F2</td><td>Plan·Fleet·Loop·rollback</td><td><strong>모델 미사용</strong></td><td>사람 계획</td><td>stop point·Hard gate</td></tr>
+      <tr><td><strong>team-orchestrator</strong> / Generator · F3</td><td>test-first 최소 구현·Fix</td><td><strong>GPT-5.4 mini</strong></td><td>allowed files edit·scoped test</td><td>blocked file</td></tr>
+      <tr><td>feature-evaluator · F4</td><td>결함·diff·evidence 검토</td><td><strong>Claude Sonnet 5</strong></td><td>read·test log</td><td>AC 미충족</td></tr>
+      <tr><td>learning-recovery-tutor · F5</td><td>hint·reset·복구 경로</td><td><strong>Gemini 3 Flash (Preview)</strong></td><td>read</td><td>일반 단계 recover 요청</td></tr>
+      <tr><td>feature-harness · N0</td><td>gate 실행·사람 승인</td><td><strong>모델 미사용</strong></td><td>npm test·policy-check</td><td>gate 실패</td></tr>
     </tbody>
   </table></div>
-  <div class="callout ok"><strong>기본 Orchestrator:</strong> 이 팀을 순서대로 이끄는 <code>team-orchestrator</code>가 <code>.github/agents/team-orchestrator.agent.md</code>로 <strong>기본 포함</strong>됩니다. Agent 모드에서 골라 <strong>Plan→Generate→Evaluate→Fix→Gate</strong>를 완료까지 진행하며, 각 단계 stop point·Hard gate를 지키고 <code>npm run gate</code> 통과 전에는 완료로 가지 않습니다. 상세: <code>templates/agent-team-fleet-loop-canvas.md</code>.</div>
-  <div class="callout warn"><strong>주의:</strong> <code>model:</code> 값은 교육용 자리표시자입니다. 배포 전 VS Code/GitHub Custom Agent 문서와 조직 허용 모델명을 확인합니다. 프롬프트 모델명 주입이 아니라 설정·로그로 라우팅을 확인합니다(<span class="tag gl">CF-10</span>).</div>
+  <div class="callout ok"><strong>수동 handoff 실행:</strong> <code>team-orchestrator</code>는 사람이 승인한 Plan을 입력받아 <strong>GPT-5.4 mini Generate</strong>를 진행합니다. diff·AC·테스트 로그를 <strong>Claude Sonnet 5 독립 검토 세션</strong>으로 수동 전환하고, 검토 결과를 받은 뒤 Fix까지만 실행합니다. 변경·검토·테스트 증거는 모델 없는 <code>feature-harness</code>와 사람에게 넘기며, 최종 <code>npm run gate</code> 실행·판정은 agent 세션 밖에서 합니다. 이 데모는 provider routing을 자동 호출하지 않으므로 model picker와 세션 로그를 직접 확인합니다. 상세: <code>templates/agent-team-fleet-loop-canvas.md</code>.</div>
+  <div class="callout warn"><strong>주의:</strong> 표의 model picker 이름은 2026-07-11 기준입니다. 배포 전 VS Code/GitHub Custom Agent 문서와 조직 허용 모델명을 확인하고, 프롬프트 모델명 주입이 아니라 설정·handoff·세션 로그로 실제 라우팅을 확인합니다(<span class="tag gl">CF-10</span>).</div>
+  <div class="callout ok"><strong>활동별 선택 결과:</strong> 132 primary·35 external screen·29 confirmation attempts 중 12개 안정 확인으로 다섯 AI 보조 과업군을 결정했습니다. confirmation 실패 17개와 superseded·invalidated를 포함한 retained 시도는 267개입니다. F2는 모델 미사용·사람 계획입니다. 45명 과정 <strong>3,780.04</strong> + retained 실험 <strong>218.4625</strong> = <strong>3,998.50 AI Credits</strong> 추정입니다.</div>
 </section>
 
 <section class="section">
@@ -94,8 +110,8 @@ Context Manifest → Test Matrix → Risk/Human Gate를 만든다.
     </tbody>
   </table>
   <h3>단계별 모델 계층(토큰 효율)</h3>
-  <div class="flow"><span class="n">계획=고추론</span><span class="ar">→</span><span class="n">구현=빠른/auto</span><span class="ar">→</span><span class="n">리뷰=auto/중간</span></div>
-  <p class="small">고추론 모델은 <strong>의사결정 병목에만</strong> 씁니다. 구현 단계가 합의된 계획을 다시 의심하면 토큰이 폭증합니다.</p>
+  <div class="flow"><span class="n">명세=GPT-5.6 Luna</span><span class="ar">→</span><span class="n">계획=모델 미사용</span><span class="ar">→</span><span class="n">구현=GPT-5.4 mini</span><span class="ar">→</span><span class="n">리뷰=Claude Sonnet 5</span><span class="ar">→</span><span class="n">gate=모델 미사용</span></div>
+  <p class="small">모델 등급을 추정으로 배치하지 않고, 각 과업의 품질 gate와 실제 관측 완료시간·추정 비용으로 라우팅합니다. 합의된 계획을 구현 단계에서 다시 풀지 않아 컨텍스트와 비용을 줄입니다.</p>
   <div class="callout warn"><strong>핵심 원칙:</strong> 표준 에이전트엔 <code>model:</code>을 명시해 UI 기본값 누수를 막고, <strong>UI model picker 표시와 실제 호출 모델이 다를 수 있으니 세션 로그로 확인</strong>합니다(<code>~/.copilot/session-state/&lt;id&gt;/events.jsonl</code>). 안 쓰는 MCP/도구는 컨텍스트·비용을 늘리므로 <code>tools:</code>로 좁힙니다.</div>
   <div class="callout note"><strong>관측성:</strong> 토큰 단위 상세는 OpenTelemetry <code>gen_ai.usage.*</code>(input/output/reasoning tokens), 비용 원장은 Billing/Usage API(집계, 토큰 단위 아님). hook(preToolUse/postToolUse)은 정책·감사용이지 토큰 집계용이 아니며, 토큰/secret을 로그에 남기지 않습니다.</div>
 </section>

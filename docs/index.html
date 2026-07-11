@@ -51,6 +51,31 @@
   </div>
 </section>
 
+<section class="section" id="models">
+  <h2>활동별 권장 모델 — 품질 통과 후 속도·비용 최적화</h2>
+  <div class="kpi">
+    <div><b>196</b><span>132 primary + 35 screen + 29 confirmation attempts</span></div>
+    <div><b>267</b><span>superseded·invalidated 포함 retained attempts</span></div>
+    <div><b>45</b><span>전 세션 원자 활동</span></div>
+    <div><b>18 / 27</b><span>AI 보조 / 모델 미사용(F2 포함)</span></div>
+    <div><b>3,780.04</b><span>45명 과정 추정 AI Credits</span></div>
+  </div>
+  <table>
+    <caption class="small">과업군별 3회 확인 winner · 실제 model picker 표시명</caption>
+    <thead><tr><th>과업군</th><th>권장 모델</th><th>사용할 때</th><th>책임 경계</th></tr></thead>
+    <tbody>
+      <tr><td>F0 연결·짧은 Q&amp;A</td><td><strong>GPT-5.3-Codex</strong></td><td>연결 확인·다음 행동</td><td>3회 품질 gate 통과</td></tr>
+      <tr><td>F1 명세·컨텍스트</td><td><strong>GPT-5.6 Luna</strong></td><td>스펙·AC·Context Manifest</td><td>3회 품질 gate 통과</td></tr>
+      <tr><td>F2 계획·워크플로</td><td><strong>모델 미사용</strong></td><td>사람 Plan·Fleet·Loop</td><td>5개 후보 모두 3회 gate 불충족</td></tr>
+      <tr><td>F3 코드·테스트</td><td><strong>GPT-5.4 mini</strong></td><td>test-first 최소 구현</td><td>3회 sandbox 품질 통과</td></tr>
+      <tr><td>F4 검토·증거</td><td><strong>Claude Sonnet 5</strong></td><td>결함·gate·provenance 검토</td><td>3회 품질 gate 통과</td></tr>
+      <tr><td>F5 튜터링·복구</td><td><strong>Gemini 3 Flash (Preview)</strong></td><td>hint·reset·복구 경로</td><td>3회 품질 gate 통과</td></tr>
+      <tr><td>N0 결정론적·사람 책임</td><td><strong>모델 미사용</strong></td><td>명령·gate·승인·발표</td><td>도구와 사람이 직접 수행</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><strong>선정 규칙:</strong> 22개 selector label을 132 primary로 전수 screen하고 35개 external screen과 29개 confirmation attempts를 수행했습니다. confirmation 실패 17개는 다음 batch로 이동시킨 증거이며 안정 확인은 12개입니다. 결정 run은 196개, invalidated·superseded까지 보존한 시도는 267개입니다. F2는 안정 후보가 없어 모델 미사용·사람 계획입니다. 45명 <strong>3,780.04</strong> + retained 실험 <strong>218.4625</strong> = <strong>3,998.50 Credits</strong> 추정입니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+</section>
+
 <section class="section" id="day1">
   <h2><span class="chip">DAY 1</span> 토큰 · 좋은 프롬프트 · Plan Mode (좋은 입력 만들기)</h2>
   <div class="callout note"><strong>Day1에는 정식 발표가 없습니다.</strong> 세션별 공유 포인트는 개인 메모·짝 확인으로 쌓아 Day2 대표 발표와 전원 handoff 자료로 사용합니다.</div>
