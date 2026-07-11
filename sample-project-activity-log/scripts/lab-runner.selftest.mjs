@@ -192,7 +192,7 @@ test('16단계 E2E: 학생 작성 증거 → RED → GREEN → packet → handof
   const sourceFile = join(root, 'src/activity.js');
   const source = readFileSync(sourceFile, 'utf8');
   const implemented = source.replace(
-    'export function sessionize(events, idleGapMs = 5 * 60 * 1000) {\n  // TODO(Day2-S4)\n  return [];\n}',
+    /export function sessionize\(events, idleGapMs = 5 \* 60 \* 1000\) \{\r?\n  \/\/ TODO\(Day2-S4\)\r?\n  return \[\];\r?\n\}/,
     `export function sessionize(events, idleGapMs = 5 * 60 * 1000) {
   const ordered = Array.isArray(events)
     ? events.filter(isValidEvent)

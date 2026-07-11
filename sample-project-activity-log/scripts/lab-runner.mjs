@@ -13,7 +13,6 @@ const MANIFEST_FILE = join(ROOT, 'lab-manifest.json');
 const STATE_FILE = join(ROOT, '.lab-state.json');
 const WORK_DIR = join(ROOT, 'lab-work');
 const BACKUP_DIR = join(ROOT, '.lab-backups');
-const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 
 export function loadManifest(root = ROOT) {
   return JSON.parse(readFileSync(join(root, 'lab-manifest.json'), 'utf8'));
@@ -40,7 +39,9 @@ function run(command, args, root = ROOT) {
   };
 }
 
-const npmRun = (script, root = ROOT) => run(npmCommand, ['run', script, '--silent'], root);
+const npmRun = (script, root = ROOT) => process.platform === 'win32'
+  ? run(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `npm.cmd run ${script} --silent`], root)
+  : run('npm', ['run', script, '--silent'], root);
 const text = (path) => existsSync(path) ? readFileSync(path, 'utf8') : '';
 const includesAll = (value, markers) => markers.every((marker) => value.includes(marker));
 const pass = (detail, output = '') => ({ ok: true, detail, output });
