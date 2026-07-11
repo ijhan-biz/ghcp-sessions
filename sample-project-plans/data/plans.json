@@ -1,0 +1,1417 @@
+{
+  "boards": {
+    "board-flowmate-mvp": {
+      "id": "board-flowmate-mvp",
+      "title": "FlowMate 팀 업무 루틴 코칭 SaaS · MVP 기획",
+      "createdAt": 1780272000000,
+      "archived": false,
+      "memberIds": [
+        "지민(PM)",
+        "서연(UX)",
+        "민준(Data)",
+        "하늘(Design)",
+        "도윤(Tech)",
+        "유진(CX)",
+        "정우(Legal)",
+        "수아(Marketing)"
+      ],
+      "labels": [
+        {
+          "id": "label-research",
+          "name": "리서치",
+          "color": "blue"
+        },
+        {
+          "id": "label-strategy",
+          "name": "전략",
+          "color": "purple"
+        },
+        {
+          "id": "label-ux",
+          "name": "UX",
+          "color": "pink"
+        },
+        {
+          "id": "label-data",
+          "name": "데이터",
+          "color": "sky"
+        },
+        {
+          "id": "label-policy",
+          "name": "정책",
+          "color": "red"
+        },
+        {
+          "id": "label-growth",
+          "name": "그로스",
+          "color": "orange"
+        },
+        {
+          "id": "label-tech",
+          "name": "기술협의",
+          "color": "green"
+        },
+        {
+          "id": "label-ops",
+          "name": "운영",
+          "color": "yellow"
+        }
+      ],
+      "listOrder": [
+        "list-backlog",
+        "list-ready",
+        "list-progress",
+        "list-review",
+        "list-done"
+      ]
+    }
+  },
+  "lists": {
+    "list-backlog": {
+      "id": "list-backlog",
+      "boardId": "board-flowmate-mvp",
+      "title": "백로그",
+      "createdAt": 1780272060000,
+      "archived": false,
+      "cardOrder": [
+        "task-026",
+        "task-027",
+        "task-028",
+        "task-029",
+        "task-030"
+      ]
+    },
+    "list-ready": {
+      "id": "list-ready",
+      "boardId": "board-flowmate-mvp",
+      "title": "이번 스프린트",
+      "createdAt": 1780272120000,
+      "archived": false,
+      "cardOrder": [
+        "task-021",
+        "task-022",
+        "task-023",
+        "task-024",
+        "task-025"
+      ]
+    },
+    "list-progress": {
+      "id": "list-progress",
+      "boardId": "board-flowmate-mvp",
+      "title": "진행 중",
+      "createdAt": 1780272180000,
+      "archived": false,
+      "cardOrder": [
+        "task-015",
+        "task-016",
+        "task-017",
+        "task-018",
+        "task-019",
+        "task-020"
+      ]
+    },
+    "list-review": {
+      "id": "list-review",
+      "boardId": "board-flowmate-mvp",
+      "title": "리뷰 · 의사결정",
+      "createdAt": 1780272240000,
+      "archived": false,
+      "cardOrder": [
+        "task-011",
+        "task-012",
+        "task-013",
+        "task-014"
+      ]
+    },
+    "list-done": {
+      "id": "list-done",
+      "boardId": "board-flowmate-mvp",
+      "title": "완료",
+      "createdAt": 1780272300000,
+      "archived": false,
+      "cardOrder": [
+        "task-001",
+        "task-002",
+        "task-003",
+        "task-004",
+        "task-005",
+        "task-006",
+        "task-007",
+        "task-008",
+        "task-009",
+        "task-010"
+      ]
+    }
+  },
+  "cards": {
+    "task-001": {
+      "id": "task-001",
+      "listId": "list-done",
+      "title": "문제 정의 및 프로젝트 목표 합의",
+      "desc": "팀의 반복 업무가 개인 메모와 메신저에 흩어져 실행 흐름을 놓치는 문제를 정의하고, MVP의 목표와 성공 조건을 합의한다.",
+      "createdAt": 1780358400000,
+      "archived": false,
+      "labelIds": [
+        "label-strategy"
+      ],
+      "memberIds": [
+        "지민(PM)"
+      ],
+      "due": {
+        "at": 1780617600000,
+        "done": true
+      },
+      "checklists": [
+        {
+          "id": "checklist-001",
+          "title": "완료 기준",
+          "items": [
+            {
+              "id": "item-001-1",
+              "text": "핵심 문제 한 문장 정의",
+              "done": true
+            },
+            {
+              "id": "item-001-2",
+              "text": "MVP 목표와 비목표 구분",
+              "done": true
+            },
+            {
+              "id": "item-001-3",
+              "text": "스폰서 합의 기록",
+              "done": true
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "comment-001",
+          "author": "지민(PM)",
+          "text": "1차 출시 목표를 팀 주간 활성률 검증으로 좁혔습니다.",
+          "at": 1780614000000
+        }
+      ],
+      "attachments": [
+        {
+          "id": "attachment-001",
+          "name": "프로젝트 브리프 v1",
+          "url": "https://example.com/docs/project-brief",
+          "at": 1780614000000
+        }
+      ]
+    },
+    "task-002": {
+      "id": "task-002",
+      "listId": "list-done",
+      "title": "시장 및 경쟁 서비스 분석",
+      "desc": "국내외 협업 SaaS 7종의 포지셔닝, 핵심 기능, 가격, 온보딩 경험을 비교해 차별화 기회를 찾는다.",
+      "createdAt": 1780444800000,
+      "archived": false,
+      "labelIds": [
+        "label-research",
+        "label-strategy"
+      ],
+      "memberIds": [
+        "지민(PM)",
+        "민준(Data)"
+      ],
+      "due": {
+        "at": 1780963200000,
+        "done": true
+      },
+      "checklists": [
+        {
+          "id": "checklist-002",
+          "title": "조사 항목",
+          "items": [
+            {
+              "id": "item-002-1",
+              "text": "직접 경쟁사 4곳 분석",
+              "done": true
+            },
+            {
+              "id": "item-002-2",
+              "text": "간접 경쟁사 3곳 분석",
+              "done": true
+            },
+            {
+              "id": "item-002-3",
+              "text": "기회 영역 도출",
+              "done": true
+            }
+          ]
+        }
+      ],
+      "comments": [],
+      "attachments": [
+        {
+          "id": "attachment-002",
+          "name": "경쟁사 비교표",
+          "url": "https://example.com/docs/competitor-matrix",
+          "at": 1780959600000
+        }
+      ]
+    },
+    "task-003": {
+      "id": "task-003",
+      "listId": "list-done",
+      "title": "타깃 고객 세그먼트 정의",
+      "desc": "초기 고객을 10~50인 규모의 지식 노동 팀으로 한정하고, 구매자와 실제 사용자의 요구를 분리해 정리한다.",
+      "createdAt": 1780704000000,
+      "archived": false,
+      "labelIds": [
+        "label-research",
+        "label-strategy"
+      ],
+      "memberIds": [
+        "지민(PM)",
+        "서연(UX)"
+      ],
+      "due": {
+        "at": 1781222400000,
+        "done": true
+      },
+      "checklists": [],
+      "comments": [
+        {
+          "id": "comment-003",
+          "author": "서연(UX)",
+          "text": "팀장과 실무자의 도입 동기가 달라 인터뷰 질문도 분리했습니다.",
+          "at": 1781218800000
+        }
+      ],
+      "attachments": []
+    },
+    "task-004": {
+      "id": "task-004",
+      "listId": "list-done",
+      "title": "잠재 사용자 인터뷰 8명 진행",
+      "desc": "팀 리더 3명, 실무자 5명을 인터뷰해 업무 계획·집중·회고 과정의 반복 불편과 현재 대안을 확인한다.",
+      "createdAt": 1780876800000,
+      "archived": false,
+      "labelIds": [
+        "label-research",
+        "label-ux"
+      ],
+      "memberIds": [
+        "서연(UX)",
+        "지민(PM)"
+      ],
+      "due": {
+        "at": 1781568000000,
+        "done": true
+      },
+      "checklists": [
+        {
+          "id": "checklist-004",
+          "title": "인터뷰 진행",
+          "items": [
+            {
+              "id": "item-004-1",
+              "text": "리크루팅 및 일정 확정",
+              "done": true
+            },
+            {
+              "id": "item-004-2",
+              "text": "인터뷰 8건 완료",
+              "done": true
+            },
+            {
+              "id": "item-004-3",
+              "text": "발견점 어피니티 맵 정리",
+              "done": true
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "comment-004",
+          "author": "서연(UX)",
+          "text": "응답자 6명이 주간 회고를 시도했지만 꾸준히 유지하지 못했다고 답했습니다.",
+          "at": 1781564400000
+        }
+      ],
+      "attachments": [
+        {
+          "id": "attachment-004",
+          "name": "인터뷰 인사이트 요약",
+          "url": "https://example.com/docs/interview-insights",
+          "at": 1781564400000
+        }
+      ]
+    },
+    "task-005": {
+      "id": "task-005",
+      "listId": "list-done",
+      "title": "핵심 페르소나 2종 작성",
+      "desc": "도입을 결정하는 팀 리더와 매일 업무를 기록하는 팀원을 핵심 페르소나로 구체화한다.",
+      "createdAt": 1781308800000,
+      "archived": false,
+      "labelIds": [
+        "label-research",
+        "label-ux"
+      ],
+      "memberIds": [
+        "서연(UX)"
+      ],
+      "due": {
+        "at": 1781740800000,
+        "done": true
+      },
+      "checklists": [],
+      "comments": [],
+      "attachments": [
+        {
+          "id": "attachment-005",
+          "name": "페르소나 카드",
+          "url": "https://example.com/docs/personas",
+          "at": 1781737200000
+        }
+      ]
+    },
+    "task-006": {
+      "id": "task-006",
+      "listId": "list-done",
+      "title": "현재·목표 사용자 여정 지도 작성",
+      "desc": "월요일 계획 수립부터 금요일 회고까지의 현재 경험과 FlowMate 도입 후 목표 경험을 나란히 정의한다.",
+      "createdAt": 1781481600000,
+      "archived": false,
+      "labelIds": [
+        "label-ux"
+      ],
+      "memberIds": [
+        "서연(UX)",
+        "하늘(Design)"
+      ],
+      "due": {
+        "at": 1782086400000,
+        "done": true
+      },
+      "checklists": [
+        {
+          "id": "checklist-006",
+          "title": "산출물",
+          "items": [
+            {
+              "id": "item-006-1",
+              "text": "현재 여정과 감정 곡선",
+              "done": true
+            },
+            {
+              "id": "item-006-2",
+              "text": "핵심 개입 시점 표시",
+              "done": true
+            },
+            {
+              "id": "item-006-3",
+              "text": "목표 여정 합의",
+              "done": true
+            }
+          ]
+        }
+      ],
+      "comments": [],
+      "attachments": []
+    },
+    "task-007": {
+      "id": "task-007",
+      "listId": "list-done",
+      "title": "핵심 KPI 및 가드레일 지표 정의",
+      "desc": "활성 팀 비율, 주간 계획 완료율, 4주차 유지율을 핵심 KPI로 정하고 알림 차단율을 가드레일로 설정한다.",
+      "createdAt": 1781827200000,
+      "archived": false,
+      "labelIds": [
+        "label-data",
+        "label-strategy"
+      ],
+      "memberIds": [
+        "민준(Data)",
+        "지민(PM)"
+      ],
+      "due": {
+        "at": 1782259200000,
+        "done": true
+      },
+      "checklists": [
+        {
+          "id": "checklist-007",
+          "title": "지표 정의",
+          "items": [
+            {
+              "id": "item-007-1",
+              "text": "북극성 지표 정의",
+              "done": true
+            },
+            {
+              "id": "item-007-2",
+              "text": "선행·후행 지표 연결",
+              "done": true
+            },
+            {
+              "id": "item-007-3",
+              "text": "가드레일 임계값 설정",
+              "done": true
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "comment-007",
+          "author": "민준(Data)",
+          "text": "주간 활성은 팀 내 3명 이상이 핵심 행동을 수행한 경우로 정의했습니다.",
+          "at": 1782255600000
+        }
+      ],
+      "attachments": []
+    },
+    "task-008": {
+      "id": "task-008",
+      "listId": "list-done",
+      "title": "MVP 범위 및 제외 범위 확정",
+      "desc": "계획·체크인·주간 회고에 집중하고, 외부 캘린더 양방향 동기화와 AI 자동 평가는 후속 범위로 제외한다.",
+      "createdAt": 1782000000000,
+      "archived": false,
+      "labelIds": [
+        "label-strategy",
+        "label-tech"
+      ],
+      "memberIds": [
+        "지민(PM)",
+        "도윤(Tech)"
+      ],
+      "due": {
+        "at": 1782432000000,
+        "done": true
+      },
+      "checklists": [],
+      "comments": [
+        {
+          "id": "comment-008",
+          "author": "도윤(Tech)",
+          "text": "캘린더 연동은 읽기 전용 실험으로 별도 스파이크를 잡겠습니다.",
+          "at": 1782428400000
+        }
+      ],
+      "attachments": []
+    },
+    "task-009": {
+      "id": "task-009",
+      "listId": "list-done",
+      "title": "서비스 정보구조(IA) 1차 설계",
+      "desc": "홈, 내 업무, 팀 리듬, 인사이트, 설정의 5개 상위 구조와 주요 이동 경로를 정의한다.",
+      "createdAt": 1782172800000,
+      "archived": false,
+      "labelIds": [
+        "label-ux"
+      ],
+      "memberIds": [
+        "서연(UX)",
+        "하늘(Design)"
+      ],
+      "due": {
+        "at": 1782691200000,
+        "done": true
+      },
+      "checklists": [
+        {
+          "id": "checklist-009",
+          "title": "IA 검토",
+          "items": [
+            {
+              "id": "item-009-1",
+              "text": "상위 메뉴 정의",
+              "done": true
+            },
+            {
+              "id": "item-009-2",
+              "text": "핵심 태스크 플로우 연결",
+              "done": true
+            },
+            {
+              "id": "item-009-3",
+              "text": "개발팀 구조 검토",
+              "done": true
+            }
+          ]
+        }
+      ],
+      "comments": [],
+      "attachments": [
+        {
+          "id": "attachment-009",
+          "name": "IA 사이트맵",
+          "url": "https://example.com/docs/information-architecture",
+          "at": 1782687600000
+        }
+      ]
+    },
+    "task-010": {
+      "id": "task-010",
+      "listId": "list-done",
+      "title": "디자인 원칙 및 톤앤매너 합의",
+      "desc": "성과를 압박하지 않고 작은 진전을 보여주는 언어, 차분한 피드백, 빠른 반복 입력을 제품 경험 원칙으로 정한다.",
+      "createdAt": 1782432000000,
+      "archived": false,
+      "labelIds": [
+        "label-ux",
+        "label-strategy"
+      ],
+      "memberIds": [
+        "하늘(Design)",
+        "지민(PM)"
+      ],
+      "due": {
+        "at": 1782864000000,
+        "done": true
+      },
+      "checklists": [],
+      "comments": [],
+      "attachments": []
+    },
+    "task-011": {
+      "id": "task-011",
+      "listId": "list-review",
+      "title": "MVP 기능 우선순위 최종 검토",
+      "desc": "RICE 점수와 사용자 인터뷰 근거를 함께 보고 Must/Should/Could 범위를 최종 승인한다.",
+      "createdAt": 1782691200000,
+      "archived": false,
+      "labelIds": [
+        "label-strategy"
+      ],
+      "memberIds": [
+        "지민(PM)",
+        "도윤(Tech)"
+      ],
+      "due": {
+        "at": 1783900800000,
+        "done": false
+      },
+      "checklists": [
+        {
+          "id": "checklist-011",
+          "title": "리뷰 게이트",
+          "items": [
+            {
+              "id": "item-011-1",
+              "text": "RICE 점수 검산",
+              "done": true
+            },
+            {
+              "id": "item-011-2",
+              "text": "기술 의존성 표시",
+              "done": true
+            },
+            {
+              "id": "item-011-3",
+              "text": "리더십 최종 승인",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "comment-011",
+          "author": "도윤(Tech)",
+          "text": "팀 인사이트 자동 요약은 초기 범위에서 제외하는 안을 제안합니다.",
+          "at": 1783724400000
+        }
+      ],
+      "attachments": [
+        {
+          "id": "attachment-011",
+          "name": "MVP 우선순위표",
+          "url": "https://example.com/docs/mvp-priority",
+          "at": 1783724400000
+        }
+      ]
+    },
+    "task-012": {
+      "id": "task-012",
+      "listId": "list-review",
+      "title": "업무 검색·필터 정책 리뷰",
+      "desc": "상태, 담당자, 기간, 태그 조합 규칙과 결과 없음·권한 없음 등 예외 상태를 검토한다.",
+      "createdAt": 1782777600000,
+      "archived": false,
+      "labelIds": [
+        "label-ux",
+        "label-tech"
+      ],
+      "memberIds": [
+        "서연(UX)",
+        "도윤(Tech)"
+      ],
+      "due": {
+        "at": 1783987200000,
+        "done": false
+      },
+      "checklists": [
+        {
+          "id": "checklist-012",
+          "title": "정책 검토",
+          "items": [
+            {
+              "id": "item-012-1",
+              "text": "필터 조합 규칙 확인",
+              "done": true
+            },
+            {
+              "id": "item-012-2",
+              "text": "빈 결과 화면 문구 확인",
+              "done": true
+            },
+            {
+              "id": "item-012-3",
+              "text": "모바일 조작 방식 승인",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "comment-012",
+          "author": "서연(UX)",
+          "text": "모바일에서는 자주 쓰는 상태와 담당자만 먼저 노출하는 안을 추가했습니다.",
+          "at": 1783731600000
+        }
+      ],
+      "attachments": []
+    },
+    "task-013": {
+      "id": "task-013",
+      "listId": "list-review",
+      "title": "개인정보 수집·동의 문구 법무 검토",
+      "desc": "가입, 팀 초대, 행동 로그 수집 시점의 필수·선택 항목과 보유 기간 문구를 법무 검토한다.",
+      "createdAt": 1782864000000,
+      "archived": false,
+      "labelIds": [
+        "label-policy"
+      ],
+      "memberIds": [
+        "정우(Legal)",
+        "지민(PM)"
+      ],
+      "due": {
+        "at": 1783641600000,
+        "done": false
+      },
+      "checklists": [
+        {
+          "id": "checklist-013",
+          "title": "법무 검토",
+          "items": [
+            {
+              "id": "item-013-1",
+              "text": "수집 항목 목록 검토",
+              "done": true
+            },
+            {
+              "id": "item-013-2",
+              "text": "동의 문구 수정",
+              "done": false
+            },
+            {
+              "id": "item-013-3",
+              "text": "최종 승인",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "comment-013",
+          "author": "정우(Legal)",
+          "text": "행동 로그의 이용 목적과 보유 기간을 더 구체적으로 적어 주세요.",
+          "at": 1783735200000
+        }
+      ],
+      "attachments": [
+        {
+          "id": "attachment-013",
+          "name": "개인정보 항목 정의서",
+          "url": "https://example.com/docs/privacy-fields",
+          "at": 1783562400000
+        }
+      ]
+    },
+    "task-014": {
+      "id": "task-014",
+      "listId": "list-review",
+      "title": "프로토타입 사용성 테스트 결과 반영",
+      "desc": "5명 테스트에서 발견된 첫 업무 생성, 팀 체크인, 회고 진입 문제를 심각도별로 정리해 수정안을 승인한다.",
+      "createdAt": 1782950400000,
+      "archived": false,
+      "labelIds": [
+        "label-research",
+        "label-ux"
+      ],
+      "memberIds": [
+        "서연(UX)",
+        "하늘(Design)"
+      ],
+      "due": {
+        "at": 1783900800000,
+        "done": false
+      },
+      "checklists": [
+        {
+          "id": "checklist-014",
+          "title": "이슈 반영",
+          "items": [
+            {
+              "id": "item-014-1",
+              "text": "치명 이슈 2건 수정",
+              "done": true
+            },
+            {
+              "id": "item-014-2",
+              "text": "주요 이슈 4건 수정",
+              "done": true
+            },
+            {
+              "id": "item-014-3",
+              "text": "재검증 시나리오 승인",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "comment-014",
+          "author": "하늘(Design)",
+          "text": "체크인 버튼의 위계와 완료 피드백을 수정한 시안을 올렸습니다.",
+          "at": 1783742400000
+        }
+      ],
+      "attachments": [
+        {
+          "id": "attachment-014",
+          "name": "UT 결과 및 수정 시안",
+          "url": "https://example.com/docs/usability-test",
+          "at": 1783742400000
+        }
+      ]
+    },
+    "task-015": {
+      "id": "task-015",
+      "listId": "list-progress",
+      "title": "온보딩 5단계 시나리오 확정",
+      "desc": "가입부터 첫 팀 생성, 구성원 초대, 첫 주간 목표 등록, 알림 설정까지의 온보딩 흐름을 구체화한다.",
+      "createdAt": 1783036800000,
+      "archived": false,
+      "labelIds": [
+        "label-ux",
+        "label-growth"
+      ],
+      "memberIds": [
+        "서연(UX)",
+        "지민(PM)"
+      ],
+      "due": {
+        "at": 1783728000000,
+        "done": false
+      },
+      "checklists": [
+        {
+          "id": "checklist-015",
+          "title": "시나리오 작성",
+          "items": [
+            {
+              "id": "item-015-1",
+              "text": "진입 조건과 종료 조건",
+              "done": true
+            },
+            {
+              "id": "item-015-2",
+              "text": "단계별 화면·문구",
+              "done": true
+            },
+            {
+              "id": "item-015-3",
+              "text": "초대 거절·지연 예외 흐름",
+              "done": false
+            },
+            {
+              "id": "item-015-4",
+              "text": "개발 리뷰",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "comment-015",
+          "author": "지민(PM)",
+          "text": "초대 없이 개인 워크스페이스로 둘러보는 경로를 추가해 주세요.",
+          "at": 1783780200000
+        }
+      ],
+      "attachments": []
+    },
+    "task-016": {
+      "id": "task-016",
+      "listId": "list-progress",
+      "title": "핵심 대시보드 와이어프레임",
+      "desc": "오늘의 우선순위, 팀 진행 위험, 체크인 현황을 한 화면에서 빠르게 파악하는 대시보드를 설계한다.",
+      "createdAt": 1783123200000,
+      "archived": false,
+      "labelIds": [
+        "label-ux",
+        "label-data"
+      ],
+      "memberIds": [
+        "하늘(Design)",
+        "서연(UX)"
+      ],
+      "due": {
+        "at": 1784073600000,
+        "done": false
+      },
+      "checklists": [
+        {
+          "id": "checklist-016",
+          "title": "화면 설계",
+          "items": [
+            {
+              "id": "item-016-1",
+              "text": "정보 우선순위 정의",
+              "done": true
+            },
+            {
+              "id": "item-016-2",
+              "text": "데스크톱 와이어프레임",
+              "done": true
+            },
+            {
+              "id": "item-016-3",
+              "text": "모바일 대응",
+              "done": false
+            },
+            {
+              "id": "item-016-4",
+              "text": "빈 상태·오류 상태",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "comment-016",
+          "author": "민준(Data)",
+          "text": "팀 위험 신호는 지연 업무 수보다 연속 미체크인 일수를 우선 노출하면 좋겠습니다.",
+          "at": 1783776600000
+        }
+      ],
+      "attachments": [
+        {
+          "id": "attachment-016",
+          "name": "대시보드 와이어프레임 WIP",
+          "url": "https://example.com/docs/dashboard-wireframe",
+          "at": 1783776600000
+        }
+      ]
+    },
+    "task-017": {
+      "id": "task-017",
+      "listId": "list-progress",
+      "title": "핵심 행동 이벤트 로그 설계",
+      "desc": "가입, 팀 생성, 목표 등록, 체크인, 회고 완료 이벤트의 속성과 사용자·팀 식별 규칙을 정의한다.",
+      "createdAt": 1783209600000,
+      "archived": false,
+      "labelIds": [
+        "label-data",
+        "label-tech"
+      ],
+      "memberIds": [
+        "민준(Data)",
+        "도윤(Tech)"
+      ],
+      "due": {
+        "at": 1784160000000,
+        "done": false
+      },
+      "checklists": [
+        {
+          "id": "checklist-017",
+          "title": "트래킹 플랜",
+          "items": [
+            {
+              "id": "item-017-1",
+              "text": "이벤트 명명 규칙",
+              "done": true
+            },
+            {
+              "id": "item-017-2",
+              "text": "핵심 이벤트 12개 정의",
+              "done": true
+            },
+            {
+              "id": "item-017-3",
+              "text": "공통 속성 사전",
+              "done": false
+            },
+            {
+              "id": "item-017-4",
+              "text": "개인정보 검토",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "comment-017",
+          "author": "도윤(Tech)",
+          "text": "클라이언트와 서버 이벤트의 중복 제거 키를 명세에 추가하겠습니다.",
+          "at": 1783773000000
+        }
+      ],
+      "attachments": [
+        {
+          "id": "attachment-017",
+          "name": "이벤트 택소노미 초안",
+          "url": "https://example.com/docs/event-taxonomy",
+          "at": 1783773000000
+        }
+      ]
+    },
+    "task-018": {
+      "id": "task-018",
+      "listId": "list-progress",
+      "title": "푸시·이메일 알림 정책 설계",
+      "desc": "업무 마감, 체크인 리마인드, 주간 회고 알림의 발송 조건·빈도 제한·수신 거부 정책을 정의한다.",
+      "createdAt": 1783296000000,
+      "archived": false,
+      "labelIds": [
+        "label-policy",
+        "label-growth"
+      ],
+      "memberIds": [
+        "지민(PM)",
+        "유진(CX)"
+      ],
+      "due": {
+        "at": 1784160000000,
+        "done": false
+      },
+      "checklists": [
+        {
+          "id": "checklist-018",
+          "title": "알림 정책",
+          "items": [
+            {
+              "id": "item-018-1",
+              "text": "알림 유형과 발송 조건",
+              "done": true
+            },
+            {
+              "id": "item-018-2",
+              "text": "야간·휴일 제한",
+              "done": false
+            },
+            {
+              "id": "item-018-3",
+              "text": "중복 발송 방지",
+              "done": false
+            },
+            {
+              "id": "item-018-4",
+              "text": "수신 설정 UX",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "comment-018",
+          "author": "유진(CX)",
+          "text": "팀장이 설정한 알림도 개인이 채널별로 끌 수 있어야 문의를 줄일 수 있습니다.",
+          "at": 1783769400000
+        }
+      ],
+      "attachments": []
+    },
+    "task-019": {
+      "id": "task-019",
+      "listId": "list-progress",
+      "title": "고객지원 FAQ 및 응대 매크로 초안",
+      "desc": "가입·초대·권한·알림·결제 관련 예상 문의를 정리하고 베타 운영에 사용할 1차 답변을 작성한다.",
+      "createdAt": 1783382400000,
+      "archived": false,
+      "labelIds": [
+        "label-ops",
+        "label-policy"
+      ],
+      "memberIds": [
+        "유진(CX)"
+      ],
+      "due": {
+        "at": 1784246400000,
+        "done": false
+      },
+      "checklists": [
+        {
+          "id": "checklist-019",
+          "title": "문서 작성",
+          "items": [
+            {
+              "id": "item-019-1",
+              "text": "예상 문의 20개 수집",
+              "done": true
+            },
+            {
+              "id": "item-019-2",
+              "text": "FAQ 초안 작성",
+              "done": false
+            },
+            {
+              "id": "item-019-3",
+              "text": "응대 톤 검수",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [],
+      "attachments": []
+    },
+    "task-020": {
+      "id": "task-020",
+      "listId": "list-progress",
+      "title": "클로즈드 베타 모집·인터뷰 계획",
+      "desc": "초기 타깃 10개 팀을 모집하고 2주 사용 후 정량 설문과 심층 인터뷰를 진행할 계획을 수립한다.",
+      "createdAt": 1783468800000,
+      "archived": false,
+      "labelIds": [
+        "label-research",
+        "label-growth",
+        "label-ops"
+      ],
+      "memberIds": [
+        "수아(Marketing)",
+        "서연(UX)"
+      ],
+      "due": {
+        "at": 1784332800000,
+        "done": false
+      },
+      "checklists": [
+        {
+          "id": "checklist-020",
+          "title": "베타 준비",
+          "items": [
+            {
+              "id": "item-020-1",
+              "text": "참여 조건 정의",
+              "done": true
+            },
+            {
+              "id": "item-020-2",
+              "text": "모집 메시지 작성",
+              "done": false
+            },
+            {
+              "id": "item-020-3",
+              "text": "설문·인터뷰 문항",
+              "done": false
+            },
+            {
+              "id": "item-020-4",
+              "text": "리워드 및 일정 확정",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "id": "comment-020",
+          "author": "수아(Marketing)",
+          "text": "업종보다 팀 규모와 주간 회고 경험 여부를 모집 조건으로 제안합니다.",
+          "at": 1783765800000
+        }
+      ],
+      "attachments": []
+    },
+    "task-021": {
+      "id": "task-021",
+      "listId": "list-ready",
+      "title": "무료·유료 플랜 가격 정책 초안",
+      "desc": "무료 체험, 팀 단위 과금, 연간 할인, 인원 증감 시 일할 계산 기준을 포함한 가격 정책을 작성한다.",
+      "createdAt": 1783555200000,
+      "archived": false,
+      "labelIds": [
+        "label-strategy",
+        "label-growth",
+        "label-policy"
+      ],
+      "memberIds": [
+        "지민(PM)",
+        "수아(Marketing)"
+      ],
+      "due": {
+        "at": 1784505600000,
+        "done": false
+      },
+      "checklists": [
+        {
+          "id": "checklist-021",
+          "title": "가격 정책",
+          "items": [
+            {
+              "id": "item-021-1",
+              "text": "경쟁 가격 재확인",
+              "done": false
+            },
+            {
+              "id": "item-021-2",
+              "text": "플랜별 기능 구분",
+              "done": false
+            },
+            {
+              "id": "item-021-3",
+              "text": "환불·일할 계산 기준",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [],
+      "attachments": []
+    },
+    "task-022": {
+      "id": "task-022",
+      "listId": "list-ready",
+      "title": "알림센터 정보구조 및 읽음 정책",
+      "desc": "개인 업무, 팀 변경, 시스템 공지 유형을 구분하고 읽음 처리·보관 기간·전체 읽음 동작을 정의한다.",
+      "createdAt": 1783558800000,
+      "archived": false,
+      "labelIds": [
+        "label-ux",
+        "label-policy"
+      ],
+      "memberIds": [
+        "서연(UX)",
+        "유진(CX)"
+      ],
+      "due": {
+        "at": 1784592000000,
+        "done": false
+      },
+      "checklists": [],
+      "comments": [],
+      "attachments": []
+    },
+    "task-023": {
+      "id": "task-023",
+      "listId": "list-ready",
+      "title": "접근성 개선 요구사항 정의",
+      "desc": "키보드 탐색, 초점 표시, 색상 외 상태 표현, 스크린리더 레이블을 MVP 필수 수용 기준으로 정리한다.",
+      "createdAt": 1783641600000,
+      "archived": false,
+      "labelIds": [
+        "label-ux",
+        "label-tech"
+      ],
+      "memberIds": [
+        "하늘(Design)",
+        "도윤(Tech)"
+      ],
+      "due": {
+        "at": 1784678400000,
+        "done": false
+      },
+      "checklists": [],
+      "comments": [
+        {
+          "id": "comment-023",
+          "author": "하늘(Design)",
+          "text": "디자인 시스템 컴포넌트별 점검표와 연결해 작성하겠습니다.",
+          "at": 1783778400000
+        }
+      ],
+      "attachments": []
+    },
+    "task-024": {
+      "id": "task-024",
+      "listId": "list-ready",
+      "title": "데이터 보관·회원 탈퇴 정책",
+      "desc": "개인 탈퇴, 팀 소유권 이전, 팀 삭제 시 데이터 처리와 복구 유예 기간을 명확히 정의한다.",
+      "createdAt": 1783645200000,
+      "archived": false,
+      "labelIds": [
+        "label-policy",
+        "label-tech"
+      ],
+      "memberIds": [
+        "정우(Legal)",
+        "도윤(Tech)",
+        "지민(PM)"
+      ],
+      "due": {
+        "at": 1784851200000,
+        "done": false
+      },
+      "checklists": [
+        {
+          "id": "checklist-024",
+          "title": "정책 범위",
+          "items": [
+            {
+              "id": "item-024-1",
+              "text": "개인 탈퇴 처리",
+              "done": false
+            },
+            {
+              "id": "item-024-2",
+              "text": "팀 소유권 이전",
+              "done": false
+            },
+            {
+              "id": "item-024-3",
+              "text": "복구 유예와 영구 삭제",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [],
+      "attachments": []
+    },
+    "task-025": {
+      "id": "task-025",
+      "listId": "list-ready",
+      "title": "클로즈드 베타 운영 가이드",
+      "desc": "참여자 초대, 문의 채널, 장애 공지, 피드백 분류, 일일 모니터링과 종료 후 안내 절차를 문서화한다.",
+      "createdAt": 1783728000000,
+      "archived": false,
+      "labelIds": [
+        "label-ops"
+      ],
+      "memberIds": [
+        "유진(CX)",
+        "수아(Marketing)"
+      ],
+      "due": {
+        "at": 1784851200000,
+        "done": false
+      },
+      "checklists": [],
+      "comments": [],
+      "attachments": []
+    },
+    "task-026": {
+      "id": "task-026",
+      "listId": "list-backlog",
+      "title": "B2B 관리자 역할·권한 정책",
+      "desc": "소유자, 관리자, 일반 멤버 역할별 조회·편집·초대·결제 권한을 정의하는 후속 과제다.",
+      "createdAt": 1783731600000,
+      "archived": false,
+      "labelIds": [
+        "label-policy",
+        "label-tech"
+      ],
+      "memberIds": [
+        "지민(PM)"
+      ],
+      "due": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": []
+    },
+    "task-027": {
+      "id": "task-027",
+      "listId": "list-backlog",
+      "title": "개인화 추천 모델 고도화 요구사항",
+      "desc": "업무 패턴을 바탕으로 집중 시간과 회고 질문을 추천하는 기능의 데이터 최소 조건과 설명 가능성을 검토한다.",
+      "createdAt": 1783735200000,
+      "archived": false,
+      "labelIds": [
+        "label-data",
+        "label-tech"
+      ],
+      "memberIds": [
+        "민준(Data)"
+      ],
+      "due": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": []
+    },
+    "task-028": {
+      "id": "task-028",
+      "listId": "list-backlog",
+      "title": "팀 회고 템플릿 라이브러리 확장성 검토",
+      "desc": "직군과 팀 성숙도별 템플릿 제공, 사용자 제작·공유 기능의 수요와 운영 비용을 탐색한다.",
+      "createdAt": 1783738800000,
+      "archived": false,
+      "labelIds": [
+        "label-research",
+        "label-ux"
+      ],
+      "memberIds": [
+        "서연(UX)"
+      ],
+      "due": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": []
+    },
+    "task-029": {
+      "id": "task-029",
+      "listId": "list-backlog",
+      "title": "글로벌 출시 현지화 범위 조사",
+      "desc": "영문 UI, 시간대, 근무 주 시작일, 알림 시각, 개인정보 규정 등 해외 출시 선행 조건을 조사한다.",
+      "createdAt": 1783742400000,
+      "archived": false,
+      "labelIds": [
+        "label-research",
+        "label-policy"
+      ],
+      "memberIds": [
+        "수아(Marketing)",
+        "정우(Legal)"
+      ],
+      "due": null,
+      "checklists": [],
+      "comments": [],
+      "attachments": []
+    },
+    "task-030": {
+      "id": "task-030",
+      "listId": "list-backlog",
+      "title": "외부 파트너 API 연동 사업성 검토",
+      "desc": "캘린더, 메신저, 이슈 트래커 연동 후보의 고객 가치와 개발·운영 비용을 비교해 우선순위를 정한다.",
+      "createdAt": 1783746000000,
+      "archived": false,
+      "labelIds": [
+        "label-strategy",
+        "label-tech"
+      ],
+      "memberIds": [
+        "지민(PM)",
+        "도윤(Tech)"
+      ],
+      "due": null,
+      "checklists": [],
+      "comments": [
+        {
+          "id": "comment-030",
+          "author": "도윤(Tech)",
+          "text": "베타 인터뷰에서 연동 요구 빈도를 먼저 확인한 뒤 기술 조사를 시작하겠습니다.",
+          "at": 1783780200000
+        }
+      ],
+      "attachments": []
+    }
+  }
+}
