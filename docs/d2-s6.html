@@ -94,7 +94,7 @@ Test Matrix 후보를 만든 뒤, F2 Plan·중단·rollback은 사람 Planner에
   </table></div>
   <div class="callout ok"><strong>수동 handoff 실행:</strong> <code>team-orchestrator</code>는 사람이 승인한 Plan을 입력받아 <strong>GPT-5.4 mini Generate</strong>를 진행합니다. diff·AC·테스트 로그를 <strong>Claude Sonnet 5 독립 검토 세션</strong>으로 수동 전환하고, 검토 결과를 받은 뒤 Fix까지만 실행합니다. 변경·검토·테스트 증거는 모델 없는 <code>feature-harness</code>와 사람에게 넘기며, 최종 <code>npm run gate</code> 실행·판정은 agent 세션 밖에서 합니다. 이 데모는 provider routing을 자동 호출하지 않으므로 model picker와 세션 로그를 직접 확인합니다. 상세: <code>templates/agent-team-fleet-loop-canvas.md</code>.</div>
   <div class="callout warn"><strong>주의:</strong> 표의 model picker 이름은 2026-07-11 기준입니다. 배포 전 VS Code/GitHub Custom Agent 문서와 조직 허용 모델명을 확인하고, 프롬프트 모델명 주입이 아니라 설정·handoff·세션 로그로 실제 라우팅을 확인합니다(<span class="tag gl">CF-10</span>).</div>
-  <div class="callout ok"><strong>활동별 선택 결과:</strong> 132 primary·35 external screen·29 confirmation attempts 중 12개 안정 확인으로 다섯 AI 보조 과업군을 결정했습니다. confirmation 실패 17개와 superseded·invalidated를 포함한 retained 시도는 267개입니다. F2는 모델 미사용·사람 계획입니다. 45명 과정 <strong>3,780.04</strong> + retained 실험 <strong>218.4625</strong> = <strong>3,998.50 AI Credits</strong> 추정입니다.</div>
+  <div class="callout ok"><strong>활동별 선택 결과:</strong> 132 primary·35 external screen·29 confirmation attempts 중 12개 안정 확인으로 다섯 AI 보조 과업군을 결정했습니다. confirmation 실패 17개와 superseded·invalidated를 포함한 retained 시도는 267개입니다. F2는 모델 미사용·사람 계획입니다. 수업 routing은 학습자별 <strong>84.00 / 7,000 AI Credits</strong> 추정이며, 45명 <strong>3,780.04</strong>는 운영 참고 합계입니다. Retained 실험 <strong>218.4625 / 300</strong>은 별도 benchmark gate로 관리하며 수업 추정치와 합산하지 않습니다.</div>
 </section>
 
 <section class="section">

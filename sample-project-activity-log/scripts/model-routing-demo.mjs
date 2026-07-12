@@ -22,8 +22,8 @@ export const COURSE_MODEL_SELECTION = Object.freeze({
   failedConfirmationRuns: 17,
   experimentCreditsEstimate: 218.4625,
   perLearnerCreditsEstimate: 84,
+  perLearnerBudgetCredits: 7000,
   cohort45CreditsEstimate: 3780.04,
-  cohortTarget: 5929.2,
   qualifier: '조직 정책 허용 + handoff별 세션 로그의 실제 호출 모델 확인',
 });
 // routeModel 은 순수 함수라 test/routing.test.js 로도 검증된다.
@@ -48,7 +48,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     const r = routeModel(stage);
     console.log(`  ${stage.padEnd(9)} → ${(r.model ?? 'deterministic').padEnd(18)} (${r.why})`);
   }
-  console.log(`\n45명 추정: ${COURSE_MODEL_SELECTION.cohort45CreditsEstimate}/${COURSE_MODEL_SELECTION.cohortTarget} AI Credits (F2 N0)`);
+  console.log(`\n1인 추정: ${COURSE_MODEL_SELECTION.perLearnerCreditsEstimate}/${COURSE_MODEL_SELECTION.perLearnerBudgetCredits} AI Credits (F2 N0)`);
+  console.log(`45명 합계 참고: ${COURSE_MODEL_SELECTION.cohort45CreditsEstimate} AI Credits (공동 cap 아님)`);
   console.log(`retained 실험 추정: ${COURSE_MODEL_SELECTION.experimentCreditsEstimate}/300 AI Credits`);
   console.log(`주의: ${COURSE_MODEL_SELECTION.qualifier}`);
 }

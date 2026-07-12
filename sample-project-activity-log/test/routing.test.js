@@ -25,7 +25,7 @@ test('routeModel: blind-v2 활동별 모델과 F2/N0 경계를 고정한다', ()
   assert.equal(routeModel('gate').tier, 'checker-first');
 });
 
-test('COURSE_MODEL_SELECTION: run provenance와 45명 Credit 목표를 고정한다', () => {
+test('COURSE_MODEL_SELECTION: run provenance와 인당 Credit 예산을 고정한다', () => {
   assert.equal(COURSE_MODEL_SELECTION.benchmarkRuns, 196);
   assert.equal(COURSE_MODEL_SELECTION.retainedAttempts, 267);
   assert.equal(COURSE_MODEL_SELECTION.primaryRuns, 132);
@@ -34,8 +34,11 @@ test('COURSE_MODEL_SELECTION: run provenance와 45명 Credit 목표를 고정한
   assert.equal(COURSE_MODEL_SELECTION.stableConfirmationRuns, 12);
   assert.equal(COURSE_MODEL_SELECTION.failedConfirmationRuns, 17);
   assert.equal(COURSE_MODEL_SELECTION.experimentCreditsEstimate, 218.4625);
+  assert.equal(COURSE_MODEL_SELECTION.perLearnerCreditsEstimate, 84);
+  assert.equal(COURSE_MODEL_SELECTION.perLearnerBudgetCredits, 7000);
+  assert.ok(COURSE_MODEL_SELECTION.perLearnerCreditsEstimate < COURSE_MODEL_SELECTION.perLearnerBudgetCredits);
   assert.equal(COURSE_MODEL_SELECTION.cohort45CreditsEstimate, 3780.04);
-  assert.ok(COURSE_MODEL_SELECTION.cohort45CreditsEstimate < COURSE_MODEL_SELECTION.cohortTarget);
+  assert.equal('cohortTarget' in COURSE_MODEL_SELECTION, false);
 });
 
 test('team-orchestrator: F3 실행과 F4/N0 handoff 경계를 고정한다', () => {
