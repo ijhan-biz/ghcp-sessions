@@ -41,7 +41,7 @@
       <tr><td>PL 승인</td><td>사람 · N0</td><td><strong>모델 미사용</strong></td><td>발행·적용 책임은 PL이 승인</td></tr>
     </tbody>
   </table>
-  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/edu_context/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
 </section>
 
 <section class="section">
@@ -78,6 +78,23 @@ git diff -- src/activity.js test/activity.test.js</code></pre></div>
   <p class="small">PR이 없으므로 승인 신호를 <strong>명시적으로</strong> 남깁니다: 패킷을 공유 폴더/Git tag로 전달 → 리드가 <strong>approve</strong>(커밋 메시지나 <code>APPROVALS.log</code>에 승인자·일시 기록) · <strong>request-changes</strong>(<code>.review/feedback.md</code>에 사유·개선 방향) · <strong>block</strong>(사유 + 에스컬레이션). 승인 기록이 없는 변경은 '리뷰 완료'로 보지 않습니다.</p></div>
 </section>
 
+<section class="section" id="practice-outcome" data-practice-outcome>
+  <h2>실습에서 기대하는 바와 결과 예시</h2>
+  <div class="grid">
+    <div class="card"><h3>기대하는 바</h3><ul><li>테스트·policy·diff·리스크를 같은 revision의 evidence로 묶는다.</li><li>CLEAN/FALLBACK/REFERENCE-MATCH 경로와 남은 부채를 숨기지 않는다.</li><li>rollback trigger·owner·restore action·recovery check를 작성한다.</li></ul></div>
+    <div class="card"><h3>결과 예시</h3><pre><code>gate: PASS
+revision: &lt;local commit&gt;
+provenance: CLEAN
+activity checkpoint: 7 pass / 0 skip / 0 fail
+full npm test: PASS
+policy: PASS
+rollback owner: 기능 담당자
+trigger: gate 회귀 또는 AC 불일치
+debt: none</code></pre></div>
+  </div>
+  <div class="callout note"><strong>예시 해석:</strong> FALLBACK을 사용했다면 <code>provenance: FALLBACK</code>과 D+7 재구현 owner·due를 적는 것이 올바른 결과입니다. CLEAN처럼 보이게 만드는 것이 목표가 아닙니다.</div>
+</section>
+
 <section class="section">
   <h2>체크포인트 &amp; 산출물</h2>
   <div class="callout ok"><strong>산출물:</strong> local review packet(evidence bundle·CLEAN/FALLBACK/REFERENCE-MATCH provenance·학습부채·rollback owner·no-cloud attestation 포함).</div>
@@ -86,9 +103,9 @@ git diff -- src/activity.js test/activity.test.js</code></pre></div>
     <thead><tr><th>패킷 항목</th><th>go</th><th>no-go</th></tr></thead>
     <tbody>
       <tr><td>구현</td><td>테스트 통과·diff 설명 가능</td><td>테스트 실패 또는 diff 설명 불가</td></tr>
-      <tr><td>게이트</td><td>test/policy-check 실행됨</td><td>게이트 없음</td></tr>
+      <tr><td>게이트</td><td>lint/test/lab:selftest/policy-check 실행됨</td><td>게이트 없음</td></tr>
       <tr><td>rollback</td><td>되돌림 명령·owner 명시</td><td>없음</td></tr>
-      <tr><td>provenance</td><td>CLEAN/FALLBACK·부채 owner/due 명시</td><td>FALLBACK 숨김·미작성 placeholder</td></tr>
+      <tr><td>provenance</td><td>CLEAN/FALLBACK/REFERENCE-MATCH·비-CLEAN 부채 owner/due 명시</td><td>FALLBACK·REFERENCE-MATCH 숨김 또는 미작성 placeholder</td></tr>
     </tbody>
   </table>
   <div class="callout warn"><strong>컷라인:</strong> 테스트 1개 통과 + policy-check 1회 + rollback note 1개 = 최소 수료 경로(<span class="tag gl">EV-10</span>).</div>
@@ -126,7 +143,7 @@ git diff -- src/activity.js test/activity.test.js</code></pre></div>
   <h2>이 세션의 실행 코드 (Hands-on)</h2>
   <div class="callout ok"><strong>검증 → 리뷰 패킷 생성(PR 대체):</strong></div>
 <pre><code># (새 창) sample-project-activity-log 터미널에서
-npm run gate     # lint + test + policy-check
+npm run gate     # lint + test + lab:selftest + policy-check
 npm run packet   # review-packet.md 생성
 # provenance·Learning Debt·Rollback Owner 직접 작성
 npm run lab -- check d2-s5

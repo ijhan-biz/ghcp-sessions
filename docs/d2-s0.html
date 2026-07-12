@@ -41,7 +41,7 @@
       <tr><td>must-have AC 정제 보조</td><td>AI 보조 · F1</td><td><strong>GPT-5.6 Luna</strong></td><td>경계·예외·허용 범위를 3회 품질 gate로 구조화</td></tr>
     </tbody>
   </table>
-  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/edu_context/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
 </section>
 
 <section class="section">
@@ -146,6 +146,20 @@ npm test             # baseline: 5 pass, 2 skip(정상)
   <p class="small">즉 <strong>skip을 켜 실패를 먼저 보고(레드) → 구현해서 통과(그린)</strong>가 Day2 test-first의 핵심 루프입니다. 전체 진행 순서는 프로젝트 <code>README.md</code>에 있습니다.</p></div>
 
   <div class="callout note"><strong>왜 새 창에서 여나:</strong> ① Copilot(특히 Agent 모드)의 파일·도구 범위가 이 프로젝트로 한정돼 안전하고, ② 강의 문서와 섞이지 않아 컨텍스트·<code>git diff</code>·커밋이 깔끔하며, ③ 워크스페이스 설정을 프로젝트 단위로 관리할 수 있습니다.</div>
+</section>
+
+<section class="section" id="practice-outcome" data-practice-outcome>
+  <h2>실습에서 기대하는 바와 결과 예시</h2>
+  <div class="grid">
+    <div class="card"><h3>기대하는 바</h3><ul><li><code>sample-project-activity-log</code>만 새 VS Code 창의 root로 연다.</li><li>Day1 Spec Pack과 baseline을 다시 불러오고 source diff가 clean인지 확인한다.</li><li>오늘 구현할 must-have AC를 1~3개로 좁힌다.</li></ul></div>
+    <div class="card"><h3>결과 예시</h3><pre><code>workspace root: sample-project-activity-log
+env: PASS
+activity.test.js: 5 pass / 2 skip / 0 fail
+spec-check: PASS
+source diff: clean
+must-have AC: 2개</code></pre></div>
+  </div>
+  <div class="callout note"><strong>예시 해석:</strong> 어제와 같은 파일이 보인다는 것만으로 재개 준비가 끝나지 않습니다. workspace proof·환경·테스트·스펙·clean diff가 모두 같은 root를 가리켜야 합니다.</div>
 </section>
 
 <section class="section">

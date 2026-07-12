@@ -40,10 +40,10 @@
       <tr><td>Agent Team·Fleet·Loop 설계</td><td>사람 계획 · F2</td><td><strong>모델 미사용</strong></td><td>자동 계획 후보가 안정적으로 gate를 통과하지 못함</td></tr>
       <tr><td>독립 Evaluator의 결함·근거 검토</td><td>AI 보조 · F4</td><td><strong>Claude Sonnet 5</strong></td><td>결함·근거 검토를 3회 품질 gate로 재현</td></tr>
       <tr><td>Approval Owner 최종 승인</td><td>사람 · N0</td><td><strong>모델 미사용</strong></td><td>AI 판정과 분리해 사람이 최종 승인</td></tr>
-      <tr><td>로컬 gate</td><td>도구 · N0</td><td><strong>모델 미사용</strong></td><td>lint·test·policy 결과로 통과를 판정</td></tr>
+      <tr><td>로컬 gate</td><td>도구 · N0</td><td><strong>모델 미사용</strong></td><td>lint·test·lab:selftest·policy 결과로 통과를 판정</td></tr>
     </tbody>
   </table>
-  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable) 결과입니다. F2는 5개 후보가 안정적으로 통과하지 못해 사람 계획·모델 미사용입니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable) 결과입니다. F2는 5개 후보가 안정적으로 통과하지 못해 사람 계획·모델 미사용입니다. <a href="../../aibuild-squad/output/260627_edu/edu_context/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
 </section>
 
 <section class="section">
@@ -68,7 +68,7 @@
     </tbody>
   </table>
   <div class="step"><div class="label">로컬 게이트 한 번에 실행 (Windows·mac·Linux 공통)</div>
-<pre><code>npm run gate     # = lint + test + policy-check</code></pre>
+<pre><code>npm run gate     # = lint + test + lab:selftest + policy-check</code></pre>
   <p class="small">통과하면 <code>policy-check 통과</code>, 금지 파일을 만졌으면 <strong>실패(비정상 종료)</strong>로 끝납니다. 사람 판단이 아니라 규칙이라 <strong>매번 같은 결과</strong>를 냅니다.</p></div>
   <div class="callout note"><strong>사전 차단 vs 사후 검사, 어디서 하나:</strong> 위 <code>npm run gate</code>는 <strong>사후 검사</strong>로 어디서든(Windows 포함) 동일하게 돕니다. <strong>사전 차단</strong>(에이전트가 위험 명령을 아예 못 하게)은 <strong>VS Code Agent 모드의 도구 승인·denyList</strong>로 겁니다 — D2·S1 대응표 참고. 둘을 합쳐 "실행 전 차단 + 실행 후 검증"이 완성됩니다.</div>
   <div class="callout note"><strong>운영 팁(<span class="tag gl">HE-13</span> logging-first):</strong> 처음엔 경고만 남기고 위반을 관찰한 뒤, 오탐을 줄이고 위험도가 높은 항목부터 block으로 승격합니다.</div>
@@ -132,6 +132,20 @@
   <div class="callout note"><strong>사전 게이트 vs 사후 게이트:</strong> approval_id·destructive는 <strong>실행 전 차단</strong>(preventive)이 되지만, customer-data 변경 같은 항목은 diff가 나온 <strong>실행 후 감지</strong>(detective) → 즉시 rollback 트리거로 다룹니다. 모든 게이트가 사전 차단 가능한 것은 아닙니다.</div>
 </section>
 
+<section class="section" id="practice-outcome" data-practice-outcome>
+  <h2>실습에서 기대하는 바와 결과 예시</h2>
+  <div class="grid">
+    <div class="card"><h3>기대하는 바</h3><ul><li>Generator와 독립 Evaluator의 입력·책임을 분리한다.</li><li>Fleet/Loop의 각 단계에 evidence와 stop condition을 연결한다.</li><li>lint·test·lab:selftest·policy로 구성된 로컬 gate를 실제 실행해 모두 PASS를 확인한다.</li></ul></div>
+    <div class="card"><h3>결과 예시</h3><pre><code>Planner: scope·AC·risk
+Generator: allowed files의 후보 diff
+Evaluator: AC 근거로 pass/revise/block
+Harness: lint PASS · test PASS · lab:selftest PASS(RED 변조 회귀 포함) · policy PASS
+STOP: blocked file 변경 또는 동일 실패 2회
+Approval Owner: 사람</code></pre></div>
+  </div>
+  <div class="callout note"><strong>예시 해석:</strong> 에이전트 이름의 수가 아니라 생성·평가·검증·승인의 책임선이 서로 독립적인지가 핵심입니다.</div>
+</section>
+
 <section class="section">
   <h2>참조 심화 — 토폴로지 · 도입 로드맵</h2>
   <h3>위험도에 따른 토폴로지 선택</h3>
@@ -168,7 +182,7 @@
   <div class="callout ok"><strong>로컬 게이트 실행 + 캔버스 작성:</strong></div>
 <pre><code># (새 창) sample-project-activity-log 터미널에서
 npm run lab -- start d2-s2
-npm run gate                   # lint + test + policy-check
+npm run gate                   # lint + test + lab:selftest + policy-check
 node scripts/policy-check.mjs  # 금지 파일/secret 감지
 # lab-work/agent-team-canvas.md 직접 작성
 npm run lab -- check d2-s2</code></pre>

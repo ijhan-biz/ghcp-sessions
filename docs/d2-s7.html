@@ -42,7 +42,7 @@
       <tr><td>발표·교육/실제 적용 Go/No-Go</td><td>사람 · N0</td><td><strong>모델 미사용</strong></td><td>발표와 실제 적용 승인 책임은 사람에게 유지</td></tr>
     </tbody>
   </table>
-  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable) 결과입니다. TTFT·p95·실제 청구액이 아니며 F2는 안정 후보가 없어 모델 미사용·사람 계획입니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable) 결과입니다. TTFT·p95·실제 청구액이 아니며 F2는 안정 후보가 없어 모델 미사용·사람 계획입니다. <a href="../../aibuild-squad/output/260627_edu/edu_context/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
 </section>
 
 <section class="section">
@@ -111,6 +111,21 @@
   </table>
   <div class="callout warn"><strong>판정 원칙:</strong> <code>16/16</code>과 <code>7/0/0</code>은 <strong>교육 산출물 GO</strong>의 증거입니다. 실제 차량·고객 기능 적용은 별도 빌드, 보안·데이터 검토, PL/리뷰어 승인, 운영 rollback 검증 전까지 <strong>NO-GO</strong>입니다. <code>recover</code> 사용자는 교육 진도는 GO여도 D+7 직접 재구현 부채를 남깁니다.</div>
   <div class="callout ok"><strong>산출물:</strong> 라이트닝 토크 3장 + 현업 적용 액션 3개 + PL handoff 1페이지 + 회고 노트.</div>
+</section>
+
+<section class="section" id="practice-outcome" data-practice-outcome>
+  <h2>활동에서 기대하는 바와 결과 예시</h2>
+  <div class="grid">
+    <div class="card"><h3>기대하는 바</h3><ul><li>대표 여부와 무관하게 전원이 같은 3장·handoff·현업 액션을 제출한다.</li><li>스펙→프롬프트→계획→테스트→검증→rollback→Skill 체인을 설명한다.</li><li>교육 GO, 실제 적용 GO, provenance와 D+7 부채를 분리 판정한다.</li></ul></div>
+    <div class="card"><h3>결과 예시</h3><pre><code>3장: 문제 / Before-After / Skill 동작 예시
+PL handoff: 5칸 완료
+현업 액션: 3개 + owner
+checkpoint: 16 / 16
+provenance: CLEAN / FALLBACK / REFERENCE-MATCH 중 packet과 같은 값
+교육 산출물: GO
+실제 적용: NO-GO — 별도 승인 필요</code></pre></div>
+  </div>
+  <div class="callout note"><strong>예시 해석:</strong> 발표를 하지 않아도 제출물 기준은 같습니다. FALLBACK·REFERENCE-MATCH는 D+7 재검증 owner·due·검증 방법을 함께 남깁니다. <code>16/16</code>은 교육 체인의 완료 증거이며 실제 시스템 배포 준비를 뜻하지 않습니다.</div>
 </section>
 
 <section class="section">

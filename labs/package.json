@@ -11,7 +11,7 @@
     "token-estimate": "node scripts/token-estimate.mjs",
     "env": "node scripts/check-env.mjs",
     "lint": "node scripts/lint.mjs",
-    "policy-check": "node scripts/policy-check.mjs",
+    "policy-check": "node --test scripts/policy-check.selftest.mjs && node scripts/policy-check.mjs",
     "gate": "npm run lint && npm test && npm run policy-check",
     "sim": "node scripts/long-running-sim.mjs",
     "packet": "node scripts/make-review-packet.mjs",

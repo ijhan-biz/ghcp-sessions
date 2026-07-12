@@ -44,7 +44,7 @@
       <tr><td>GREEN·gate 확인</td><td>사람·도구 · N0</td><td><strong>모델 미사용</strong></td><td>테스트와 gate의 실제 출력으로 판정</td></tr>
     </tbody>
   </table>
-  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/edu_context/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
 </section>
 
 <section class="section">
@@ -77,20 +77,20 @@
 <section class="section">
   <h2>실습 2 — test-first 구현</h2>
   <div class="step"><div class="label">STEP 1 · 실패 테스트 먼저</div>
-<pre><code>[작업] 아래 AC를 기준으로 실패하는 유닛테스트를 먼저 작성하라.
-[제약] 구현 코드는 아직 수정하지 마. 테스트 이름은 스펙 의도가 드러나게.
-[검토] 정상·예외·금지 케이스가 분리되어야 함.
-[출력] 테스트 코드 + 각 테스트가 검증하는 AC 매핑.</code></pre></div>
-  <div class="step"><div class="label">STEP 2 · 사람이 테스트 검토</div><p class="small">Copilot이 만든 테스트가 스펙을 제대로 검증하는지 <strong>동료/PL이</strong> 확인합니다 — 테스트가 약하면 구현도 약해집니다. 검토 기준: ① AC와 <strong>1:1 매핑</strong> ② 정상·예외·경계 케이스 <strong>분리</strong> ③ 과도한 mocking 없이 <strong>state·결과</strong> 검증. 미흡하면 <strong>request-changes</strong>(사유+개선 방향을 적어 재요청), 통과하면 approve 후 STEP 3으로.</p></div>
+<pre><code>[작업] test/activity.test.js의 sessionize 테스트 2개에서 { skip: true }를 {}로 바꿔 skip만 해제하라.
+[제약] 테스트 이름·assertion·fixture와 구현 코드는 수정하지 마라.
+[검토] npm test가 sessionize 기대값에서 2건 실패해야 정상 RED다.
+[출력] 실패한 테스트 이름 + 각 테스트가 검증하는 AC 매핑.</code></pre></div>
+  <div class="step"><div class="label">STEP 2 · 사람이 테스트 검토</div><p class="small">활성화한 기존 테스트가 스펙을 제대로 검증하는지 <strong>동료/PL이</strong> 확인합니다. 검토 기준: ① AC와 <strong>1:1 매핑</strong> ② 정상·경계 케이스 <strong>분리</strong> ③ 실패 위치가 환경·import가 아닌 <strong>sessionize 기대값</strong>. 불일치하면 assertion을 약화하지 않고 stop 후 스펙·테스트 owner에게 확인하며, 일치하면 approve 후 STEP 3으로 진행합니다.</p></div>
   <div class="step"><div class="label">STEP 3 · AI 첫 답 판단 후 최소 구현</div>
   <p class="small">AI 첫 답은 정답이 아니라 후보입니다. <code>lab-work/implementation-decision.md</code>에 수용/거부와 AC·테스트 근거를 먼저 기록합니다. 근거 없이 첫 답을 붙여 넣으면 checkpoint가 BLOCK됩니다.</p>
-<pre><code>[작업] 방금 만든 테스트를 통과시킬 최소 변경만 구현하라.
+<pre><code>[작업] 방금 활성화한 테스트를 통과시킬 최소 변경만 구현하라.
 [규칙] AC 1개만 통과시키는 최소 코드 — 여러 AC를 한 번에 구현 금지. 통과 후 다음 AC로.
 [제약] public API 유지, 외부 패키지 금지, allowed files만 수정.
 [멈춤] 구현 후 테스트 결과 + diff 요약 보고하고 멈춰.</code></pre></div>
   <div class="step"><div class="label">STEP 4 · 로컬 게이트</div>
-<pre><code>npm test    # sample-project의 게이트(테스트 통과 = 그린)
-# 하네스 게이트(policy-check)까지 붙이려면 D2·S2의 labs 예제를 사용</code></pre></div>
+<pre><code>npm test        # 전체 유닛테스트 GREEN 확인
+npm run gate   # lint + test + lab:selftest + policy-check</code></pre></div>
 </section>
 
 <section class="section">
@@ -101,6 +101,22 @@
   <h3>추적성 · 로컬 버전</h3>
   <p class="small">원격 PR이 없으므로 <strong>스펙 ↔ 브랜치 ↔ 커밋 ↔ 로컬 체크 ↔ 리뷰어</strong>를 패킷으로 연결합니다(요구사항 추적성 <span class="tag gl">SD-13</span>). 모든 변경이 어느 AC에서 왔는지 추적되어야 합니다.</p>
   <div class="callout note"><strong>BDD 브래킷:</strong> 단계를 <code>Given-When-Then</code> 문장으로 열고, <em>같은 문장 + 증거 링크</em>로 닫습니다. AC는 <strong>SMART + 측정 source</strong>가 명시되어야 합니다.</div>
+</section>
+
+<section class="section" id="practice-outcome" data-practice-outcome>
+  <h2>실습에서 기대하는 바와 결과 예시</h2>
+  <div class="grid">
+    <div class="card"><h3>기대하는 바</h3><ul><li>skip만 해제해 구현 전 테스트가 요구사항 때문에 실패하는 RED를 확인한다.</li><li>AI 첫 답을 AC·테스트 근거로 수용·거부한 뒤 allowed files에 최소 구현한다.</li><li>RED와 GREEN을 각각 독립 evidence로 남긴다.</li></ul></div>
+    <div class="card"><h3>RED 결과 예시</h3><pre><code>activity.test.js: 5 pass / 0 skip / 2 fail
+실패 위치: sessionize 기대값
+checkpoint d2-s4-red: PASS
+구현 변경: 없음</code></pre></div>
+    <div class="card"><h3>GREEN 결과 예시</h3><pre><code>판단: AI 후보 revise 후 수용
+근거: AC1·AC2와 경계 테스트 일치
+activity.test.js: 7 pass / 0 skip / 0 fail
+checkpoint d2-s4-green: PASS</code></pre></div>
+  </div>
+  <div class="callout note"><strong>예시 해석:</strong> RED의 테스트 실패는 checkpoint 실패가 아닙니다. 구현 없이 요구사항 결손을 정확히 감지해야 RED checkpoint가 PASS하며, 구현 코드는 예시를 복사하지 않고 테스트 근거로 직접 완성합니다.</div>
 </section>
 
 <section class="section">
@@ -129,7 +145,7 @@
 <pre><code># 새 창의 sample-project-activity-log 통합 터미널에서
 npm test         # baseline 5 pass / 2 skip(세션화 2건)
 npm run lab -- start d2-s4-red
-# test/activity.test.js 의 { skip: true } 2곳 제거
+# test/activity.test.js 의 { skip: true } 2곳을 {}로 변경
 npm run lab -- check d2-s4-red       # 테스트 FAIL · checkpoint PASS
 npm run lab -- start d2-s4-green     # AI 첫 답 수용/거부 기록 starter
 # sessionize 최소 구현 + implementation-decision.md 작성

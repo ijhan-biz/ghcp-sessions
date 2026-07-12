@@ -40,7 +40,7 @@
       <tr><td>학습자·강사의 handoff 준비도 판정</td><td>사람 · N0</td><td><strong>모델 미사용</strong></td><td>진행 여부와 책임자는 사람이 결정</td></tr>
     </tbody>
   </table>
-  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/edu_context/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
 </section>
 
 <section class="section">
@@ -81,6 +81,21 @@
 [포함] 비식별 스펙, AC, Context Manifest, Plan(2~4단계), Test Matrix, Risk/Gate.
 [제약] 새 요구사항 추가 금지(있으면 unknown으로 표기), 민감정보 금지.
 [출력] 단일 마크다운(파일명 <strong>spec.md</strong>), 섹션 제목 포함.</code></pre></div>
+</section>
+
+<section class="section" id="practice-outcome" data-practice-outcome>
+  <h2>실습에서 기대하는 바와 결과 예시</h2>
+  <div class="grid">
+    <div class="card"><h3>기대하는 바</h3><ul><li>S1~S4 산출물을 새 요구 추가 없이 하나의 <code>spec.md</code>로 연결한다.</li><li>core·stretch·out을 분리하고 must-have AC에 테스트 이름을 연결한다.</li><li>받는 사람이 설명 없이 Day2를 시작할 수 있는지 자가 판정한다.</li></ul></div>
+    <div class="card"><h3>결과 예시</h3><pre><code>spec.md
+  [x] 비식별 요구·non-goal
+  [x] 정상·예외·경계 AC
+  [x] Context Manifest
+  [x] Plan·Test Matrix·rollback
+spec-check: PASS
+handoff readiness: GREEN</code></pre></div>
+  </div>
+  <div class="callout note"><strong>예시 해석:</strong> 파일 수보다 추적성이 중요합니다. 각 AC가 범위·계획·테스트·중단 조건 중 어디에서 실행되는지 찾을 수 있어야 합니다.</div>
 </section>
 
 <section class="section">

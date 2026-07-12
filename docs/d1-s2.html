@@ -40,7 +40,7 @@
       <tr><td>checkpoint 실행</td><td>사람·도구 · N0</td><td><strong>모델 미사용</strong></td><td>결정론적 검사 결과를 사람이 확인</td></tr>
     </tbody>
   </table>
-  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/edu_context/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
 </section>
 
 <section class="section">
@@ -152,6 +152,18 @@ Then   VAT 는 0 을 반환한다.</code></pre></div>
 - npm test → "AC2 면세 품목은 VAT 0" pass
 - commit abc1234 (tax.js: 면세 분기 추가)</code></pre></div>
   <div class="callout note"><strong>왜 브래킷인가:</strong> 열기만 있으면 "했다"는 선언에 그치고, <strong>닫기(증거)</strong>가 있어야 검증 가능한 변경이 됩니다. 이 열기/닫기 한 쌍은 Day2·S4 test-first(실패 테스트 → 통과)와 리뷰 패킷(증거 번들)으로 그대로 이어집니다.</div>
+</section>
+
+<section class="section" id="practice-outcome" data-practice-outcome>
+  <h2>실습에서 기대하는 바와 결과 예시</h2>
+  <div class="grid">
+    <div class="card"><h3>기대하는 바</h3><ul><li>User Story를 정상·예외·경계 AC로 바꾼다.</li><li>각 AC가 사람이 실행할 테스트 또는 관찰 결과와 연결되게 한다.</li><li>Role·Context·Task·Constraint·Verification·Output을 빠짐없이 작성한다.</li></ul></div>
+    <div class="card"><h3>결과 예시</h3><pre><code>정상: gap &gt; idleGapMs → 새 세션
+예외: start &gt;= end → 이벤트 제외
+경계: gap == idleGapMs → 같은 세션
+검증: 각 규칙을 독립 테스트 이름으로 연결</code></pre></div>
+  </div>
+  <div class="callout note"><strong>예시 해석:</strong> “잘 묶인다” 같은 표현 대신 입력 조건과 관찰할 결과가 한 문장에 있어야 합니다. 세 AC의 세부 문구는 달라도 정상·예외·경계가 모두 존재해야 합니다.</div>
 </section>
 
 <section class="section">

@@ -68,7 +68,7 @@
       <tr><td>Copilot 연결 smoke 응답</td><td>AI 보조 · F0</td><td><strong>GPT-5.3-Codex</strong></td><td>짧은 다음 행동을 3회 품질 gate로 재현</td></tr>
     </tbody>
   </table>
-  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/edu_context/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
 </section>
 
 <section class="section">
@@ -104,6 +104,18 @@ git status</code></pre></div>
   <div class="step"><div class="label">STEP 4 · Copilot 동작 확인</div>
   <p class="small">Copilot Chat(<span class="tag gl">CF-01</span>)에 한 줄 질의해 응답이 오는지, Inline 제안(<span class="tag gl">CF-11</span>)이 뜨는지 확인합니다. Chat은 Agent 모드가 안 될 때 1차 fallback 경로입니다.</p></div>
   <div class="callout note"><strong>VS Code Copilot 기능 전체 지도:</strong> 환경이 준비됐으면, VS Code에서 쓸 수 있는 Copilot 기능(채팅 표면 · Agent/Plan/Ask · 자동완성 · 컨텍스트 · 도구/MCP · 커스터마이징 등)을 <a href="vscode-features.html">VS Code Copilot 기능 가이드</a>에서 한눈에 확인하세요.</div>
+</section>
+
+<section class="section" id="practice-outcome" data-practice-outcome>
+  <h2>실습에서 기대하는 바와 결과 예시</h2>
+  <div class="grid">
+    <div class="card"><h3>기대하는 바</h3><ul><li>프로젝트 루트에서 환경·테스트 명령을 직접 실행한다.</li><li><code>pass / skip / fail</code>을 구분하고 되돌아올 baseline을 기록한다.</li><li>실패가 있으면 구현을 시작하지 않고 환경 또는 실행 위치부터 교정한다.</li></ul></div>
+    <div class="card"><h3>결과 예시</h3><pre><code>준비도: GREEN
+baseline: 5 pass / 2 skip / 0 fail
+workspace: sample-project-activity-log
+다음 checkpoint: d1-s1</code></pre><p class="small">명령 출력 문구는 Node 버전에 따라 달라도 세 상태와 프로젝트 루트가 같으면 됩니다.</p></div>
+  </div>
+  <div class="callout note"><strong>예시 해석:</strong> skip 2개는 성공도 결함도 아닌 Day2의 미실행 학습 경로입니다. 이 세션에서는 <code>fail 0</code>과 재현 가능한 baseline이 핵심입니다.</div>
 </section>
 
 <section class="section">

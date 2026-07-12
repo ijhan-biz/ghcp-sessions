@@ -40,7 +40,7 @@
       <tr><td>routing demo·로그 확인</td><td>사람·도구 · N0</td><td><strong>모델 미사용</strong></td><td>설정과 실제 호출 로그가 일치하는지 확인</td></tr>
     </tbody>
   </table>
-  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable) 결과입니다. F2는 안정 후보가 없어 모델 미사용·사람 계획입니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable) 결과입니다. F2는 안정 후보가 없어 모델 미사용·사람 계획입니다. <a href="../../aibuild-squad/output/260627_edu/edu_context/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
 </section>
 
 <section class="section">
@@ -114,6 +114,21 @@ Test Matrix 후보를 만든 뒤, F2 Plan·중단·rollback은 사람 Planner에
   <p class="small">모델 등급을 추정으로 배치하지 않고, 각 과업의 품질 gate와 실제 관측 완료시간·추정 비용으로 라우팅합니다. 합의된 계획을 구현 단계에서 다시 풀지 않아 컨텍스트와 비용을 줄입니다.</p>
   <div class="callout warn"><strong>핵심 원칙:</strong> 표준 에이전트엔 <code>model:</code>을 명시해 UI 기본값 누수를 막고, <strong>UI model picker 표시와 실제 호출 모델이 다를 수 있으니 세션 로그로 확인</strong>합니다(<code>~/.copilot/session-state/&lt;id&gt;/events.jsonl</code>). 안 쓰는 MCP/도구는 컨텍스트·비용을 늘리므로 <code>tools:</code>로 좁힙니다.</div>
   <div class="callout note"><strong>관측성:</strong> 토큰 단위 상세는 OpenTelemetry <code>gen_ai.usage.*</code>(input/output/reasoning tokens), 비용 원장은 Billing/Usage API(집계, 토큰 단위 아님). hook(preToolUse/postToolUse)은 정책·감사용이지 토큰 집계용이 아니며, 토큰/secret을 로그에 남기지 않습니다.</div>
+</section>
+
+<section class="section" id="practice-outcome" data-practice-outcome>
+  <h2>실습에서 기대하는 바와 결과 예시</h2>
+  <div class="grid">
+    <div class="card"><h3>기대하는 바</h3><ul><li>반복 업무를 목적·입력·절차·금지·출력 계약으로 정형화한다.</li><li>입력 1개를 넣어 기대 출력 1개가 나오는 동작 예시를 확인한다.</li><li>역할·도구 권한이 필요할 때만 Custom Agent/Fleet으로 확장한다.</li></ul></div>
+    <div class="card"><h3>결과 예시</h3><pre><code>목적: 변경 전 evidence 누락 점검
+입력: spec + diff + test log
+절차: 범위→AC→gate→rollback 확인
+금지: prod write, secret 추정
+출력: pass/revise/block + 누락 목록
+동작 예시: 합성 입력 1건 → revise 1건
+routing: PASS</code></pre></div>
+  </div>
+  <div class="callout note"><strong>예시 해석:</strong> 추상적인 “리뷰를 잘한다”가 아니라 실제 입력과 출력 모양이 있어야 재사용할 수 있습니다. 모델명보다 절차·도구·검증 책임이 먼저입니다.</div>
 </section>
 
 <section class="section">

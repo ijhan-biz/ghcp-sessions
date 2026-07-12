@@ -41,7 +41,7 @@
       <tr><td>policy-check</td><td>도구 · N0</td><td><strong>모델 미사용</strong></td><td>정책 위반은 결정론적 검사로 차단</td></tr>
     </tbody>
   </table>
-  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
+  <div class="callout warn"><strong>선정 기준:</strong> blind-v2 132 primary·35 external screen·29 confirmation attempts(12 stable)에서 세 번 모두 품질 gate를 통과한 후보를 비교했습니다. TTFT·p95·실제 청구액이 아니며 강의 당일 조직 정책과 세션 로그를 확인합니다. <a href="../../aibuild-squad/output/260627_edu/edu_context/활동별-모델-추천-보고서-2026-07-11.html">전체 근거 보기</a></div>
 </section>
 
 <section class="section">
@@ -77,6 +77,19 @@
   <div class="step"><div class="label">STEP 3 · 도구 호출 내역/로그 해석</div>
 <pre><code>[작업] 아래 Agent 도구 호출 내역(또는 세션 로그 events.jsonl)을 보고 요약해라.
 [출력] 실행 의도 · 사용 도구 · 차단된 작업 · 다음에 필요한 권한 · 위험 신호.</code></pre></div>
+</section>
+
+<section class="section" id="practice-outcome" data-practice-outcome>
+  <h2>실습에서 기대하는 바와 결과 예시</h2>
+  <div class="grid">
+    <div class="card"><h3>기대하는 바</h3><ul><li>Agent가 사용할 도구와 거부할 도구를 이유와 함께 구분한다.</li><li>승인 기록(preventive)과 policy-check(detective)를 모두 실행한다.</li><li>실제 호출 내역에서 허용 범위를 넘지 않았는지 설명한다.</li></ul></div>
+    <div class="card"><h3>결과 예시</h3><pre><code>ALLOW: read, search, scoped test
+DENY: prod write, destructive command
+이유: 교육 workspace 밖 변경 금지
+호출 내역: read 2, test 1, write 0
+policy-check: PASS</code></pre></div>
+  </div>
+  <div class="callout note"><strong>예시 해석:</strong> “안전하게 실행” 같은 문장만으로는 부족합니다. 무엇을 허용·거부했고 실제로 어떤 도구가 호출됐는지 재검토할 수 있어야 합니다.</div>
 </section>
 
 <section class="section">

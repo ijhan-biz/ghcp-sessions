@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import {
   copyFileSync, existsSync, mkdirSync, readFileSync, realpathSync,
   renameSync, writeFileSync,
@@ -46,6 +47,17 @@ const text = (path) => existsSync(path) ? readFileSync(path, 'utf8') : '';
 const includesAll = (value, markers) => markers.every((marker) => value.includes(marker));
 const pass = (detail, output = '') => ({ ok: true, detail, output });
 const block = (detail, output = '') => ({ ok: false, detail, output });
+const RED_BASELINE_TEST_SHA256 = 'f4cfee679c161e29c6ec3b5e1c8260548f12003b7afd08a01edf2acda4b95447';
+const RED_ACTIVE_TEST_SHA256 = '969046a464aa158edf4d71fe6139fcdcf9ba95595ea3cbb5f9511353a92c120e';
+const RED_SOURCE_CONTRACT_SHA256 = '5caf00f6c6788f88f5d21ee681b173c3467e2258a33e3aa40035f53ed7252eeb';
+
+function exactFileHash(value) {
+  return createHash('sha256').update(value.replaceAll('\r\n', '\n').trim()).digest('hex');
+}
+
+function redSourceContractHash(value) {
+  return exactFileHash(value);
+}
 
 const workedExamples = {
   baseline: '예: Node 18+와 git 확인 → 프로젝트 루트에서 baseline 숫자 기록.',
@@ -59,9 +71,9 @@ const workedExamples = {
   policy: '예: read는 허용, destructive 명령은 거부하고 이유·호출 내역을 기록한 뒤 policy-check를 실행합니다.',
   'gate-canvas': '예: Generator와 다른 Evaluator가 AC 근거로 revise하고, Harness가 gate 실패에서 중단합니다.',
   workflow: '예: 요약은 자동화하고 최종 수용은 Human Gate로 남기며 동일 실패 2회에 중단합니다.',
-  red: '예: 구현을 바꾸지 않은 채 새 테스트가 대상 요구에서 실패해야 정상 RED입니다.',
+  red: '예: 기존 sessionize 테스트 2개의 skip 옵션만 해제하고 assertion을 유지한 채 대상 요구에서 2건 실패해야 정상 RED입니다.',
   green: '예: AI 첫 답을 AC와 실패 테스트에 대조해 수용/거부한 뒤 최소 구현합니다.',
-  packet: '예: CLEAN/FALLBACK, 부채 owner/due, rollback trigger/owner/verify를 리뷰어가 재실행 가능하게 적습니다.',
+  packet: '예: CLEAN/FALLBACK/REFERENCE-MATCH, 비-CLEAN 부채 owner/due, rollback trigger/owner/verify를 리뷰어가 재실행 가능하게 적습니다.',
   skill: '예: 입력 1개가 절차를 거쳐 어떤 출력 1개가 되는지 목적·금지와 함께 적습니다.',
   handoff: '예: 교육 GO와 실제 적용 NO-GO를 분리하고 근거·provenance·다음 owner를 적습니다.',
 };
@@ -214,12 +226,31 @@ export function evaluateStep(step, root = ROOT) {
     case 'red': {
       const source = text(join(root, 'src/activity.js'));
       const testFile = text(join(root, 'test/activity.test.js'));
-      if (testFile.includes('{ skip: true }')) return block('skip 2개가 아직 남아 있습니다.');
-      if (!source.includes('TODO(Day2-S4)')) return block('이미 구현된 상태입니다. RED를 보려면 reset d2-s4를 실행하세요.');
+      if (testFile.includes(', { skip: true },')) return block('skip 2개가 아직 남아 있습니다.');
+      const baselineContract = exactFileHash(text(join(root, 'fixtures/baseline/activity-test.fixture')));
+      if (baselineContract !== RED_BASELINE_TEST_SHA256) {
+        return block('baseline RED fixture 계약이 변경되었습니다. 저장소 원본으로 복구하세요.');
+      }
+      if (exactFileHash(testFile) !== RED_ACTIVE_TEST_SHA256) {
+        return block('테스트 파일 전체 계약(import·helper·공유 fixture·이름·assertion)을 변경하지 말고 skip 옵션만 해제하세요.');
+      }
+      const baselineSourceContract = redSourceContractHash(text(join(root, 'fixtures/baseline/activity.js')));
+      if (baselineSourceContract !== RED_SOURCE_CONTRACT_SHA256) {
+        return block('baseline RED source fixture 계약이 변경되었습니다. 저장소 원본으로 복구하세요.');
+      }
+      if (redSourceContractHash(source) !== RED_SOURCE_CONTRACT_SHA256) {
+        return block('RED 단계에서는 src/activity.js를 변경하지 마세요. reset d2-s4 후 다시 시작하세요.');
+      }
       const result = run(process.execPath, ['--test', 'test/activity.test.js'], root);
-      return !result.ok && /sessionize/.test(result.output)
-        ? pass('의도된 RED 확인(sessionize 실패)', result.output)
-        : block('sessionize에서 실패하는 RED가 아닙니다.', result.output);
+      const good = !result.ok
+        && /(?:#|ℹ) pass 5\b/.test(result.output)
+        && /(?:#|ℹ) fail 2\b/.test(result.output)
+        && /(?:#|ℹ) skipped 0\b/.test(result.output)
+        && /sessionize: 유휴 간격/.test(result.output)
+        && /sessionize: 간격이 정확히 gap/.test(result.output);
+      return good
+        ? pass('의도된 RED 확인(5 pass / 2 fail / 0 skip)', result.output)
+        : block('기존 sessionize 테스트 2건에서 실패하는 RED가 아닙니다.', result.output);
     }
     case 'green': {
       const decision = learnerFileCheck(
@@ -230,7 +261,7 @@ export function evaluateStep(step, root = ROOT) {
       );
       if (!decision.ok) return decision;
       const testFile = text(join(root, 'test/activity.test.js'));
-      if (testFile.includes('{ skip: true }')) return block('skip이 남아 있습니다. 테스트를 활성화하세요.');
+      if (testFile.includes(', { skip: true },')) return block('skip이 남아 있습니다. 테스트를 활성화하세요.');
       const result = run(process.execPath, ['--test', 'test/activity.test.js'], root);
       const good = result.ok && /(?:#|ℹ) pass 7\b/.test(result.output) && /(?:#|ℹ) skipped 0\b/.test(result.output);
       return good ? pass('7 pass / 0 skip / 0 fail', result.output) : block('GREEN 숫자가 7/0/0이 아닙니다.', result.output);

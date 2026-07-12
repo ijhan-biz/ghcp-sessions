@@ -33,6 +33,127 @@ test('RED checker: baseline 상태에서는 skip 때문에 block', () => {
   assert.match(result.detail, /skip/);
 });
 
+test('RED checker: 기존 sessionize 테스트의 skip 옵션만 해제하면 5/2/0 RED', () => {
+  const root = mkdtempSync(join(tmpdir(), 'lab-red-contract-'));
+  mkdirSync(join(root, 'src'), { recursive: true });
+  mkdirSync(join(root, 'test'), { recursive: true });
+  mkdirSync(join(root, 'fixtures/baseline'), { recursive: true });
+  writeFileSync(join(root, 'package.json'), '{"type":"module"}\n');
+  copyFileSync(join(ROOT, 'fixtures/baseline/activity.js'), join(root, 'src/activity.js'));
+  copyFileSync(join(ROOT, 'fixtures/baseline/activity.js'), join(root, 'fixtures/baseline/activity.js'));
+  copyFileSync(join(ROOT, 'fixtures/baseline/activity-test.fixture'), join(root, 'fixtures/baseline/activity-test.fixture'));
+  const baselineTest = readFileSync(join(ROOT, 'fixtures/baseline/activity-test.fixture'), 'utf8');
+  writeFileSync(join(root, 'test/activity.test.js'), baselineTest.replaceAll(', { skip: true },', ', {},'));
+  const result = evaluateStep({ check: 'red' }, root);
+  assert.equal(result.ok, true, result.detail);
+  assert.match(result.detail, /5 pass \/ 2 fail \/ 0 skip/);
+});
+
+test('RED checker: sessionize assertion을 바꾸면 block', () => {
+  const root = mkdtempSync(join(tmpdir(), 'lab-red-mutation-'));
+  mkdirSync(join(root, 'src'), { recursive: true });
+  mkdirSync(join(root, 'test'), { recursive: true });
+  mkdirSync(join(root, 'fixtures/baseline'), { recursive: true });
+  writeFileSync(join(root, 'package.json'), '{"type":"module"}\n');
+  copyFileSync(join(ROOT, 'fixtures/baseline/activity.js'), join(root, 'src/activity.js'));
+  copyFileSync(join(ROOT, 'fixtures/baseline/activity-test.fixture'), join(root, 'fixtures/baseline/activity-test.fixture'));
+  const mutatedTest = readFileSync(join(ROOT, 'fixtures/baseline/activity-test.fixture'), 'utf8')
+    .replaceAll(', { skip: true },', ', {},')
+    .replace('assert.equal(s[0].count, 2)', 'assert.equal(s[0].count, 1)');
+  writeFileSync(join(root, 'test/activity.test.js'), mutatedTest);
+  const result = evaluateStep({ check: 'red' }, root);
+  assert.equal(result.ok, false);
+  assert.match(result.detail, /assertion/);
+});
+
+test('RED checker: assertion에 빈 객체 토큰을 삽입해도 block', () => {
+  const root = mkdtempSync(join(tmpdir(), 'lab-red-object-token-'));
+  mkdirSync(join(root, 'src'), { recursive: true });
+  mkdirSync(join(root, 'test'), { recursive: true });
+  mkdirSync(join(root, 'fixtures/baseline'), { recursive: true });
+  writeFileSync(join(root, 'package.json'), '{"type":"module"}\n');
+  copyFileSync(join(ROOT, 'fixtures/baseline/activity.js'), join(root, 'src/activity.js'));
+  copyFileSync(join(ROOT, 'fixtures/baseline/activity.js'), join(root, 'fixtures/baseline/activity.js'));
+  copyFileSync(join(ROOT, 'fixtures/baseline/activity-test.fixture'), join(root, 'fixtures/baseline/activity-test.fixture'));
+  const injectedTest = readFileSync(join(ROOT, 'fixtures/baseline/activity-test.fixture'), 'utf8')
+    .replaceAll(', { skip: true },', ', {},')
+    .replace('assert.equal(s.length, 2)', 'assert.equal(s.length, {}, 2)');
+  writeFileSync(join(root, 'test/activity.test.js'), injectedTest);
+  const result = evaluateStep({ check: 'red' }, root);
+  assert.equal(result.ok, false);
+  assert.match(result.detail, /assertion/);
+});
+
+test('RED checker: baseline fixture와 실제 테스트를 함께 약화해도 block', () => {
+  const root = mkdtempSync(join(tmpdir(), 'lab-red-double-mutation-'));
+  mkdirSync(join(root, 'src'), { recursive: true });
+  mkdirSync(join(root, 'test'), { recursive: true });
+  mkdirSync(join(root, 'fixtures/baseline'), { recursive: true });
+  writeFileSync(join(root, 'package.json'), '{"type":"module"}\n');
+  copyFileSync(join(ROOT, 'fixtures/baseline/activity.js'), join(root, 'src/activity.js'));
+  const weakened = readFileSync(join(ROOT, 'fixtures/baseline/activity-test.fixture'), 'utf8')
+    .replace('assert.equal(s[0].count, 2)', 'assert.equal(s[0].count, 1)');
+  writeFileSync(join(root, 'fixtures/baseline/activity-test.fixture'), weakened);
+  writeFileSync(join(root, 'test/activity.test.js'), weakened.replaceAll(', { skip: true },', ', {},'));
+  const result = evaluateStep({ check: 'red' }, root);
+  assert.equal(result.ok, false);
+  assert.match(result.detail, /baseline RED fixture 계약/);
+});
+
+test('RED checker: 공유 events fixture를 바꾸면 block', () => {
+  const root = mkdtempSync(join(tmpdir(), 'lab-red-shared-fixture-'));
+  mkdirSync(join(root, 'src'), { recursive: true });
+  mkdirSync(join(root, 'test'), { recursive: true });
+  mkdirSync(join(root, 'fixtures/baseline'), { recursive: true });
+  writeFileSync(join(root, 'package.json'), '{"type":"module"}\n');
+  copyFileSync(join(ROOT, 'fixtures/baseline/activity.js'), join(root, 'src/activity.js'));
+  copyFileSync(join(ROOT, 'fixtures/baseline/activity-test.fixture'), join(root, 'fixtures/baseline/activity-test.fixture'));
+  const mutatedEvents = readFileSync(join(ROOT, 'fixtures/baseline/activity-test.fixture'), 'utf8')
+    .replaceAll(', { skip: true },', ', {},')
+    .replace("{ app: 'chrome', start: T(9, 35), end: T(9, 50) }", "{ app: 'chrome', start: T(10, 35), end: T(10, 50) }");
+  writeFileSync(join(root, 'test/activity.test.js'), mutatedEvents);
+  const result = evaluateStep({ check: 'red' }, root);
+  assert.equal(result.ok, false);
+  assert.match(result.detail, /공유 fixture/);
+});
+
+test('RED checker: sessionize import binding을 우회하면 block', () => {
+  const root = mkdtempSync(join(tmpdir(), 'lab-red-import-binding-'));
+  mkdirSync(join(root, 'src'), { recursive: true });
+  mkdirSync(join(root, 'test'), { recursive: true });
+  mkdirSync(join(root, 'fixtures/baseline'), { recursive: true });
+  writeFileSync(join(root, 'package.json'), '{"type":"module"}\n');
+  copyFileSync(join(ROOT, 'fixtures/baseline/activity.js'), join(root, 'src/activity.js'));
+  copyFileSync(join(ROOT, 'fixtures/baseline/activity-test.fixture'), join(root, 'fixtures/baseline/activity-test.fixture'));
+  const aliased = readFileSync(join(ROOT, 'fixtures/baseline/activity-test.fixture'), 'utf8')
+    .replaceAll(', { skip: true },', ', {},')
+    .replace('collectEvents, sessionize,', 'collectEvents, sessionize as sourceSessionize,')
+    .replace('const MIN = 60 * 1000;', "const MIN = 60 * 1000;\nconst sessionize = () => { throw new Error('forced RED'); };");
+  writeFileSync(join(root, 'test/activity.test.js'), aliased);
+  const result = evaluateStep({ check: 'red' }, root);
+  assert.equal(result.ok, false);
+  assert.match(result.detail, /import/);
+});
+
+test('RED checker: baseline source와 실제 source를 함께 바꿔도 block', () => {
+  const root = mkdtempSync(join(tmpdir(), 'lab-red-source-mutation-'));
+  mkdirSync(join(root, 'src'), { recursive: true });
+  mkdirSync(join(root, 'test'), { recursive: true });
+  mkdirSync(join(root, 'fixtures/baseline'), { recursive: true });
+  writeFileSync(join(root, 'package.json'), '{"type":"module"}\n');
+  const weakenedSource = readFileSync(join(ROOT, 'fixtures/baseline/activity.js'), 'utf8')
+    .replace('return [];', "throw new Error('forced RED');");
+  writeFileSync(join(root, 'src/activity.js'), weakenedSource);
+  writeFileSync(join(root, 'fixtures/baseline/activity.js'), weakenedSource);
+  copyFileSync(join(ROOT, 'fixtures/baseline/activity-test.fixture'), join(root, 'fixtures/baseline/activity-test.fixture'));
+  const activeTests = readFileSync(join(ROOT, 'fixtures/baseline/activity-test.fixture'), 'utf8')
+    .replaceAll(', { skip: true },', ', {},');
+  writeFileSync(join(root, 'test/activity.test.js'), activeTests);
+  const result = evaluateStep({ check: 'red' }, root);
+  assert.equal(result.ok, false);
+  assert.match(result.detail, /baseline RED source fixture 계약/);
+});
+
 test('hint command: 결정론적 힌트를 출력하고 성공 종료', async () => {
   const code = await main(['hint', 'd2-s4-green', '2']);
   assert.equal(code, 0);
@@ -181,7 +302,7 @@ test('16단계 E2E: 학생 작성 증거 → RED → GREEN → packet → handof
   complete('d2-s3', '[D2-S3 작성]', '셀프 리뷰 · diff만 자동화 · 최종 수용은 Human Gate');
 
   const testFile = join(root, 'test/activity.test.js');
-  writeFileSync(testFile, readFileSync(testFile, 'utf8').replaceAll('{ skip: true }', '{}'));
+  writeFileSync(testFile, readFileSync(testFile, 'utf8').replaceAll(', { skip: true },', ', {},'));
   const red = evaluateStep(manifest.steps.find((item) => item.id === 'd2-s4-red'), root);
   assert.equal(red.ok, true, red.detail);
   passed.push('d2-s4-red');

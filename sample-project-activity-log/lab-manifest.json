@@ -128,7 +128,7 @@
       "check": "gate-canvas",
       "error": "E-D2S2-GATE",
       "commands": ["npm run lab -- start d2-s2", "npm run gate", "npm run lab -- check d2-s2"],
-      "expected": "학생 Agent Team Canvas · 독립 Evaluator 판정 · lint/test/policy PASS",
+      "expected": "학생 Agent Team Canvas · 독립 Evaluator 판정 · lint/test/lab:selftest/policy PASS",
       "hints": ["Generator와 다른 Evaluator를 지정하고 pass/revise/block 근거를 적으세요.", "동작 gate 1개와 각 Loop의 중단 조건을 연결하세요."],
       "reset": "scaffold"
     },
@@ -152,8 +152,8 @@
       "check": "red",
       "error": "E-D2S4-RED",
       "commands": ["npm run lab -- start d2-s4-red", "npm run lab -- check d2-s4-red"],
-      "expected": "skip 2개 제거 · sessionize 미구현 · 테스트가 의도대로 FAIL",
-      "hints": ["test/activity.test.js의 { skip: true } 두 곳만 제거하고 구현은 하지 마세요.", "npm test의 실패가 sessionize 기대값에서 발생해야 정상 RED입니다."],
+      "expected": "기존 sessionize 테스트 2개의 skip 옵션만 해제 · 이름/assertion/fixture 불변 · sessionize 미구현 · 5 pass/2 fail/0 skip",
+      "hints": ["test/activity.test.js의 { skip: true } 두 곳을 {}로 바꾸고 이름·assertion·fixture와 구현은 수정하지 마세요.", "npm test가 기존 sessionize 테스트 2건의 기대값에서 실패해야 정상 RED입니다."],
       "reset": "d2-s4"
     },
     {
@@ -177,7 +177,7 @@
       "error": "E-D2S5-PACKET",
       "commands": ["npm run gate", "npm run packet", "npm run lab -- check d2-s5"],
       "expected": "gate PASS · packet에 CLEAN/FALLBACK/REFERENCE-MATCH provenance·부채 owner/due·rollback 포함",
-      "hints": ["packet의 Execution Provenance와 rollback owner를 먼저 채우세요.", "FALLBACK이면 D+7 재구현 owner·due·검증 상태를 숨기지 마세요."],
+      "hints": ["packet의 Execution Provenance와 rollback owner를 먼저 채우세요.", "FALLBACK·REFERENCE-MATCH이면 D+7 재구현 owner·due·검증 상태를 숨기지 마세요."],
       "reset": "none"
     },
     {
@@ -201,7 +201,7 @@
       "error": "E-D2S7-HANDOFF",
       "commands": ["npm run lab -- start d2-s7", "npm run lab -- check d2-s7"],
       "expected": "전원 3장·PL handoff 5칸·현업 액션 3개·교육/실제 적용 판정·provenance",
-      "hints": ["Day1 발표는 없고 Day2 대표 3명만 3분씩 발표하지만 3장/handoff는 전원 제출합니다.", "교육 GO와 실제 업무·차량 적용 GO를 분리하고 FALLBACK 부채를 고지하세요."],
+      "hints": ["Day1 발표는 없고 Day2 대표 3명만 3분씩 발표하지만 3장/handoff는 전원 제출합니다.", "교육 GO와 실제 업무·차량 적용 GO를 분리하고 FALLBACK·REFERENCE-MATCH 부채를 고지하세요."],
       "reset": "scaffold"
     }
   ]

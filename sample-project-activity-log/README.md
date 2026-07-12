@@ -51,7 +51,7 @@ npm test        # baseline: 5 pass, 2 skip(Day2-S4에서 켤 테스트)
 | `npm run lab:dry-run` | 45명 코호트 30회 결정론 시뮬레이션 |
 | `npm run spec-check` | '좋은 입력' 스펙 자가검증(정상·예외·경계 AC·비식별) |
 | `node scripts/token-estimate.mjs <파일>` | 첨부 토큰 근사치(범위 한정 효과 비교) |
-| `npm run gate` | lint + test + policy-check (로컬 품질 게이트) |
+| `npm run gate` | lint + test + lab:selftest + policy-check (로컬 품질 게이트) |
 | `npm run packet` | local review packet 생성 |
 
 Day2 시작 시 VS Code에서 **Terminal → Run Task → Lab: Verify Workspace Root**를 실행하세요. 공개 정답 파일은 제공하지 않으며, solved checkpoint와 소스가 정확히 일치하면 packet은 `REFERENCE-MATCH`로 기록해 D+7 재구현 부채를 요구합니다.
