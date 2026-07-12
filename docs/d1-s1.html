@@ -108,6 +108,18 @@ node scripts/token-estimate.mjs src/billing/tax.js                       # After
 [작업] 문제·현재 동작·원하는 동작·제외 범위·위험도를 표로 정리.
 [제약] 고객명/민감정보 추정 금지, 누락 정보는 질문으로 남겨라.
 [출력] 기능 스펙 카드 형식으로.</code></pre></div>
+  <div class="callout note">
+    <strong>ActivityWatch 목표 힌트 · S1 범위</strong>
+    <p><a href="https://github.com/ActivityWatch/activitywatch" target="_blank" rel="noopener noreferrer">ActivityWatch</a>는 제품 방향을 참고하기 위한 레퍼런스이며, 완전 호환은 요구사항이 아닙니다.</p>
+    <ul>
+      <li><strong>사용자 문제·가치:</strong> “오늘 어떤 앱에 시간을 썼고, 집중 흐름이 언제 끊겼는가?”에 답하는 개인 회고 도구를 상정합니다.</li>
+      <li><strong>Day2 core:</strong> 입력은 <code>{ app, start, end }</code> 합성 이벤트, 이번 출력은 <code>sessionize</code>의 <code>[{ start, end, count }]</code>로 한정합니다.</li>
+      <li><strong>Non-goals:</strong> 실제 OS/브라우저 watcher, 원본 창 제목·URL 저장, DB·서버·전체 UI, REST/query/API 호환.</li>
+      <li><strong>프라이버시:</strong> 로컬 데이터도 민감할 수 있으므로 최소 수집과 비식별 경계를 명시합니다.</li>
+    </ul>
+    <p><strong>완성 스펙을 복사하지 말고 답하세요:</strong> 누구의 어떤 결정을 돕나요? 세션 경계는 어떤 규칙으로 정하나요? 무엇을 이번 범위에서 명시적으로 제외하나요?</p>
+    <p><strong>진행:</strong> Day1에는 이 결정을 문서로 쓰고, Day2에 그 결정을 구현합니다.</p>
+  </div>
 </section>
 
 <section class="section">

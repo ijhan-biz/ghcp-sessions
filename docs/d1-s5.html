@@ -65,6 +65,17 @@
       <tr><td>Risk/Human Gate</td><td>승인 필요 작업 분리</td><td>S4</td></tr>
     </tbody>
   </table>
+  <div class="callout note">
+    <strong>ActivityWatch 목표 힌트 · S5 Spec Pack 점검</strong>
+    <p><a href="https://github.com/ActivityWatch/activitywatch" target="_blank" rel="noopener noreferrer">ActivityWatch</a>의 활동 수집·요약·타임라인·카테고리 방향을 참고하되, 패킷에는 아래 세 층을 섞지 않고 표시합니다.</p>
+    <ul>
+      <li><strong>Core · Day2 구현:</strong> 기존 <code>durationByApp</code>·<code>categorize</code>·<code>topApps</code>·<code>collectEvents</code> 계약을 유지하고 <code>sessionize</code>만 test-first로 완성합니다.</li>
+      <li><strong>Stretch · 선택 사항:</strong> 기본값은 none입니다. core와 gate가 GREEN이고 시간이 남을 때만 카테고리별 시간, 명시적 AFK 상태 필터, 하루 타임라인/날짜 필터, 합성 JSON import/export 중 0개 또는 1개를 별도 backlog로 남깁니다. Day2 완료 기준에는 넣지 않습니다.</li>
+      <li><strong>Out · 이번 과정 제외:</strong> 실제 OS/browser watcher, 원본 창 제목·URL, DB·서버·전체 Web UI, <a href="https://docs.activitywatch.net/en/latest/rest-api.html" target="_blank" rel="noopener noreferrer">REST API</a>·query 호환.</li>
+    </ul>
+    <p><strong>일관성 질문:</strong> S1~S4가 모두 같은 <code>{ app, start, end }</code> 입력, <code>idleGapMs</code>의 <code>&gt;</code>/<code>==</code> 경계, <code>[{ start, end, count }]</code> 출력을 말하나요? 각 AC에 테스트 이름이 있고, 원본 창 제목·URL이 fixture나 출력에 없나요?</p>
+    <p><strong>S5 원칙:</strong> 여기서는 새 기능을 추가하지 않습니다. 앞 단계에 없던 아이디어는 <code>unknown</code> 또는 stretch backlog로 보내고, Day2 core 계약만 하나로 묶습니다.</p>
+  </div>
   <div class="step"><div class="label">정리 프롬프트</div>
 <pre><code>[작업] 아래 흩어진 산출물을 Feature Spec Pack v1로 합쳐라.
 [포함] 비식별 스펙, AC, Context Manifest, Plan(2~4단계), Test Matrix, Risk/Gate.

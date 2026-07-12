@@ -49,6 +49,18 @@
     <span class="n">Custom Skill/Agent</span><span class="ar">→</span>
     <span class="n">공유 1페이지</span>
   </div>
+  <div class="callout note">
+    <strong>제품 목표 레퍼런스 · ActivityWatch에서 무엇을 가져오나</strong>
+    <p><a href="https://github.com/ActivityWatch/activitywatch" target="_blank" rel="noopener noreferrer">ActivityWatch</a>의 로컬 활동 수집·요약·타임라인·카테고리 방향을 참고합니다. 다만 완전 복제가 아니라, 비식별 합성 event를 유휴 간격으로 묶는 <code>sessionize</code> 한 slice가 Day2 core입니다.</p>
+    <ul>
+      <li><strong>S1:</strong> 사용자 문제·가치, <code>{ app, start, end }</code> 입력, core/non-goal·프라이버시 경계를 씁니다.</li>
+      <li><strong>S2:</strong> User Story와 정상·예외·경계 AC를 수치화합니다.</li>
+      <li><strong>S3:</strong> <code>collector</code> 경계와 allowed/blocked/test/unknown 파일·데이터를 정합니다.</li>
+      <li><strong>S4:</strong> RED→최소 구현→GREEN→gate 계획과 AC↔테스트를 연결합니다.</li>
+      <li><strong>S5:</strong> 같은 event 모델·임계 규칙·출력을 쓰는지 확인하고 Spec Pack으로 묶습니다.</li>
+    </ul>
+    <p><strong>Stretch는 선택이며 기본값은 none:</strong> core와 gate가 GREEN이고 시간이 남을 때만 카테고리별 시간, 명시적 AFK 상태, 하루 타임라인/필터, 합성 JSON import/export 중 <strong>0개 또는 1개</strong>를 별도 backlog에 둡니다. Day2 완료 기준에는 포함하지 않으며, 실제 watcher·원본 창 제목/URL·DB/서버·전체 UI·API 호환은 이번 과정에서 제외합니다.</p>
+  </div>
 </section>
 
 <section class="section" id="models">
@@ -130,8 +142,10 @@
 cd labs &amp;&amp; npm test                       # baseline: 10 pass, 2 skip
 
 # Day2 실습 — 새 창의 sample-project
-cd sample-project-activity-log &amp;&amp; npm test  # baseline: 5 pass, 2 skip
-npm run gate                                # lint + test + policy-check</code></pre>
+cd sample-project-activity-log
+node --test test/activity.test.js            # activity 핵심: 5 pass, 2 skip
+npm test                                     # 전체: 8 pass, 2 skip(routing 3 포함)
+npm run gate                                 # lint + test + lab:selftest + policy-check</code></pre>
   <table>
     <caption class="small">세션 ↔ 실행 코드</caption>
     <thead><tr><th>세션</th><th>프로젝트</th><th>직접 실행</th></tr></thead>

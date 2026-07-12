@@ -107,6 +107,18 @@ So that [업무 가치/품질 효과].</code></pre></div>
   </table></div>
   <div class="callout warn"><strong>AC는 검증 가능해야:</strong> 모든 AC는 <strong>자동 테스트 또는 정책 체크</strong>로 확인 가능해야 합니다. "빠르다·직관적이다" 같은 느낌 기준은 AC가 아니라 <strong>non-goal</strong>로 분리하세요.</div>
   <div class="callout note">여기서 만든 AC는 Day1·S4의 Test Matrix(<span class="tag gl">SD-05</span>)와 Day2·S4~S5의 test-first(<span class="tag gl">SD-06</span>) 구현으로 그대로 이어집니다.</div>
+  <div class="callout note">
+    <strong>ActivityWatch 목표 힌트 · S2 User Story·AC</strong>
+    <p><a href="https://docs.activitywatch.net/en/latest/buckets-and-events.html" target="_blank" rel="noopener noreferrer">ActivityWatch의 event·bucket 개념</a>처럼 “시간 구간의 활동을 모아 요약한다”는 방향을 참고하되, 실습 계약은 더 작은 <code>{ app, start, end }</code> 모델입니다.</p>
+    <ul>
+      <li><strong>User Story 질문:</strong> 사용자는 세션 결과를 보고 어떤 결정을 하나요? 한 문장으로 사용자·기능·가치를 연결하세요.</li>
+      <li><strong>고정 계약 확인:</strong> <code>FEATURE-SPEC.md</code>와 <code>src/activity.js</code>의 TODO를 읽고 유효 event 필터, 시작 시각 정렬, 겹침 시 end 확장, ms 출력 규칙을 기록합니다. 이는 선택할 새 AC가 아니라 구현이 지켜야 할 기존 계약입니다.</li>
+      <li><strong>정상·경계 AC 질문:</strong> <code>test/activity.test.js</code>의 skip 테스트 이름과 합성 fixture를 보고, 임계값을 넘는 경우와 정확히 같은 경우의 기대 세션 수·count를 직접 계산해 적으세요.</li>
+      <li><strong>예외 AC 질문:</strong> baseline 테스트 이름에서 무효 event 또는 collector 실패 계약 하나를 골라 기존 기대값과 연결하세요. 새 예외 동작을 만들지 않습니다.</li>
+      <li><strong>증거 범위:</strong> Day2 필수 sessionize 증거는 기존 skip 2개를 켜는 것입니다. 추가 checkpoint 테스트를 요구사항처럼 늘리지 않습니다.</li>
+    </ul>
+    <p><strong>개념 주의:</strong> ActivityWatch의 AFK watcher가 기록하는 <em>afk/not-afk 상태</em>와, 이번 실습이 계산하는 <em>이벤트 사이 유휴 간격</em>은 같은 데이터가 아닙니다. 명시적 AFK 입력은 stretch 또는 non-goal로 남기세요.</p>
+  </div>
 </section>
 
 <section class="section">

@@ -88,6 +88,17 @@
       <tr><td>AC3 blocked 불변</td><td>policy</td><td>no blocked file change</td><td><code>policy-check</code></td><td>pass</td></tr>
     </tbody>
   </table>
+  <div class="callout note">
+    <strong>ActivityWatch 목표 힌트 · S4 Plan·Test Matrix</strong>
+    <p><a href="https://github.com/ActivityWatch/aw-webui" target="_blank" rel="noopener noreferrer">ActivityWatch의 요약·타임라인·카테고리 기능</a>은 장기 방향입니다. 이번 Plan은 그중 <code>sessionize</code> 한 slice만 Day2에 끝낼 수 있도록 씁니다.</p>
+    <ul>
+      <li><strong>Core plan 질문:</strong> <code>test/activity.test.js</code>의 skip 2개와 <code>src/activity.js</code> TODO를 읽고, 어떤 순서로 RED를 확인하고 최소 구현과 GREEN·gate까지 갈지 2~4단계로 직접 쓰세요.</li>
+      <li><strong>Core Test Matrix 질문:</strong> fixture를 계산해 임계값 초과와 정확히 같은 경우의 기대값을 채우고, 예외 행은 기존 baseline의 무효 event 또는 collector 실패 테스트와 연결하세요.</li>
+      <li><strong>Stretch 후보:</strong> 기본값은 none입니다. core와 gate가 GREEN이고 시간이 남으면 카테고리별 시간, 명시적 AFK 필터, 하루 타임라인/날짜 필터, 합성 JSON import/export 중 <strong>0개 또는 1개</strong>를 별도 backlog에 둡니다.</li>
+      <li><strong>Out:</strong> 실제 watcher·브라우저 확장, 상시 백그라운드 실행, DB·전체 Web UI, ActivityWatch REST/query 완전 호환.</li>
+    </ul>
+    <p><strong>Day1에 적을 것:</strong> 어떤 2~4단계로 구현할지, 각 AC가 어느 테스트와 연결되는지, 실패하면 무엇을 되돌리고 어떤 명령으로 baseline을 확인할지. 코드는 아직 작성하지 않습니다.</p>
+  </div>
 </section>
 
 <section class="section">
