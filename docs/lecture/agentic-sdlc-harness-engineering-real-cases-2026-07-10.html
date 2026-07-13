@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="original-filename" content="053-agentic-sdlc-harness-engineering-real-cases-2026-07-07.html" />
+<meta name="original-date-signal" content="2026-07-07" />
+<meta name="final-updated" content="2026-07-10" />
+<meta name="filename-date-policy" content="filename date reflects the latest material update; original date signal is stored internally" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Agentic SDLC & Harness Engineering 실 사례 · 실제 코드 16선</title>
+<style>
+  :root { --bg:#f6f8fb; --paper:#fff; --ink:#111827; --soft:#263247; --muted:#647084; --line:#dce5ef; --blue:#0969da; --green:#1f7a4d; --amber:#a65c00; --red:#cf222e; --purple:#7c3aed; --shadow:0 16px 42px rgba(15,23,42,.08); }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif; line-height:1.66; }
+  a { color:#464feb; text-decoration:none; } a:hover { text-decoration:underline; }
+  .shell { width:min(calc(100% - 44px),1180px); margin:0 auto; padding:24px 0 88px; }
+  .topbar { display:flex; justify-content:space-between; gap:16px; color:var(--muted); font-size:14px; padding:8px 0 18px; }
+  .hero { padding:38px; border:1px solid var(--line); border-radius:8px; background:var(--paper); box-shadow:var(--shadow); }
+  .eyebrow { color:var(--blue); font-weight:850; font-size:13px; text-transform:uppercase; letter-spacing:.04em; }
+  h1 { margin:8px 0 16px; font-size:clamp(28px,4.4vw,44px); line-height:1.1; }
+  h2 { margin:0 0 12px; font-size:24px; }
+  h3 { margin:22px 0 8px; font-size:18px; }
+  h4 { margin:16px 0 6px; font-size:15px; color:var(--soft); }
+  p { margin:8px 0; color:var(--soft); }
+  .lead { font-size:18px; max-width:940px; }
+  .muted { color:var(--muted); }
+  .toc,.section { margin-top:22px; border:1px solid var(--line); border-radius:8px; background:var(--paper); box-shadow:0 8px 22px rgba(15,23,42,.04); }
+  .toc { padding:18px 22px; } .toc ol { margin:8px 0 0; padding-left:22px; columns:2; }
+  .toc a { color:var(--soft); } .toc li { margin:3px 0; }
+  .section { padding:28px 30px; scroll-margin-top:18px; }
+  table { width:100%; border-collapse:separate; border-spacing:0; border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-top:14px; }
+  th,td { padding:10px 12px; text-align:left; vertical-align:top; border:1px solid #e6e6e6; font-size:14px; }
+  th { background:#f5f5f5; color:#25324a; font-size:12.5px; }
+  tr:last-child td { border-bottom:0; }
+  td.k { font-weight:750; color:var(--ink); white-space:nowrap; }
+  .flow { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:14px 0; }
+  .node { border:1px solid var(--line); border-radius:999px; padding:6px 12px; background:#f1f7ff; font-weight:750; font-size:13.5px; }
+  .arrow { color:var(--muted); font-weight:800; }
+  .pill { display:inline-block; border:1px solid var(--line); border-radius:999px; padding:2px 9px; font-size:12px; font-weight:800; color:var(--muted); }
+  .pill.t { color:var(--blue); border-color:rgba(9,105,218,.35); }
+  .pill.a { color:var(--purple); border-color:rgba(124,58,237,.35); }
+  .pill.g { color:var(--green); border-color:rgba(31,122,77,.35); }
+  .pill.r { color:var(--red); border-color:rgba(207,34,46,.35); }
+  .callout { margin-top:16px; padding:14px 18px; border-left:4px solid var(--blue); border-radius:8px; background:#f1f7ff; }
+  .callout.good { border-left-color:var(--green); background:#f3fbf5; }
+  .callout.risk { border-left-color:var(--red); background:#fff5f5; }
+  .callout.warn { border-left-color:var(--amber); background:#fffaf0; }
+  code { padding:1px 5px; border:1px solid var(--line); border-radius:5px; background:#eef2f7; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.9em; }
+  pre.code { position:relative; margin:12px 0; padding:15px 16px; border:1px solid #24304a; border-radius:10px; background:#0f172a; overflow-x:auto; box-shadow:0 8px 22px rgba(15,23,42,.14); }
+  pre.code code { display:block; padding:0; border:0; background:none; color:#e5edf7; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:12.9px; line-height:1.62; white-space:pre; }
+  pre.code[data-lang]::before { content:attr(data-lang); position:absolute; top:0; right:0; padding:2px 10px; font-size:10.5px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:#9fb4d0; background:#1c2740; border-left:1px solid #24304a; border-bottom:1px solid #24304a; border-radius:0 10px 0 8px; }
+  .case { margin-top:24px; border:1px solid var(--line); border-radius:12px; background:var(--paper); box-shadow:0 8px 22px rgba(15,23,42,.05); overflow:hidden; }
+  .case > .head { padding:18px 24px; background:linear-gradient(180deg,#f8fbff,#fff); border-bottom:1px solid var(--line); }
+  .case > .head .no { font-size:12px; font-weight:850; color:var(--purple); letter-spacing:.05em; }
+  .case > .head h3 { margin:4px 0 6px; font-size:20px; color:var(--ink); }
+  .case > .body { padding:8px 24px 24px; }
+  .tag { display:inline-block; margin:2px 4px 2px 0; padding:2px 8px; border-radius:6px; font-size:11.5px; font-weight:750; background:#eef2f7; color:#3a4a63; border:1px solid var(--line); }
+  .kv { display:grid; grid-template-columns:130px 1fr; gap:2px 12px; margin:6px 0; font-size:14px; }
+  .kv .kk { font-weight:800; color:var(--muted); }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  ul.tight, ol.tight { margin:6px 0; padding-left:20px; } ul.tight li, ol.tight li { margin:4px 0; color:var(--soft); font-size:14.5px; }
+  .src { font-size:12.5px; color:var(--muted); margin-top:10px; }
+  .src b { color:var(--soft); }
+  hr.sep { border:0; border-top:1px dashed var(--line); margin:20px 0; }
+  @media (max-width:900px){ .toc ol{columns:1;} .grid2{grid-template-columns:1fr;} .kv{grid-template-columns:1fr;} .shell{width:min(calc(100% - 22px),1180px);} .hero{padding:24px;} table,thead,tbody,tr,th,td{display:block;} thead{display:none;} tr{border-bottom:1px solid var(--line);} td{border-bottom:0;} td::before{content:attr(data-label);display:block;color:var(--muted);font-size:12px;font-weight:850;margin-bottom:2px;} }
+  pre.code code.hljs { background:transparent; padding:0; color:#e5edf7; }
+  a.node { color:var(--soft); }
+  a.node:hover { background:#e3efff; text-decoration:none; }
+  .toc ol { columns:2; } .toc li.cat { break-inside:avoid; margin-top:6px; }
+  .toc li.sub a { color:var(--muted); }
+  .backtop { text-align:right; margin:14px 0 2px; }
+  .backtop a { font-size:11.5px; font-weight:800; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:3px 11px; background:#fff; }
+  .backtop a:hover { background:#f1f7ff; text-decoration:none; }
+  /* fixed left navigation (persistent) */
+  #sidenav { position:fixed; top:0; left:0; width:264px; height:100vh; overflow-y:auto; background:#0f172a; border-right:1px solid #24304a; padding:16px 12px 44px; z-index:50; font-size:13px; }
+  #sidenav .sn-title { font-weight:850; font-size:13px; margin:2px 6px 8px; }
+  #sidenav .sn-title a { color:#fff; }
+  #sidenav .sn-flow { color:#7c8db0; font-size:10.5px; margin:0 6px 12px; line-height:1.55; }
+  #sidenav a { display:block; color:#aab8d0; text-decoration:none; padding:3px 8px; border-radius:6px; line-height:1.4; }
+  #sidenav a:hover { background:#1c2740; color:#fff; text-decoration:none; }
+  #sidenav a.active { background:#17385f; color:#fff; box-shadow:inset 3px 0 0 #4c8dff; }
+  #sidenav a.sn-h { font-weight:800; color:#e5edf7; }
+  #sidenav .sn-grp { margin:12px 6px 4px; font-size:10px; font-weight:850; letter-spacing:.09em; text-transform:uppercase; color:#63769a; }
+  @media (min-width:1180px){ body { padding-left:264px; } nav.toc, .flow[aria-label="논리 흐름 바로가기"] { display:none; } }
+  @media (max-width:1179px){ #sidenav { display:none; } }
+  /* per-case enrichment: context/result/episode */
+  .episode { margin-top:16px; padding:14px 16px 8px; border:1px solid var(--line); border-left:4px solid var(--purple); border-radius:8px; background:#faf7ff; }
+  .episode h4 { margin:0 0 8px; color:var(--purple); text-transform:none; font-size:13.5px; letter-spacing:0; }
+  .episode ul.tight li { font-size:13.8px; }
+  .episode .src2 { font-size:12px; color:var(--muted); margin:8px 0 4px; }
+  .episode .src2 b { color:var(--soft); }
+  .episode .tok { margin:8px 0 2px; font-size:13px; color:var(--green); background:#f3fbf5; border:1px solid rgba(31,122,77,.28); border-radius:6px; padding:7px 11px; }
+  .episode .tok b { color:#155e35; }
+  .repo { margin:2px 0 12px; padding:7px 11px; background:#f4f7fb; border:1px solid var(--line); border-radius:8px; font-size:13px; color:var(--soft); }
+  .repo b { color:var(--muted); } .repo a { font-weight:750; }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+</head>
+<body>
+<aside id="sidenav" aria-label="사이드 내비게이션">
+  <div class="sn-title"><a href="#top">Agentic SDLC · Harness 실사례</a></div>
+  <div class="sn-flow">흐름: 개념→통제면→A→B→C→D→E→종합→검증</div>
+  <nav aria-label="문서 바로가기">
+    <a class="sn-h" href="#concept">1 · 개념 · 7 통제면</a>
+    <a class="sn-h" href="#summary">2 · 16사례 표</a>
+    <div class="sn-grp">A · CLI/클라우드 표면</div>
+    <a href="#c1">A1 · GitHub Copilot cloud agent</a>
+    <a href="#c2">A2 · Claude Code</a>
+    <a href="#c3">A3 · OpenAI Codex CLI</a>
+    <div class="sn-grp">B · 오픈소스/학술 런타임</div>
+    <a href="#c4">B1 · SWE-agent</a>
+    <a href="#c5">B2 · OpenHands</a>
+    <a href="#c6">B3 · Aider</a>
+    <div class="sn-grp">C · Spec-driven/방법론</div>
+    <a href="#c7">C1 · GitHub Spec Kit</a>
+    <a href="#c8">C2 · Superpowers</a>
+    <a href="#c9">C3 · Compound Engineering</a>
+    <div class="sn-grp">D · 멀티에이전트 논쟁</div>
+    <a href="#c10">D1 · Anthropic 멀티 (+90.2%)</a>
+    <a href="#c11">D2 · Cognition 반례</a>
+    <div class="sn-grp">E · Microsoft 플랫폼</div>
+    <a href="#e1">E1 · Agent Framework</a>
+    <a href="#e2">E2 · Semantic Kernel</a>
+    <a href="#e3">E3 · VS Code agent mode</a>
+    <a href="#e4">E4 · Azure SRE Agent</a>
+    <a href="#e5">E5 · Foundry Agent Service</a>
+    <div class="sn-grp">종합 · 검증</div>
+    <a href="#cross">8 · 크로스 비교</a>
+    <a href="#insights">8.1 · 6가지 인사이트</a>
+    <a href="#practices">8.2 · 공통 프랙티스 비교표</a>
+    <a href="#startorder">8.3 · 실무 출발 순서</a>
+    <a href="#adjacent">8.4 · 인접 primitive</a>
+    <a href="#sources">9 · 근거 · 검증 경계</a>
+    <a href="#primary-sources">9.1 · 1차 출처</a>
+    <a href="#ledger">9.2 · 팩트 원장 F1–F15</a>
+  </nav>
+</aside>
+<div class="shell" id="top">
+  <div class="topbar"><span>Agentic SDLC · Harness Engineering · 실 사례</span><span>업데이트 2026-07-10 KST · 지식 베이스</span></div>
+
+  <header class="hero">
+    <div class="eyebrow">Real-world Cases with Actual Code · Agentic SDLC × Harness Engineering</div>
+    <h1>Agentic SDLC와 Harness Engineering — 실제 코드로 보는 16개 실 사례</h1>
+    <p class="lead">"에이전트에게 좋은 프롬프트를 준다"가 아니라, <strong>도구·권한·컨텍스트·검증·복구·관측을 코드로 설계</strong>한 실제 시스템들을 모았다.
+    공식 문서·GitHub 원본·논문·엔지니어링 블로그를 1차 근거로, 각 사례가 Agentic SDLC(명세→구현→검증→운영 폐루프)와 Harness(통제면)를 <strong>어떤 파일·어떤 코드로</strong> 구현했는지 실제 스니펫과 함께 설명한다. <strong>Microsoft 자사(1st-party) 사례</strong>는 카테고리 E에 별도로 모았다.</p>
+    <p class="muted"><span class="pill t">공식/원본 코드</span> = raw GitHub·공식 docs에서 확인 · <span class="pill a">아키텍처 주장</span> = 벤더/저자 발표 기준 · <span class="pill r">검증 필요</span> = 릴리스 시점 재확인 대상</p>
+    <p class="muted" style="margin-top:10px">조사 기준일 2026-07-07. 제품 기능·가격·preview/GA·모델명은 시점에 따라 바뀔 수 있어 외부 공유 전 공식 출처 재확인이 필요하다. 아래 코드는 각 프로젝트의 공개 문서/저장소에서 확인한 예시이며, 그대로의 배포 권고가 아니라 <em>패턴 예시</em>다.</p>
+  </header>
+
+  <nav class="toc" id="toc" aria-label="목차">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><strong>목차 · 바로가기</strong><span class="muted" style="font-size:12.5px">논리 흐름: 개념 → 통제면 → A 표면 → B 런타임 → C 방법론 → D 논쟁 → E MS → 종합 → 검증</span></div>
+    <ol>
+      <li class="cat"><a href="#concept">1. 개념 정리 — Agentic SDLC · Harness 7 통제면</a></li>
+      <li class="cat"><a href="#summary">2. 16개 사례 한눈에 보기 (표 A1–E5)</a></li>
+      <li class="cat"><a href="#catA">3. 카테고리 A — CLI/클라우드 <b>표면</b></a></li>
+      <li class="sub"><a href="#c1">3.1 A1 · GitHub Copilot cloud agent</a></li>
+      <li class="sub"><a href="#c2">3.2 A2 · Claude Code (CLAUDE.md·subagents·hooks)</a></li>
+      <li class="sub"><a href="#c3">3.3 A3 · OpenAI Codex CLI (AGENTS.md·config.toml)</a></li>
+      <li class="cat"><a href="#catB">4. 카테고리 B — 오픈소스/학술 <b>런타임</b></a></li>
+      <li class="sub"><a href="#c4">4.1 B1 · SWE-agent (Agent-Computer Interface)</a></li>
+      <li class="sub"><a href="#c5">4.2 B2 · OpenHands (Docker 런타임·EventStream)</a></li>
+      <li class="sub"><a href="#c6">4.3 B3 · Aider (Repo map·reflection loop)</a></li>
+      <li class="cat"><a href="#catC">5. 카테고리 C — Spec-driven/<b>방법론</b></a></li>
+      <li class="sub"><a href="#c7">5.1 C1 · GitHub Spec Kit</a></li>
+      <li class="sub"><a href="#c8">5.2 C2 · Superpowers (skills 하네스)</a></li>
+      <li class="sub"><a href="#c9">5.3 C3 · Compound Engineering (자기개선 루프)</a></li>
+      <li class="cat"><a href="#catD">6. 카테고리 D — 멀티에이전트 <b>논쟁</b></a></li>
+      <li class="sub"><a href="#c10">6.1 D1 · Anthropic 멀티에이전트 리서치 (+90.2%)</a></li>
+      <li class="sub"><a href="#c11">6.2 D2 · Cognition — "멀티에이전트 만들지 마라"</a></li>
+      <li class="cat"><a href="#catE">7. 카테고리 E — Microsoft <b>플랫폼</b></a></li>
+      <li class="sub"><a href="#e1">7.1 E1 · Microsoft Agent Framework (middleware·approval·OTel)</a></li>
+      <li class="sub"><a href="#e2">7.2 E2 · Semantic Kernel (function invocation filters)</a></li>
+      <li class="sub"><a href="#e3">7.3 E3 · VS Code + Copilot agent mode (languageModelTools)</a></li>
+      <li class="sub"><a href="#e4">7.4 E4 · Azure SRE Agent (permission gate·hooks·micro-VM)</a></li>
+      <li class="sub"><a href="#e5">7.5 E5 · Azure AI Foundry Agent Service (guardrails·tracing)</a></li>
+      <li class="cat"><a href="#cross">8. 크로스 비교 · 도출 인사이트</a></li>
+      <li class="sub"><a href="#insights">8.1 관통하는 6가지 인사이트</a></li>
+      <li class="sub"><a href="#practices">8.2 공통 프랙티스 비교표(장점·단점·토큰·성능)</a></li>
+      <li class="sub"><a href="#startorder">8.3 실무 출발 순서(6단계)</a></li>
+      <li class="sub"><a href="#adjacent">8.4 인접 하네스 primitive (SWE-bench·gh-aw)</a></li>
+      <li class="cat"><a href="#sources">9. 근거 · 출처 · 검증 경계</a></li>
+      <li class="sub"><a href="#primary-sources">9.1 1차 출처(공식·원본·논문)</a></li>
+      <li class="sub"><a href="#ledger">9.2 실측 팩트 원장 F1–F15</a></li>
+    </ol>
+  </nav>
+  <div class="flow" aria-label="논리 흐름 바로가기">
+    <a class="node" href="#concept">개념·7통제면</a><span class="arrow">→</span>
+    <a class="node" href="#summary">16사례 표</a><span class="arrow">→</span>
+    <a class="node" href="#catA">A · CLI 표면</a><span class="arrow">→</span>
+    <a class="node" href="#catB">B · OSS/학술</a><span class="arrow">→</span>
+    <a class="node" href="#catC">C · 방법론</a><span class="arrow">→</span>
+    <a class="node" href="#catD">D · 논쟁</a><span class="arrow">→</span>
+    <a class="node" href="#catE">E · Microsoft</a><span class="arrow">→</span>
+    <a class="node" href="#cross">크로스 인사이트</a><span class="arrow">→</span>
+    <a class="node" href="#ledger">팩트 원장</a>
+  </div>
+
+  <section class="section" id="concept">
+    <h2>1. 개념 정리 — 무엇을 "실 사례"로 보는가</h2>
+    <p><b>Agentic SDLC</b>는 라이프사이클의 각 단계를 사람이 직접 하는 대신, <b>명세(spec)를 받아 에이전트가 탐색·구현·검증</b>하고 사람은 방향 설정·검토·승인을 맡는 개발 생애주기다. 핵심 전제는 ① 명세 우선(Spec-Driven) ② 통제면 우선(Harness over Prompt) ③ 사람 검토 유지(Human-in-the-loop) ④ 폐루프(운영 피드백이 명세로 환류)다.</p>
+    <p><b>Harness Engineering</b>은 "AI가 파일을 바꾸고 명령을 실행하는 흐름을 <b>관찰 가능하고 통제 가능한 실행 환경</b>으로 만드는 일"이다. 결과 품질은 좋은 프롬프트보다 아래 통제면의 설계가 좌우한다. 이 문서는 각 사례를 이 7개 통제면에 매핑한다.</p>
+    <div class="flow">
+      <span class="node">명세/컨텍스트</span><span class="arrow">→</span>
+      <span class="node">권한 게이트</span><span class="arrow">→</span>
+      <span class="node">실행 격리</span><span class="arrow">→</span>
+      <span class="node">검증 게이트</span><span class="arrow">→</span>
+      <span class="node">관측/감사</span><span class="arrow">→</span>
+      <span class="node">복구/롤백</span><span class="arrow">→</span>
+      <span class="node">학습 환류</span>
+    </div>
+    <table>
+      <thead><tr><th>통제면</th><th>질문</th><th>대표 구현물(파일/메커니즘)</th></tr></thead>
+      <tbody>
+        <tr><td class="k">컨텍스트/명세</td><td>에이전트는 항상 무엇을 보고 일하나?</td><td><code>AGENTS.md</code>·<code>CLAUDE.md</code>·spec 파일·repo map</td></tr>
+        <tr><td class="k">권한 게이트</td><td>어떤 도구를 언제 승인 없이/승인 후 쓰나?</td><td>allow/deny 목록, approval policy, tool allowlist</td></tr>
+        <tr><td class="k">실행 격리</td><td>변경/실행은 어디서 일어나나?</td><td>ephemeral runner, Docker, git worktree, sandbox</td></tr>
+        <tr><td class="k">검증 게이트</td><td>결과가 좋은지 무엇으로 판정하나?</td><td>lint/test/보안스캔 hook, 리뷰 서브에이전트, eval</td></tr>
+        <tr><td class="k">관측/감사</td><td>무엇을 했는지 어떻게 남기나?</td><td>trace/EventStream, git commit, session log</td></tr>
+        <tr><td class="k">복구/롤백</td><td>실패하면 어떻게 되돌리나?</td><td>edit auto-revert, checkpoint resume, PR 미머지</td></tr>
+        <tr><td class="k">학습 환류</td><td>이번 경험이 다음을 어떻게 개선하나?</td><td>학습을 CLAUDE.md·skill·spec으로 재주입</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn"><b>읽는 법.</b> 각 사례의 정량 성과(배수·%·해결률)는 <b>발표·저자·논문의 자가 보고</b>다. 표본·측정법이 공개되지 않은 경우가 많으므로 일반 법칙이 아니라 <b>방향성 신호</b>로 읽고 자사 환경에서 별도 검증한다. Harness "PASS"는 구조 검증이지 사실 검증이 아니다.</div>
+    <p class="backtop"><a href="#toc">↑ 목차</a></p>
+  </section>
+
+  <section class="section" id="summary">
+    <h2>2. 16개 사례 한눈에 보기</h2>
+    <table>
+      <thead><tr><th>#</th><th>사례</th><th>유형</th><th>하네스 핵심 구현물</th><th>학습 환류</th></tr></thead>
+      <tbody>
+        <tr><td class="k">A1</td><td><a href="#c1">GitHub Copilot cloud agent</a></td><td>클라우드 에이전트</td><td><code>copilot-setup-steps.yml</code> · <code>copilot-instructions.md</code> · MCP allowlist · ephemeral Actions runner</td><td>PR 리뷰 피드백 → instructions</td></tr>
+        <tr><td class="k">A2</td><td><a href="#c2">Claude Code</a></td><td>터미널 에이전트</td><td><code>CLAUDE.md</code> · <code>.claude/agents/*.md</code> · <code>settings.json</code> hooks(Pre/PostToolUse)</td><td>CLAUDE.md 갱신</td></tr>
+        <tr><td class="k">A3</td><td><a href="#c3">OpenAI Codex CLI</a></td><td>터미널 에이전트</td><td><code>AGENTS.md</code> · <code>config.toml</code>(approval·sandbox) · <code>.codex/agents/*.toml</code></td><td>Memories(옵션)</td></tr>
+        <tr><td class="k">B1</td><td><a href="#c4">SWE-agent</a></td><td>학술 하네스(NeurIPS'24)</td><td>Agent-Computer Interface — 윈도우드 뷰어 · <code>edit</code> lint 게이트 · 단일 YAML</td><td>-</td></tr>
+        <tr><td class="k">B2</td><td><a href="#c5">OpenHands</a></td><td>오픈소스 플랫폼</td><td>Docker ActionExecutor · append-only EventStream · Skills</td><td>Skill/AGENTS.md</td></tr>
+        <tr><td class="k">B3</td><td><a href="#c6">Aider</a></td><td>오픈소스 CLI</td><td>tree-sitter repo map · auto-lint/test reflection · auto-commit</td><td>CONVENTIONS.md</td></tr>
+        <tr><td class="k">C1</td><td><a href="#c7">GitHub Spec Kit</a></td><td>Spec-driven 툴킷</td><td>슬래시 워크플로우 <code>/speckit.specify→plan→tasks→implement</code></td><td>버전드 spec(git)</td></tr>
+        <tr><td class="k">C2</td><td><a href="#c8">Superpowers</a></td><td>프로세스 하네스(플러그인)</td><td><code>SKILL.md</code> mandatory gate · TDD · subagent-driven</td><td>writing-skills 메타스킬</td></tr>
+        <tr><td class="k">C3</td><td><a href="#c9">Compound Engineering</a></td><td>자기개선 방법론</td><td><code>/ce-compound</code> 6서브에이전트 → <code>docs/solutions/</code> · CLAUDE.md 갱신</td><td><b>명시적 compound 단계</b></td></tr>
+        <tr><td class="k">D1</td><td><a href="#c10">Anthropic 멀티에이전트 리서치</a></td><td>오케스트레이터-워커</td><td>lead(Opus)+병렬 subagent(Sonnet) · 아티팩트 파일시스템</td><td>self-improving 툴 설명</td></tr>
+        <tr><td class="k">D2</td><td><a href="#c11">Cognition (Devin)</a></td><td>단일스레드 반례</td><td>full-trace 컨텍스트 공유 · context compressor(파인튜닝)</td><td>compressor 도메인 학습</td></tr>
+        <tr><td class="k" style="background:#f6f2ff">E1</td><td><a href="#e1">Microsoft Agent Framework</a></td><td>MS 프레임워크(SK+AutoGen 통합)</td><td>middleware 체인 · <code>approval_mode</code> HITL · workflows · OpenTelemetry</td><td>middleware 감사</td></tr>
+        <tr><td class="k" style="background:#f6f2ff">E2</td><td><a href="#e2">Semantic Kernel</a></td><td>MS 오케스트레이션 SDK</td><td><code>IFunctionInvocationFilter</code>·<code>IAutoFunctionInvocationFilter</code> 게이트</td><td>filter 로깅</td></tr>
+        <tr><td class="k" style="background:#f6f2ff">E3</td><td><a href="#e3">VS Code + Copilot agent mode</a></td><td>MS 오픈소스 에이전트 표면</td><td><code>languageModelTools</code> · <code>prepareInvocation</code> 승인 게이트 · prompt-tsx</td><td>instructions 파일</td></tr>
+        <tr><td class="k" style="background:#f6f2ff">E4</td><td><a href="#e4">Azure SRE Agent</a></td><td>MS 운영 에이전트(agentic Ops)</td><td>permission gate·OBO·RBAC · agent hooks(Stop/PostToolUse) · micro-VM 샌드박스</td><td>session insights·memories</td></tr>
+        <tr><td class="k" style="background:#f6f2ff">E5</td><td><a href="#e5">Azure AI Foundry Agent Service</a></td><td>MS 관리형 에이전트 런타임</td><td>guardrails 4지점 · code interpreter 샌드박스 · OTel 트레이싱 · 버전/롤백</td><td>버전 스냅샷</td></tr>
+      </tbody>
+    </table>
+    <p class="muted" style="margin-top:12px">A/B/C/D/E는 상호 대체재가 아니라 <b>서로 다른 층</b>이다. 실제 프로덕션 하네스는 CLI 표면(A) + 격리 런타임(B) + 방법론(C) + 오케스트레이션 판단(D) + Microsoft 프레임워크·플랫폼(E)을 조합한다.</p>
+    <p class="backtop"><a href="#toc">↑ 목차</a></p>
+  </section>
+
+  <section class="section" id="catA">
+    <h2>3. 카테고리 A — 에이전트 CLI / 클라우드 에이전트</h2>
+    <p>개발자가 매일 만지는 표면이다. 하네스는 대부분 <b>리포지토리 안의 설정 파일</b>(instructions, setup, hooks, agent 정의)로 코드화되어 팀이 git으로 공유·리뷰한다.</p>
+    <p class="backtop"><a href="#toc">↑ 목차</a></p>
+  </section>
+<div class="case" id="c1"><div class="head"><div class="no">CASE A1 · 공식 코드</div><h3>GitHub Copilot cloud agent — 이슈 배정 → ephemeral runner → PR</h3><div><span class="tag">클라우드 에이전트</span><span class="tag">GitHub Actions 격리</span><span class="tag">MCP</span><span class="tag">PR 게이트</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> <a href="https://github.com/github/awesome-copilot">github/awesome-copilot</a> (공식 인스트럭션·프롬프트 큐레이션) · <a href="https://github.com/agentsmd/agents.md">agentsmd/agents.md</a> (AGENTS.md 표준, 이전 openai/agents.md에서 이동) — 코딩 에이전트 코어는 비공개</p>
+<p><b>개요.</b> GitHub Issue를 <code>@copilot</code>에 배정하면(또는 Chat·API·CLI·MCP·Jira/Slack/Teams 등에서 시작) Copilot이 <b>일회용 GitHub Actions 러너</b>(Ubuntu/Windows, 최대 59분)를 띄워 리포를 탐색하고 계획을 세운 뒤 <b>새 브랜치</b>에 코드를 바꾸고 린트·테스트를 돌린 다음 <b>Pull Request</b>를 연다. 사람은 PR에서 리뷰·수정·머지한다. "AI가 SDLC를 대체"가 아니라 GitHub의 기록(Issues/PR/Actions/Audit) 위에서 에이전트가 후보를 만들고 사람이 승인하는 폐루프다.</p>
+<h4>Agentic SDLC 매핑</h4>
+<div class="flow">
+  <span class="node">Issue(명세)</span><span class="arrow">→</span><span class="node">setup steps</span><span class="arrow">→</span>
+  <span class="node">plan+구현(branch)</span><span class="arrow">→</span><span class="node">lint/test·code review</span><span class="arrow">→</span>
+  <span class="node">PR</span><span class="arrow">→</span><span class="node">사람 리뷰·머지</span>
+</div>
+<h4>하네스 ① 컨텍스트 — 커스텀 인스트럭션</h4>
+<p>리포 전역 규칙은 <code>.github/copilot-instructions.md</code>, 경로별 규칙은 <code>.github/instructions/NAME.instructions.md</code>(frontmatter의 <code>applyTo</code> glob), 에이전트 규칙은 트리 어디서나 <code>AGENTS.md</code>(가장 가까운 파일 우선)로 둔다.</p>
+<pre class="code" data-lang="markdown"><code># .github/copilot-instructions.md
+## Repository Summary
+TypeScript/Node.js REST API. Express 5.x, Node 20 LTS, Vitest, ESLint.
+
+## Build and Validate
+- Always run `npm install` before building.
+- Build: `npm run build` (outputs to dist/)
+- Test: `npm test` — run before every commit.
+- Lint: `npm run lint` — must pass with zero errors.
+- Order: install -&gt; build -&gt; test -&gt; lint.
+
+## Project Layout
+- src/routes/ Express handlers · src/models/ Prisma models
+- prisma/schema.prisma DB schema · dist/ compiled (do not edit)
+
+## Coding Standards
+- async/await only (no raw .then()). Explicit error handling in every handler.
+- Never hardcode secrets; use process.env with a .env.example.
+- Trust these instructions; search the codebase only if something seems missing.</code></pre><pre class="code" data-lang=".github/instructions/payments.instructions.md"><code>---
+applyTo: &quot;src/payments/**/*.ts&quot;
+excludeAgent: &quot;code-review&quot;
+---
+## Payments Module Rules
+- Use `make test-payments` instead of `npm test` in this directory.
+- All payment amounts must use integer cents (never floats).</code></pre>
+<h4>하네스 ② 실행 격리 — 에이전트 환경 사전설치</h4>
+<p>에이전트가 일할 환경은 <code>.github/workflows/copilot-setup-steps.yml</code>로 미리 준비한다. <b>job 이름이 반드시 <code>copilot-setup-steps</code></b>여야 Copilot이 인식한다. 방화벽은 기본 ON, <code>timeout-minutes</code> 최대 59.</p>
+<pre class="code" data-lang=".github/workflows/copilot-setup-steps.yml"><code>name: &quot;Copilot Setup Steps&quot;
+on:
+  workflow_dispatch:
+  push:
+    paths: [ .github/workflows/copilot-setup-steps.yml ]
+  pull_request:
+    paths: [ .github/workflows/copilot-setup-steps.yml ]
+
+jobs:
+  # 이 이름이 아니면 Copilot이 픽업하지 않는다.
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read          # 최소 권한. 에이전트 토큰은 별도.
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: &quot;20&quot;
+          cache: &quot;npm&quot;
+      - run: npm ci             # 의존성 사전 설치</code></pre><p class="muted">honored 필드는 <code>steps · permissions · runs-on · services · snapshot · timeout-minutes</code>뿐. 어떤 setup step이 실패(비영 종료)하면 나머지를 건너뛰고 현재 상태로 작업을 시작한다.</p>
+<h4>하네스 ③ 권한 게이트 — MCP 도구 허용목록</h4>
+<p>MCP는 리포 Settings → Copilot → MCP servers의 JSON으로 설정한다. <code>tools</code>에 <b>읽기 전용 도구만 허용목록</b>으로 두는 게 권장인데, 이유는 아래 경고 때문이다.</p>
+<pre class="code" data-lang="MCP config (repo settings)"><code>{
+  &quot;mcpServers&quot;: {
+    &quot;sentry&quot;: {
+      &quot;type&quot;: &quot;local&quot;,
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;@sentry/mcp-server@latest&quot;, &quot;--host=$SENTRY_HOST&quot;],
+      &quot;env&quot;: {
+        &quot;SENTRY_HOST&quot;: &quot;https://contoso.sentry.io&quot;,
+        &quot;SENTRY_ACCESS_TOKEN&quot;: &quot;$COPILOT_MCP_SENTRY_ACCESS_TOKEN&quot;
+      },
+      &quot;tools&quot;: [&quot;list_issues&quot;, &quot;get_issue&quot;]  ← 읽기 전용만 허용
+    }
+  }
+}</code></pre><div class="callout risk"><b>공식 경고.</b> "Once you have configured an MCP server, Copilot will be able to use the tools provided by the server autonomously, and will not ask for your approval before using them." → 그래서 쓰기/파괴 도구는 허용목록에서 뺀다. GitHub·Playwright MCP는 기본 활성.</div>
+<h4>하네스 ④ 사람 게이트 · 관측</h4>
+<ul class="tight">
+<li><b>권한 경계:</b> branch protection ruleset, Copilot을 bypass actor로 추가할지 여부, PR 리뷰 없이는 머지 불가.</li>
+<li><b>Actions 게이트:</b> 에이전트가 만든 워크플로 실행은 "Approve and run workflows" 버튼을 사람이 눌러야 시작.</li>
+<li><b>관측:</b> github.com Agents 탭의 session 로그로 무엇을 했는지 추적. 보안 스캔 + Copilot code review가 기본 검증.</li>
+</ul>
+<div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> 코드네임 <b>"Project Padawan"</b>(2025-02 공개). 클라우드 컴퓨트로 "유일한 답은 GitHub Actions"를 택함(평일마다 4천만+ 잡 실행 생태계 재사용). 에이전트는 <b>자기가 만든 브랜치에만 push</b>, 인터넷은 허용 목록으로 제한.</li><li><b>결과:</b> coding agent는 2025-05 Enterprise·Pro+ GA. <i>(자가보고)</i> 통제실험서 Copilot 사용 개발자가 JS 과제를 <b>55% 빠르게</b> 완료(95명, 1h11m vs 2h41m).</li><li><b>에피소드:</b> "PR을 열게 한 개발자는 그 PR을 승인할 수 없다" — 자기승인 금지·branch protection을 <b>기본 정책</b>으로 못박음(사람은 자기 제출물을 제대로 리뷰 못 한다는 통찰). 내부적으로도 Copilot+Cursor+Claude+Codex 혼용 현실을 인정.</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>커스텀 인스트럭션 선주입</b>으로 탐색 토큰을 아낀다. <code>.github/copilot-instructions.md</code>·<code>AGENTS.md</code>에 빌드·테스트·레이아웃 규칙을 미리 적어 두고 "이 지침을 신뢰하고 <b>꼭 필요할 때만 코드베이스를 탐색</b>하라"고 명시하면, 에이전트가 매번 파일을 뒤지며 컨텍스트를 채우는 반복 tool 호출이 사라진다. 또 초기 탐색은 <b>RAG(GitHub 코드검색)</b>로 처리해 저장소 전체를 컨텍스트에 넣는 대신 질의와 관련된 코드 조각만 가져온다 — "전체 덤프" 대신 "관련 부분만"이 토큰 절감의 핵심. 실행 격리(ephemeral runner)라 세션이 끝나면 컨텍스트가 리셋되어 누적 팽창도 없다.</p><p class="src2"><b>보강 출처</b> · web: GitHub Blog "The Agent Awakens"(2025-02)·"Meet the New Coding Agent"(2025-05)·Research(2022) · 내부: 008·048</p></div><div class="src"><b>출처</b> · docs.github.com/en/copilot/concepts/agents/cloud-agent/about-cloud-agent · .../customize-cloud-agent/customize-the-agent-environment · .../configure-mcp-servers · .../add-custom-instructions/add-repository-instructions · agents.md. <span class="pill r">검증 필요</span> 제품명("cloud agent"로 리브랜딩)·러너 한도·기본 MCP는 릴리스 시점 재확인.</div><p class="backtop"><a href="#toc">↑ 목차</a></p>
+</div></div><div class="case" id="c2"><div class="head"><div class="no">CASE A2 · 공식 코드</div><h3>Claude Code — CLAUDE.md · 서브에이전트 · 결정론적 hooks</h3><div><span class="tag">터미널 에이전트</span><span class="tag">Pre/PostToolUse hooks</span><span class="tag">서브에이전트 격리</span><span class="tag">권한 allow/deny</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> <a href="https://github.com/anthropics/claude-code">anthropics/claude-code</a></p>
+<p><b>개요.</b> Anthropic의 터미널 에이전트. 하네스를 <b>세 축</b>으로 코드화한다: 컨텍스트(<code>CLAUDE.md</code>), 역할 격리(<code>.claude/agents/*.md</code> 서브에이전트), 결정론적 통제(<code>.claude/settings.json</code>의 hooks·permissions). hooks는 LLM 판단이 아니라 <b>정해진 셸 명령</b>으로 라이프사이클 지점마다 실행되므로 "매번 해야 하는 일"을 확정적으로 강제한다.</p>
+<h4>하네스 ① 컨텍스트 — CLAUDE.md 메모리</h4>
+<p>세션 시작 시 컨텍스트에 주입되는 마크다운. 로드 순서는 org 정책 → 유저(<code>~/.claude/CLAUDE.md</code>) → 프로젝트(<code>./CLAUDE.md</code>) → 로컬(<code>CLAUDE.local.md</code>). 200줄 이하 권장, <code>@path</code>로 import.</p>
+<pre class="code" data-lang="CLAUDE.md"><code># Project Instructions
+## Build &amp; Test Commands
+- Test: `npm test` — run after every change
+- Lint: `npm run lint` — must pass before committing
+## Coding Standards
+- 2-space indentation; API handlers in src/api/handlers/ with explicit try/catch
+- No `any` in TypeScript without a comment explaining why
+## Workflow
+- Branch from main; run tests before every commit; PR must include a test plan
+&lt;!-- 이 HTML 주석은 컨텍스트 주입 전에 제거되어 토큰을 쓰지 않는다 --&gt;</code></pre>
+<h4>하네스 ② 역할 격리 — 서브에이전트</h4>
+<p>서브에이전트는 YAML frontmatter를 가진 마크다운. 자체 <b>도구 목록·모델·permissionMode</b>를 가져 권한을 좁힌다. 아래 code-reviewer는 읽기 도구만 + <code>plan</code> 모드(쓰기 금지)로 "파일을 고치지 말고 findings만 반환".</p>
+<pre class="code" data-lang=".claude/agents/code-reviewer.md"><code>---
+name: code-reviewer
+description: &gt;
+  Expert code reviewer. Use proactively after making code changes.
+  Checks correctness, security, missing tests, and project standards.
+tools: Read, Grep, Glob          # 쓰기 도구 없음
+model: sonnet
+permissionMode: plan             # 변경 불가 모드
+---
+You are a senior engineer performing a rigorous code review.
+For every change check: 1) Correctness 2) Security 3) Test coverage 4) Standards(CLAUDE.md).
+Output: severity(🔴/🟡/🟢) + file:line + concise issue + suggested fix snippet.
+Do NOT modify files. Return findings only.</code></pre>
+<h4>하네스 ③ 결정론적 게이트 — hooks (PreToolUse / PostToolUse)</h4>
+<p>이벤트별(<code>PreToolUse, PostToolUse, SessionStart, Stop, PreCompact</code> 등) 셸 명령을 <code>matcher</code>로 도구에 걸어 실행. PreToolUse는 <code>permissionDecision:"deny"</code> 또는 exit 2로 <b>액션을 차단</b>하고, PostToolUse는 포맷·린트 같은 사후 검증을 확정적으로 돌린다.</p>
+<pre class="code" data-lang=".claude/settings.json"><code>{
+  &quot;$schema&quot;: &quot;https://json.schemastore.org/claude-code-settings.json&quot;,
+  &quot;permissions&quot;: {
+    &quot;allow&quot;: [&quot;Bash(npm run lint)&quot;, &quot;Bash(npm run test *)&quot;, &quot;Bash(npm ci)&quot;],
+    &quot;deny&quot;:  [&quot;Bash(curl *)&quot;, &quot;Read(./.env)&quot;, &quot;Read(./.env.*)&quot;, &quot;Read(./secrets/**)&quot;]
+  },
+  &quot;hooks&quot;: {
+    &quot;PostToolUse&quot;: [
+      { &quot;matcher&quot;: &quot;Edit|Write&quot;,
+        &quot;hooks&quot;: [{ &quot;type&quot;: &quot;command&quot;,
+          &quot;command&quot;: &quot;jq -r &#x27;.tool_input.file_path&#x27; | xargs npx prettier --write 2&gt;/dev/null || true&quot; }]}
+    ],
+    &quot;PreToolUse&quot;: [
+      { &quot;matcher&quot;: &quot;Bash&quot;,
+        &quot;hooks&quot;: [{ &quot;type&quot;: &quot;command&quot;, &quot;if&quot;: &quot;Bash(rm *)&quot;,
+          &quot;command&quot;: &quot;\&quot;$CLAUDE_PROJECT_DIR\&quot;/.claude/hooks/block-rm.sh&quot; }]}
+    ]
+  },
+  &quot;env&quot;: { &quot;CLAUDE_CODE_ENABLE_TELEMETRY&quot;: &quot;1&quot;, &quot;OTEL_METRICS_EXPORTER&quot;: &quot;otlp&quot; }
+}</code></pre><p class="muted">파괴 명령 차단 훅 — stdin으로 받은 JSON을 검사해 deny 결정을 반환:</p><pre class="code" data-lang="bash"><code>#!/bin/bash
+# .claude/hooks/block-rm.sh
+COMMAND=$(jq -r &#x27;.tool_input.command&#x27;)
+if echo &quot;$COMMAND&quot; | grep -q &#x27;rm -rf&#x27;; then
+  jq -n &#x27;{ hookSpecificOutput: {
+    hookEventName: &quot;PreToolUse&quot;,
+    permissionDecision: &quot;deny&quot;,
+    permissionDecisionReason: &quot;Destructive rm -rf blocked by project policy&quot; }}&#x27;
+else
+  exit 0   # 결정 없음 → 정상 권한 흐름
+fi</code></pre>
+<div class="grid2">
+<div>
+<h4>슬래시/스킬</h4>
+<p>커스텀 커맨드(<code>.claude/commands/*.md</code>)는 스킬(<code>.claude/skills/&lt;name&gt;/SKILL.md</code>)로 통합(기존 commands 파일도 계속 동작). 로드 시점에 <code>!`git diff HEAD`</code>처럼 명령 출력을 컨텍스트로 주입할 수 있다.</p>
+</div>
+<div>
+<h4>통제면 요약</h4>
+<ul class="tight">
+<li>컨텍스트: CLAUDE.md 주입</li>
+<li>권한: permissions.allow/deny</li>
+<li>사전 게이트: PreToolUse(exit 2=차단)</li>
+<li>사후 검증: PostToolUse(format/lint/audit)</li>
+<li>관측: OTEL env · ConfigChange 감사 훅</li>
+<li>격리: 서브에이전트별 tools·model·mode</li>
+</ul>
+</div>
+</div>
+<div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> Anthropic 내부 팀에서 검증된 <b>4층 하네스</b>(CLAUDE.md·hooks·subagents·skills). "hooks는 결정론적이라 반드시 실행된다"(CLAUDE.md는 권고, hook은 강제).</li><li><b>결과:</b> <i>(내부 049)</i> 약 <b>40만 Claude Code 세션</b> 분석 — 사람이 planning ~70%, AI가 execution ~80%를 결정하는 분업. 제품은 CLI·VS Code·JetBrains·Web·Slack·GitHub Actions로 확장.</li><li><b>에피소드:</b> "규칙이 있는데도 자꾸 어기면 파일이 너무 길어 규칙이 묻힌 것" → CLAUDE.md를 코드처럼 취급("이 줄을 지우면 실수하나? 아니면 삭제"). Stop 훅이 무한 차단하면 <b>8회 연속 후 자동 해제</b>(훅 루프 사고 교훈).</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>컨텍스트 예산을 3중으로 지킨다.</b> ① <code>CLAUDE.md</code>는 <b>≤200줄 권장</b> — 세션마다 통째로 주입되므로 길수록 매 턴 토큰을 먹고 규칙 준수율도 떨어진다("규칙을 자꾸 어기면 파일이 너무 긴 것"). ② 파일 안의 <b>HTML 주석은 주입 전에 제거</b>되어 토큰을 0으로 쓰면서 사람만 읽는 메모를 남긴다. ③ 무거운 탐색·리뷰는 <b>서브에이전트의 격리 컨텍스트</b>에서 돌려 그 수백~수천 토큰이 <b>본 대화에 섞이지 않게</b> 한다(서브는 요약만 반환). 스킬은 <code>/skill</code> 호출 시에만 온디맨드 로드해 평소 컨텍스트를 가볍게 유지한다.</p><p class="src2"><b>보강 출처</b> · web: code.claude.com/docs(best-practices·hooks-guide) · 내부: 049·037</p></div><div class="src"><b>출처</b> · code.claude.com/docs/en/memory · /sub-agents · /hooks · /hooks-guide · /skills · json.schemastore.org/claude-code-settings.json. <span class="pill r">검증 필요</span> hook 이벤트 목록·필드는 버전에 따라 변동.</div><p class="backtop"><a href="#toc">↑ 목차</a></p>
+</div></div><div class="case" id="c3"><div class="head"><div class="no">CASE A3 · 공식 코드</div><h3>OpenAI Codex CLI — AGENTS.md · approval/sandbox config.toml</h3><div><span class="tag">터미널 에이전트</span><span class="tag">sandbox_mode</span><span class="tag">approval_policy</span><span class="tag">.codex/agents *.toml</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> <a href="https://github.com/openai/codex">openai/codex</a></p>
+<p><b>개요.</b> 로컬 터미널 CLI(<code>github.com/openai/codex</code>). 컨텍스트는 <b>개방형 표준 <code>AGENTS.md</code></b>, 권한·격리는 <code>~/.codex/config.toml</code>의 <b>approval_policy · sandbox_mode</b>로 통제한다. 서브에이전트는 <code>.codex/agents/*.toml</code>로 정의하고 모델·sandbox를 역할별로 좁힌다.</p>
+<h4>하네스 ① 컨텍스트 — AGENTS.md 탐색·우선순위</h4>
+<p>실행마다 ① 글로벌(<code>~/.codex/AGENTS.override.md</code>→<code>AGENTS.md</code>) ② git root에서 CWD까지 내려오며 각 디렉터리 최대 1개(<code>AGENTS.override.md</code>→<code>AGENTS.md</code>→fallback) ③ root→CWD 순 concat(CWD에 가까울수록 우선), 합산 32KiB 상한.</p>
+<pre class="code" data-lang="AGENTS.md"><code># AGENTS.md (repo root)
+## Dev Environment Tips
+- `pnpm dlx turbo run where &lt;pkg&gt;` to jump to a package.
+## Testing Instructions
+- Run `pnpm turbo run test --filter &lt;pkg&gt;` per package; all tests pass before merge.
+- Focus one test: `pnpm vitest run -t &quot;&lt;test name&gt;&quot;`.
+- Add/update tests for all changed code, even if not asked.
+## PR Instructions
+- Title: `[&lt;pkg&gt;] &lt;Title&gt;`; always run `pnpm lint` and `pnpm test` before committing.</code></pre>
+<h4>하네스 ② 권한·격리 — config.toml</h4>
+<p>핵심은 두 축이다. <code>approval_policy</code>(언제 물어볼지)와 <code>sandbox_mode</code>(어디까지 쓸 수 있는지). 기본은 <code>workspace-write</code>(작업 폴더만 쓰기, <b>네트워크 OFF</b>). <code>.git/.agents/.codex</code>는 항상 읽기 전용 보호.</p>
+<pre class="code" data-lang="~/.codex/config.toml"><code># ~/.codex/config.toml
+model = &quot;gpt-5.6&quot;
+
+# 언제 승인받나: on-request(기본) | never(자율) | untrusted(가장 엄격)
+approval_policy = &quot;on-request&quot;
+approvals_reviewer = &quot;auto_review&quot;      # 실행 전 자동 리뷰 에이전트로 라우팅
+
+# 어디까지 쓰나: read-only | workspace-write(기본) | danger-full-access
+sandbox_mode = &quot;workspace-write&quot;
+# [sandbox_workspace_write]
+# network_access = true                 # 기본 OFF, 필요 시만 개방
+
+web_search = &quot;cached&quot;                    # cached(주입 위험↓) | live | disabled
+model_reasoning_effort = &quot;high&quot;
+
+[agents]
+max_threads = 6                          # 동시 서브에이전트 상한
+max_depth = 1                            # 중첩 깊이
+
+[features]
+hooks = true
+multi_agent = true
+undo = false                             # turn별 git ghost 스냅샷 undo</code></pre>
+<h4>하네스 ③ 역할 격리 — 서브에이전트 TOML</h4>
+<p>리뷰어는 <code>sandbox_mode="read-only"</code>로 변경 불가하게 못박고, docs 리서처는 MCP 서버만 붙인다.</p>
+<pre class="code" data-lang="TOML"><code># .codex/agents/reviewer.toml
+name = &quot;reviewer&quot;
+description = &quot;PR reviewer focused on correctness, security, and missing tests.&quot;
+model = &quot;gpt-5.6&quot;
+model_reasoning_effort = &quot;high&quot;
+sandbox_mode = &quot;read-only&quot;               # 리뷰어는 쓰기 불가
+developer_instructions = &quot;&quot;&quot;
+Prioritize correctness, security, behavior regressions, and missing test coverage.
+Lead with concrete findings; avoid style-only comments unless they hide a real bug.
+&quot;&quot;&quot;</code></pre><p class="muted">멀티에이전트 PR 리뷰 트리거 프롬프트: "pr_explorer가 영향 경로를 매핑, reviewer가 실제 위험을, docs_researcher가 프레임워크 API를 검증하도록 이 브랜치를 main과 비교해 리뷰하라."</p>
+<h4>하네스 ④ hooks</h4>
+<p>Claude Code와 유사하게 <code>~/.codex/hooks.json</code> 또는 <code>config.toml [hooks]</code>로 <code>PreToolUse·PermissionRequest·PostToolUse·SessionStart·Stop</code>에 명령을 걸어 정책 검사·데이터 플라이휠을 붙인다.</p>
+<div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> <code>openai/codex</code> 저장소 자체가 <code>AGENTS.md</code>로 자기 코드 작업을 통제. 샌드박스에서 <code>CODEX_SANDBOX_NETWORK_DISABLED=1</code>, macOS Seatbelt로 프로세스 격리.</li><li><b>결과:</b> 컨텍스트 거버넌스 규칙 명시 — "히스토리 재작성 금지", "10K 토큰 초과 항목 금지", 기계적 변경 아니면 <b>"총 변경 800줄 초과 금지"</b>로 스코프 크립 차단. <code>just fmt</code>/<code>just test</code> 자동 게이트.</li><li><b>에피소드:</b> AGENTS.md에 "CODEX_SANDBOX_* 환경변수 관련 코드는 절대 수정하지 말라"를 하드룰로 박음 — 에이전트가 샌드박스 변수를 건드릴 수 있던 보안 틈을 막은 교훈.</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>주입 컨텍스트에 하드캡을 걸어</b> 무한 팽창을 원천 차단한다. <code>AGENTS.md</code>는 합산 <b>32KiB 상한</b>, 코드리뷰 규칙엔 "모델 컨텍스트에 들어가는 <b>어떤 항목도 10K 토큰 초과 금지</b>", "히스토리 재작성 금지(증분으로만 쌓기)"를 못박아 한 번에 거대한 파일이 통째로 실리는 사고를 막는다. 변경도 "기계적이지 않으면 <b>800줄 초과 금지</b>"로 제한해 재검토·재생성 토큰을 줄인다. 웹 검색은 <code>web_search="cached"</code>로 두어 라이브 크롤 대신 캐시를 써서 주입 위험과 비용을 함께 낮춘다.</p><p class="src2"><b>보강 출처</b> · web: github.com/openai/codex(AGENTS.md) · 내부: 007</p></div><div class="src"><b>출처</b> · developers.openai.com/codex/guides/agents-md · /codex/config-basic · /codex/agent-approvals-security · /codex/subagents · /codex/hooks · agents.md. <span class="pill r">검증 필요</span> 모델명·feature 플래그·기본값은 릴리스별 상이.</div><p class="backtop"><a href="#toc">↑ 목차</a></p>
+</div></div>
+  <section class="section" id="catB">
+    <h2>4. 카테고리 B — 오픈소스 / 학술 하네스</h2>
+    <p>여기서는 하네스가 <b>소스 코드 그 자체</b>다. 에이전트-컴퓨터 인터페이스, Docker 런타임, repo map·reflection loop처럼 "에이전트가 무엇을 보고 어떻게 검증받는가"를 프로그램으로 구현했다. 재현·측정이 가능한 1차 근거(논문·원본 파일)를 가진 사례들이다.</p>
+    <p class="backtop"><a href="#toc">↑ 목차</a></p>
+  </section>
+<div class="case" id="c4"><div class="head"><div class="no">CASE B1 · 논문 + 원본 코드</div><h3>SWE-agent — Agent-Computer Interface(ACI)가 성능을 만든다</h3><div><span class="tag">NeurIPS 2024</span><span class="tag">윈도우드 파일뷰어</span><span class="tag">edit lint 게이트</span><span class="tag">단일 YAML</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> <a href="https://github.com/SWE-agent/SWE-agent">SWE-agent/SWE-agent</a> · <a href="https://github.com/SWE-agent/mini-swe-agent">SWE-agent/mini-swe-agent</a></p>
+<p><b>개요.</b> Princeton의 SWE-agent(<code>arXiv:2405.15793</code>)는 "같은 LM이라도 <b>인터페이스 설계</b>가 소프트웨어 작업 성능을 좌우한다"는 걸 보인 대표 연구다. 사람에게 HCI가 있듯 LM에게는 <b>ACI(Agent-Computer Interface)</b>가 필요하다. 날것의 셸은 노이즈가 많고 되돌리기 어려운 실수를 유발하므로, ACI는 ① 행동 공간을 잘 정의된 도구로 <b>제약</b> ② 윈도우드 뷰·린트·state JSON으로 <b>구조화된 피드백</b> ③ <b>검증 게이트</b>(편집 시 린트) ④ <code>CURRENT_FILE/LINE/WINDOW</code>로 <b>상태 유지</b>를 한다. 이 모든 게 단일 <code>.yaml</code>로 구동된다.</p>
+<div class="callout"><b>성과(논문 Table 1 · SWE-bench full).</b> RAG 베이스라인은 GPT-4 Turbo ~1.31% · Claude 3 Opus ~3.79%인데, SWE-agent가 GPT-4 Turbo에서 ~12.47%(Lite 18%), Claude 3 Opus에서 ~10.46%(Lite 13%)로 향상. 논문은 이 격차의 상당 부분을 모델이 아니라 <b>ACI 설계</b>로 귀속한다. <span class="pill r">검증</span> arXiv:2405.15793 Table 1 대조 완료.</div>
+<h4>하네스 = 설정 파일 (config/default.yaml)</h4>
+<pre class="code" data-lang="config/default.yaml"><code>agent:
+  templates:
+    system_template: |-
+      You are a helpful assistant that can interact with a computer to solve tasks.
+    instance_template: |-
+      &lt;pr_description&gt;{{problem_statement}}&lt;/pr_description&gt;
+      Follow these steps:
+      1. find and read code relevant to the PR
+      2. create a script to reproduce the error, run `python &lt;file.py&gt;` to confirm
+      3. edit the source to resolve the issue
+      4. rerun your reproduce script and confirm the fix
+      5. think about edge cases and handle them
+    next_step_template: |-
+      OBSERVATION:
+      {{observation}}          # 모든 도구 출력이 OBSERVATION 으로 래핑됨(피드백 루프)
+  tools:
+    env_variables:             # 대화형 페이저에 갇히지 않게 샌드박싱
+      PAGER: cat
+      GIT_PAGER: cat
+      PIP_PROGRESS_BAR: &#x27;off&#x27;
+    bundles:                   # 도구 = 번들 디렉터리(격리 단위)
+      - path: tools/registry
+      - path: tools/edit_anthropic
+      - path: tools/review_on_submit_m
+    registry_variables:
+      USE_FILEMAP: &#x27;true&#x27;      # 윈도우드/요약 파일뷰 토글 = ACI 컨텍스트 층
+    enable_bash_tool: true
+    parse_function:
+      type: function_calling
+  history_processors:
+    - type: cache_control      # 마지막 2메시지 프롬프트 캐싱(비용/관측)
+      last_n_messages: 2</code></pre>
+<h4>검증 게이트 — edit 시 flake8, 깨지면 자동 롤백</h4>
+<p>ACI의 백미. 파이썬 파일을 편집하면 flake8을 돌려 <b>새 문법 오류가 생기면 편집을 적용하지 않고</b> 원본을 복구하며, 에이전트에게 "적용했다면 이랬을 버전"과 "원본"을 모두 보여준다. 파괴적 커밋을 막는 사전 검사다.</p>
+<pre class="code" data-lang="config/commands/edit_linting.sh (v0.7.0)"><code># @yaml signature: edit &lt;start_line&gt;:&lt;end_line&gt; \n &lt;replacement&gt; \n end_of_edit
+# docstring: Python files are syntax-checked after edit. On error the edit is NOT applied.
+edit() {
+    local linter_cmd=&quot;flake8 --isolated --select=F821,F822,F831,E111,E112,E113,E999,E902&quot;
+    local linter_before_edit=$($linter_cmd &quot;$CURRENT_FILE&quot; 2&gt;&amp;1)
+    # ... apply replacement ...
+    if [[ $CURRENT_FILE == *.py ]]; then
+        _lint_output=$($linter_cmd &quot;$CURRENT_FILE&quot; 2&gt;&amp;1)
+        lint_output=$(_split_string &quot;$_lint_output&quot; &quot;$linter_before_edit&quot; ...)
+    fi
+    if [ -z &quot;$lint_output&quot; ]; then
+        export CURRENT_LINE=$start_line; _constrain_line; _print
+        echo &quot;File updated. Please review the changes...&quot;
+    else
+        echo &quot;Your proposed edit has introduced new syntax error(s)...&quot;
+        echo &quot;ERRORS:&quot;; echo &quot;$lint_output&quot;
+        cp &quot;/root/$(basename &quot;$CURRENT_FILE&quot;)_backup&quot; &quot;$CURRENT_FILE&quot;   # 원본 복구
+        echo &quot;Your changes have NOT been applied. Please fix and try again.&quot;
+    fi
+}</code></pre><p class="muted">또한 <code>open</code>/<code>_print</code>는 WINDOW 크기 슬라이스와 "(N more lines above/below)"를 보여주고, 연속 스크롤 3회 이상이면 "비효율적이니 search_file을 쓰라"는 anti-thrash 경고를 낸다. 모든 액션 뒤 <code>_state</code>가 <code>{"open_file":..., "working_dir":...}</code> JSON을 찍어 프롬프트에 현재 위치를 주입한다.</p>
+<table>
+<thead><tr><th>통제면</th><th>SWE-agent 구현</th></tr></thead>
+<tbody>
+<tr><td class="k">격리</td><td>Docker 컨테이너 + PAGER=cat 등으로 인터랙티브 행 방지</td></tr>
+<tr><td class="k">컨텍스트</td><td>윈도우드 파일뷰어(WINDOW) · filemap 요약뷰 · 템플릿의 {{open_file}}</td></tr>
+<tr><td class="k">검증</td><td>edit 시 flake8 자동 롤백 · 스크롤 rate-limit</td></tr>
+<tr><td class="k">관측</td><td>액션마다 _state JSON · OBSERVATION 래핑 · JSON trajectory 저장</td></tr>
+</tbody></table>
+<div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> 저자들이 ACI 용어를 만듦 — 날 shell로는 긴 파일에 압도됨→<b>100줄 윈도우 뷰어</b>, 편집 시 문법 안 맞으면 통과 거부하는 <b>린터 게이트</b>, 검색은 파일 목록만 간결히(맥락 많이 주면 오히려 혼란), 빈 출력엔 "성공했고 출력 없음" 메시지(안 그러면 실패로 오인해 재실행).</li><li><b>결과:</b> <i>(논문 자가보고)</i> 원 논문서 GPT-4 Turbo로 SWE-bench full <b>12.47%</b>(Lite 18%) SOTA. 후속 <code>mini-swe-agent</code>는 "100배 단순", bash만·상태없는 subprocess로 유사 성능.</li><li><b>에피소드:</b> 1년 뒤 회고 — "그때는 도구·특수 인터페이스를 강조했는데, 모델이 좋아지니 상당수가 필요 없더라". 상태 있는 shell을 버린 이유: "매 액션이 완전 독립 — 에이전트 안정성에 큰 차이, 정말로(trust me)".</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>"전체를 보여주지 않는" ACI 설계</b>가 곧 토큰 설계다. 날것의 <code>cat</code>으로 긴 파일을 통째 덤프하는 대신 <b>100줄 윈도우 뷰어</b>로 필요한 구간만 보여주고, <code>filemap</code> 요약 뷰로 파일 구조만 압축 제시한다. 검색은 매치가 있는 <b>파일 목록만 간결히</b> 반환(매치 주변 맥락을 많이 주면 오히려 모델이 혼란). 여기에 <code>cache_control</code>로 <b>최근 2개 메시지를 프롬프트 캐싱</b>해 반복되는 앞부분 토큰의 재청구를 줄인다. "빈 출력엔 성공 메시지"까지 둬서 실패로 오인한 <b>불필요한 재실행</b>도 예방.</p><p class="src2"><b>보강 출처</b> · web: swe-agent.com/background/aci · mini-swe-agent.com · 내부: 045</p></div><div class="src"><b>출처</b> · arXiv:2405.15793 · raw.githubusercontent.com/SWE-agent/SWE-agent/main/config/default.yaml · .../v0.7.0/config/commands/{defaults,edit_linting}.sh · swe-agent.com/latest/config/tools. <span class="pill r">참고</span> 저장소가 <code>princeton-nlp</code>→<code>SWE-agent/SWE-agent</code>로 이전, 현재 유지보수 모드(활성 개발은 mini-swe-agent).</div><p class="backtop"><a href="#toc">↑ 목차</a></p>
+</div></div><div class="case" id="c5"><div class="head"><div class="no">CASE B2 · 공식 docs + SDK</div><h3>OpenHands — Docker ActionExecutor + append-only EventStream</h3><div><span class="tag">Docker 런타임 격리</span><span class="tag">불변 이벤트로그</span><span class="tag">Skills</span><span class="tag">SecurityAnalyzer</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> <a href="https://github.com/OpenHands/OpenHands">OpenHands/OpenHands</a></p>
+<p><b>개요.</b> OpenHands(구 OpenDevin)는 에이전트를 <b>Docker 컨테이너 안의 ActionExecutor</b>에서만 실행한다. 에이전트가 낸 <code>ActionEvent</code>는 EventStream을 거쳐 컨테이너에서 실행되고 <code>ObservationEvent</code>로 돌아온다. 상태는 <b>불변(append-only) 이벤트 로그</b>로만 남아 관측·재현·중단/재개가 쉽다.</p>
+<h4>하네스 ① 실행 격리 — Docker 런타임</h4>
+<div class="flow">
+  <span class="node">Agent</span><span class="arrow">→ ActionEvent →</span>
+  <span class="node">EventStream</span><span class="arrow">→</span>
+  <span class="node">Docker: ActionExecutor(bash·browser·jupyter)</span><span class="arrow">→ ObservationEvent →</span>
+  <span class="node">Agent</span>
+</div>
+<p class="muted">Docker가 하네스인 이유: ① 보안(호스트로 탈출 불가) ② 일관성 ③ 리소스 한도 ④ 재현성. 이미지는 version/lock/source 3-해시 태깅으로 캐시 효율화.</p>
+<pre class="code" data-lang="bash"><code>export PROJECTS_PATH=&quot;$HOME/projects&quot;
+mkdir -p &quot;$PROJECTS_PATH&quot; &quot;$HOME/.openhands&quot;
+docker run -it --rm \
+  -p 8000:8000 \
+  -v &quot;$HOME/.openhands:/home/openhands/.openhands&quot; \
+  -v &quot;${PROJECTS_PATH}:/projects&quot; \
+  ghcr.io/openhands/agent-canvas:1.0.0-rc.11</code></pre>
+<h4>하네스 ② 관측/복구 — 이벤트 기반 stateless 루프</h4>
+<p>매 <code>step()</code>은 원자적이고 상태가 없다. 컨텍스트가 넘치면 <code>CondensationRequest</code>로 압축한다. 모든 이벤트는 불변 Pydantic 모델이라 그대로 감사 로그이자 재개 지점이 된다.</p>
+<pre class="code" data-lang="agent loop (SDK)"><code>step() called
+  |- Pending actions? -&gt; execute -&gt; return
+  |- Has condenser? -&gt; condenser.condense(event_history)
+  |     |- Condensation -&gt; emit CondensationSummaryEvent -&gt; return
+  |     \- View -&gt; use condensed events for LLM query
+  |- Query LLM
+  |     \- Context window exceeded? -&gt; emit CondensationRequest -&gt; return
+  |- Parse response: tool calls -&gt; ActionEvent(s) ; text -&gt; MessageEvent
+  |- Confirmation needed? -&gt; WAITING_FOR_CONFIRMATION -&gt; return
+  \- Execute tools -&gt; ObservationEvent(s)</code></pre>
+<h4>하네스 ③ 컨텍스트 — Skills</h4>
+<p>세 층: ① 항상 로드(repo root <code>AGENTS.md</code>) ② 키워드 트리거 ③ 온디맨드 <code>SKILL.md</code>(progressive disclosure). 파일 기반 서브에이전트도 지원.</p>
+<pre class="code" data-lang="python"><code>from openhands.sdk.context import Skill, KeywordTrigger
+Skill(
+    name=&quot;encryption-helper&quot;,
+    content=&quot;Use the encrypt.sh script to encrypt messages.&quot;,
+    trigger=KeywordTrigger(keywords=[&quot;encrypt&quot;, &quot;decrypt&quot;]),
+)
+# 트리거되면 유저 메시지에 주입:
+# &lt;EXTRA_INFO&gt; ... Skill location: /path/to/encryption-helper ... &lt;/EXTRA_INFO&gt;</code></pre><pre class="code" data-lang=".agents/agents/code-reviewer.md"><code>---
+name: code-reviewer
+description: &gt;
+  Reviews code for quality, bugs, and best practices.
+  &lt;example&gt;Review this pull request for issues&lt;/example&gt;
+tools:
+  - file_editor
+  - terminal
+model: inherit
+---
+# Code Reviewer
+1. Correctness (bugs, off-by-one, race conditions)
+2. Style  3. Performance  4. Security (injection, hardcoded secrets)
+Keep feedback concise; for each issue, suggest a fix.</code></pre>
+<p class="muted">검증 게이트로 <code>SecurityAnalyzer</code>가 실행 전 <code>ActionEvent</code>의 <code>security_risk</code>를 판정하고, 사용자 확인이 필요한 액션은 <code>UserRejectObservation</code>으로 거부될 수 있다.</p>
+<div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> 연구 프레임워크 <b>OpenDevin → 상용 All-Hands AI</b>로 진화. Docker 컨테이너 격리가 핵심 — 샌드박스 없이 돌리면 "에이전트가 파일시스템 전체 접근" 경고. <b>ACP</b>로 Claude Code·Codex·Gemini 등 서드파티 에이전트를 백엔드로 연결.</li><li><b>결과:</b> 논문 "OpenHands: An Open Platform for AI Software Developers as Generalist Agents"(arXiv:2407.16741). 가장 별 많은 코딩 에이전트 OSS 중 하나(2026-07-07 기준 약 <b>7.9만 별</b>, 79,736).</li><li><b>에피소드:</b> 두-모드 설계(비샌드박스 로컬 vs Docker) 자체가 교훈 — 초기 배포서 에이전트가 <b>호스트 파일을 예기치 않게 수정</b>한 경험이 "Docker 격리 기본"으로 이어짐.</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>이벤트 로그를 압축·외부화</b>해 컨텍스트를 얇게 유지한다. 대화·액션 이력이 컨텍스트 창을 넘치려 하면 <code>CondensationRequest</code>를 내보내 <b>핵심 사건·결정만 남기고 압축</b>(<code>CondensationSummaryEvent</code>)한다. 서브에이전트나 도구가 만든 <b>큰 산출물은 파일 아티팩트로 저장하고 대화에는 경량 참조(경로)만</b> 넘겨, 거대한 결과가 매 턴 대화이력에 복사되며 토큰을 갉아먹는 것을 막는다. 스킬은 항상로드(AGENTS.md)·키워드 트리거·온디맨드 <code>SKILL.md</code>의 <b>progressive disclosure</b>로 필요할 때만 펼쳐진다.</p><p class="src2"><b>보강 출처</b> · web: github.com/OpenHands/OpenHands · arXiv:2407.16741</p></div><div class="src"><b>출처</b> · docs.openhands.dev/openhands/usage/architecture/runtime · /sdk/arch/agent · /sdk/arch/events · /sdk/guides/skill · /agent-file-based · /custom-tools. <span class="pill r">참고</span> 저장소 <code>All-Hands-AI/OpenHands</code>→<code>OpenHands/OpenHands</code>, 2025–26 대규모 리라이트로 구 <code>.openhands/microagents/*.md</code>는 legacy.</div><p class="backtop"><a href="#toc">↑ 목차</a></p>
+</div></div><div class="case" id="c6"><div class="head"><div class="no">CASE B3 · 원본 코드</div><h3>Aider — tree-sitter repo map · reflection loop · auto-commit</h3><div><span class="tag">PageRank repo map</span><span class="tag">auto-lint/test</span><span class="tag">git 감사추적</span><span class="tag">reflection≤3</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> <a href="https://github.com/Aider-AI/aider">Aider-AI/aider</a></p>
+<p><b>개요.</b> Aider는 컨텍스트(<b>repo map</b>)와 검증(<b>lint/test reflection</b>)과 관측(<b>auto-commit</b>)을 코드로 붙인 CLI 페어프로그래머다. 핵심 하네스 3개가 모두 원본 파일에서 확인된다.</p>
+<h4>하네스 ① 컨텍스트 — tree-sitter + PageRank repo map</h4>
+<p>모든 파일을 tree-sitter로 파싱해 정의(def)/참조(ref) 태그를 뽑고, "A가 B에 정의된 심볼을 참조" 간선의 <b>MultiDiGraph</b>를 만든 뒤 <b>PageRank(personalization)</b>로 중요한 심볼만 골라 <b>토큰 예산(기본 1024)</b>에 맞춰 이진 탐색으로 채운다. 채팅에 올린 파일은 가중치를 크게 부스트.</p>
+<pre class="code" data-lang="aider/repomap.py"><code>import networkx as nx
+G = nx.MultiDiGraph()                      # 노드=파일, 간선=심볼 참조
+for ident in idents:
+    mul = 1.0
+    if ident in mentioned_idents:            mul *= 10    # 대화에 언급되면 부스트
+    if ident.startswith(&quot;_&quot;):                mul *= 0.1   # private 강등
+    if len(defines[ident]) &gt; 5:              mul *= 0.1   # 너무 흔하면 강등
+    for referencer in references[ident]:
+        use_mul = 50 if referencer in chat_rel_fnames else 1  # 채팅 파일 대부스트
+        for definer in defines[ident]:
+            G.add_edge(referencer, definer, weight=num_refs*use_mul, ident=ident)
+# 이후 PageRank(personalization=100/num_nodes for chat files) -&gt; 토큰예산 이진탐색</code></pre>
+<h4>하네스 ② 검증 게이트 — lint/test → reflection(최대 3회)</h4>
+<p>편집·auto-commit 후 <b>린트/테스트를 돌려</b> 실패 출력을 <code>reflected_message</code>로 LLM에 되먹여 재편집시킨다. 무한루프를 막는 <code>max_reflections = 3</code> 상한이 하드코딩돼 있다.</p>
+<pre class="code" data-lang="aider/coders/base_coder.py"><code>def run_one(self, user_message, preproc):
+    message = user_message
+    while message:
+        self.reflected_message = None
+        list(self.send_message(message))         # 편집 -&gt; auto-lint/test
+        if not self.reflected_message:
+            break
+        if self.num_reflections &gt;= self.max_reflections:   # = 3
+            self.io.tool_warning(&quot;Only 3 reflections allowed, stopping.&quot;)
+            return
+        self.num_reflections += 1
+        message = self.reflected_message          # lint/test 에러를 다시 LLM에게</code></pre><pre class="code" data-lang="aider/linter.py"><code>def flake8_lint(self, rel_fname):
+    fatal = &quot;E9,F821,F823,F831,F406,F407,F701,F702,F704,F706&quot;
+    cmd = [sys.executable, &quot;-m&quot;, &quot;flake8&quot;,
+           f&quot;--select={fatal}&quot;, &quot;--show-source&quot;, &quot;--isolated&quot;, rel_fname]
+    result = subprocess.run(cmd, capture_output=True, text=True, cwd=self.root)
+    errors = result.stdout + result.stderr
+    return self.errors_to_lint_result(rel_fname, errors) if errors else None</code></pre>
+<h4>하네스 ③ 관측/복구 — auto-commit(감사추적)</h4>
+<p>모든 AI 편집은 LLM이 생성한 메시지로 git 커밋된다(기본은 커밋 author를 <code>Name (aider)</code>로 표기, <code>--attribute-co-authored-by</code> 지정 시 <code>Co-authored-by: aider</code> 트레일러 추가) → 되돌리기·감사가 커밋 단위로 가능. 편집 전 dirty 파일은 먼저 <code>dirty_commit()</code>으로 깨끗한 베이스라인을 만든다.</p>
+<pre class="code" data-lang=".aider.conf.yml"><code>## .aider.conf.yml
+model: anthropic/claude-sonnet-4-5-20250929
+## Repo map (컨텍스트)
+map-tokens: 2048
+map-refresh: auto
+## Git (관측/복구)
+auto-commits: true
+dirty-commits: true
+attribute-co-authored-by: true
+## Lint &amp; Test (검증 게이트)
+auto-lint: true
+lint-cmd:
+  - &quot;python: flake8 --select=E,W,F --max-line-length=120&quot;
+auto-test: true
+test-cmd: &quot;pytest -x --tb=short&quot;
+## 항상 읽는 read-only 컨텍스트
+read:
+  - CONVENTIONS.md</code></pre><p class="muted"><code>--read CONVENTIONS.md</code>는 파일을 <b>수정 불가(read-only)</b>로 고정하고 프롬프트 캐싱까지 켠다 — 팀 규칙을 항상 켜 두는 값싼 방법.</p><div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> 단독 메인테이너 Paul Gauthier가 <b>aider로 aider를 만듦</b>(궁극의 dogfooding). repo map은 tree-sitter AST + PageRank식 그래프 랭킹으로 토큰 예산에 맞춰 저장소 전체의 압축 지도를 LLM에 제공.</li><li><b>결과:</b> <i>(자가보고, git blame)</i> 릴리스마다 새 코드의 <b>70~80%를 aider가 작성</b>(v0.82.0 92%, v0.86.0 88%). 2024-05 SWE-bench Lite <b>26.3%</b> pass@1 SOTA(당시), lint·test 타당성 게이트 + 6회 재시도.</li><li><b>에피소드:</b> repo map은 구체적 실패에서 탄생 — "print를 전부 BarLog로 바꿔"라면 Foo 클래스와 BarLog 사용법을 함께 봐야 함. 구 ctags 방식은 사용자가 universal-ctags를 수동 설치하는 마찰로 폐기. 약한 모델은 "repo map을 편집 가능한 소스로 착각"해 기본 비활성.</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>저장소 전체를 토큰 예산에 맞춰 압축</b>하는 게 repo map의 본질이다. tree-sitter로 뽑은 심볼 그래프에 <b>PageRank</b>를 걸어 중요한 정의/참조만 고르고, <b>토큰 예산(기본 1024~2048)</b>에 맞을 때까지 <b>이진 탐색</b>으로 넣고 뺀다 — 대형 코드베이스를 통째로 주입하지 않고 "가장 관련 있는 심볼 지도"만 준다. <code>--read CONVENTIONS.md</code> 같은 read-only 파일은 <b>프롬프트 캐싱</b>으로 반복 청구를 줄인다. 약한 모델은 map을 편집 대상으로 착각하므로 <b>기본 비활성</b>해 불필요한 큰 컨텍스트와 오작동 재시도를 함께 없앤다.</p><p class="src2"><b>보강 출처</b> · web: aider.chat(2023/10/22/repomap·docs/faq·2024/05/22/swe-bench-lite) · 내부: 023</p></div><div class="src"><b>출처</b> · aider.chat/docs/repomap · /docs/usage/lint-test · /docs/usage/conventions · raw.githubusercontent.com/Aider-AI/aider/main/aider/{repomap,linter}.py · .../coders/base_coder.py · .../website/assets/sample.aider.conf.yml.</div><p class="backtop"><a href="#toc">↑ 목차</a></p></div></div>
+  <section class="section" id="catC">
+    <h2>5. 카테고리 C — Spec-driven / 방법론 하네스</h2>
+    <p>런타임이 아니라 <b>프로세스</b>를 하네스로 만든 사례들. 슬래시 커맨드·SKILL.md·자기개선 루프로 "에이전트가 반드시 거쳐야 할 절차"를 강제한다. 어떤 CLI(Copilot·Claude·Codex·Cursor…) 위에도 얹힌다.</p>
+    <p class="backtop"><a href="#toc">↑ 목차</a></p>
+  </section>
+<div class="case" id="c7"><div class="head"><div class="no">CASE C1 · 공식 저장소</div><h3>GitHub Spec Kit — /specify → /plan → /tasks → /implement</h3><div><span class="tag">Spec-driven</span><span class="tag">슬래시 워크플로우</span><span class="tag">30+ 에이전트 지원</span><span class="tag">taskstoissues</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> <a href="https://github.com/github/spec-kit">github/spec-kit</a></p>
+<p><b>개요.</b> <code>github/spec-kit</code>는 에이전트를 <b>명세 우선</b> 레일에 태우는 툴킷이다. <code>specify init</code>이 선택한 에이전트에 슬래시 커맨드(프롬프트 템플릿)를 설치하고, 에이전트는 <b>헌법→명세→계획→작업분해</b>를 거치기 전엔 코드를 쓰지 않는다. 이것이 "workflow 층 하네스"의 정석이다.</p>
+<h4>설치 · 워크플로우</h4>
+<pre class="code" data-lang="bash"><code># 설치(고정 릴리스) 또는 일회성 실행
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+uvx --from git+https://github.com/github/spec-kit.git@vX.Y.Z specify init my-project
+
+# 에이전트를 골라 프로젝트에 하네스 설치
+specify init my-project --integration copilot   # 또는 claude / codex / cursor-agent / gemini ...</code></pre><pre class="code" data-lang="slash workflow"><code>/speckit.constitution   # 모든 개발을 지배하는 원칙/가이드라인 생성·갱신
+/speckit.specify        # 기능 설명 -&gt; 구조화된 PRD(spec.md). feature 번호·git 브랜치 자동 생성
+/speckit.clarify        # 미명세 영역 질의·해소 (plan 전 권장)
+/speckit.plan           # spec + 헌법 제약 -&gt; 기술 아키텍처(data-model, contracts, research)
+/speckit.tasks          # plan -&gt; 실행 가능한 tasks.md. 독립 작업은 [P] 병렬 표시
+/speckit.analyze        # 산출물 간 일관성·커버리지 교차 분석
+/speckit.checklist      # 요구사항 완결성·명확성·일관성 검증용 커스텀 체크리스트 생성
+/speckit.implement      # tasks.md 전체 실행
+/speckit.converge       # 코드베이스를 spec/plan/tasks와 대조해 남은 작업을 새 task로 추가
+/speckit.taskstoissues  # 작업 목록 -&gt; GitHub Issues 로 변환(프로젝트관리 층과 연결)</code></pre>
+<h4>생성되는 구조 = 폐루프의 기록물</h4>
+<pre class="code" data-lang="directory"><code>my-project/
+├── .specify/
+│   ├── templates/              # SDD 커맨드 템플릿(오버라이드/preset/extension 우선순위 스택)
+│   └── scripts/{bash,powershell}/
+└── specs/
+    └── 003-chat-system/        # /speckit.specify 가 만든 자동 번호 브랜치
+        ├── spec.md             # user story·acceptance criteria
+        ├── plan.md             # /speckit.plan
+        ├── research.md         # (자동) 라이브러리 비교 등
+        ├── data-model.md
+        ├── contracts/          # API/이벤트 계약
+        └── tasks.md            # [P] 병렬 마커 포함 실행 목록</code></pre>
+<p><b>Agentic SDLC 매핑.</b> 헌법=거버넌스, spec=요구사항 기록, plan=설계, tasks=작업분해, implement=구현, taskstoissues=프로젝트관리 환류. spec을 git에 버전드로 남겨 <b>명세가 단일 기준(system of record)</b>이 된다. 조직은 extension/preset으로 컴플라이언스 게이트·도메인 용어를 얹는다.</p>
+<div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> SDD가 권력 구조를 뒤집음 — "코드가 명세를 섬긴다. PRD는 구현의 가이드가 아니라 <b>구현을 생성하는 원천</b>." <code>/speckit</code> 체인을 끝내기 전엔 코드를 못 씀.</li><li><b>결과:</b> 문서 사이트 기준 30+ 통합(2026-07-07 문서 기준 <b>33개 명명 에이전트</b> + Generic), 커뮤니티 <i>(자가보고)</i> 105 확장·60+ 저자·22 preset. 최신 v0.12.5.</li><li><b>에피소드:</b> spec-driven.md의 시간 비교 — 전통 방식 문서화 ~12시간 vs SDD 커맨드로 <b>15분에 명세+계획</b> 완성. (참고: GitHub 엔지니어링 블로그 URL은 조사 시점 미발견 — 저장소·docs가 1차 근거.)</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>명세를 파일로 고정</b>해 "매번 다시 설명하는" 토큰을 없앤다. 헌법·spec·plan·tasks를 <code>specs/</code>에 버전드로 남기면, 세션이 바뀌어도 에이전트가 요구사항·아키텍처·작업분해를 <b>재서술 없이 단일 기준(system of record)으로 재사용</b>한다 — 긴 요구사항을 매 대화에서 프롬프트로 반복 입력할 필요가 없다. 또 <code>/speckit</code> 체인을 끝내기 전엔 코드를 못 쓰게 강제하므로, 명세 없이 잘못 구현했다가 <b>버리고 다시 짜는 재작업 토큰</b>을 앞단에서 차단한다.</p><p class="src2"><b>보강 출처</b> · web: github.com/github/spec-kit(spec-driven.md)·github.github.io/spec-kit · 내부: 050·024</p></div><div class="src"><b>출처</b> · github.com/github/spec-kit(README·spec-driven.md·docs/installation·docs/reference/integrations) · github.github.io/spec-kit. <span class="pill r">참고</span> 별도 GitHub 엔지니어링 블로그 URL은 조사 시점 404 — 저장소를 1차 근거로 인용. 지원 에이전트 30+.</div><p class="backtop"><a href="#toc">↑ 목차</a></p>
+</div></div><div class="case" id="c8"><div class="head"><div class="no">CASE C2 · 공개 저장소 + 저자 블로그</div><h3>Superpowers — SKILL.md로 "좋은 엔지니어링 습관"을 강제</h3><div><span class="tag">프로세스 하네스</span><span class="tag">HARD-GATE</span><span class="tag">TDD 강제</span><span class="tag">subagent-driven</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> <a href="https://github.com/obra/superpowers">obra/superpowers</a></p>
+<p><b>개요.</b> Jesse Vincent의 <code>obra/superpowers</code>는 Claude Code 등에 <b>합성 가능한 스킬(SKILL.md)</b> + 세션 시작 부트스트랩을 심어, 브레인스토밍·계획·TDD·리뷰를 <b>"제안이 아니라 필수 워크플로우"</b>로 강제한다. 코딩을 시작하기도 전에 "정말 뭘 만들려는 거냐"를 먼저 묻게 만든다.</p>
+<h4>스킬 구조 & HARD-GATE</h4>
+<p>각 스킬은 <code>skills/&lt;name&gt;/SKILL.md</code> 디렉터리. frontmatter의 <code>description</code>이 활성화 판단 근거이고, 본문에 <b>강한 게이트</b>를 박는다.</p>
+<pre class="code" data-lang="skills/brainstorming/SKILL.md"><code>---
+name: brainstorming
+description: &quot;You MUST use this before any creative work - creating features,
+  building components, adding functionality, or modifying behavior.
+  Explores user intent, requirements and design before implementation.&quot;
+---
+&lt;HARD-GATE&gt;
+Do NOT invoke any implementation skill, write any code, scaffold any project,
+or take any implementation action until you have presented a design and the
+user has approved it. This applies to EVERY project regardless of simplicity.
+&lt;/HARD-GATE&gt;</code></pre>
+<h4>세션 시작 부트스트랩 = 하네스 부착점</h4>
+<pre class="code" data-lang="bootstrap (blog.fsck.com)"><code>&lt;session-start-hook&gt;&lt;EXTREMELY_IMPORTANT&gt;
+You have Superpowers.
+**RIGHT NOW, go read**: @~/.claude/plugins/.../skills/getting-started/SKILL.md
+&lt;/EXTREMELY_IMPORTANT&gt;&lt;/session-start-hook&gt;</code></pre><p class="muted">부트스트랩이 가르치는 3가지: ① 너에겐 스킬이 있다 ② 어떤 작업 전에도 스킬을 먼저 검색하라 ③ 할 수 있는 스킬이 있으면 <b>반드시 써라</b>.</p>
+<h4>핵심 7단계 & 계획 템플릿</h4>
+<p>brainstorming → using-git-worktrees(격리) → writing-plans → subagent-driven-development(작업당 새 서브에이전트+2단계 리뷰) → test-driven-development(RED→GREEN→REFACTOR, <b>테스트 전에 쓴 코드는 삭제</b>) → requesting-code-review → finishing-a-development-branch. 계획의 각 태스크는 <b>정확한 파일 경로·완성 코드·검증 단계</b>를 강제한다.</p>
+<pre class="code" data-lang="writing-plans SKILL.md"><code>### Task N: [Component Name]
+**Files:**
+- Create: `exact/path/to/file.py`
+- Test:   `tests/exact/path/to/test.py`
+- [ ] Step 1: Write the failing test
+- [ ] Step 2: Run test to verify it FAILS (&quot;function not defined&quot;)
+- [ ] Step 3: Write minimal implementation
+- [ ] Step 4: Run test to verify it PASSES
+- [ ] Step 5: Commit (git add ...; git commit -m &quot;feat: ...&quot;)</code></pre>
+<p class="muted">서브에이전트는 역할별로 <b>가장 약한(값싼) 모델</b>을 명시하도록 강제한다("모델을 생략하면 세션의 비싼 모델을 상속해 이 절을 무력화한다"). <code>writing-skills</code> 메타스킬로 <b>하네스가 스스로 확장</b>되며, 새 스킬은 적대적 서브에이전트로 검증된다("하네스에 대한 TDD").</p>
+<div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> Jesse Vincent가 자기 코딩-에이전트 프로세스를 "제안이 아니라 <b>필수 워크플로우</b>"인 스킬로 성문화. 마침 그날 아침 Anthropic이 Claude Code 플러그인 시스템을 내놔 공개를 앞당김.</li><li><b>결과:</b> <i>(자가보고)</i> "에이전트가 계획 이탈 없이 <b>2시간씩 자율 작업</b>하는 게 드물지 않다." 2026년엔 Superpowers 전담 채용까지 확장.</li><li><b>에피소드:</b> 에이전트가 스킬을 먼저 읽게 하려고 적대적 시나리오를 심음 — "운영 장애로 <b>분당 $5k 손실</b> 중, 즉시 디버그 vs 스킬 먼저 확인?". Cialdini 설득 원리를 LLM에 적용. Claude가 "아, 완전히 잘못 읽었다… Jesse는 설득 원리로 나를 더 신뢰성 있게 만든 것"이라 반응.</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>격리 + 값싼 모델 + TDD</b> 세 축으로 토큰을 아낀다. 작업마다 <b>새 서브에이전트</b>를 띄워 탐색·구현 컨텍스트를 <b>본 세션과 분리</b>하고(결과 요약만 회수), 스킬은 온디맨드로만 로드한다. 서브에이전트 정의에는 <b>"가장 값싼(약한) 모델을 명시하라"</b>를 강제해("생략하면 세션의 비싼 모델을 상속해 이 절을 무력화") 리뷰·리서치 같은 반복 작업의 <b>단가</b>를 낮춘다. TDD(RED→GREEN→REFACTOR, 테스트 전 코드는 삭제)로 잘못된 구현을 조기에 걸러 <b>재작업에 쓰는 토큰</b>을 줄인다.</p><p class="src2"><b>보강 출처</b> · web: blog.fsck.com/2025/10/09/superpowers · github.com/obra/superpowers · 내부: 024</p></div><div class="src"><b>출처</b> · github.com/obra/superpowers(README·skills/*/SKILL.md) · blog.fsck.com/2025/10/09/superpowers. 설치: <code>/plugin marketplace add obra/superpowers-marketplace</code> → <code>/plugin install superpowers@superpowers-marketplace</code>(Claude·Copilot CLI·Cursor·Factory 등 지원).</div><p class="backtop"><a href="#toc">↑ 목차</a></p>
+</div></div><div class="case" id="c9"><div class="head"><div class="no">CASE C3 · 저자 가이드 + 플러그인</div><h3>Compound Engineering — 매 작업이 다음 작업을 쉽게 만든다</h3><div><span class="tag">자기개선 루프</span><span class="tag">/ce-compound</span><span class="tag">docs/solutions/</span><span class="tag">29 skills·0 agents</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> <a href="https://github.com/EveryInc/compound-engineering-plugin">EveryInc/compound-engineering-plugin</a></p>
+<p><b>개요.</b> Every의 Kieran Klaassen이 정리한 방법론. 핵심 철학: <em>"각 엔지니어링 작업 단위는 다음 단위를 더 쉽게 만들어야 한다"</em>. 기능은 복잡도를 더하는 게 아니라 <b>시스템에 능력을 가르치고</b>, 버그 수정은 그 부류의 미래 버그를 없애며, 패턴은 도구로 성문화된다. Every는 이 방식으로 6개 제품을 대부분 1인 엔지니어링 팀으로 운영한다고 주장한다. <span class="pill r">검증 필요</span> 자가 보고.</p>
+<h4>7단계 메인 루프</h4>
+<div class="flow">
+  <span class="node">Ideate</span><span class="arrow">→</span><span class="node">Brainstorm</span><span class="arrow">→</span>
+  <span class="node">Plan</span><span class="arrow">→</span><span class="node">Work</span><span class="arrow">→</span>
+  <span class="node">Review</span><span class="arrow">→</span><span class="node">Polish</span><span class="arrow">→</span>
+  <span class="node" style="background:#f3fbf5">Compound</span><span class="arrow">↺</span>
+</div>
+<h4>핵심 = Compound 단계(학습 환류) — 명시적 자기개선 하네스</h4>
+<p><code>/ce-compound</code>가 Full 모드에서 <b>3개 병렬 서브에이전트</b>(context analyzer · solution extractor · related-docs finder, 옵션으로 session historian)를 띄워, 방금 해결한 문제를 <b>검색 가능한 마크다운</b>으로 <code>docs/solutions/</code>에 남기고 <b><code>AGENTS.md</code>/<code>CLAUDE.md</code>를 갱신</b>한다. 이게 "harness engineering"의 문자 그대로의 구현 — 에이전트가 <b>자기 운영 지침을 스스로 쓴다</b>.</p>
+<pre class="code" data-lang="directory"><code>your-project/
+├── AGENTS.md or CLAUDE.md          # 매 세션 읽는 가장 중요한 파일(선호·패턴·컨텍스트)
+├── .compound-engineering/config.local.yaml
+└── docs/
+    ├── brainstorms/                # /ce-brainstorm 요구사항
+    ├── plans/                      # /ce-plan 구현계획
+    └── solutions/                  # /ce-compound 제도적 지식
+        ├── performance-issues/  ├── security-issues/  ├── database-issues/
+        ├── architecture-patterns/ ├── conventions/    └── best-practices/</code></pre><pre class="code" data-lang="install"><code># Claude Code
+/plugin marketplace add EveryInc/compound-engineering-plugin
+/plugin install compound-engineering
+
+# /ce-compound-refresh : CLAUDE.md 의 낡은/중복/구식 학습을 정리(keep/update/merge/archive)</code></pre>
+<p class="muted">플러그인 규모는 GitHub README 기준 <b>29 스킬 · standalone agent 0개</b>(리뷰 렌즈·리서처 등은 스킬 내부 프롬프트 자산으로 포함되며, every.to 마케팅 문구는 "40+ agents·35+ skills"로 표기). 저자는 "첫 시도 95%는 쓰레기, 둘째도 50% — 이건 실패가 아니라 프로세스"라며 <b>산출물보다 산출물을 만드는 시스템</b>이 가치라고 본다.</p>
+<div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> Every의 이메일 AI <b>"Cora"</b>를 밑바닥부터 만들며 나온 방법론 — "각 엔지니어링 단위는 다음 단위를 더 쉽게 만들어야 한다".</li><li><b>결과:</b> <i>(자가보고)</i> Every는 Cora·Monologue·Proof·Sparkle·Spiral·every.to <b>6개 제품을 대부분 1인 엔지니어링 팀</b>으로 운영. <i>(내부 042)</i> 인간이 방향, AI가 구현·실험·리뷰·분석하는 반폐쇄형 R&D 자동화 루프.</li><li><b>에피소드:</b> "첫 시도는 <b>95%가 쓰레기</b>, 둘째도 50% — 이건 실패가 아니라 프로세스." 심리적 장벽도 명시 — "내가 만든 게 맞나? 계획·리뷰·품질 보증이 곧 일이다. 사고는 네가 했고 AI는 타이핑만." (참고: 출시 글은 <code>/ce-compound</code>를 6서브에이전트 흐름으로 소개하나, 플러그인 구현은 3병렬+옵션.)</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>학습을 성문화해 "다음 작업이 다시 유도하지 않게"</b> 하는 복리적 절감이다. <code>/ce-compound</code>가 방금 해결한 문제·패턴을 <code>docs/solutions/</code>와 <code>CLAUDE.md</code>에 <b>검색 가능한 지식으로 적어</b> 두면, 이후 세션은 같은 배경을 처음부터 재수집·재추론하지 않고 그 문서를 참조한다 — 반복될수록 토큰당 산출이 커진다. 동시에 <code>/ce-compound-refresh</code>로 낡은·중복 학습을 정리(keep/update/merge/archive)해 지침 파일이 비대해지며 <b>매 세션 주입 토큰이 늘어나는 것</b>을 막아 균형을 잡는다.</p><p class="src2"><b>보강 출처</b> · web: every.to/p/compound-engineering · 내부: 042·024</p></div><div class="src"><b>출처</b> · every.to/compound-writing/compound-engineering(Updated May 2026) · github.com/EveryInc/compound-engineering-plugin · cora.computer. <span class="pill a">아키텍처 주장</span> 성과·인원 규모는 저자 자가 보고.</div><p class="backtop"><a href="#toc">↑ 목차</a></p>
+</div></div>
+  <section class="section" id="catD">
+    <h2>6. 카테고리 D — 멀티에이전트 오케스트레이션, 두 진영</h2>
+    <p>"에이전트를 여러 개 붙이면 나아지는가?"에 대한 <b>정반대 실전 결론</b> 두 개. 하네스 설계에서 병렬성과 컨텍스트 무결성 사이의 트레이드오프를 보여준다. 둘 다 프로덕션 경험에 기반한 1차 자료다.</p>
+    <p class="backtop"><a href="#toc">↑ 목차</a></p>
+  </section>
+<div class="case" id="c10"><div class="head"><div class="no">CASE D1 · 엔지니어링 블로그</div><h3>Anthropic 멀티에이전트 리서치 — orchestrator-worker</h3><div><span class="tag">lead+병렬 subagent</span><span class="tag">아티팩트 파일시스템</span><span class="tag">rainbow deploy</span><span class="tag">token=성능</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> <a href="https://github.com/anthropics/claude-cookbooks">anthropics/claude-cookbooks</a> (이전 anthropic-cookbook에서 이동, 공개 프롬프트·패턴) — 리서치 시스템 자체는 비공개</p>
+<p><b>개요(찬성 진영).</b> Anthropic Research는 <b>lead 에이전트(Claude Opus 4)</b>가 전략을 세우고 <b>병렬 서브에이전트(Claude Sonnet 4)</b>를 스폰해 각자 독립 컨텍스트 창에서 다른 측면을 동시에 탐색·필터링한 뒤 결과를 lead가 종합하는 구조. 내부 리서치 eval에서 단일 Opus 4 대비 <b>+90.2%</b>. 폭넓은 탐색·병렬화가 유리한 리서치형 과제에 맞는 하네스다.</p>
+<div class="callout"><b>핵심 경제학.</b> 에이전트는 챗 대비 ~4배, 멀티에이전트는 ~15배 토큰을 쓴다. 그런데 BrowseComp에서 <b>토큰 사용량만으로 성능 분산의 80%가 설명</b>된다(나머지는 도구 호출 수·모델 선택). 즉 병렬 서브에이전트는 "토큰을 병렬로 더 쓰는" 유효한 방법. <span class="pill r">검증 필요</span> 자가 보고 eval.</div>
+<h4>오케스트레이션 하네스 = 위임 프롬프트 엔지니어링</h4>
+<p>블로그의 8개 교훈 중 하네스 설계에 직접적인 것들:</p>
+<ul class="tight">
+<li><b>위임을 가르쳐라:</b> 각 서브에이전트에 <b>목표·출력 형식·도구/소스 가이드·명확한 경계</b>를 줘야 한다. "반도체 부족을 조사하라" 같은 모호한 지시는 <b>중복 작업·누락</b>을 부른다.</li>
+<li><b>난이도에 노력을 스케일링:</b> 프롬프트에 규칙을 박는다 — 단순 사실확인=1에이전트·3~10 호출, 비교=2~4 서브에이전트, 복잡=10+ 명확 분담.</li>
+<li><b>에이전트가 스스로 개선:</b> 도구-테스트 에이전트가 나쁜 MCP 도구 설명을 다시 써서 <b>후속 에이전트 작업시간 40% 단축</b>.</li>
+<li><b>넓게 시작해 좁혀라 · 사고과정을 유도(extended thinking을 스크래치패드로) · 병렬 도구호출로 리서치 시간 최대 90% 단축.</b></li>
+</ul>
+<h4>프로덕션 하네스 패턴</h4>
+<pre class="code" data-lang="architecture (appendix)"><code># 서브에이전트 산출물을 파일시스템 아티팩트로 저장(핵심 패턴)
+Subagent -&gt; tool: write_artifact(path, content)   # 큰 결과를 외부에 저장
+Subagent -&gt; return lightweight_reference(path)     # lead 에는 참조만 전달
+# 효과: 다단계 처리 중 정보손실 방지 + 대화이력 복사 토큰 오버헤드 감소</code></pre>
+<ul class="tight">
+<li><b>상태성·오류 누적:</b> 에이전트는 stateful이라 작은 실패가 연쇄 → <b>checkpoint에서 재개</b>(처음부터 재시작 금지).</li>
+<li><b>배포:</b> 실행 중 에이전트를 깨지 않도록 <b>rainbow deployment</b>로 구·신 버전 동시 가동하며 트래픽 점진 이동.</li>
+<li><b>eval:</b> 수백 개 기다리지 말고 <b>~20개 소규모로 즉시 시작</b>. LLM-as-judge 루브릭(정확성·인용·완결성·소스품질·도구효율).</li>
+</ul>
+<div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> orchestrator-worker — "검색의 본질은 압축. 서브에이전트가 각자 컨텍스트 창에서 병렬 탐색 후 <b>핵심 토큰만 lead에 응축</b>".</li><li><b>결과:</b> <i>(자가보고 내부 eval)</i> Opus 4 lead+Sonnet 4 서브가 단일 Opus 4 대비 <b>+90.2%</b>. 토큰 챗 대비 4×/멀티 15×, BrowseComp 성능분산의 80%를 토큰량이 설명. 병렬 도구호출로 리서치 시간 최대 90%↓.</li><li><b>에피소드:</b> 도구-테스트 에이전트가 나쁜 MCP 설명을 재작성 → 후속 작업시간 40%↓. 초기엔 "단순 질의에 <b>서브에이전트 50개 스폰</b>"하는 실패도. 운영은 rainbow deployment(구·신 동시)와 checkpoint 재개로.</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>토큰 경제학이 곧 설계 원칙</b>인 사례다. 멀티에이전트는 챗 대비 <b>~15× 토큰</b>을 쓰므로(자가보고), 무작정 병렬화하지 않고 <b>난이도에 에이전트/호출 수를 스케일링</b>한다 — 단순 사실확인=1에이전트·3~10 호출, 비교=2~4 서브, 복잡=10+ 명확 분담. 서브에이전트 산출물은 <b>파일 아티팩트로 저장하고 lead엔 경량 참조만</b> 넘겨, 큰 결과가 오케스트레이터 대화이력에 복사되는 오버헤드를 없앤다. 즉 "토큰을 병렬로 <b>의도적으로</b> 더 쓰되, 낭비 경로는 막는" 방식.</p><p class="src2"><b>보강 출처</b> · web: anthropic.com/engineering/multi-agent-research-system · 내부: 023·024</p></div><div class="src"><b>출처</b> · anthropic.com/engineering/multi-agent-research-system(저자 Jeremy Hadfield 외). 오픈소스 프롬프트: platform.claude.com/cookbook/patterns-agents-basic-workflows.</div><p class="backtop"><a href="#toc">↑ 목차</a></p>
+</div></div><div class="case" id="c11"><div class="head"><div class="no">CASE D2 · 엔지니어링 블로그(반례)</div><h3>Cognition(Devin) — "멀티에이전트를 만들지 마라"</h3><div><span class="tag">단일스레드 선형</span><span class="tag">full-trace 공유</span><span class="tag">context compressor</span><span class="tag">파인튜닝</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> Devin은 비공개(제품) · 비판 대상 참고: <a href="https://github.com/openai/swarm">openai/swarm</a> · <a href="https://github.com/microsoft/autogen">microsoft/autogen</a></p>
+<p><b>개요(반대 진영).</b> Devin을 만드는 Cognition의 Walden Yan은 <b>병렬 멀티에이전트를 기본적으로 배제</b>하라고 주장한다. 두 원칙: ① <b>컨텍스트를 공유하라 — 개별 메시지가 아니라 전체 에이전트 트레이스를</b> ② <b>행동에는 암묵적 결정이 담기고, 상충하는 결정은 나쁜 결과를 낳는다.</b> 이 둘을 어기는 아키텍처는 기본적으로 배제하라는 것.</p>
+<div class="callout risk"><b>Flappy Bird 실패담.</b> "배경 만들기"와 "새 만들기"로 나눠 병렬화하면, 서브에이전트1은 슈퍼마리오풍 배경을, 서브에이전트2는 게임 에셋 같지 않은 새를 만들어 <b>최종 에이전트가 두 오해를 억지로 합쳐야 한다</b>. 컨텍스트가 충분히 공유되지 않아 결정이 분산되면 시스템은 취약해진다.</div>
+<h4>권장 하네스 = 컨텍스트 엔지니어링</h4>
+<p>"Context engineering(프롬프트 엔지니어링의 다음 단계, 동적 시스템에서 자동으로 하는 것)이 에이전트 빌더의 <b>#1 직무</b>." 권장 아키텍처 진화 순서:</p>
+<div class="flow">
+  <span class="node">① 단일스레드 선형 에이전트</span><span class="arrow">→ (아주 긴 작업만) →</span>
+  <span class="node">② 선형 + 컨텍스트 압축기(전용 LLM)</span>
+</div>
+<ul class="tight">
+<li><b>①</b> 연속 컨텍스트, 서브에이전트 없음, 컨텍스트 손실 없음 — 대부분 과제에 충분.</li>
+<li><b>②</b> 긴 이력을 핵심 사건·결정으로 압축하는 <b>전용 압축기</b>를 둔다. 무엇이 핵심인지 학습하는 시스템 투자가 필요하며, 도메인에 따라 <b>작은 모델 파인튜닝</b>까지 한다(Cognition이 실제로 함).</li>
+</ul>
+<h4>Claude Code를 "올바른 예"로 인용</h4>
+<p>"2025년 6월 기준 Claude Code도 서브태스크를 스폰하지만 <b>서브태스크와 병렬로 작업하지 않고</b>, 서브태스크 에이전트는 보통 <b>질문에 답할 뿐 코드를 쓰지 않는다</b>. 병렬 서브에이전트를 여럿 돌리면 상충하는 응답이 나올 수 있기 때문."</p>
+<p class="muted">Walden은 OpenAI Swarm·Microsoft AutoGen이 "잘못된 방향(멀티에이전트)을 밀고 있다"고 명시 비판한다. 하네스 설계자에게 주는 함의: <b>포괄적 컨텍스트 주입(전체 트레이스·모든 결정)을 갖춘 잘 구조화된 단일 에이전트</b>가, 컨텍스트 전달이 열화된 멀티에이전트보다 낫다.</p>
+<div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> Walden Yan — "<b>컨텍스트 엔지니어링이 에이전트 빌더의 1순위</b>". 두 원칙: 전체 트레이스 공유 / 상충 결정 배제. 긴 작업엔 전용 압축 LLM, 도메인 따라 "작은 모델 파인튜닝(Cognition이 실제로 함)".</li><li><b>결과:</b> Devin의 프로덕션 경험 기반. OpenAI <b>Swarm</b>·Microsoft <b>AutoGen</b>을 "잘못된 방향"이라 명시 비판.</li><li><b>에피소드:</b> Flappy Bird 반례 — "배경 만들기"가 슈퍼마리오풍으로 새고 "새 만들기"는 게임 에셋 같지 않아, 최종 에이전트가 두 오해를 억지로 합침. 과거 'edit apply model'(작은 모델이 큰 모델 지시를 적용)도 미세한 모호함에 오작동 → 지금은 단일 모델 한 액션으로.</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>단일스레드로 "중복 컨텍스트 토큰"을 회피</b>하는 정반대 전략이다. 멀티에이전트는 각 서브가 비슷한 배경을 각자의 컨텍스트에 중복 적재해 토큰이 폭증(~15×)하는데, Cognition은 <b>하나의 연속 컨텍스트</b>를 공유해 이 중복을 없앤다. 대신 이력이 길어지면 <b>전용 압축 LLM</b>이 전체 트레이스를 <b>핵심 사건·결정만</b> 남기고 요약하며(도메인에 따라 작은 모델을 파인튜닝까지), 무엇이 핵심인지 학습된 압축으로 <b>손실을 최소화하면서 토큰을 줄인다</b>. "병렬성보다 컨텍스트 무결성"이 곧 비용 절감.</p><p class="src2"><b>보강 출처</b> · web: cognition.com/blog/dont-build-multi-agents</p></div><div class="src"><b>출처</b> · cognition.com/blog/dont-build-multi-agents(저자 Walden Yan).</div><p class="backtop"><a href="#toc">↑ 목차</a></p>
+</div></div>
+  <section class="section" id="catE">
+    <h2>7. 카테고리 E — Microsoft 자사(1st-party) 사례</h2>
+    <p>Microsoft가 직접 만든 프레임워크·개발도구·클라우드 플랫폼에서 Agentic SDLC·Harness를 어떻게 코드화했는지 모았다. 2026-07-10 공식 본문 기준 <b>Microsoft Agent Framework(MAF)는 Semantic Kernel과 AutoGen의 direct successor</b>이며 version 1.0 production-ready release로 안내된다. AutoGen은 maintenance mode이고 신규 프로젝트는 MAF로 시작하도록 권고된다. VS Code Copilot agent mode는 오픈소스 샘플로, Azure SRE Agent·Foundry Agent Service는 관리형 서비스로 하네스를 제공한다.</p>
+    <div class="callout"><b>수렴 사실.</b> Semantic Kernel README는 "Semantic Kernel is now Microsoft Agent Framework"와 MAF를 enterprise-ready successor로 명시한다. AutoGen README는 "AutoGen is now in maintenance mode" 및 "New users should start with Microsoft Agent Framework"를 명시한다. Microsoft Learn은 MAF를 두 프레임워크의 direct successor로 설명한다. MAF 상태는 공식 표현인 <b>version 1.0 production-ready release</b>로 기록하며 GA라는 별도 용어로 바꾸지 않는다. <span class="pill g">검증</span> 2026-07-10 공식 README·Learn 본문 대조.</div>
+    <p class="backtop"><a href="#toc">↑ 목차</a></p>
+  </section>
+<div class="case" id="e1"><div class="head"><div class="no">CASE E1 · 공식 docs + 저장소</div><h3>Microsoft Agent Framework — middleware 체인 · approval 게이트 · OTel</h3><div><span class="tag">SK+AutoGen 통합 후속</span><span class="tag">function middleware</span><span class="tag">HITL approval</span><span class="tag">OpenTelemetry 내장</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> <a href="https://github.com/microsoft/agent-framework">microsoft/agent-framework</a></p>
+<p><b>개요.</b> MAF(<code>agent-framework</code> / <code>Microsoft.Agents.AI</code>)는 Microsoft의 통합 에이전트 프레임워크다. 하네스가 <b>middleware 체인</b>으로 명시적으로 설계돼 있다: ① <b>Agent middleware</b>(전체 run 인터셉트) ② <b>Function middleware</b>(모든 tool 호출 게이트) ③ <b>Chat middleware</b>(LLM 호출 감사). 여기에 선언적 <b>HITL 승인</b>, 그래프 <b>workflow</b>, 원클릭 <b>OpenTelemetry</b>가 붙는다.</p>
+<h4>하네스 ① tool 호출 게이트 — Function middleware</h4>
+<p>모든 함수/도구 호출을 <code>call_next()</code> 앞뒤로 감싼다. 조건에 맞으면 <code>MiddlewareTermination</code>으로 <b>체인을 끊고 실행을 차단</b>한다.</p>
+<pre class="code" data-lang="python (MAF)"><code>from agent_framework import FunctionMiddleware, FunctionInvocationContext
+
+class LoggingFunctionMiddleware(FunctionMiddleware):
+    async def process(self, context: FunctionInvocationContext,
+                      call_next):                       # call_next = 다음 단계(함수)
+        print(f&quot;[Function] Calling {context.function.name}&quot;)
+        await call_next()                                # 진행
+        print(f&quot;[Function] {context.function.name} completed&quot;)
+
+# 차단(short-circuit) 미들웨어
+from agent_framework import AgentContext, AgentResponse, Message, MiddlewareTermination
+async def blocking_middleware(context: AgentContext, call_next):
+    last = context.messages[-1] if context.messages else None
+    if last and last.text and &quot;blocked&quot; in last.text.lower():
+        context.result = AgentResponse(
+            messages=[Message(role=&quot;assistant&quot;, contents=[&quot;This request was blocked.&quot;])])
+        raise MiddlewareTermination(result=context.result)   # 에이전트 실행 자체를 건너뜀
+    await call_next()</code></pre><p class="muted">.NET도 동일 패턴: <code>agent.AsBuilder().Use(CustomFunctionCallingMiddleware).Build()</code>, 시그니처는 <code>ValueTask&lt;object?&gt; (AIAgent, FunctionInvocationContext, next, ct)</code>. <code>context.Terminate = true</code>로 함수-호출 루프 중단.</p>
+<h4>하네스 ② HITL 승인 — approval_mode</h4>
+<p>도구에 <code>@tool(approval_mode="always_require")</code>를 선언하면, 그 도구는 <b>사람이 승인하기 전엔 실행되지 않고</b> run 결과에 <code>user_input_requests</code>(구조화된 일시정지 신호)가 담긴다. 호출 애플리케이션이 승인 authority가 되어 재제출한다.</p>
+<pre class="code" data-lang="python (MAF)"><code>from agent_framework import Agent, Message, tool
+from agent_framework.openai import OpenAIChatClient
+
+@tool(approval_mode=&quot;always_require&quot;)        # ← 선언적 승인 게이트
+def get_weather_detail(location) -&gt; str:
+    return f&quot;The weather in {location} is cloudy, humidity 88%.&quot;
+
+async with Agent(client=OpenAIChatClient(), name=&quot;WeatherAgent&quot;,
+                 instructions=&quot;You are a helpful weather assistant.&quot;,
+                 tools=[get_weather_detail]) as agent:
+    result = await agent.run(&quot;What is the detailed weather in Amsterdam?&quot;)
+    # 실행 대신 승인 요청이 돌아온다
+    for req in result.user_input_requests:
+        if req.function_call:
+            print(&quot;Approval needed:&quot;, req.function_call.name, req.function_call.arguments)
+    # 승인 후 재제출 (True=승인)
+    approval = Message(role=&quot;user&quot;,
+                       contents=[req.to_function_approval_response(True)])
+    final = await agent.run([&quot;What is the detailed weather in Amsterdam?&quot;,
+                             Message(role=&quot;assistant&quot;, contents=[req]), approval])
+    print(final.text)</code></pre><p class="muted">.NET 등가물: <code>new ApprovalRequiredAIFunction(weatherFunction)</code> → 응답에서 <code>FunctionApprovalRequestContent</code>를 꺼내 <code>requestContent.CreateResponse(approved: true)</code>로 승인.</p>
+<div class="grid2">
+<div>
+<h4>③ Workflow(그래프 오케스트레이션)</h4>
+<pre class="code" data-lang="python"><code>from agent_framework import WorkflowBuilder
+b = WorkflowBuilder(start_executor=processor)
+b.add_edge(processor, validator)   # 타입드 메시지 경로
+b.add_edge(validator, formatter)
+wf = b.build()
+async for e in wf.run(msg, stream=True):
+    if e.type == &quot;output&quot;: print(e.data)</code></pre><p class="muted">Pregel/BSP superstep 모델 — 결정론적 실행·superstep 경계 체크포인트·관측 경계.</p>
+</div>
+<div>
+<h4>④ 관측 — OpenTelemetry 내장</h4>
+<pre class="code" data-lang="python/.NET"><code>from agent_framework.observability import (
+    configure_otel_providers)
+configure_otel_providers()   # OTEL_* env 자동 인식
+# .NET: chatClient.AsBuilder().UseOpenTelemetry(...)
+#        agent.WithOpenTelemetry(...)</code></pre><p class="muted">GenAI semantic conventions 준수. MCP <code>tools/call</code>에 W3C traceparent 자동 주입으로 에이전트↔MCP 분산추적.</p>
+</div>
+</div>
+<div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> AutoGen(다중에이전트 연구: GroupChat·이벤트 런타임)과 Semantic Kernel(엔터프라이즈: 상태·타입안전·middleware·telemetry)의 <b>핵심 팀이 합쳐</b> 만든 명시적 direct successor. 양쪽 migration guide를 제공한다.</li><li><b>결과:</b> version 1.0 production-ready release로 안내되며 Python <code>agent-framework</code>·.NET <code>Microsoft.Agents.AI</code> 패키지를 제공한다. AutoGen은 maintenance mode다.</li><li><b>에피소드:</b> 설계 교훈 — AutoGen <code>AssistantAgent</code>는 기본 단일턴(명시적 <code>max_tool_iterations</code> 필요)이었으나 MAF <code>Agent</code>는 기본 멀티턴(실사용 마찰에서 배움). <i>(내부 039)</i> Foundry가 모델 선택·배포·평가·에이전트 실행을 한 플랫폼에 수렴.</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>미들웨어가 LLM/도구 호출 "이전에" 단락</b>해 낭비 토큰을 원천 차단한다. Function·Agent middleware에서 정책 위반·차단 조건을 만나면 <code>MiddlewareTermination</code>(또는 .NET <code>context.Terminate=true</code>)으로 <b>call_next()를 호출하지 않고 체인을 끊어</b>, 애초에 모델 추론이나 함수 실행이 일어나지 않게 한다 — 실패할 요청에 토큰을 쓰고 나서 버리는 대신 <b>사전 차단</b>. 내장 <b>OpenTelemetry</b>가 토큰 사용을 span별로 계측(GenAI 시맨틱 컨벤션)해, 어느 에이전트·도구가 토큰을 많이 쓰는지 보고 최적화할 근거를 준다.</p><p class="src2"><b>보강 출처</b> · web: <a href="https://learn.microsoft.com/en-us/agent-framework/overview/">Agent Framework overview</a> · <a href="https://github.com/microsoft/semantic-kernel">Semantic Kernel README</a> · <a href="https://github.com/microsoft/autogen">AutoGen README</a></p></div><div class="src"><b>출처</b> · Microsoft Learn Agent Framework overview · microsoft/semantic-kernel README · microsoft/autogen README · microsoft/agent-framework README. <span class="pill g">검증</span> 상태 문구는 2026-07-10 공식 본문 기준.</div><p class="backtop"><a href="#toc">↑ 목차</a></p>
+</div></div><div class="case" id="e2"><div class="head"><div class="no">CASE E2 · 원본 코드</div><h3>Semantic Kernel — Function Invocation Filter가 하네스 게이트</h3><div><span class="tag">IFunctionInvocationFilter</span><span class="tag">auto function loop 게이트</span><span class="tag">플러그인</span><span class="tag">C#·Python</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> <a href="https://github.com/microsoft/semantic-kernel">microsoft/semantic-kernel</a></p>
+<p><b>개요.</b> Semantic Kernel의 <b>function invocation filter</b>는 "모든 함수/도구 호출을 가로채 인자 검사·단락(short-circuit)·결과 수정"하는 하네스 게이트의 정석이다. <code>next</code> 델리게이트를 호출하지 않으면 함수가 실행되지 않는다 — 즉 필터가 곧 통제면.</p>
+<h4>인터페이스 = 게이트 계약</h4>
+<pre class="code" data-lang="csharp (SK 원본)"><code>// dotnet/src/.../Filters/Function/IFunctionInvocationFilter.cs
+public interface IFunctionInvocationFilter
+{
+    // next 를 호출하지 않으면 함수/다음 필터는 실행되지 않는다
+    Task OnFunctionInvocationAsync(
+        FunctionInvocationContext context,
+        Func&lt;FunctionInvocationContext, Task&gt; next);
+}
+
+// FunctionInvocationContext: 인자/결과를 읽고 바꿀 수 있다
+public class FunctionInvocationContext {
+    public KernelFunction Function { get; }
+    public KernelArguments Arguments { get; }        // 검사·수정 가능
+    public FunctionResult Result { get; set; }       // set = 오버라이드/단락
+}</code></pre>
+<h4>실전 필터 — 인자 오버라이드·결과 가공·모델 폴백</h4>
+<pre class="code" data-lang="csharp (SK sample)"><code>private sealed class RetryFilter(string fallbackModelId) : IFunctionInvocationFilter
+{
+    public async Task OnFunctionInvocationAsync(
+        FunctionInvocationContext context, Func&lt;FunctionInvocationContext, Task&gt; next)
+    {
+        try { await next(context); }                    // 1차 모델 시도
+        catch (HttpOperationException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            var settings = context.Arguments.ExecutionSettings![PromptExecutionSettings.DefaultServiceId];
+            settings.ModelId = fallbackModelId;          // 401이면 폴백 모델로
+            await next(context);                          // 재시도
+        }
+    }
+}
+// 등록(DI 순서 = 실행 순서):
+builder.Services.AddSingleton&lt;IFunctionInvocationFilter, RetryFilter&gt;();</code></pre><p class="muted">Python은 <code>kernel.add_filter("function_invocation", fn)</code> 또는 <code>@kernel.filter(filter_type=FilterTypes.FUNCTION_INVOCATION)</code> 데코레이터. 시그니처 <code>async def f(context, next): ...</code>.</p>
+<h4>자율 tool-호출 루프 게이트 — IAutoFunctionInvocationFilter</h4>
+<p><code>FunctionChoiceBehavior.Auto()</code>로 켜지는 자동 함수호출 루프의 <b>매 반복마다</b> 발화. <code>RequestSequenceIndex/FunctionSequenceIndex</code>로 위치를 알고 <code>context.Terminate = true</code>로 <b>루프 전체를 정지</b>. per-function 필터(안쪽) + auto-loop 필터(바깥쪽)의 <b>중첩 하네스</b>.</p>
+<pre class="code" data-lang="csharp"><code>var settings = new OpenAIPromptExecutionSettings {
+    FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()   // 자율 루프 on
+};
+builder.Services.AddSingleton&lt;IAutoFunctionInvocationFilter&gt;(new MyAutoFilter());
+// 필터 안: await next(context);  context.Terminate = true;  // 루프 종료
+// 플러그인/도구 등록: kernelBuilder.Plugins.AddFromType&lt;LightsPlugin&gt;(&quot;Lights&quot;);
+// 도구 선언: [KernelFunction(&quot;change_state&quot;)] [Description(&quot;...&quot;)] ...</code></pre><div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> 엔터프라이즈 미들웨어. function-invocation filter는 <b>책임있는 AI·보안을 함수 실행 지점에서 강제</b> — "권한 검증 후 승인 흐름 시작" 같은 게이트.</li><li><b>결과:</b> <i>(자가보고 MS 문서)</i> "Microsoft와 여러 Fortune 500이 이미 SK 활용." 1.0+ 비파괴 변경 약속, 신규는 MAF로 안내하되 SK 개념(filter·plugin·connector)이 MAF에 계승.</li><li><b>에피소드:</b> SK <code>IFunctionInvocationFilter</code>의 <code>next()</code> 델리게이트 패턴이 MAF middleware 파이프라인에 그대로 이어짐 — "next를 호출해야 다음 필터/원 연산으로 진행".</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>필터가 함수 호출 지점에서 토큰을 절약</b>한다. <code>IFunctionInvocationFilter</code>는 <code>next()</code>를 호출하지 않거나 <b>결과를 오버라이드(캐싱된 값 주입)</b>해 실제 함수·모델 호출을 건너뛸 수 있다 — 같은 입력의 반복 호출을 캐시로 단락. <code>IAutoFunctionInvocationFilter</code>는 자동 함수호출 루프의 <b>매 반복마다</b> 발화해 목표를 달성하면 <code>context.Terminate=true</code>로 <b>루프를 조기 종료</b>, 모델이 불필요하게 함수 호출을 계속 이어가며 토큰을 소모하는 것을 끊는다. per-function(안쪽)+auto-loop(바깥쪽) 중첩 게이트로 낭비 경로를 이중 차단.</p><p class="src2"><b>보강 출처</b> · web: learn.microsoft.com/semantic-kernel(overview·filters)</p></div><div class="src"><b>출처</b> · github.com/microsoft/semantic-kernel(dotnet/src/.../Filters/Function/* · dotnet/samples/Concepts/Filtering/* · python/semantic_kernel/filters/*) · learn.microsoft.com/en-us/semantic-kernel. <span class="pill r">참고</span> SK는 유지보수 지속, 신규는 MAF 권장.</div><p class="backtop"><a href="#toc">↑ 목차</a></p></div></div><div class="case" id="e3"><div class="head"><div class="no">CASE E3 · 오픈소스 샘플 + 공식 API</div><h3>VS Code + Copilot agent mode — Language Model Tools 하네스</h3><div><span class="tag">languageModelTools</span><span class="tag">prepareInvocation 승인</span><span class="tag">prompt-tsx 토큰예산</span><span class="tag">instructions</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> <a href="https://github.com/microsoft/vscode-copilot-chat">microsoft/vscode-copilot-chat</a>(아카이브→vscode) · <a href="https://github.com/microsoft/vscode-extension-samples">vscode-extension-samples</a> · <a href="https://github.com/microsoft/vscode-prompt-tsx">vscode-prompt-tsx</a></p>
+<p><b>개요.</b> VS Code의 Copilot agent mode는 <b>Language Model Tools API</b>로 확장 가능하다(Copilot Chat 확장은 오픈소스화되어 본체 vscode로 병합, 샘플은 <code>microsoft/vscode-extension-samples</code>). 하네스 요소가 모두 실제 코드로 드러난다: 도구 선언(manifest) → 등록 → <b>실행 전 사람 승인(<code>prepareInvocation</code>)</b> → 재귀 에이전트 루프 → <b>prompt-tsx 토큰 예산</b>.</p>
+<h4>하네스 ① 도구 선언 — package.json manifest</h4>
+<pre class="code" data-lang="package.json"><code>&quot;contributes&quot;: {
+  &quot;languageModelTools&quot;: [
+    {
+      &quot;name&quot;: &quot;chat-tools-sample_runInTerminal&quot;,
+      &quot;tags&quot;: [&quot;terminal&quot;, &quot;chat-tools-sample&quot;],
+      &quot;displayName&quot;: &quot;Run in Terminal&quot;,
+      &quot;modelDescription&quot;: &quot;Run a command in a terminal and return the output&quot;,
+      &quot;canBeReferencedInPrompt&quot;: false,
+      &quot;inputSchema&quot;: {                       // LLM 생성 인자의 JSON Schema 검증
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;properties&quot;: { &quot;command&quot;: { &quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;The command to run&quot; } },
+        &quot;required&quot;: [&quot;command&quot;]
+      }
+    }
+  ]
+}</code></pre>
+<h4>하네스 ② 실행 전 사람 승인 — prepareInvocation</h4>
+<p><code>prepareInvocation</code>은 <code>invoke</code> <b>이전</b>에 실행되어 확인 모달(<code>confirmationMessages</code>)을 띄운다. 사용자가 명시적으로 승인해야 도구가 돈다 — HITL 게이트.</p>
+<pre class="code" data-lang="typescript"><code>export class RunInTerminalTool
+  implements vscode.LanguageModelTool&lt;IRunInTerminalParameters&gt; {
+
+  async prepareInvocation(options, _token) {
+    // ← 여기가 하네스 게이트
+    const confirmationMessages = {
+      title: &#x27;Run command in terminal&#x27;,
+      message: new vscode.MarkdownString(
+        `Run this command in a terminal?\n\n\`\`\`\n${options.input.command}\n\`\`\`\n`),
+    };
+    return { invocationMessage: &#x27;Running command in terminal&#x27;, confirmationMessages };
+  }
+
+  async invoke(options, _token) {            // 승인된 뒤에만 실행
+    const term = vscode.window.createTerminal(&#x27;Language Model Tool User&#x27;);
+    const exec = term.shellIntegration!.executeCommand(options.input.command);
+    let out = &#x27;&#x27;; for await (const c of exec.read()) out += c;
+    return new vscode.LanguageModelToolResult([new vscode.LanguageModelTextPart(out)]);
+  }
+}
+// 등록: context.subscriptions.push(
+//   vscode.lm.registerTool(&#x27;chat-tools-sample_runInTerminal&#x27;, new RunInTerminalTool()));</code></pre><p class="muted">공식 문서: 확장 도구는 항상 확인 대화가 뜨며, 사용자가 "Always Allow"를 선택할 수 있다. 에이전트 루프는 LLM 응답의 <code>LanguageModelToolCallPart</code>를 모아 실행 후 결과를 prompt-tsx로 재렌더링하고 <b>도구 호출이 없을 때까지 재귀</b>한다.</p>
+<h4>하네스 ③ 컨텍스트 예산 — @vscode/prompt-tsx</h4>
+<p>프롬프트를 TSX 컴포넌트로 작성하고 <code>priority</code>로 우선순위를 매기면, 컨텍스트 창이 넘칠 때 <b>낮은 우선순위 메시지부터 잘라낸다</b>(선언 순서 보존). 핵심 지시가 조용히 truncate되는 사고를 막는 컨텍스트 하네스.</p>
+<pre class="code" data-lang="tsx"><code>&lt;&gt;
+  &lt;AssistantMessage priority={300}&gt;You are a SQL expert...&lt;/AssistantMessage&gt;
+  &lt;UserMessage priority={200}&gt;Here are my DB creation scripts...&lt;/UserMessage&gt;
+  &lt;UserMessage priority={100}&gt;{this.props.userQuery}&lt;/UserMessage&gt;
+&lt;/&gt;
+// 잘림 순서: userQuery(100) → DB컨텍스트(200) → 시스템(300)
+// const { messages } = await renderPrompt(TestPrompt, props,
+//     { modelMaxPromptTokens: 4096 }, chatModel);</code></pre>
+<h4>하네스 ④ 컨텍스트 — instructions 파일</h4>
+<p>워크스페이스 전역은 <code>.github/copilot-instructions.md</code>·<code>AGENTS.md</code>·<code>CLAUDE.md</code>(항상 적용), 조건부는 <code>*.instructions.md</code>(frontmatter <code>applyTo</code> glob).</p>
+<pre class="code" data-lang=".instructions.md"><code>---
+applyTo: &quot;**/*.ts,**/*.tsx&quot;
+---
+# Project coding standards for TypeScript and React
+- Use TypeScript for all new code
+- Prefer immutable data (const, readonly); use interfaces for data structures</code></pre><div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> 자율 루프(컨텍스트 수집→편집→터미널→에러 감시→자기수정)를 <b>도구 설명·시스템 프롬프트 튜닝에 대거 투자</b>해 구현. 터미널 명령은 승인 필요, 모든 도구 호출은 UI에 투명 표시+undo.</li><li><b>결과:</b> 2025-02 Insiders 프리뷰 → 2025-03 v1.99 Stable GA. <i>(자가보고)</i> v1.99서 Claude 3.7 Sonnet로 SWE-bench Verified <b>56.0%</b>. copilot-chat 저장소는 본체 vscode로 병합·아카이브.</li><li><b>에피소드:</b> 자가호스팅 고백 — "우리 팀은 <b>200+ 저장소</b> 소유. 작은 repo에선 탁월하지만 vscode 같은 대형 코드베이스의 다파일 리팩터링은 어떤 에이전트에게도 난제." 팀은 agent mode에 "GPT-4o보다 Claude Sonnet 선호"를 공개.</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>prompt-tsx의 우선순위 절단(priority pruning)</b>이 핵심이다. 프롬프트를 TSX 컴포넌트로 쓰고 각 메시지에 <code>priority</code>를 매기면, 컨텍스트 창이 넘칠 때 렌더러가 <b>우선순위 낮은 메시지부터 잘라</b>내되 <b>핵심 시스템 지시는 보존</b>한다(선언 순서 유지). 덕분에 예산 초과 시 아무거나 잘려 핵심 지침이 사라지고 → 모델이 헤매다 <b>재시도로 토큰을 두 배 쓰는</b> 사고를 예방한다. 에이전트 루프는 도구 호출 결과를 prompt-tsx로 재렌더링하며 예산 안에서 재귀하므로, 컨텍스트가 조용히 truncate되어 생기는 낭비를 구조적으로 막는다.</p><p class="src2"><b>보강 출처</b> · web: code.visualstudio.com(blogs/2025/02/24·updates/v1_99) · 내부: 052</p></div><div class="src"><b>출처</b> · code.visualstudio.com/api/extension-guides/ai/tools · code.visualstudio.com/docs/agent-customization/custom-instructions · github.com/microsoft/vscode-extension-samples(chat-sample) · github.com/microsoft/vscode-prompt-tsx. <span class="pill r">참고</span> microsoft/vscode-copilot-chat는 아카이브(본체 vscode로 병합).</div><p class="backtop"><a href="#toc">↑ 목차</a></p></div></div><div class="case" id="e4"><div class="head"><div class="no">CASE E4 · 공식 docs (관리형 서비스)</div><h3>Azure SRE Agent — 운영(Ops)의 Agentic SDLC · 승인·감사 게이트</h3><div><span class="tag">agentic 운영</span><span class="tag">permission gate·OBO</span><span class="tag">agent hooks</span><span class="tag">micro-VM 샌드박스</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> 관리형 서비스 — 공개 저장소 없음(문서: learn.microsoft.com/azure/sre-agent)</p>
+<p><b>개요.</b> Azure SRE Agent는 Azure 인프라의 <b>인시던트 대응·정기 운영·근본원인 분석</b>을 수행하는 프로덕션 agentic Ops 시스템이다("Agentic SDLC의 운영 단계"). 오픈소스는 아니지만 하네스 거버넌스가 문서로 명확하다. 핵심 원칙: <em>"The agent proposes changes and your team approves. No change deploys without human sign-off."</em></p>
+<h4>하네스 ① 권한 게이트 — Review 모드 · OBO · RBAC</h4>
+<p>에이전트마다 <b>user-assigned managed identity</b>가 붙고, 기본은 <b>Reader(읽기)</b>. 쓰기가 필요하면 <b>OBO(On-Behalf-Of)</b> 승인 프롬프트가 떠서 사람 자격증명으로 <b>단일 실행</b>(캐시 안 함)한다. Review 모드=모든 쓰기 승인, Autonomous 모드=관리 ID 직접 실행.</p>
+<pre class="code" data-lang="azurecli"><code># 관리 ID에 리소스그룹 Reader(조회·로그 쿼리)
+az role assignment create \
+  --assignee &lt;AGENT_MANAGED_IDENTITY_ID&gt; --role Reader \
+  --scope /subscriptions/&lt;SUB_ID&gt;/resourceGroups/&lt;RG&gt;
+
+# 쓰기가 필요하면 Contributor (권한 승격은 신중히)
+az role assignment create \
+  --assignee &lt;AGENT_MANAGED_IDENTITY_ID&gt; --role Contributor \
+  --scope /subscriptions/&lt;SUB_ID&gt;/resourceGroups/&lt;RG&gt;</code></pre>
+<h4>하네스 ② 검증 게이트 — Agent Hooks (Stop / PostToolUse)</h4>
+<p>라이프사이클 지점에 <b>prompt형(LLM 판정)</b> 또는 <b>command형(샌드박스 스크립트)</b> 훅을 걸어 완결성 검증·위험명령 차단·감사를 한다. Claude Code hooks와 판박이 구조를 관리형으로 제공.</p>
+<pre class="code" data-lang="yaml (SRE Agent hooks)"><code>api_version: azuresre.ai/v2
+kind: ExtendedAgent
+metadata: { name: my_hooked_agent }
+spec:
+  instructions: |
+    You are a helpful assistant.
+  hooks:
+    Stop:
+      - type: prompt
+        prompt: |
+          Check if the response ends with &quot;Task complete.&quot; $ARGUMENTS
+          Respond {&quot;ok&quot;: true} or {&quot;ok&quot;: false, &quot;reason&quot;: &quot;...&quot;}.
+        timeout: 30
+    PostToolUse:
+      - type: command
+        matcher: &quot;Bash|ExecuteShellCommand&quot;
+        failMode: block
+        script: |
+          #!/usr/bin/env python3
+          import sys, json, re
+          ctx = json.load(sys.stdin)
+          cmd = ctx.get(&#x27;tool_input&#x27;, {}).get(&#x27;command&#x27;, &#x27;&#x27;)
+          for p in [r&#x27;\brm\s+-rf\b&#x27;, r&#x27;\bsudo\b&#x27;, r&#x27;\bchmod\s+777\b&#x27;]:
+              if re.search(p, cmd):
+                  print(json.dumps({&quot;decision&quot;: &quot;block&quot;, &quot;reason&quot;: f&quot;Blocked: {p}&quot;})); sys.exit(0)
+          print(json.dumps({&quot;decision&quot;: &quot;allow&quot;}))</code></pre>
+<h4>하네스 ③ 실행 격리 + ④ 관측</h4>
+<ul class="tight">
+<li><b>4-요소 샌드박스:</b> reasoning(본체) / tool 실행(에이전트당 micro-VM ADC 샌드박스) / identity sidecar(자격증명 격리) / network proxy(모든 아웃바운드 검증). tool 프로세스는 호출마다 새로 뜨고 <b>끝나면 프로세스 트리 전체 종료</b> — "한 tool 호출이 다른 호출의 환경을 못 본다".</li>
+<li><b>secretless:</b> identity sidecar가 tool process별 short-lived token을 발급하고, action token은 tool call별 single-use다. 자격증명은 reasoning 컨텍스트에 <b>들어가지 않는다</b>.</li>
+<li><b>관측:</b> 생성 시 Application Insights·Log Analytics 자동 생성. trace/span ID 상관, 모든 아웃바운드 호출의 method·URL·duration·status, 훅 활성화 이벤트까지 <b>고객 소유 App Insights</b>로.</li>
+</ul>
+<div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> 인프라 인시던트 대응·운영·RCA의 agentic Ops. 핵심 원칙: <b>"에이전트가 변경을 제안하면 팀이 승인 — 사람 사인 없이는 배포 없음."</b> reasoning runtime, tool-execution micro-VM, identity sidecar, network proxy를 분리하고, action token은 tool call별 single-use로 발급한다.</li><li><b>결과:</b> Review 모드(모든 쓰기 승인) vs Autonomous 모드. 훅(<code>azuresre.ai/v2</code>·<code>ExtendedAgent</code>)으로 완결성 검증·위험명령 차단. 생성 시 App Insights·Log Analytics 자동 생성.</li><li><b>에피소드:</b> "controlled autonomy" — 팀은 raw 알림이 아니라 "왜 이 신호들이 묶였는지" 요약된 이슈로 일하고, 에이전트는 리소스 재시작·설정 변경을 스스로 하지 않는다(triage·조사까지만).</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>알림을 이슈(issue)로 상관(correlation)</b>해 토큰을 아낀다 — 자율 운영 모드가 서로 연관된 여러 알림을 하나의 <b>이슈</b>로 묶으므로, 알림마다 근본원인 분석을 따로 돌리는 대신 <b>한 번만 조사</b>한다(중복 조사에 드는 컨텍스트·토큰 제거). 또 <b>세션 insights·memories</b>에 이전 조사 결과와 운영 토폴로지를 축적·재사용해, 다음 인시던트에서 같은 배경을 처음부터 다시 수집하지 않는다. 커스텀 인스트럭션으로 "이 두 시스템은 상관없다" 같은 도메인 지식을 미리 주입하면 <b>잘못된 상관을 좇는 조사 토큰</b>까지 예방한다. (도구 호출마다 새로 뜨는 process와 호출별 자격증명은 본래 보안 격리용이지만, 호출 간 환경이 섞이지 않게 하는 부수 효과도 있다.)</p><p class="src2"><b>보강 출처</b> · web: <a href="https://learn.microsoft.com/en-us/azure/sre-agent/overview">overview</a> · <a href="https://learn.microsoft.com/en-us/azure/sre-agent/security-overview">security overview</a> · <a href="https://learn.microsoft.com/en-us/azure/sre-agent/agent-hooks">agent hooks</a></p></div><div class="src"><b>출처</b> · Microsoft Learn Azure SRE Agent overview · security overview · agent hooks. <span class="pill r">참고</span> 관리형 서비스(코드 비공개), 거버넌스는 문서 기준.</div><p class="backtop"><a href="#toc">↑ 목차</a></p>
+</div></div><div class="case" id="e5"><div class="head"><div class="no">CASE E5 · 공식 docs + SDK</div><h3>Azure AI Foundry Agent Service — 관리형 런타임 · guardrails · tracing</h3><div><span class="tag">관리형 에이전트</span><span class="tag">guardrails 4지점</span><span class="tag">code interpreter 샌드박스</span><span class="tag">OTel·버전/롤백</span></div></div><div class="body"><p class="repo">📦 <b>공개 저장소:</b> 관리형 서비스 — Foundry 클라이언트 SDK: <a href="https://github.com/microsoft/agent-framework">microsoft/agent-framework</a> · 샘플: <a href="https://github.com/Azure-Samples/azureai-samples">Azure-Samples/azureai-samples</a></p>
+<p><b>개요.</b> Foundry Agent Service는 관리형 에이전트 런타임이다(구성형 Prompt agent / 컨테이너형 Hosted agent). 하네스는 서비스 층에서 제공된다: 도구별 <b>approval_mode</b>, 샌드박스 <b>code interpreter</b>, 다지점 <b>guardrails</b>, OpenTelemetry <b>tracing</b>, <b>버전 스냅샷·롤백</b>, Entra 관리 ID·BYO VNet 격리.</p>
+<h4>에이전트 생성 + 도구 승인 모드</h4>
+<pre class="code" data-lang="python"><code>from agent_framework import Agent, tool
+from agent_framework.foundry import FoundryChatClient
+from azure.identity import AzureCliCredential
+
+@tool(approval_mode=&quot;never_require&quot;)   # 도구별 승인 정책(하네스 제어 파라미터)
+def get_weather(location) -&gt; str:
+    return f&quot;The weather in {location} is sunny.&quot;
+
+agent = Agent(
+    client=FoundryChatClient(
+        project_endpoint=os.environ[&quot;FOUNDRY_PROJECT_ENDPOINT&quot;],
+        model=os.environ[&quot;FOUNDRY_MODEL&quot;], credential=AzureCliCredential()),
+    instructions=&quot;You are a helpful weather agent.&quot;,
+    tools=get_weather)
+result = await agent.run(&quot;What&#x27;s the weather in Seattle?&quot;)</code></pre><p class="muted">샌드박스 실행 도구도 한 줄: <code>tools=[FoundryChatClient.get_code_interpreter_tool()]</code>(격리된 Python 실행), <code>get_web_search_tool()</code>(서버측). Prompt agent는 <code>project.agents.create_version(...)</code>로 <b>버전드 리소스</b>가 되어 롤백 가능.</p>
+<h4>하네스 ① guardrails — 4개 개입 지점</h4>
+<p>에이전트 호출 체인의 <b>user input · tool call · tool response · output</b>에서 스캔한다(tool call/response는 에이전트 전용, Preview). hate/sexual/self-harm/violence, jailbreak, <b>간접 프롬프트 인젝션(XPIA)</b>, PII, task adherence 등. 중요 규칙: <em>"agentic guardrail이 모델 guardrail을 완전히 오버라이드한다."</em></p>
+<table>
+<thead><tr><th>개입 지점</th><th>모델</th><th>에이전트</th></tr></thead>
+<tbody>
+<tr><td class="k">User input</td><td>✅</td><td>✅</td></tr>
+<tr><td class="k">Tool call</td><td>❌</td><td>✅ (Preview)</td></tr>
+<tr><td class="k">Tool response</td><td>❌</td><td>✅ (Preview)</td></tr>
+<tr><td class="k">Output</td><td>✅</td><td>✅</td></tr>
+</tbody></table>
+<h4>하네스 ② 관측 — OpenTelemetry 트레이싱</h4>
+<p>OTel semantic conventions로 App Insights에 저장. Microsoft+Cisco Outshift가 공동 정의한 멀티에이전트 span 분류(<code>invoke_agent</code>, <code>agent_to_agent_interaction</code>, <code>execute_tool</code>의 <code>tool.call.arguments/results</code>)로 에이전트간·도구 호출을 추적. 입력/출력·토큰·지연을 캡처.</p>
+<p class="muted"><b>격리·거버넌스:</b> Hosted agent마다 Entra 관리 ID 자동 생성, OBO 패스스루, BYO VNet(세션마다 VM 격리 샌드박스), 버전 자동 스냅샷·롤백, 세분화 RBAC.</p>
+<div class="episode"><h4>팀 하네스 맥락 · 결과 · 에피소드</h4><ul class="tight"><li><b>맥락:</b> 관리형 플랫폼은 <b>Prompt agent(구성형)와 Hosted agent(코드·컨테이너형)</b> 두 유형을 문서화한다. Responses API 단일 진입점, guardrails 4지점, per-agent Entra ID·RBAC·VNet 격리를 제공한다.</li><li><b>결과:</b> 에이전트 guardrails는 preview이며 tool call/response 스캔도 Preview로 표시된다. 런타임 자체의 GA/Preview 상태는 이 overview 본문만으로 단정하지 않는다.</li><li><b>에피소드:</b> Microsoft가 <b>Cisco Outshift와 공동으로</b> 멀티에이전트 OTel 시맨틱 컨벤션을 정의 — Foundry·MAF·LangChain·LangGraph·OpenAI Agents SDK에 동시 통합한 크로스 생태계 표준화(span <code>invoke_agent</code>·<code>agent_to_agent_interaction</code>·<code>execute_tool</code>).</li></ul><p class="tok">💰 <b>토큰 절약 포인트:</b> <b>토큰을 "관측하고 자동 개선"</b>하는 두 경로로 절약한다. OpenTelemetry 트레이싱이 각 span에 <b>입력/출력 토큰·지연·비용</b>을 캡처(Cisco Outshift 공동 정의 멀티에이전트 컨벤션: <code>invoke_agent</code>·<code>execute_tool</code>)해, 어느 에이전트·도구가 토큰을 많이 쓰는지 App Insights에서 가시화한다. 여기에 <b>agent optimizer</b>가 에이전트 지침을 자동으로 다듬어 장황한 프롬프트 토큰을 줄이고, 샌드박스 <b>code interpreter</b>·서버측 web search 같은 도구는 무거운 처리를 모델 컨텍스트 밖에서 실행해 그 중간 결과가 토큰으로 들어오지 않게 한다.</p><p class="src2"><b>보강 출처</b> · web: <a href="https://learn.microsoft.com/en-us/azure/foundry/agents/overview">agents overview</a> · <a href="https://learn.microsoft.com/en-us/azure/foundry/guardrails/guardrails-overview">guardrails overview</a> · 내부: 039</p></div><div class="src"><b>출처</b> · Microsoft Learn Foundry Agent Service overview · guardrails overview · observability concepts. <span class="pill r">참고</span> 기능별 Preview 경계는 각 공식 표 기준.</div><p class="backtop"><a href="#toc">↑ 목차</a></p>
+</div></div>
+  <section class="section" id="cross">
+    <h2>8. 크로스 비교 · 도출 인사이트</h2>
+    <table>
+      <thead><tr><th>사례</th><th>에이전트 수</th><th>컨텍스트 전략</th><th>하네스 유형</th><th>학습 환류</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Spec Kit</td><td>1(내 에이전트)</td><td>spec 파일 = 지속 컨텍스트</td><td>워크플로우(슬래시+템플릿)</td><td>버전드 spec(git)</td></tr>
+        <tr><td class="k">Superpowers</td><td>1 + 작업당 새 서브</td><td>서브 격리 컨텍스트, 코디네이터가 상태 보유</td><td>프로세스(SKILL.md 필수 게이트)</td><td>SKILL.md 진화</td></tr>
+        <tr><td class="k">Compound Eng.</td><td>1 + 단계별 병렬 서브</td><td>CLAUDE.md = 지속 학습층</td><td>전주기(29 skills·0 agents)</td><td><b>명시적 /ce-compound</b></td></tr>
+        <tr><td class="k">Anthropic</td><td>1 lead + 병렬 워커</td><td>full trace 전달 + 파일 아티팩트</td><td>프로덕션 멀티에이전트</td><td>self-improving 툴설명</td></tr>
+        <tr><td class="k">Cognition</td><td>1(+압축기)</td><td>full 선형 trace, 긴 작업엔 압축</td><td>단일스레드 + 컨텍스트 압축</td><td>압축기 도메인 파인튜닝</td></tr>
+        <tr><td class="k">Copilot cloud</td><td>1(+PR 리뷰)</td><td>instructions·AGENTS.md</td><td>클라우드+Actions 격리</td><td>PR 피드백→instructions</td></tr>
+        <tr><td class="k">Claude Code</td><td>1 + 서브에이전트</td><td>CLAUDE.md 주입</td><td>hooks 결정론 통제</td><td>CLAUDE.md 갱신</td></tr>
+        <tr><td class="k">Codex CLI</td><td>1 + 서브(TOML)</td><td>AGENTS.md 스택</td><td>approval·sandbox</td><td>Memories(옵션)</td></tr>
+        <tr><td class="k">SWE-agent</td><td>1</td><td>윈도우드 뷰어·filemap</td><td>ACI(YAML)</td><td>-</td></tr>
+        <tr><td class="k">OpenHands</td><td>1 + 파일 서브</td><td>Skills(always/trigger/progressive)</td><td>Docker + EventStream</td><td>Skill/AGENTS.md</td></tr>
+        <tr><td class="k">Aider</td><td>1</td><td>repo map + CONVENTIONS.md</td><td>reflection loop</td><td>CONVENTIONS.md</td></tr>
+        <tr><td class="k">MS Agent Framework</td><td>1 + workflow/서브</td><td>middleware가 컨텍스트 주입/차단</td><td>middleware 체인 + approval</td><td>middleware 감사</td></tr>
+        <tr><td class="k">Semantic Kernel</td><td>1 + auto-func 루프</td><td>plugin + arguments 필터</td><td>function invocation filter</td><td>filter 로깅</td></tr>
+        <tr><td class="k">VS Code Copilot</td><td>1(재귀 tool 루프)</td><td>instructions + prompt-tsx 예산</td><td>prepareInvocation 승인</td><td>instructions 파일</td></tr>
+        <tr><td class="k">Azure SRE Agent</td><td>1 lead + 5 서브</td><td>skills·MCP·memories</td><td>permission gate + hooks + 샌드박스</td><td>session insights</td></tr>
+        <tr><td class="k">Foundry Agent Svc</td><td>1~N(관리형)</td><td>project 데이터 + 도구</td><td>guardrails 4지점 + OTel</td><td>버전 스냅샷</td></tr>
+      </tbody>
+    </table>
+    <h3 id="insights">관통하는 6가지 인사이트</h3>
+    <ol class="tight">
+      <li><b>하네스 = 파일로 코드화된다.</b> 16개 중 대다수가 리포 안의 텍스트 파일(<code>AGENTS.md</code>·<code>CLAUDE.md</code>·<code>SKILL.md</code>·<code>*.yml</code>·<code>settings.json</code>)로 통제를 표현한다. "적혀 있지 않으면 존재하지 않는다."</li>
+      <li><b>검증 게이트가 품질을 만든다.</b> SWE-agent의 edit-lint 자동 롤백, Aider의 reflection loop, Claude/Codex의 Pre/PostToolUse — "느낌"이 아니라 <b>린트·테스트·정책의 exit code</b>로 판정한다. 이 층이 없으면 빨라져도 반복 가능하다 말할 수 없다.</li>
+      <li><b>권한은 늦게 연다.</b> read-only·workspace-write에서 출발해 쓰기/배포/외부 action을 마지막에 승격. MCP 도구는 "자율 사용 + 승인 없음"이 기본이므로 <b>읽기 전용만 허용목록</b>.</li>
+      <li><b>격리가 자율성을 가능하게 한다.</b> ephemeral Actions 러너·Docker·git worktree가 있어야 에이전트에게 큰 자율을 줘도 안전하다.</li>
+      <li><b>학습 환류가 "복리(compound)"를 만든다.</b> Compound Engineering의 <code>/ce-compound</code>가 극단적 예 — 에이전트가 자기 지침(CLAUDE.md)을 갱신. Anthropic의 self-improving 툴 설명도 같은 원리.</li>
+      <li><b>멀티에이전트는 만능이 아니다.</b> 탐색·리서치엔 병렬(Anthropic)이, 결정이 얽힌 구현엔 단일스레드+컨텍스트 공유(Cognition)가 유리. <b>컨텍스트 무결성 &gt; 병렬성</b>이 기본값.</li>
+      <li><b>Microsoft는 통제면을 프레임워크 1급 시민으로 만든다.</b> MAF의 middleware 체인·<code>approval_mode</code>, SK의 invocation filter, VS Code의 <code>prepareInvocation</code>, SRE Agent의 permission gate·hooks·micro-VM 샌드박스, Foundry의 guardrails·OTel — 모두 "에이전트 코드"가 아니라 <b>인터셉트·승인·격리·관측 지점</b>을 API로 노출한다. 앞의 오픈소스 사례(SWE-agent lint 게이트, Claude hooks)와 <b>같은 원리를 관리형·프로덕션급으로</b> 제공.</li>
+    </ol>
+    <h3 id="practices">공통 프랙티스 비교 — 장점·단점·토큰·성능</h3>
+    <p class="muted">16개 사례에서 반복되는 하네스 프랙티스를 §1의 7 통제면과 정합하도록 도출. 토큰·성능 열은 <b>방향성</b> 표기(↓↓ 큰 절감 · ↓ 절감 · ~ 미미 · ↑ 증가 · ↑↑ 큰 증가)이며, 정량 근거는 각 사례의 자가보고에 기반한다.</p>
+    <table>
+      <thead><tr><th>공통 프랙티스</th><th>대표 사례</th><th>장점</th><th>단점</th><th>토큰</th><th>성능·품질</th></tr></thead>
+      <tbody>
+        <tr><td class="k">① 컨텍스트 파일<br>(AGENTS.md·CLAUDE.md·instructions)</td><td>A1·A2·A3·C1·E3</td><td>팀 공유·git 버전관리, 반복 프롬프트 제거, 지침 준수↑</td><td>길면 규칙이 묻히고 구식화, 유지 필요</td><td>↓ 순절감<br>(≤200줄 권장)</td><td>준수·일관성↑</td></tr>
+        <tr><td class="k">② 검증 게이트<br>(lint·test·정책)</td><td>B1·B3·A2·A3·gh-aw</td><td>결정론적 품질 판정, 회귀 자동 차단</td><td>게이트 구축·유지비, 실행 지연</td><td>↑ 실패 재주입<br>(재작업은↓)</td><td>정확도·신뢰성↑</td></tr>
+        <tr><td class="k">③ 실행 격리<br>(Docker·runner·worktree·micro-VM)</td><td>A1·B2·A3·E4·E5</td><td>안전한 자율성·재현성·병렬화</td><td>셋업·리소스·기동 지연</td><td>~ 미미</td><td>안전성·확장성↑</td></tr>
+        <tr><td class="k">④ 서브에이전트 위임<br>(격리 컨텍스트)</td><td>A2·A3·C2·C3·D1</td><td>컨텍스트 분리·역할특화·병렬 탐색</td><td>상충 결정 위험(D2 반례), 토큰 폭증</td><td>↑↑ 멀티 15×</td><td>탐색형↑ / 얽힌 구현↓</td></tr>
+        <tr><td class="k">⑤ 컨텍스트 압축·예산<br>(repo map·condenser·윈도우·prompt-tsx)</td><td>B3·B2·B1·E3·D2</td><td>대형 컨텍스트를 예산 내로, 핵심 보존</td><td>압축 손실, 튜닝·파인튜닝 비용</td><td>↓↓ 큰 절감</td><td>긴 작업 안정성↑</td></tr>
+        <tr><td class="k">⑥ 결정론적 hook<br>(Pre/PostToolUse)</td><td>A2·A3·E4</td><td>"매번 반드시" 강제, LLM 판단 배제</td><td>훅 루프 사고(8회 캡), 스크립트 유지</td><td>~ 미미</td><td>정책 일관성↑</td></tr>
+        <tr><td class="k">⑦ 권한 게이트·최소권한·HITL 승인</td><td>MCP·A3·E1·E2·E3·E4</td><td>안전·감사·규정준수</td><td>승인 마찰로 속도↓</td><td>~ 미미</td><td>안전성↑ ↔ 자율성↓</td></tr>
+        <tr><td class="k">⑧ 학습 환류<br>(지침·skill·spec 갱신)</td><td>C3·D1·C2</td><td>복리적 개선·재사용(compound)</td><td>잘못된 학습 누적, 주기적 정리 필요</td><td>↓ 장기 절감</td><td>시간이 갈수록↑</td></tr>
+        <tr><td class="k">⑨ 관측·감사<br>(OTel·EventStream·commit·log)</td><td>E1·E5·B2·B3·E4</td><td>추적·재현·비용 가시성</td><td>로깅 오버헤드, PII/민감정보 주의</td><td>~ 미미</td><td>디버깅·비용관리↑</td></tr>
+        <tr><td class="k">⑩ 명세 우선(Spec-driven)</td><td>C1·C2·C3</td><td>재작업↓·단일 기준·산출물 정합성</td><td>초기 오버헤드, 경량 작업엔 과함</td><td>↑ 계획<br>(재작업은↓)</td><td>복잡 작업 성공률↑</td></tr>
+      </tbody>
+    </table>
+    <div class="callout"><b>도출 — 3가지 트레이드오프 축.</b> ① <b>토큰↔품질</b>: 압축·컨텍스트 파일(⑤①)은 순절감이지만, 검증·서브에이전트(②④)는 토큰을 더 써서 품질을 산다. ② <b>안전↔속도</b>: 권한·승인·격리(⑦③)는 안전을 얻는 대신 마찰·지연을 준다. ③ <b>단발↔복리</b>: 학습 환류·명세(⑧⑩)는 초기 비용이 있으나 반복될수록 이득이 커진다. <b>멀티에이전트(④)만 유일하게 토큰이 폭증(~15×)</b>하므로 탐색·리서치형에 한정하고, 결정이 얽힌 구현엔 단일스레드+컨텍스트 공유가 기본값이다.</div>
+    <div class="callout good" id="startorder"><b>실무 출발 순서.</b> ① <code>AGENTS.md</code>/<code>CLAUDE.md</code>로 컨텍스트 고정 → ② lint/test를 Post 게이트로 강제 → ③ read-only 권한 + 격리(worktree/컨테이너) → ④ 리뷰 서브에이전트 추가 → ⑤ Spec-driven 워크플로우(Spec Kit) → ⑥ 학습 환류(Compound). 에이전트 코드보다 <b>task contract·tool manifest·eval set·audit schema</b>를 먼저 만든다.</div>
+    <div class="callout" id="adjacent"><b>인접 하네스 primitive(이 문서 범위 밖, 함께 보면 좋은 축).</b> ① <b>SWE-bench 검증 하네스</b> — 각 <em>(코드베이스, 이슈)</em> 태스크의 패치를 <b>컨테이너화된 Docker 하네스</b>가 적용·테스트해 resolved/unresolved로 판정하는 재현 가능한 <b>eval 층</b>(arXiv:2310.06770 · github.com/SWE-bench/SWE-bench · Verified 500태스크). ② <b>GitHub Agentic Workflows(gh-aw)</b> — 에이전틱 워크플로를 Markdown으로 쓰고 GitHub Actions로 컴파일하되 <b>기본 read-only 권한·sanitized safe-outputs·SHA 고정·도구 allow-list·사람 승인</b> 가드레일을 CI에 건다(github.com/github/gh-aw). 본문의 검증 게이트·CI 게이트를 각각 <b>벤치 규모 eval</b>과 <b>CI 파이프라인 통제</b>로 확장하는 축이다.</div>
+    <p class="backtop"><a href="#toc">↑ 목차</a></p>
+  </section>
+
+  <section class="section" id="sources">
+    <h2>9. 근거 · 출처 · 검증 경계</h2>
+    <div class="callout good" aria-label="Canonical verified status claims">
+      <p data-canonical-claim-id="CODEX-20260710-001">Codex docs show the config example model = "gpt-5.6" and recommended model IDs gpt-5.6-sol, gpt-5.6-terra, and gpt-5.6-luna.</p>
+      <p data-canonical-claim-id="MAF-20260710-001">Microsoft Agent Framework is the direct successor to Semantic Kernel and AutoGen and is available as a version 1.0 production-ready release.</p>
+      <p data-canonical-claim-id="AUTOGEN-20260710-001">AutoGen is in maintenance mode, and its official README says new users should start with Microsoft Agent Framework.</p>
+      <p data-canonical-claim-id="AZ-SRE-20260710-001">Azure SRE Agent hooks documentation contains schema azuresre.ai/v2 and type ExtendedAgent.</p>
+      <p data-canonical-claim-id="AZ-SRE-20260710-002">Azure SRE Agent separates reasoning, tool execution in an ADC micro-VM, an identity sidecar, and a network proxy; action tokens are single-use per tool call and credentials never enter the reasoning context.</p>
+      <p data-canonical-claim-id="AZ-FOUNDRY-20260710-001">Microsoft Foundry Agent Service documents two main agent types: Prompt agents and Hosted agents.</p>
+      <p data-canonical-claim-id="AZ-FOUNDRY-20260710-002">Microsoft Foundry guardrails support four intervention points; tool call and tool response are marked Preview.</p>
+    </div>
+    <div class="callout warn"><b>053 numeric/status boundary: only seven exact canonical claim markers are current-verified</b>. 그 밖의 버전·날짜·GA/Preview·benchmark·tool/agent count·code constant·repository status는 사례별 source snapshot(stale) 또는 cross-case 해석(unknown)이다. Active source registry는 <code>ref/output-053-source-registry-2026-07-10.json</code>, claim-level 전수 원장은 <code>ref/output-053-numeric-status-fact-ledger-2026-07-10.json</code>이며, 외부 재사용 전 각 claim의 상태·TTL·원문을 다시 확인해야 한다.</div>
+    <h3 id="primary-sources">1차 출처(공식 문서·원본 코드·논문)</h3>
+    <ul class="tight">
+      <li><b>GitHub Copilot cloud agent</b> — docs.github.com/en/copilot(cloud-agent·customize-the-agent-environment·configure-mcp-servers·add-repository-instructions), agents.md</li>
+      <li><b>Claude Code</b> — code.claude.com/docs/en(memory·sub-agents·hooks·hooks-guide·skills), json.schemastore.org/claude-code-settings.json</li>
+      <li><b>OpenAI Codex CLI</b> — developers.openai.com/codex(guides/agents-md·config-basic·agent-approvals-security·subagents·hooks), github.com/openai/codex</li>
+      <li><b>SWE-agent</b> — arXiv:2405.15793(NeurIPS 2024), github.com/SWE-agent/SWE-agent(config/default.yaml·v0.7.0 commands), swe-agent.com</li>
+      <li><b>OpenHands</b> — docs.openhands.dev(architecture/runtime·sdk/arch/*·sdk/guides/*), github.com/OpenHands/OpenHands</li>
+      <li><b>Aider</b> — aider.chat/docs(repomap·usage/lint-test·usage/conventions), github.com/Aider-AI/aider(repomap.py·linter.py·base_coder.py)</li>
+      <li><b>GitHub Spec Kit</b> — github.com/github/spec-kit, github.github.io/spec-kit</li>
+      <li><b>Superpowers</b> — github.com/obra/superpowers, blog.fsck.com/2025/10/09/superpowers</li>
+      <li><b>Compound Engineering</b> — every.to/compound-writing/compound-engineering, github.com/EveryInc/compound-engineering-plugin</li>
+      <li><b>Anthropic 멀티에이전트</b> — anthropic.com/engineering/multi-agent-research-system</li>
+      <li><b>Cognition</b> — cognition.com/blog/dont-build-multi-agents</li>
+      <li><b>Microsoft Agent Framework</b> — learn.microsoft.com/en-us/agent-framework(agents/middleware·tools/tool-approval·workflows·observability), github.com/microsoft/agent-framework</li>
+      <li><b>Semantic Kernel</b> — github.com/microsoft/semantic-kernel(Filters/Function·samples/Concepts/Filtering·python/semantic_kernel/filters), learn.microsoft.com/en-us/semantic-kernel</li>
+      <li><b>AutoGen</b> — github.com/microsoft/autogen, microsoft.github.io/autogen(현재 maintenance mode → MAF)</li>
+      <li><b>VS Code + Copilot agent mode</b> — code.visualstudio.com/api/extension-guides/ai/tools, code.visualstudio.com/docs/agent-customization/custom-instructions, github.com/microsoft/vscode-extension-samples, github.com/microsoft/vscode-prompt-tsx</li>
+      <li><b>Azure SRE Agent</b> — <a href="https://learn.microsoft.com/en-us/azure/sre-agent/overview">overview</a> · <a href="https://learn.microsoft.com/en-us/azure/sre-agent/security-overview">security overview</a> · <a href="https://learn.microsoft.com/en-us/azure/sre-agent/agent-hooks">agent hooks</a></li>
+      <li><b>Azure AI Foundry Agent Service</b> — <a href="https://learn.microsoft.com/en-us/azure/foundry/agents/overview">agents overview</a> · <a href="https://learn.microsoft.com/en-us/azure/foundry/guardrails/guardrails-overview">guardrails overview</a></li>
+    </ul>
+    <h3 id="ledger">실측 팩트 원장 — 2026-07-07 1차 출처 대조 결과</h3>
+    <p class="muted">본 문서의 핵심 주장을 공식 문서·GitHub 원본·논문에 직접 대조했다. <span class="pill g">검증</span>=원문 일치 · <span class="pill a">수정</span>=오류를 발견해 본문 교정 · <span class="pill r">재확인</span>=시점 의존·미확정. 상태가 <b>검증</b>이 아닌 항목을 현재 사실로 재인용하기 전 각 출처로 다시 확인한다.</p>
+    <table>
+      <thead><tr><th>#</th><th>핵심 주장(요지)</th><th>1차 출처</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td class="k">F1</td><td>SWE-agent: SWE-bench(full)에서 SWE-agent+GPT-4 Turbo <b>12.47%</b>(Lite 18%), +Claude 3 Opus <b>10.46%</b>(Lite 13%); RAG 베이스라인 1.31%/3.79% — 격차를 ACI 설계로 귀속</td><td>arXiv:2405.15793 Table 1</td><td><span class="pill a">수정</span> 기존 3.8%/22.7% 오기 교정</td></tr>
+        <tr><td class="k">F2</td><td>Anthropic 멀티에이전트: 단일 Opus 4 대비 <b>+90.2%</b>, 토큰 4×/15×, BrowseComp 분산 80%, 도구설명 재작성 후속작업 40%↓, 병렬 도구호출 90%↓</td><td>anthropic.com/engineering/multi-agent-research-system</td><td><span class="pill g">검증</span> 전 수치 원문 일치(verbatim)</td></tr>
+        <tr><td class="k">F3</td><td>Cognition: 컨텍스트 공유·단일스레드 권고, Flappy Bird 반례, "Claude Code(2025-06)는 서브태스크를 병렬 실행 안 함", Swarm·AutoGen 명시 비판</td><td>cognition.com/blog/dont-build-multi-agents</td><td><span class="pill g">검증</span> 원문 일치</td></tr>
+        <tr><td class="k">F4</td><td>Compound Engineering: 플러그인 <b>29 skills · standalone agent 0개</b>, <code>/ce-compound</code> Full 모드=<b>3개 병렬 서브에이전트</b></td><td>github.com/EveryInc/compound-engineering-plugin README</td><td><span class="pill a">수정</span> 기존 43 agents·38 skills·6서브 교정</td></tr>
+        <tr><td class="k">F5</td><td>Spec Kit: <code>/speckit.*</code> 워크플로우(constitution…implement + <b>checklist·converge</b>·taskstoissues), 30+ 에이전트(2026-07-07 문서 기준 33 named)</td><td>github.com/github/spec-kit</td><td><span class="pill a">수정</span> 누락 명령 checklist·converge 보강</td></tr>
+        <tr><td class="k">F6</td><td>Superpowers: 7단계 마지막 스킬은 <code>finishing-a-development-branch</code>, plugin marketplace 설치</td><td>github.com/obra/superpowers</td><td><span class="pill a">수정</span> finishing-a-branch 교정</td></tr>
+        <tr><td class="k">F7</td><td>MAF: Semantic Kernel·AutoGen의 direct successor, version 1.0 production-ready release; AutoGen은 maintenance mode이며 신규 프로젝트는 MAF 권고. <code>@tool(approval_mode="always_require")</code>, FunctionMiddleware+MiddlewareTermination, OpenTelemetry 내장</td><td>learn.microsoft.com/en-us/agent-framework/overview/ · github.com/microsoft/{agent-framework,semantic-kernel,autogen}</td><td><span class="pill g">검증</span> 2026-07-10 README·Learn 상태 문구 및 API 일치</td></tr>
+        <tr><td class="k">F8</td><td>Azure SRE Agent: 훅 스키마 <code>azuresre.ai/v2</code>·<code>ExtendedAgent</code>; reasoning/tool execution/identity sidecar/network proxy 분리; action token은 tool call별 single-use</td><td>learn.microsoft.com/en-us/azure/sre-agent/security-overview · agent-hooks</td><td><span class="pill g">검증</span> 2026-07-10 공식 본문 문자열 일치</td></tr>
+        <tr><td class="k">F9</td><td>Foundry Agent Service: Prompt/Hosted agent 2종, guardrails 4지점(user input/tool call/tool response/output; tool call/response=Preview), end-to-end tracing·metrics·Application Insights integration</td><td>learn.microsoft.com/en-us/azure/foundry/agents/overview · guardrails/guardrails-overview</td><td><span class="pill g">검증</span> 2026-07-10 공식 본문 문자열 일치</td></tr>
+        <tr><td class="k">F10</td><td>OSS 상수·경로: Aider repomap 가중치(×10/×0.1/×50)·<code>max_reflections=3</code>·flake8 select 문자열, OpenHands 이미지 <code>agent-canvas:1.0.0-rc.11</code></td><td>github.com/Aider-AI/aider(raw) · docs.openhands.dev</td><td><span class="pill g">검증</span> 소스 문자단위 일치</td></tr>
+        <tr><td class="k">F11</td><td>Aider <code>Co-authored-by: aider</code> 트레일러는 <b>기본값 아님</b>(<code>--attribute-co-authored-by</code> opt-in); 기본은 커밋 author를 <code>Name (aider)</code>로 표기</td><td>github.com/Aider-AI/aider(repo.py)</td><td><span class="pill a">수정</span> "항상 트레일러" 교정</td></tr>
+        <tr><td class="k">F12</td><td>Codex 공식 모델 문서는 설정 예시 <code>model = "gpt-5.6"</code>과 추천 모델 ID <code>gpt-5.6-sol</code>, <code>gpt-5.6-terra</code>, <code>gpt-5.6-luna</code>를 제시</td><td>learn.chatgpt.com/docs/models</td><td><span class="pill g">검증</span> 2026-07-10 공식 본문에서 설정 예시와 세 모델 ID 각각 일치</td></tr>
+        <tr><td class="k">F13</td><td>GitHub Copilot cloud agent 인용 문서 경로 일부 이동(<code>/how-tos/copilot-on-github/…</code>)</td><td>docs.github.com/en/copilot</td><td><span class="pill r">재확인</span> 내용 유효, 일부 URL 404/리다이렉트</td></tr>
+        <tr><td class="k">F14</td><td>인접: SWE-bench(arXiv:2310.06770, ICLR 2024 oral), 컨테이너화 Docker 검증 하네스, Verified=<b>500 태스크</b>(2024-08, OpenAI 협업)</td><td>github.com/SWE-bench/SWE-bench · openai.com/index/introducing-swe-bench-verified</td><td><span class="pill g">검증</span> README 원문 일치</td></tr>
+        <tr><td class="k">F15</td><td>인접: gh-aw(github.com/github/gh-aw) — read-only 기본·safe-outputs·SHA 고정·tool allow-list·network isolation·human approval 6요소</td><td>github.com/github/gh-aw README · architecture.mdx</td><td><span class="pill g">검증</span> 6요소 verbatim</td></tr>
+      </tbody>
+    </table>
+    <h3>워크스페이스 연계 자료(개념 토대)</h3>
+    <p class="muted">본 문서의 개념 정의는 워크스페이스 코퍼스 <code>028-github-copilot-agentic-sdlc-lifecycle-guide</code>, <code>050-agentic-sdlc-stages-mapping-insights</code>, <code>004-github-copilot-cli-harness-engineering-guide</code>, <code>012/024-multi-agent-harness-engineering</code>, <code>046-agentic-architecture-design-implementation-guide</code>, <code>051-enterprise-ai-adoption-strategy-from-4-cases</code>의 Agentic SDLC·Harness 정의와 정합되도록 작성했다.</p>
+    <div class="callout warn"><b>검증 경계.</b> ① 제품 기능·가격·모델명·preview/GA·tenant 가용성은 릴리스 시점에 바뀌므로 외부 공유 전 <b>공식 출처 재확인</b> 필요. ② 성과 수치(+90.2%, 40%↓, SWE-bench %, "6제품 1인팀" 등)는 발표·저자·논문의 <b>자가 보고</b>로, 표본·측정법 미공개가 많다 — 방향성 신호로만 사용. ③ 저장소 이전·리브랜딩(princeton-nlp→SWE-agent, All-Hands-AI→OpenHands, "coding agent"→"cloud agent") 반영됨. ④ 코드 스니펫은 공개 문서/저장소에서 확인한 <b>패턴 예시</b>이며 그대로의 배포 권고가 아니다. ⑤ Spec Kit 관련 별도 GitHub 엔지니어링 블로그 URL은 조사 시점 미발견(저장소를 1차 근거로 인용).</div>
+    <p class="muted" style="margin-top:14px">업데이트 2026-07-10 KST · 16개 사례 · 팩트 원장 F1–F15 1차 출처 대조 · Harness PASS는 구조 검증이지 사실 검증이 아니다.</p>
+    <p class="backtop"><a href="#toc">↑ 목차</a></p>
+  </section>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+(function(){
+  function pick(l){ l=(l||'').toLowerCase();
+    if(/python|\.py\b/.test(l)) return 'python';
+    if(/tsx|typescript|\.ts\b/.test(l)) return 'typescript';
+    if(/package\.json|settings\.json|mcp config|json/.test(l)) return 'json';
+    if(/csharp|\.cs\b|\.net/.test(l)) return 'csharp';
+    if(/toml/.test(l)) return 'ini';
+    if(/ya?ml|\.yml/.test(l)) return 'yaml';
+    if(/bootstrap/.test(l)) return 'xml';
+    if(/bash|\.sh\b|azurecli|install|shell/.test(l)) return 'bash';
+    if(/\.md\b|markdown|skill\.md|claude\.md|agents\.md|instructions|writing-plans/.test(l)) return 'markdown';
+    return 'plaintext';
+  }
+  function run(){
+    document.querySelectorAll('pre.code > code').forEach(function(c){
+      c.classList.add('language-' + pick(c.parentElement.getAttribute('data-lang')));
+      if (window.hljs) { try { hljs.highlightElement(c); } catch(e){} }
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+  else run();
+})();
+</script>
+<script>
+(function(){
+  var nav=document.getElementById('sidenav'); if(!nav) return;
+  var links=[].slice.call(nav.querySelectorAll('a[href^="#"]'));
+  var items=links.map(function(a){ return { a:a, el:document.getElementById(a.getAttribute('href').slice(1)) }; })
+                 .filter(function(i){ return i.el; });
+  if(!items.length) return;
+  var ticking=false;
+  function update(){
+    ticking=false;
+    var cur=null, best=-1e9;
+    items.forEach(function(i){
+      var top=i.el.getBoundingClientRect().top;
+      if(top<=140 && top>best){ best=top; cur=i.a; }
+    });
+    links.forEach(function(a){ a.classList.remove('active'); });
+    if(cur){ cur.classList.add('active');
+      if(cur.offsetTop < nav.scrollTop || cur.offsetTop > nav.scrollTop + nav.clientHeight - 40){
+        nav.scrollTop = cur.offsetTop - nav.clientHeight/2;
+      }
+    }
+  }
+  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+</script>
+<script>
+(function(){
+  function ext(){
+    document.querySelectorAll('a[href^="http"]').forEach(function(a){
+      a.setAttribute('target','_blank');
+      a.setAttribute('rel','noopener noreferrer');
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ext);
+  else ext();
+})();
+</script>
+</body>
+</html>

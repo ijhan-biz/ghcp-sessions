@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="final-updated" content="2026-06-28" />
+  <meta name="filename-date-policy" content="filename date is the stable registry identifier; final-updated reflects the latest material update" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>050 · Agentic SDLC 단계 정의·개념 매핑·인사이트</title>
+  <style>
+    :root { --bg:#f6f8fb; --paper:#fff; --ink:#111827; --soft:#263247; --muted:#647084; --line:#dce5ef; --blue:#0969da; --green:#1f7a4d; --amber:#a65c00; --red:#cf222e; --purple:#7c3aed; --shadow:0 16px 42px rgba(15,23,42,.08); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif; line-height:1.66; }
+    a { color:#464feb; text-decoration:none; } a:hover { text-decoration:underline; }
+    .shell { width:min(calc(100% - 44px),1240px); margin:0 auto; padding:24px 0 88px; }
+    .topbar { display:flex; justify-content:space-between; gap:16px; color:var(--muted); font-size:14px; padding:8px 0 18px; }
+    .hero { padding:38px; border:1px solid var(--line); border-radius:8px; background:var(--paper); box-shadow:var(--shadow); }
+    .eyebrow { color:var(--blue); font-weight:850; font-size:13px; text-transform:uppercase; letter-spacing:.04em; }
+    h1 { margin:8px 0 16px; font-size:clamp(28px,4.4vw,46px); line-height:1.1; }
+    h2 { margin:0 0 12px; font-size:24px; }
+    h3 { margin:18px 0 8px; font-size:17px; }
+    p { margin:8px 0; color:var(--soft); }
+    .lead { font-size:18px; max-width:940px; }
+    .muted { color:var(--muted); }
+    .toc,.section { margin-top:22px; border:1px solid var(--line); border-radius:8px; background:var(--paper); box-shadow:0 8px 22px rgba(15,23,42,.04); }
+    .toc { padding:18px 22px; } .toc ol { margin:8px 0 0; padding-left:22px; columns:2; }
+    .section { padding:28px 30px; scroll-margin-top:18px; }
+    table { width:100%; border-collapse:separate; border-spacing:0; border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-top:14px; }
+    th,td { padding:11px 13px; text-align:left; vertical-align:top; border:1px solid #e6e6e6; font-size:14.5px; }
+    th { background:#f5f5f5; color:#25324a; font-size:13px; }
+    tr:last-child td { border-bottom:0; }
+    td.k { font-weight:750; color:var(--ink); }
+    .flow { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:14px 0; }
+    .node { border:1px solid var(--line); border-radius:999px; padding:6px 12px; background:#f1f7ff; font-weight:750; font-size:14px; }
+    .arrow { color:var(--muted); font-weight:800; }
+    .pill { display:inline-block; border:1px solid var(--line); border-radius:999px; padding:2px 8px; font-size:12px; font-weight:800; color:var(--muted); }
+    .pill.t { color:var(--blue); border-color:rgba(9,105,218,.35); }
+    .pill.a { color:var(--purple); border-color:rgba(124,58,237,.35); }
+    .callout { margin-top:16px; padding:16px 18px; border-left:4px solid var(--blue); border-radius:8px; background:#f1f7ff; }
+    .callout.good { border-left-color:var(--green); background:#f3fbf5; }
+    .callout.risk { border-left-color:var(--red); background:#fff5f5; }
+    code { padding:1px 5px; border:1px solid var(--line); border-radius:5px; background:#eef2f7; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.92em; }
+    ol.steps li { margin:7px 0; }
+    .timeline { display:flex; flex-wrap:wrap; gap:10px; margin:16px 0 6px; }
+    .tl-item { flex:1 1 130px; min-width:130px; border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:#fbfdff; }
+    .tl-item .yr { font-weight:850; color:var(--blue); font-size:14px; }
+    .tl-item .ev { font-size:13px; color:var(--soft); display:block; margin-top:2px; }
+    .cc-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:14px; }
+    .concept-card { border:1px solid var(--line); border-radius:10px; padding:16px; background:#fff; box-shadow:0 4px 14px rgba(15,23,42,.04); }
+    .concept-card h4 { margin:0 0 6px; font-size:16px; }
+    .concept-card h4 .yrtag { font-size:12px; font-weight:800; color:var(--purple); border:1px solid rgba(124,58,237,.35); border-radius:999px; padding:1px 8px; margin-left:6px; vertical-align:middle; }
+    .cc-meta { font-size:13.5px; color:var(--soft); margin:5px 0; }
+    .cc-meta b { color:var(--ink); }
+    .cc-lbl { display:inline-block; min-width:42px; font-weight:800; color:var(--muted); font-size:12px; }
+    @media (max-width:900px) { .cc-grid { grid-template-columns:1fr; } .tl-item { flex:1 1 100%; } .shell { width:min(calc(100% - 22px),1240px); } .toc ol { columns:1; } table,thead,tbody,tr,th,td { display:block; } thead { display:none; } tr { border-bottom:1px solid var(--line); } td { border-bottom:0; } td::before { content:attr(data-label); display:block; color:var(--muted); font-size:12px; font-weight:850; margin-bottom:2px; } .hero { padding:26px; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar"><span>Agentic SDLC · 작성 2026-06-28 KST</span><span>지식 베이스 · 요구사항→개발→운영</span></div>
+    <header class="hero">
+      <div class="eyebrow">Agentic Software Development Life Cycle · 단계 정의 · 개념 매핑 · 인사이트</div>
+      <h1>Agentic SDLC 단계 정의와 개념 매핑</h1>
+      <p class="lead">전통 SDLC의 각 단계에 <strong>AI 에이전트</strong>가 들어올 때 무엇이 바뀌는지를, 소프트웨어 공학 개념(요구사항·설계·구현·테스트·배포·운영)과 매핑해 정의하고 인사이트를 도출한다. 기반 자료: 워크스페이스의 <code>ref/260628.md</code> 개념 총람과 "현대 소프트웨어 엔지니어링 전체 맵" 내부 정리.</p>
+      <p class="muted"><span class="pill t">전통 SE 개념</span> = 라이프사이클의 토대 · <span class="pill a">에이전트 오버레이</span> = 그 위에 얹히는 통제·검증·자동화 층</p>
+    </header>
+
+    <nav class="toc" aria-label="목차">
+      <strong>목차</strong>
+      <ol>
+        <li><a href="#what">1. Agentic SDLC란</a></li>
+        <li><a href="#concepts">2. 기본 개념 상세 설명</a></li>
+        <li><a href="#loop">3. 핵심 폐루프</a></li>
+        <li><a href="#stages">4. 전통 SDLC 단계 + Agentic 운영 레이어 매핑</a></li>
+        <li><a href="#diff">5. 전통 SDLC ↔ Agentic SDLC</a></li>
+        <li><a href="#harness">6. 에이전트 통제면(Harness/MCP)</a></li>
+        <li><a href="#insights">7. 도출 인사이트</a></li>
+        <li><a href="#decision">8. 병목별 조합 선택</a></li>
+        <li><a href="#supplement">9. 소프트웨어 공학적 보완</a></li>
+        <li><a href="#sources">10. 근거·출처</a></li>
+        <li><a href="#caveat">검증 경계</a></li>
+      </ol>
+    </nav>
+
+    <section class="section" id="what">
+      <h2>1. Agentic SDLC란</h2>
+      <p>Agentic SDLC는 라이프사이클의 각 단계를 사람이 직접 수행하는 대신, <strong>의도(명세)를 받아 에이전트가 탐색·구현·검증을 수행</strong>하고 사람은 방향 설정·검토·승인을 맡는 개발 생애주기다. 핵심 전제는 다음과 같다.</p>
+      <ul>
+        <li><strong>명세 우선(Spec-Driven):</strong> 기계가 읽을 수 있는 명세가 에이전트 작업의 단일 기준이 된다. 구조 없는 "그냥 만들어줘"(vibe coding)와 대비된다.</li>
+        <li><strong>통제면 우선(Harness over Prompt):</strong> 결과 품질은 "좋은 프롬프트"보다 도구 오케스트레이션·권한·컨텍스트·검증·복구·관측이라는 <em>통제 아키텍처</em>가 좌우한다.</li>
+        <li><strong>사람 검토 유지(Human-in-the-loop):</strong> 자율성이 커져도 merge/deploy 같은 결정은 정책과 사람 검토 게이트를 통과한 뒤에만 이뤄진다.</li>
+        <li><strong>폐루프(Closed Loop):</strong> 운영 피드백이 다시 명세로 돌아와 다음 라운드를 개선한다 — 단발 생성이 아니라 지속 개선 루프.</li>
+      </ul>
+      <div class="callout">전통 SE 개념은 사라지지 않는다. DDD·BDD·TDD·DevOps·SRE는 여전히 토대이며, Agentic은 그 위에 <strong>통제·검증·자동화 층</strong>을 더하는 것이다.</div>
+    </section>
+
+    <section class="section" id="concepts">
+      <h2>2. 기본 개념 상세 설명</h2>
+      <p>아래는 뒤의 매핑에서 언급되는 핵심 개념을 먼저 자세히 설명한다. 각 항목은 <em>핵심 아이디어 · 해결하는 문제 · 언제 쓰는가</em>를 담는다.</p>
+
+      <h3>한 화면으로 보는 계보 — 소프트웨어 엔지니어링 개념의 흐름</h3>
+      <p class="muted">개념은 각각 당시의 “아프”에서 태어났다. 연도와 창시자는 널리 인용되는 문헌 기준의 근사이며, 외부 공유 전 원전 확인을 권장한다.</p>
+      <div class="timeline">
+        <div class="tl-item"><span class="yr">1968</span><span class="ev">Conway's Law — 조직=아키텍처(M. Conway)</span></div>
+        <div class="tl-item"><span class="yr">2001–’02</span><span class="ev">Agile Manifesto(2001) · TDD: By Example(2002, K. Beck)</span></div>
+        <div class="tl-item"><span class="yr">2003</span><span class="ev">DDD(E. Evans)</span></div>
+        <div class="tl-item"><span class="yr">2003–’06</span><span class="ev">Hexagonal(Cockburn) · BDD 형성→2006 정리(D. North)</span></div>
+        <div class="tl-item"><span class="yr">2009–’10</span><span class="ev">DevOps(DevOpsDays) · Continuous Delivery(Humble·Farley)</span></div>
+        <div class="tl-item"><span class="yr">2011</span><span class="ev">12-Factor · SbE(Adzic) · ADR(Nygard)</span></div>
+        <div class="tl-item"><span class="yr">2013–’14</span><span class="ev">EventStorming(Brandolini) · Microservices 용어 확산</span></div>
+        <div class="tl-item"><span class="yr">2016–’18</span><span class="ev">SRE 공개서(Google) · Accelerate/DORA</span></div>
+        <div class="tl-item"><span class="yr">2019–’22</span><span class="ev">Team Topologies · FinOps · Platform Engineering 주류화</span></div>
+        <div class="tl-item"><span class="yr">2024–’26</span><span class="ev">MCP(Anthropic) · Spec-Driven · Agentic DevOps · Harness Engineering</span></div>
+      </div>
+
+      <h3>핵심 개념 깊게 보기 — 역사·배경·근거·사용예</h3>
+      <div class="cc-grid">
+        <div class="concept-card"><h4>Agile <span class="yrtag">2001</span></h4>
+          <p class="cc-meta"><span class="cc-lbl">역사</span> 2001년 17인의 <b>Agile Manifesto</b> 발표가 공통 기점.</p>
+          <p class="cc-meta"><span class="cc-lbl">배경</span> 문서 중심·장기 계획형 폭포수의 변화 대응 실패.</p>
+          <p class="cc-meta"><span class="cc-lbl">근거</span> Agile Manifesto(agilemanifesto.org)의 4가치·12원칙.</p>
+          <p class="cc-meta"><span class="cc-lbl">사용예</span> 2주 스프린트로 우선순위 높은 기능부터 동작하는 SW를 전달하고 회고로 개선.</p>
+        </div>
+        <div class="concept-card"><h4>DDD <span class="yrtag">2003</span></h4>
+          <p class="cc-meta"><span class="cc-lbl">역사</span> <b>Eric Evans</b>의 2003년 저서 《Domain-Driven Design》.</p>
+          <p class="cc-meta"><span class="cc-lbl">배경</span> 복잡한 업무 도메인과 코드 모델의 괴리.</p>
+          <p class="cc-meta"><span class="cc-lbl">근거</span> Evans 저서, Martin Fowler의 Ubiquitous Language·Bounded Context 정리.</p>
+          <p class="cc-meta"><span class="cc-lbl">사용예</span> 보험 청구 도메인을 청구·심사·지급 Bounded Context로 나눠 각자 일관된 모델 유지.</p>
+        </div>
+        <div class="concept-card"><h4>TDD <span class="yrtag">≈1999–2003</span></h4>
+          <p class="cc-meta"><span class="cc-lbl">역사</span> <b>Kent Beck</b>이 XP와 함께 대중화, 2002 《TDD: By Example》.</p>
+          <p class="cc-meta"><span class="cc-lbl">배경</span> 회귀 버그와 설계 경직성.</p>
+          <p class="cc-meta"><span class="cc-lbl">근거</span> Beck 저서, XP 실천.</p>
+          <p class="cc-meta"><span class="cc-lbl">사용예</span> 실패 테스트를 먼저 쓰고 통과시킨 뒤 리팩터링으로 설계 개선.</p>
+        </div>
+        <div class="concept-card"><h4>BDD <span class="yrtag">2003–2006</span></h4>
+          <p class="cc-meta"><span class="cc-lbl">역사</span> 2003~2004년 실천·도구(JBehave)로 형성, <b>Dan North</b>의 2006년 글로 널리 정리.</p>
+          <p class="cc-meta"><span class="cc-lbl">배경</span> “무엇을 테스트할지” 모호성과 비개발자 소통 단절.</p>
+          <p class="cc-meta"><span class="cc-lbl">근거</span> Dan North ‘Introducing BDD’, Cucumber의 Discovery–Formulation–Automation.</p>
+          <p class="cc-meta"><span class="cc-lbl">사용예</span> “장바구니에 담고 결제하면 재고가 준다”를 Given-When-Then 시나리오로.</p>
+        </div>
+        <div class="concept-card"><h4>DevOps <span class="yrtag">2009</span></h4>
+          <p class="cc-meta"><span class="cc-lbl">역사</span> <b>Patrick Debois</b> 주도 첫 <b>DevOpsDays</b>(2009)에서 용어 확산.</p>
+          <p class="cc-meta"><span class="cc-lbl">배경</span> 개발-운영 사일로와 책임 전가.</p>
+          <p class="cc-meta"><span class="cc-lbl">근거</span> DevOpsDays, 이후 Accelerate/DORA 연구.</p>
+          <p class="cc-meta"><span class="cc-lbl">사용예</span> 개발팀이 IaC·온콜·SLO까지 소유해 전달 흐름을 끝에서 끝까지 책임.</p>
+        </div>
+        <div class="concept-card"><h4>Continuous Delivery <span class="yrtag">2010</span></h4>
+          <p class="cc-meta"><span class="cc-lbl">역사</span> <b>Jez Humble · David Farley</b>의 2010 저서 《Continuous Delivery》.</p>
+          <p class="cc-meta"><span class="cc-lbl">배경</span> 길고 위험한 수동 릴리즈.</p>
+          <p class="cc-meta"><span class="cc-lbl">근거</span> Humble·Farley 저서, deployment pipeline 개념.</p>
+          <p class="cc-meta"><span class="cc-lbl">사용예</span> 모든 커밋이 자동 파이프라인을 통과해 언제든 배포 가능한 상태 유지.</p>
+        </div>
+        <div class="concept-card"><h4>SRE <span class="yrtag">Google · 2016 공개서</span></h4>
+          <p class="cc-meta"><span class="cc-lbl">역사</span> Google 내부에서 먼저 발전, 2016년 공개서 《Site Reliability Engineering》으로 확산(실천 시작과 출간은 구분).</p>
+          <p class="cc-meta"><span class="cc-lbl">배경</span> 신뢰성을 사람의 영웅이 아니라 공학·예산으로.</p>
+          <p class="cc-meta"><span class="cc-lbl">근거</span> Google SRE 서적, Error Budget 개념.</p>
+          <p class="cc-meta"><span class="cc-lbl">사용예</span> SLO 99.9% + Error Budget 소진 시 신기능보다 안정화를 우선.</p>
+        </div>
+        <div class="concept-card"><h4>ADR <span class="yrtag">2011</span></h4>
+          <p class="cc-meta"><span class="cc-lbl">역사</span> <b>Michael Nygard</b>의 2011 글 ‘Documenting Architecture Decisions’.</p>
+          <p class="cc-meta"><span class="cc-lbl">배경</span> 시간이 지나면 결정 이유가 사라지는 문제.</p>
+          <p class="cc-meta"><span class="cc-lbl">근거</span> Nygard 글, Thoughtworks Tech Radar의 Lightweight ADR 권장.</p>
+          <p class="cc-meta"><span class="cc-lbl">사용예</span> “PostgreSQL 선택” 결정의 맥락·대안·결과를 repo에 .md로 보관.</p>
+        </div>
+        <div class="concept-card"><h4>EventStorming <span class="yrtag">2013</span></h4>
+          <p class="cc-meta"><span class="cc-lbl">역사</span> <b>Alberto Brandolini</b>가 제안한 도메인 탐색 워크숍.</p>
+          <p class="cc-meta"><span class="cc-lbl">배경</span> 복잡한 업무 흐름에서 경계·용어가 보이지 않는 문제.</p>
+          <p class="cc-meta"><span class="cc-lbl">근거</span> DDD/EventStorming 커뮤니티 자료.</p>
+          <p class="cc-meta"><span class="cc-lbl">사용예</span> 주문→재고차감→배송 같은 도메인 이벤트를 붙여 경계를 발견.</p>
+        </div>
+        <div class="concept-card"><h4>MCP · Agentic <span class="yrtag">2024–2026</span></h4>
+          <p class="cc-meta"><span class="cc-lbl">역사</span> 2024 Anthropic <b>MCP</b> 공개, 2025–26 Spec-Driven·Agentic DevOps·Harness Engineering 논의 확산.</p>
+          <p class="cc-meta"><span class="cc-lbl">배경</span> 프롬프트 의존의 한계와 정책·검증 통제의 필요.</p>
+          <p class="cc-meta"><span class="cc-lbl">근거</span> 내부 정리 및 Anthropic MCP 공개 표준(MCP=데이터·도구 연결용 개방 표준).</p>
+          <p class="cc-meta"><span class="cc-lbl">사용예</span> MCP로 도구·데이터에 표준 연결하고, 그 위에 정책·승인·감사를 별도 설계해 명세 기준 검증.</p>
+        </div>
+      </div>
+
+      <h3>A. 요구사항 발견·정의</h3>
+      <ul>
+        <li><strong>Requirements Engineering (RE)</strong> — 요구사항을 수집·분석·명세·검증·변경관리까지 체계화하는 기반 디시플린. 요구 누락·상충·추적 불가 문제를 막는다. 규제 산업·대규모·이해관계자가 많은 시스템에서 필수. BDD/DDD를 써도 RE가 약하면 추적성과 승인 경로가 무너진다.</li>
+        <li><strong>Behavior-Driven Development (BDD)</strong> — 요구를 구체적 행위 예시(<code>Given-When-Then</code>)로 정의해 비즈니스·개발·QA가 공통 언어로 합의하는 협업 프로세스. 모호성 제거·환각 방지·Living Documentation이 핵심 가치다. Discovery–Formulation–Automation의 반복으로 이어진다.</li>
+        <li><strong>Specification by Example / Example Mapping</strong> — 추상적 요구 대신 예시로 논의해 “이 말이 무슨 뜻이지” 해석 차를 제거한다. 승인 규칙·예외 케이스가 중요한 기능에 적합. BDD가 협업 프로세스라면 SbE는 예시 중심 명세화 원칙에 가깝다.</li>
+        <li><strong>Event Storming</strong> — “무슨 데이터가 있나”보다 “무슨 사건이 일어나나”로 도메인을 탐색하는 워크숍. 이벤트·커맨드·정책·행위자·Bounded Context를 공동 발견한다. DDD 도입 전, 복잡한 상태 전이와 경계 발견에 유용.</li>
+        <li><strong>EARS (정형 요구 패턴)</strong> — 요구 문장을 정형 패턴으로 써 모호성을 줄인다. SI/엔터프라이즈 문서, 안전·규제 요구가 많은 프로젝트의 RE 보완 도구.</li>
+        <li><strong>User Story · Acceptance Criteria</strong> — 작업 단위(스토리)와 완료를 판정하는 검증 가능한 조건. INVEST(독립·협상·가치·추정·작음·테스트 가능)로 좋은 스토리를 판단한다.</li>
+        <li><strong>Systems Thinking</strong> — 기능 하나가 아니라 전체 피드백 루프·병목·부작용을 본다. 각 단계 최적화가 전체 성능을 망치는 현상을 막는다.</li>
+      </ul>
+
+      <h3>B. 설계·아키텍처</h3>
+      <ul>
+        <li><strong>Domain-Driven Design (DDD)</strong> — 도메인 전문가와 공유하는 보편 언어(Ubiquitous Language)와 경계 컴텍스트(Bounded Context)로 복잡한 도메인을 모델링한다. BDD가 외부 행동을 합의하면 DDD는 내부 경계를 구조화한다.</li>
+        <li><strong>Clean / Hexagonal Architecture</strong> — 도메인을 프레임워크·인프라에서 분리해 의존성이 안쪽(도메인)으로만 향하게 한다. DDD가 “무엇을 모델링하는가”라면 Clean/Hexagonal은 “의존성을 어떻게 통제하는가”이다.</li>
+        <li><strong>ADR (Architecture Decision Records)</strong> — 중요한 기술 의사결정의 맥락·대안·결과와 “왜(why)”를 경량으로 기록해 소스 제어에 함께 보관한다. 시간이 지나면 왜 그 구조를 골랐는지 사라지는 문제를 막는다.</li>
+        <li><strong>Threat Modeling</strong> — 설계 단계에서 공격 표면과 위협 시나리오(STRIDE 등)를 모델링한다. 보안이 배포 전 스캔에서만 발견되는 문제를 앞단으로 당긴다.</li>
+        <li><strong>Evolutionary Architecture</strong> — 증분적·비파괴적 변화가 가능한 구조. 마이크로서비스는 목적이 아니라 변화 용이성을 위한 수단일 뿐이다.</li>
+        <li><strong>SOLID · GRASP</strong> — 단일책임·개방폐쇄·리스코프 치환·인터페이스 분리·의존 역전(SOLID)과 책임 할당 패턴(GRASP)으로 결합도를 낮춘다.</li>
+      </ul>
+
+      <h3>C. 구현·품질</h3>
+      <ul>
+        <li><strong>Test-Driven Development (TDD)</strong> — 실패 테스트→구현→리팩터의 Red-Green-Refactor 주기로 설계를 견인한다. 단, AI가 테스트를 쓸 때 과도한 Mock(런던식 편향)이 생길 수 있어 state/result 검증을 보강해야 한다.</li>
+        <li><strong>Test Pyramid · ATDD · Contract Testing</strong> — 단위&gt;통합&gt;E2E 비율로 빠르고 안정적인 테스트 구성(Pyramid), 완료 기준을 인수 테스트로 먼저 합의(ATDD), 서비스 간 계약을 소비자/제공자 양쪽에서 검증(Contract).</li>
+        <li><strong>Shift-left Testing</strong> — 테스트·품질·보안 활동을 구현 이후가 아니라 요구/설계 초기로 끌어온다. 결함 발견이 빠를수록 수정 비용이 적다.</li>
+        <li><strong>Refactoring · Pair/Mob Programming</strong> — 외부 동작을 바꾸지 않고 내부 구조를 개선(Refactoring), 둘·다수가 한 작업을 공동 검토(Pair/Mob). AI 시대엔 “Human+Agent pair”로 재해석된다.</li>
+      </ul>
+
+      <h3>D. 배포·운영</h3>
+      <ul>
+        <li><strong>CI/CD · GitOps · IaC</strong> — 자주 통합해 자동 빌드·테스트(CI), 언제든 배포 가능 상태 유지(CD), Git을 단일 진실원으로 선언 상태 동기화(GitOps), 인프라를 선언적 코드로 관리(IaC).</li>
+        <li><strong>Progressive Delivery · Feature Flags</strong> — Blue-Green·Canary·Rolling·기능 플래그로 위험을 통제하며 점진적으로 출시한다.</li>
+        <li><strong>DevSecOps · Policy-as-Code</strong> — 보안을 파이프라인에 내재화하고, 정책을 코드로 선언해 자동 강제한다.</li>
+        <li><strong>SRE · SLI/SLO · Error Budget</strong> — 신뢰성을 공학 문제로 다루고(SRE), 지표·목표·허용 실패 예산으로 변경 속도와 안정성을 균형한다.</li>
+        <li><strong>Observability · Chaos · Resilience</strong> — 로그·메트릭·트레이스로 내부 상태를 추론하고, 고의 장애 주입(Chaos)으로 복원력 가설을 검증하며, Retry·Circuit Breaker·Bulkhead로 장애 전파를 차단한다.</li>
+      </ul>
+
+      <h3>E. 비용·플랫폼</h3>
+      <ul>
+        <li><strong>FinOps · GreenOps</strong> — 운영 후 비용 최적화가 아니라 설계·배포 단계로 비용·탄소 의사결정을 당긴다(비용 shift-left).</li>
+        <li><strong>Platform Engineering · IDP · Golden Path</strong> — DevOps 성공 이후 늘어난 인지 부하를 줄이기 위해 내부 개발자 플랫폼(IDP)과 사전 구성된 안전 경로(Golden Path)를 제품화한다. 팀 수가 늘면 선택이 아니라 규모의 문제가 된다.</li>
+        <li><strong>Conway's Law · Team Topologies · DORA</strong> — 시스템 구조는 조직 소통 구조를 닮고(Conway), 그에 맞춰 팀을 설계하며(Topologies), 배포 빈도·리드타임·실패율·복구시간(DORA)으로 전달 성과를 측정한다.</li>
+      </ul>
+
+      <h3>F. 에이전트·AI 운영</h3>
+      <ul>
+        <li><strong>Spec-Driven Development (SDD)</strong> — 사람이 검토 가능한 명세와 기계가 활용 가능한 구조화 입력을 중심으로 개발을 조직하는 접근. 구조 없는 “그냥 만들어줘”(vibe coding)와 대비되나, 아직 단일 업계 표준 정의가 확정된 용어는 아니다.</li>
+        <li><strong>Agentic DevOps</strong> — 지능형 에이전트가 생명주기 각 단계를 자동화·최적화하는 DevOps의 다음 진화(Microsoft Azure 등 벤더 비전과 부합). Intent→구현→검토/테스트→배포→모니터/피드백 폐루프로 동작하나, 아직 산업 합의 교과서 정의로 단정하기는 이르다.</li>
+        <li><strong>Harness Engineering</strong> — 본 문서에서는 에이전트의 도구·권한·검증·관측·복구를 체계적으로 설계하는 <em>실무 운영 프레임</em>을 가리킨다(도구 오케스트레이션·권한/제약·컨텍스트 관리·검증/피드백·복구·Observability 6개 레이어, 또는 Control·Observe·Verify 3축). 아직 보편 표준 학술 용어라기보다 운영 설계 관점에 가깝다.</li>
+        <li><strong>MCP (Model Context Protocol)</strong> — AI 애플리케이션이 외부 데이터 소스·도구에 표준 방식으로 연결되도록 하는 개방형 프로토콜이다. 조직은 이 연결 지점 위에 정책·권한·감사·승인 체계를 <em>별도로</em> 설계해 통제면을 구현한다(MCP 자체가 정책 주입 표준은 아니다).</li>
+        <li><strong>Human-in-the-loop · LLMOps</strong> — 자율성이 커져도 merge/deploy는 정책·사람 검토 게이트를 거친다(HITL). 모델·프롬프트·평가·안전 운영을 체계화한다(LLMOps).</li>
+      </ul>
+    </section>
+
+    <section class="section" id="loop">
+      <h2>3. 핵심 폐루프 (Agentic DevOps Loop)</h2>
+      <p>여러 자료가 공통적으로 제시하는 에이전트 개발의 폐루프는 다음과 같다.</p>
+      <div class="flow">
+        <span class="node">Intent 분석</span><span class="arrow">→</span>
+        <span class="node">명세(Spec)</span><span class="arrow">→</span>
+        <span class="node">구현(Coding)</span><span class="arrow">→</span>
+        <span class="node">검토·테스트</span><span class="arrow">→</span>
+        <span class="node">배포</span><span class="arrow">→</span>
+        <span class="node">모니터·피드백</span><span class="arrow">↺</span>
+        <span class="node">Spec 갱신</span>
+      </div>
+      <p class="muted">각 화살표 지점마다 권한 제약·정책 주입·검증 게이트(harness)가 붙어 에이전트의 자율 실행을 통제한다.</p>
+    </section>
+
+    <section class="section" id="stages">
+      <h2>4. 전통 SDLC 단계 + Agentic 운영 레이어 매핑</h2>
+      <p>각 단계를 <em>핵심 질문 → 전통 SE 개념(ref/260628.md) → 에이전트 오버레이 → 한 줄 인사이트</em>로 매핑한다. <strong>S0~S6</strong>은 기본 생애주기 단계에 가깝고, <strong>S7(비용)·S8(플랫폼/조직)·S9(거버넌스)</strong>는 단계라기보다 전 단계에 걸치는 <em>횡단(cross-cutting) 역량·통제면</em>으로 읽는 것이 정확하다.</p>
+      <table>
+        <thead><tr><th>단계</th><th>핵심 질문</th><th>전통 SE 개념</th><th>에이전트 오버레이</th><th>인사이트</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="k" data-label="단계">S0. 의도·문제 정의</td>
+            <td data-label="질문">왜 이것을 만드는가?</td>
+            <td data-label="전통">Systems Thinking · Product Discovery · Impact Mapping · Wardley Mapping · JTBD</td>
+            <td data-label="오버레이">Intent Analysis — 모호한 요청을 검증 가능한 목표로 정제</td>
+            <td data-label="인사이트">에이전트의 첫 실패는 코드가 아니라 <strong>의도 오해</strong>에서 온다.</td>
+          </tr>
+          <tr>
+            <td class="k" data-label="단계">S1. 요구사항·명세</td>
+            <td data-label="질문">무엇을 해야 하는가?</td>
+            <td data-label="전통">Requirements Engineering · BDD · Specification by Example · Example Mapping · EARS · Acceptance Criteria</td>
+            <td data-label="오버레이">Spec-Driven Development — 기계가 읽는 명세를 작업 기준으로. Living Documentation</td>
+            <td data-label="인사이트">명세가 곧 통제다. vibe coding 대신 명세로 범위·검증 기준을 고정한다.</td>
+          </tr>
+          <tr>
+            <td class="k" data-label="단계">S2. 도메인·아키텍처 설계</td>
+            <td data-label="질문">어떤 개념 구조로 풀 것인가?</td>
+            <td data-label="전통">DDD · Event Storming · Clean/Hexagonal · ADR · Threat Modeling · Evolutionary Architecture</td>
+            <td data-label="오버레이">설계 규칙·제약을 컨텍스트로 제공(필요 시 MCP로 외부 맥락 연결). BDD가 외부 행동, DDD가 내부 경계</td>
+            <td data-label="인사이트">AI가 결정을 빨리 제안할수록 <strong>ADR(결정 기록)</strong>의 가치가 커진다.</td>
+          </tr>
+          <tr>
+            <td class="k" data-label="단계">S3. 구현</td>
+            <td data-label="질문">어떻게 안전하게 만드는가?</td>
+            <td data-label="전통">TDD · Refactoring · SOLID · Pair/Mob · Static Analysis</td>
+            <td data-label="오버레이">Human+Agent pair · Hooks(결정적 통제) · 권한/제약 레이어</td>
+            <td data-label="인사이트">일부 팀 경험상 AI가 mock-heavy 테스트를 선호할 수 있어 state/result 검증 기준을 함께 명시.</td>
+          </tr>
+          <tr>
+            <td class="k" data-label="단계">S4. 검증·품질</td>
+            <td data-label="질문">제대로 만들었는가?</td>
+            <td data-label="전통">Test Pyramid · ATDD · Contract Testing · Mutation · Shift-left · Code Review</td>
+            <td data-label="오버레이">Harness의 Verify 축 · evaluator 게이트 · 계약 기반 검증 강화</td>
+            <td data-label="인사이트">구조 검증 통과 ≠ 사실 검증. 자동 게이트는 회귀를 막되 사실을 보증하지 않는다.</td>
+          </tr>
+          <tr>
+            <td class="k" data-label="단계">S5. 배포·보안</td>
+            <td data-label="질문">빠르고 안전하게 내보내는가?</td>
+            <td data-label="전통">CI/CD · GitOps · IaC · Progressive Delivery · Feature Flags · DevSecOps</td>
+            <td data-label="오버레이">Policy-as-Code·Rulesets·branch protection·approvals로 통제, 필요 시 MCP로 외부 맥락 연결 · Push Protection</td>
+            <td data-label="인사이트">보안·정책은 배포 전 스캔이 아니라 <strong>설계·파이프라인에 내장</strong>(shift-left)한다.</td>
+          </tr>
+          <tr>
+            <td class="k" data-label="단계">S6. 운영·신뢰성</td>
+            <td data-label="질문">안정적으로 운영 가능한가?</td>
+            <td data-label="전통">SRE · SLI/SLO · Error Budget · Observability · Incident/Postmortem · Chaos · Runbooks</td>
+            <td data-label="오버레이">Harness의 Observe·복구 레이어 · 운영 피드백 → Spec 폐루프</td>
+            <td data-label="인사이트">관측은 측정에서 끝나지 않고 다음 라운드의 <strong>명세 입력</strong>이 된다.</td>
+          </tr>
+          <tr>
+            <td class="k" data-label="단계">S7. 비용·지속가능성</td>
+            <td data-label="질문">지속 가능한가?</td>
+            <td data-label="전통">FinOps · GreenOps · Cloud-native optimization</td>
+            <td data-label="오버레이">토큰/credit 사용을 설계 단계로 당겨 비용 의사결정에 반영</td>
+            <td data-label="인사이트">비용은 운영에서 드러나지만 <strong>설계·배포 선택</strong>이 비용 구조를 크게 좌우한다(shift-left).</td>
+          </tr>
+          <tr>
+            <td class="k" data-label="단계">S8. 플랫폼·조직 확장</td>
+            <td data-label="질문">조직 규모로 반복 가능한가?</td>
+            <td data-label="전통">Platform Engineering · IDP · Golden Path · Scorecard · Self-service · Team Topologies</td>
+            <td data-label="오버레이">Agentic DevOps를 제품화 · Golden Path에 agent harness 내장</td>
+            <td data-label="인사이트">조직 규모·복잡성이 커질수록 <strong>Platform Engineering</strong>의 필요성과 효과가 빠르게 커진다.</td>
+          </tr>
+          <tr>
+            <td class="k" data-label="단계">S9. 거버넌스·폐루프</td>
+            <td data-label="질문">자율성을 어떻게 통제하는가?</td>
+            <td data-label="전통">Traceability · AI Governance · ADR · DORA Metrics</td>
+            <td data-label="오버레이">LLMOps · Human-in-the-loop · Control/Observe/Verify 3축 · 운영→Spec 폐루프</td>
+            <td data-label="인사이트">실패의 상당수가 <strong>명세·통제·검증</strong>의 부재에서 오지만, 모델 선택·한계도 중요한 변수다.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="diff">
+      <h2>5. 전통 SDLC ↔ Agentic SDLC: 무엇이 바뀌나</h2>
+      <table>
+        <thead><tr><th>축</th><th>전통 SDLC</th><th>Agentic SDLC</th></tr></thead>
+        <tbody>
+          <tr><td class="k" data-label="축">작업 주체</td><td data-label="전통">사람이 각 단계를 수행</td><td data-label="에이전트">에이전트가 탐색·구현·검증, 사람은 방향·검토·승인</td></tr>
+          <tr><td class="k" data-label="축">요구 표현</td><td data-label="전통">문서·스토리</td><td data-label="에이전트">기계가 읽는 명세(Spec-Driven) + Living Docs</td></tr>
+          <tr><td class="k" data-label="축">품질 수단</td><td data-label="전통">리뷰·테스트</td><td data-label="에이전트">동일 + 자동 게이트(harness)·계약/state 검증·evaluator</td></tr>
+          <tr><td class="k" data-label="축">정책·보안</td><td data-label="전통">배포 전 스캔·후행 검토</td><td data-label="에이전트">Policy-as-Code·Rulesets로 사전 통제(shift-left), MCP는 도구·데이터 연결</td></tr>
+          <tr><td class="k" data-label="축">결정 기록</td><td data-label="전통">선택적 ADR</td><td data-label="에이전트">필수 ADR — AI가 결정을 빠르게 제안하므로 이유 보존이 중요</td></tr>
+          <tr><td class="k" data-label="축">루프</td><td data-label="전통">단계적·선형 경향</td><td data-label="에이전트">운영→Spec 폐루프로 지속 개선</td></tr>
+          <tr><td class="k" data-label="축">핵심 역량</td><td data-label="전통">코딩·설계 숙련</td><td data-label="에이전트">명세·통제·검증 설계(Harness Engineering)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="harness">
+      <h2>6. 에이전트 통제면 (Harness / MCP)</h2>
+      <p>Agentic SDLC를 단발 생성이 아닌 <strong>신뢰 가능한 생애주기</strong>로 만드는 것은 모델이 아니라 통제면이다. 내부 정리는 이를 6개 레이어(또는 Control·Observe·Verify 3축)로 구조화한다.</p>
+      <table>
+        <thead><tr><th>레이어</th><th>역할</th><th>대응 SDLC 단계</th></tr></thead>
+        <tbody>
+          <tr><td class="k" data-label="레이어">도구 오케스트레이션</td><td data-label="역할">어떤 도구를 언제 호출할지 조율</td><td data-label="단계">S3·S4·S5</td></tr>
+          <tr><td class="k" data-label="레이어">권한/제약</td><td data-label="역할">에이전트가 할 수 있는 행동의 경계(allowlist)</td><td data-label="단계">S5·S9</td></tr>
+          <tr><td class="k" data-label="레이어">컨텍스트 관리</td><td data-label="역할">정책·아키텍처 규칙 주입(MCP), 컨텍스트 분할</td><td data-label="단계">S1·S2</td></tr>
+          <tr><td class="k" data-label="레이어">검증/피드백</td><td data-label="역할">자동 게이트로 결과 검증, evaluator 판정</td><td data-label="단계">S4</td></tr>
+          <tr><td class="k" data-label="레이어">복구</td><td data-label="역할">실패 시 롤백·재시도·안전 상태 복원</td><td data-label="단계">S6</td></tr>
+          <tr><td class="k" data-label="레이어">Observability</td><td data-label="역할">실행 기록·추적으로 내부 상태를 외부에서 관측</td><td data-label="단계">S6·S9</td></tr>
+        </tbody>
+      </table>
+      <div class="callout good">이 통제면 구조는 본 워크스페이스의 운영 모델(planner 합의 → HA-Han 하네스 게이트 → evaluator 판정 → AR-Ari 기록)과 동형이다. 즉 Agentic SDLC의 통제면은 <strong>"검증 가능한 자동 게이트 + 사람 검토 유지"</strong>로 구현된다.</div>
+    </section>
+
+    <section class="section" id="insights">
+      <h2>7. 도출 인사이트</h2>
+      <ol class="steps">
+        <li><strong>하네스부터, 모델도 함께.</strong> 에이전트 산출물의 불안정은 상당 부분 명세·통제·검증의 부재에서 오지만, 모델 선택·추론·tool-use 견고성도 큰 축이다 — 둘 다 투자 대상이다.</li>
+        <li><strong>BDD/DDD만으로 부족 → RE·ADR.</strong> 행동 예시(BDD)와 도메인 경계(DDD)만으로는 승인·변경 추적·결정 이유가 자동 해결되지 않는다. 요구공학과 결정 기록이 에이전트 시대에 더 중요해진다.</li>
+        <li><strong>테스트를 재설계.</strong> 일부 팀 경험상 AI가 mock-heavy(런던식) 테스트를 선호할 수 있다. state/result 중심·계약 기반 검증을 명시적으로 설계한다.</li>
+        <li><strong>비용·보안·정책을 shift-left.</strong> FinOps·Threat Modeling·Policy-as-Code를 설계·배포로 당긴다. 단 비용은 설계뿐 아니라 사용량·운영 행태·거버넌스에도 강하게 연동된다.</li>
+        <li><strong>사람 검토는 자율성의 안전장치.</strong> Autopilot이어도 merge/deploy는 repository policy와 human review 게이트를 통과한 뒤에만 가능하다.</li>
+        <li><strong>운영→Spec 폐루프가 핵심.</strong> 관측 결과가 명세로 되돌아오지 않으면 Agentic SDLC는 단발 자동화에 그친다.</li>
+        <li><strong>정답 방법론은 없다.</strong> 라이프사이클의 병목을 보고 필요한 층위 개념을 조합한다(아래 7장).</li>
+      </ol>
+    </section>
+
+    <section class="section" id="decision">
+      <h2>8. 병목별 조합 선택 (의사결정)</h2>
+      <table>
+        <thead><tr><th>병목 증상</th><th>추천 조합</th></tr></thead>
+        <tbody>
+          <tr><td class="k" data-label="증상">요구 오해·소통 비용이 큼</td><td data-label="조합">BDD + Specification by Example + Example Mapping + Acceptance Criteria</td></tr>
+          <tr><td class="k" data-label="증상">용어·업무 규칙이 복잡</td><td data-label="조합">Event Storming + DDD + ADR</td></tr>
+          <tr><td class="k" data-label="증상">변경이 두렵고 회귀가 많음</td><td data-label="조합">TDD + CI + Refactoring + Contract Test</td></tr>
+          <tr><td class="k" data-label="증상">배포가 느리고 팀마다 제각각</td><td data-label="조합">DevOps + CI/CD + IaC + GitOps + Feature Flags</td></tr>
+          <tr><td class="k" data-label="증상">배포는 빠른데 장애·비용이 큼</td><td data-label="조합">SRE + Observability + Chaos + FinOps</td></tr>
+          <tr><td class="k" data-label="증상">개발자 인지 부하로 속도 저하</td><td data-label="조합">Platform Engineering + IDP + Golden Path + Policy-as-Code</td></tr>
+          <tr><td class="k" data-label="증상">AI 산출물이 불안정·정책 위반</td><td data-label="조합">Spec-Driven + Harness Engineering + MCP + Human-in-the-loop + GHAS</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="supplement">
+      <h2>9. 소프트웨어 공학적 보완 — 누락 축과 에이전트 리스크</h2>
+      <p>앞의 매핑은 요구→운영 흐름을 잘 담지만, 정통 SE 관점에서 더 챙겨야 할 축과 에이전트 특유의 리스크가 있다. ISO/IEC/IEEE 12207은 운영 이후 <strong>유지보수·지원·폐기</strong>까지 포함하므로 단계 맵에 그 꼬리를 더한다.</p>
+
+      <h3>A. 전통 SE에서 보완할 라이프사이클 축</h3>
+      <table>
+        <thead><tr><th>보완 축</th><th>무엇이 빠졌나</th><th>보완 방법</th><th>대응 단계</th></tr></thead>
+        <tbody>
+          <tr><td class="k" data-label="축">유지보수·진화·폐기</td><td data-label="빠짐">S6 이후가 비어 레거시 현대화·데이터 마이그레이션·deprecation이 누락</td><td data-label="보완">ISO 12207의 유지보수·폐기 프로세스 추가, deprecation 정책·마이그레이션 런북</td><td data-label="단계">S6 + 신규 S10 권장</td></tr>
+          <tr><td class="k" data-label="축">V&amp;V (Verification vs Validation)</td><td data-label="빠짐">“맞게 만들었나(V)” vs “맞는 걸 만들었나(V)” 구분·리뷰/인스펙션 부재</td><td data-label="보완">인스펙션(Fagan)·정적 검증·요구↔테스트 추적, validation은 사용자 수용으로 판정</td><td data-label="단계">S1·S4</td></tr>
+          <tr><td class="k" data-label="축">형상관리·릴리스 버저닝</td><td data-label="빠짐">변경통제·SemVer·API 버저닝/하위호환 미명시</td><td data-label="보완">SCM 규율·SemVer·API deprecation 정책·SBOM 서명</td><td data-label="단계">S5</td></tr>
+          <tr><td class="k" data-label="축">리스크 관리·품질모델</td><td data-label="빠짐">보안 외 프로젝트/기술 리스크·품질 속성 부재</td><td data-label="보완">리스크 레지스터(식별-분석-완화), ISO 25010 품질 속성으로 NFR 구조화</td><td data-label="단계">S0·S2</td></tr>
+          <tr><td class="k" data-label="축">데이터·스키마 수명주기</td><td data-label="빠짐">스키마 진화·backward/forward 호환·마이그레이션 약함</td><td data-label="보완">스키마 버저닝·계약 테스트·확장-수축(expand-contract) 마이그레이션</td><td data-label="단계">S2·S5</td></tr>
+        </tbody>
+      </table>
+
+      <h3>B. 에이전트 특화 SE 리스크 보완</h3>
+      <table>
+        <thead><tr><th>리스크</th><th>왜 문제인가</th><th>보완(통제)</th><th>단계/레이어</th></tr></thead>
+        <tbody>
+          <tr><td class="k" data-label="리스크">비결정성 관리</td><td data-label="문제">LLM은 확률적 → 재현·회귀가 일반 테스트로 안 잡힌다</td><td data-label="보완">seed/golden 테스트·eval suite·temperature 통제·통계적 합격기준</td><td data-label="레이어">S4 / Verify</td></tr>
+          <tr><td class="k" data-label="리스크">에이전트 보안</td><td data-label="문제">프롬프트 인젝션·데이터 유출·과대 권한</td><td data-label="보완">신뢰경계·도구 최소권한·입력 살균·격리 실행·secret 분리</td><td data-label="레이어">S5 / 권한·제약</td></tr>
+          <tr><td class="k" data-label="리스크">PromptOps(명세/프롬프트 형상관리)</td><td data-label="문제">명세·프롬프트가 버전·provenance 없이 표류</td><td data-label="보완">명세·프롬프트를 버전 관리·변경 리뷰·평가셋 연동</td><td data-label="레이어">S1 / 컨텍스트</td></tr>
+          <tr><td class="k" data-label="리스크">가역성·드라이런</td><td data-label="문제">에이전트 행동이 비가역이면 위험</td><td data-label="보완">idempotency·dry-run·롤백·승인 후 적용</td><td data-label="레이어">S3·S6 / 복구</td></tr>
+          <tr><td class="k" data-label="리스크">자율성 등급·에스컬레이션</td><td data-label="문제">“언제 사람 개입?”이 정성적</td><td data-label="보완">자율성 레벨 정의·위험도별 승인 게이트·에스컬레이션 기준</td><td data-label="레이어">S9 / Control</td></tr>
+          <tr><td class="k" data-label="리스크">비용·지연 NFR</td><td data-label="문제">토큰/credit·latency가 비기능 요건으로 안 잡힘</td><td data-label="보완">토큰·latency를 SLO화·budget·사용량 모니터</td><td data-label="레이어">S7</td></tr>
+        </tbody>
+      </table>
+      <div class="callout good">이 보완은 폐루프(운영→Spec)와 통제면(Harness)과 정합적이다. 특히 <strong>비결정성·가역성·자율성 등급·PromptOps</strong>는 전통 테스트/형상관리가 에이전트 시대에 재설계되어야 함을 보여준다. 단계 맵에 <strong>S10(유지보수·폐기)</strong>를 더하면 ISO 12207 전 주기를 포괄한다.</div>
+    </section>
+
+    <section class="section" id="sources">
+      <h2>10. 근거·출처</h2>
+      <p>본 문서는 워크스페이스 내부 자료를 기반으로 정리했으며, 외부 공개 출처로 보완했다. 내부 발표·정리 자료(파일명·내부 링크 등 비공개 식별자는 공개 산출물에서 제외)는 BDD → Spec-Driven → CI/CD/GHAS → 운영 피드백 → Agentic DevOps 연결 구조를 공통 제시한다.</p>
+      <ul>
+        <li><strong>워크스페이스 기반:</strong> <code>ref/260628.md</code>(소프트웨어 공학 개념 총람), "현대 소프트웨어 엔지니어링 전체 맵" 내부 정리.</li>
+        <li><strong>외부 공개 참고(개념 출처):</strong> Cucumber(BDD: Discovery–Formulation–Automation), Martin Fowler(DDD·Ubiquitous Language·Bounded Context·Microservices), Thoughtworks(Lightweight ADR·Evolutionary Architecture), CNCF Platform Engineering 백서·IDP·Golden Path, FinOps Foundation(비용 shift-left), Microsoft Azure(Agentic DevOps), ISO/IEC/IEEE 12207(SW life cycle).</li>
+      </ul>
+      <p class="muted">고유 수치·연도·제품 상태 주장은 외부 공유 전 각 1차 출처로 재확인할 것.</p>
+    </section>
+
+    <section class="section" id="caveat">
+      <h2>검증 경계</h2>
+      <div class="callout risk">
+        <strong>Caveat:</strong> 이 문서는 표준 개념과 내부 정리를 종합한 매핑·인사이트 지식 베이스다. 단계 구분(S0–S9)은 설명을 위한 모델이며 배타적·순차적 절차가 아니고, S7·S8·S9는 횡단 역량·통제면에 가깝다. <strong>Harness Engineering·Spec-Driven Development·Agentic DevOps</strong>는 확립된 학술 표준이 아닌 진행 중인 실무/벤더 프레임이며, <strong>MCP</strong>는 정책 주입이 아니라 데이터·도구 연결용 개방 표준이다. 개념 정의는 요약이고, 출처별 정확한 정의·연도·최신 상태는 1차 자료로 확인해야 한다. 하네스 PASS는 구조 검증이지 사실 보증이 아니다.
+      </div>
+    </section>
+  </div>
+</body>
+</html>

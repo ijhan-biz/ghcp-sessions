@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+  <meta name="original-filename" content="045-ai-agent-loop-taxonomy-usecases-2026-06-17.html" />
+  <meta name="original-date-signal" content="2026-06-17" />
+  <meta name="final-updated" content="2026-06-27" />
+  <meta name="filename-date-policy" content="filename date reflects final updated date; original date signal is stored internally" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="report-generated" content="2026-06-17" data-agent-loop-taxonomy="true" data-token-estimate="true" data-youtube-scan="true">
+<meta name="source-bundle" content="ref/agent-loop-taxonomy-sources-2026-06-17.json">
+<meta name="curated-source-bundle" content="ref/agent-loop-taxonomy-curated-sources-2026-06-17.json">
+<title>045 · AI Agent Loop Taxonomy, Use Cases, Token Budget · 2026-06-17</title>
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --panel2:#1f2630; --line:#30363d; --ink:#e6edf3; --muted:#9aa7b2; --blue:#58a6ff; --green:#7ee787; --amber:#f2cc60; --red:#ff7b72; --violet:#bc8cff; --cyan:#76e3ea; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif; line-height:1.72; letter-spacing:0; }
+  a { color:var(--blue); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .wrap { width:min(1180px,calc(100% - 40px)); margin:0 auto; }
+  header { padding:72px 0 50px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,#101824 0%,#0d1117 100%); }
+  .eyebrow { color:var(--green); font-size:13px; font-weight:850; text-transform:uppercase; letter-spacing:.08em; }
+  h1 { margin:14px 0 18px; max-width:1020px; font-size:clamp(34px,5vw,56px); line-height:1.08; letter-spacing:0; }
+  .lead { max-width:980px; color:var(--muted); font-size:18px; }
+  .meta { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+  .pill { display:inline-flex; align-items:center; border:1px solid var(--line); border-radius:999px; padding:4px 10px; color:var(--muted); background:rgba(255,255,255,.03); font-size:12px; font-weight:760; }
+  .pill.good { color:var(--green); border-color:rgba(126,231,135,.34); }
+  .pill.warn { color:var(--amber); border-color:rgba(242,204,96,.34); }
+  nav { margin:26px 0 8px; padding:20px 22px; background:var(--panel); border:1px solid var(--line); border-radius:8px; }
+  nav strong { display:block; margin-bottom:10px; color:#fff; }
+  nav ol { columns:2; margin:0; padding-left:20px; }
+  nav li { margin:6px 0; }
+  section { padding:42px 0; border-bottom:1px solid var(--line); }
+  h2 { margin:0 0 14px; font-size:28px; letter-spacing:0; }
+  h3 { margin:22px 0 8px; font-size:19px; }
+  p { margin:10px 0; color:var(--ink); }
+  .muted { color:var(--muted); }
+  .grid2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:18px; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin-top:18px; }
+  .grid4 { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; margin-top:18px; }
+  .card,.callout,.table-wrap,.codebox { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:18px; }
+  .card h3 { margin-top:0; color:var(--blue); }
+  .card p { color:var(--muted); font-size:15px; }
+  .metric strong { display:block; font-size:28px; color:#fff; }
+  .metric span { color:var(--muted); font-size:13px; }
+  .callout { margin:20px 0; }
+  .callout.good { border-left:6px solid var(--green); background:rgba(126,231,135,.07); }
+  .callout.info { border-left:6px solid var(--blue); background:rgba(88,166,255,.07); }
+  .callout.warn { border-left:6px solid var(--amber); background:rgba(242,204,96,.07); }
+  .callout.risk { border-left:6px solid var(--red); background:rgba(255,123,114,.07); }
+  table { width:100%; border-collapse:collapse; font-size:14px; margin:12px 0; }
+  th,td { padding:10px 12px; text-align:left; vertical-align:top; border-bottom:1px solid var(--line); }
+  th { background:var(--panel2); color:#fff; font-weight:820; }
+  tr:last-child td { border-bottom:0; }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.92em; background:#0b1018; border:1px solid var(--line); border-radius:5px; padding:1px 5px; }
+  pre { margin:0; white-space:pre-wrap; color:var(--muted); }
+  .tag { display:inline-flex; align-items:center; border:1px solid var(--line); border-radius:999px; padding:2px 8px; font-size:12px; font-weight:800; color:var(--muted); }
+  .tag.low { color:var(--green); border-color:rgba(126,231,135,.34); }
+  .tag.mid { color:var(--amber); border-color:rgba(242,204,96,.34); }
+  .tag.high { color:var(--red); border-color:rgba(255,123,114,.34); }
+  .flow { display:grid; grid-template-columns:repeat(6,minmax(110px,1fr)); gap:10px; margin-top:16px; }
+  .node { border:1px solid var(--line); border-radius:8px; padding:12px; text-align:center; background:#101720; min-height:78px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:760; font-size:14px; }
+  @media (max-width:960px) { .grid2,.grid3,.grid4,.flow { grid-template-columns:1fr; } nav ol { columns:1; } .wrap { width:min(100% - 24px,1180px); } }
+    pre code { background:transparent; border:0; padding:0; color:inherit; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="eyebrow">AI Build · Agent Loop Taxonomy · Token Budget</div>
+    <h1>최근 AI 에이전트 루프 비교: 사용처 추천과 예상 토큰량 가이드</h1>
+    <p class="lead">이 보고서는 2026-06-17 기준 공개 웹·YouTube 검색과 공식/준공식 anchor 자료를 바탕으로, 최근 자주 제시되는 AI agent loop를 taxonomy로 정리하고 각 루프의 적합 사용처, 피해야 할 상황, 운영 리스크, 예상 토큰량을 비교합니다. 결론은 단순합니다. <strong>루프는 많을수록 좋은 것이 아니라, 평가 가능성과 운영 예산이 맞는 만큼만 써야 합니다.</strong></p>
+    <div class="meta">
+      <span class="pill good">output 045</span>
+      <span class="pill good">기준일 2026-06-17</span>
+      <span class="pill good">12 loop discovery topics</span>
+      <span class="pill good">web 106 · YouTube 72 · curated 16</span>
+      <span class="pill warn">Harness PASS is structural validation, not factual verification.</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav aria-label="목차">
+    <strong>목차</strong>
+    <ol>
+      <li><a href="#summary">Executive Summary</a></li>
+      <li><a href="#method">수집 방법과 근거 티어</a></li>
+      <li><a href="#taxonomy">Loop Taxonomy</a></li>
+      <li><a href="#token-model">토큰량 추정 모델</a></li>
+      <li><a href="#comparison">루프별 비교표</a></li>
+      <li><a href="#recommendations">사용처 추천</a></li>
+      <li><a href="#loop-engineering">루프 엔지니어링 원칙과 설계</a></li>
+      <li><a href="#implementation">구현 고려사항·예산·관측성</a></li>
+      <li><a href="#maturity">프로덕션 성숙도와 체크리스트</a></li>
+      <li><a href="#ag-ui">AG-UI: 루프를 UI에 연결하기</a></li>
+      <li><a href="#youtube">YouTube 신호 해석</a></li>
+      <li><a href="#operations">운영 게이트와 런북</a></li>
+      <li><a href="#selection">044 모델 선택 체계와 연결</a></li>
+      <li><a href="#matrix">Claim / Evidence Matrix</a></li>
+      <li><a href="#references">References</a></li>
+    </ol>
+  </nav>
+
+  <section id="summary">
+    <h2>1. Executive Summary</h2>
+    <div class="callout info">
+      <strong>핵심 판단:</strong> 최근 제시되는 agent loop는 크게 <em>단일 agent 반복형</em>, <em>평가자 포함 개선형</em>, <em>도구/RAG 연결형</em>, <em>멀티에이전트 협업형</em>, <em>운영 게이트형</em>, <em>장기 자율 실행형</em>, 그리고 최근 부상한 <em>동적 생성·코드 오케스트레이션형(Claude Dynamic Workflows 등)</em>으로 나뉘니다. 토큰량은 루프 이름보다 <strong>반복 횟수, 도구 결과 크기, evaluator 수, memory carryover, retry budget</strong>에 의해 결정됩니다. 그리고 루프 <em>선택</em>만큼 중요한 것이 루프 <strong>엔지니어링</strong>입니다 — 종료 조건·컨텍스트·상태·오류·관측을 소프트웨어로 설계해야 실제 production 품질이 됩니다(§7–§9). 그리고 그 루프를 사용자에게 표준 이벤트로 노출하는 인터랙션 계층이 <strong>AG-UI</strong>입니다(§10).
+    </div>
+    <div class="grid4">
+      <div class="card metric"><strong>12</strong><span>수집 topic</span><p>ReAct, Plan/Execute, Reflection, Tool-use, RAG, Multi-agent, Computer-use 등.</p></div>
+      <div class="card metric"><strong>106</strong><span>웹 discovery 결과</span><p>Argus multi-provider 검색. 일부 provider는 차단/마크업 변경으로 결과가 적었습니다.</p></div>
+      <div class="card metric"><strong>72</strong><span>YouTube discovery 결과</span><p>공개 검색 HTML에서 title/url/channel만 추출. 보조 신호로만 사용합니다.</p></div>
+      <div class="card metric"><strong>16</strong><span>curated anchor</span><p>논문, 벤더 문서, 프레임워크 docs, 공식 coding agent 문서.</p></div>
+    </div>
+    <div class="grid3">
+      <div class="card"><h3>가장 비용 효율적인 루프</h3><p><strong>Routing</strong>, <strong>Prompt chaining</strong>, <strong>기본 RAG</strong>는 반복이 제한되고 평가 지점이 명확해 토큰 예산을 관리하기 쉽습니다.</p></div>
+      <div class="card"><h3>가장 품질 보강에 유리한 루프</h3><p><strong>Evaluator-Optimizer</strong>, <strong>Reflection</strong>, <strong>Plan-and-Execute</strong>는 산출 품질을 올리지만 반복 횟수와 reviewer 토큰 때문에 비용이 빠르게 늘어납니다.</p></div>
+      <div class="card"><h3>가장 운영 리스크가 큰 루프</h3><p><strong>Multi-agent debate</strong>, <strong>Computer-use</strong>, <strong>Autonomous coding</strong>, <strong>장기 memory loop</strong>는 관측성·승인·중단 조건 없이는 쓰기 어렵습니다.</p></div>
+    </div>
+  </section>
+
+  <section id="method">
+    <h2>2. 수집 방법과 근거 티어</h2>
+    <p>수집은 두 단계로 수행했습니다. 첫째, Argus multi-provider 검색으로 12개 루프 topic별 공개 웹 결과를 수집했습니다. 둘째, YouTube 공개 검색 페이지에서 videoId, title, channel, URL만 추출했습니다. 마지막으로 결과가 빈약한 topic은 공식 문서·논문·프레임워크 docs 중심 curated source bundle로 보강했습니다.</p>
+    <table>
+      <thead><tr><th>근거 유형</th><th>사용 방식</th><th>신뢰도</th><th>한계</th></tr></thead>
+      <tbody>
+        <tr><td>공식 문서·논문·벤더 engineering post</td><td>루프 정의, 안전 caveat, 운영 조건의 1차 근거</td><td><span class="tag low">T1</span></td><td>제품 가용성, 모델명, quota는 빠르게 변할 수 있음</td></tr>
+        <tr><td>프레임워크 docs·오픈소스 repo</td><td>구현 패턴과 상태관리 방식 확인</td><td><span class="tag low">T2</span></td><td>프레임워크 관점 bias 존재</td></tr>
+        <tr><td>검색 결과·패키지 metadata·커뮤니티 글</td><td>생태계 신호와 키워드 확산 확인</td><td><span class="tag mid">T3</span></td><td>품질이나 채택률의 직접 근거가 아님</td></tr>
+        <tr><td>YouTube 데모·개인 설명 영상</td><td>최근 담론과 교육/데모 흐름 확인</td><td><span class="tag high">T4</span></td><td>재현성 낮음. 조회수·제목은 기술 성숙도 근거가 아님</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn">
+      <strong>Freshness caveat:</strong> 검색 결과는 2026-06-17 시점 snapshot입니다. YouTube와 검색엔진 결과는 지역, 개인화, ranking 변경에 따라 달라질 수 있습니다. 이 보고서는 루프 선택 가이드이며 시장 점유율, 성능 우열, 모델별 가격표를 확정하지 않습니다.
+    </div>
+  </section>
+
+  <section id="taxonomy">
+    <h2>3. Loop Taxonomy</h2>
+    <p>최근 루프들은 이름이 달라도 구성요소는 대체로 <code>plan</code>, <code>act/tool</code>, <code>observe</code>, <code>evaluate</code>, <code>memory</code>, <code>human gate</code>의 조합입니다.</p>
+    <div class="flow" aria-label="agent loop primitives">
+      <div class="node">Plan</div>
+      <div class="node">Act / Tool</div>
+      <div class="node">Observe</div>
+      <div class="node">Evaluate</div>
+      <div class="node">Memory</div>
+      <div class="node">Human Gate</div>
+    </div>
+    <table>
+      <thead><tr><th>그룹</th><th>대표 루프</th><th>핵심 구조</th><th>주요 효과</th><th>토큰 증가 요인</th></tr></thead>
+      <tbody>
+        <tr><td>단일 agent 반복형</td><td>ReAct, Tool-use loop</td><td>reason → action/tool → observation 반복</td><td>외부 도구와 단계적 문제해결</td><td>tool result 누적, 반복 횟수</td></tr>
+        <tr><td>계획 실행형</td><td>Plan-and-Execute, Graph/State-machine</td><td>planner가 작업을 나누고 executor가 수행</td><td>긴 작업 구조화, checkpoint 가능</td><td>plan context, subtask 수, replan</td></tr>
+        <tr><td>품질 개선형</td><td>Reflection, Evaluator-Optimizer, Self-Refine</td><td>초안 → 비판/평가 → 수정</td><td>산출 품질, 오류 감소 가능</td><td>평가자 호출, revision 반복</td></tr>
+        <tr><td>지식 연결형</td><td>RAG, Agentic RAG</td><td>retrieve → reason → verify → answer</td><td>근거 기반 답변, 최신성 보강</td><td>검색 결과 chunk, citation 검증</td></tr>
+        <tr><td>협업형</td><td>Multi-agent debate, Swarm, Orchestrator-workers</td><td>역할 분리 → 병렬 생성/토론 → 종합</td><td>넓은 탐색, 역할 전문화</td><td>agent 수 × 라운드 수 × 합의 비용</td></tr>
+        <tr><td>운영 게이트형</td><td>Human-in-the-loop, PR gate, Approval loop</td><td>proposal → approval → execution → audit</td><td>고위험 작업 통제</td><td>review record, evidence bundle</td></tr>
+        <tr><td>장기 자율형</td><td>Computer-use, Coding agent, Memory loop</td><td>환경 관찰 → 행동 → 검증 → 장기 상태 갱신</td><td>복합 작업 자동화</td><td>screen/tool logs, test logs, memory carryover, retries</td></tr>
+        <tr><td>동적 생성·코드 오케스트레이션형</td><td>Claude Dynamic Workflows, Code-as-orchestrator</td><td>LLM이 오케스트레이션 스크립트를 생성 → 런타임이 백그라운드 실행 → 수십~수백 subagent fan-out → 종합</td><td>대규모 병렬 작업을 <strong>저컨텍스트</strong>로 실행</td><td>subagent 수 × 단계 (단 모델 컨텍스트엔 최종 결과만)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="token-model">
+    <h2>4. 토큰량 추정 모델</h2>
+    <p>정확한 토큰량은 모델, context window, tool 결과 크기, 숨은 reasoning token 정책, 재시도 횟수에 따라 달라집니다. 따라서 이 보고서는 가격표가 아니라 <strong>budgeting heuristic</strong>을 제시합니다.</p>
+    <div class="codebox"><pre>Estimated total tokens per successful task
+
+T_total ≈ T_base_prompt
+        + T_context_carryover
+        + Σ(loop_step_input + loop_step_output)
+        + Σ(tool_result_tokens)
+        + Σ(evaluator_or_reviewer_tokens)
+        + T_memory_read_write
+        + retry_count × T_retry_unit
+
+Main multipliers:
+- loop_iterations: ReAct/tool/computer-use 반복 횟수
+- evaluator_count: critic, judge, reviewer, red-team 수
+- parallel_agents: worker/debate/swarm agent 수
+- retrieved_chunks: RAG chunk 수와 chunk 크기
+- tool_payload_size: browser/screen/test/log 출력 크기
+- retry_budget: 실패 후 재시도 허용 횟수</pre></div>
+    <table>
+      <thead><tr><th>예산 등급</th><th>대략적 범위</th><th>일반적 예</th><th>관리 방법</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag low">Low</span></td><td>5k~25k tokens</td><td>Routing, 짧은 prompt chaining, 단순 RAG</td><td>context 제한, 단일 pass, 도구 결과 요약</td></tr>
+        <tr><td><span class="tag mid">Medium</span></td><td>25k~120k tokens</td><td>ReAct, Plan-and-Execute, Reflection, Tool-use</td><td>loop cap, retry cap, structured observation</td></tr>
+        <tr><td><span class="tag high">High</span></td><td>120k~500k tokens</td><td>Evaluator-Optimizer, Agentic RAG, Parallel workers, Multi-agent debate</td><td>fan-out 제한, judge sampling, evidence truncation</td></tr>
+        <tr><td><span class="tag high">Very High</span></td><td>500k~1M+ tokens</td><td>Computer-use, long-running coding agent, 장기 memory/self-improvement loop</td><td>checkpoint, summarization, stop condition, budget kill-switch</td></tr>
+      </tbody>
+    </table>
+    <div class="callout risk">
+      <strong>중요한 한계:</strong> 모델 제공자별 hidden reasoning token, tool call billing, image/screen payload 처리 방식은 다를 수 있습니다. 특히 computer-use와 coding agent는 실패 로그·테스트 로그·스크린샷 분석이 반복되면 예산이 급격히 커질 수 있습니다.
+    </div>
+  </section>
+
+  <section id="comparison">
+    <h2>5. 루프별 비교표</h2>
+    <table>
+      <thead><tr><th>Loop</th><th>구조</th><th>추천 사용처</th><th>피해야 할 상황</th><th>예상 토큰량 / task</th><th>운영 리스크</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Routing</strong></td><td>classify → route → answer</td><td>FAQ, 티켓 분류, 모델 라우팅, 044 model selector</td><td>모호한 요구, 복합 판단</td><td><span class="tag low">8k~18k</span></td><td>잘못된 분기, coverage gap</td></tr>
+        <tr><td><strong>Prompt chaining</strong></td><td>step 1 → step 2 → step 3</td><td>문서 변환, 단계적 요약, deterministic workflow</td><td>동적 탐색이 필요한 조사</td><td><span class="tag low">12k~30k</span></td><td>초기 오류 전파</td></tr>
+        <tr><td><strong>ReAct</strong></td><td>reason → act → observe</td><td>도구 기반 질의, 작은 디버깅, 웹/파일 탐색</td><td>도구 출력이 매우 큰 작업</td><td><span class="tag mid">20k~60k</span></td><td>infinite tool loop, noisy observation</td></tr>
+        <tr><td><strong>Tool-use / Function-calling</strong></td><td>select tool → call → integrate</td><td>API 작업, DB 조회, 계산, MCP tool 실행</td><td>권한 높은 destructive tool</td><td><span class="tag mid">20k~80k</span></td><td>tool misuse, schema drift, unsafe action</td></tr>
+        <tr><td><strong>Plan-and-Execute</strong></td><td>plan → execute subtasks → replan</td><td>중간 길이 개발, 마이그레이션 초안, 리서치 계획</td><td>간단한 one-shot 작업</td><td><span class="tag mid">25k~90k</span></td><td>over-planning, stale plan</td></tr>
+        <tr><td><strong>Reflection / Self-critique</strong></td><td>draft → critique → revise</td><td>문서 품질 개선, 설명/분석 보정, edge case 탐색</td><td>명확한 테스트가 있는 코드 fix에서 과도 반복</td><td><span class="tag mid">30k~100k</span></td><td>self-confirmation, critique hallucination</td></tr>
+        <tr><td><strong>Evaluator-Optimizer</strong></td><td>generate → evaluate → optimize</td><td>품질 기준이 있는 문서, UI copy, test 보강, 정책 문서</td><td>평가 기준이 없는 창의 작업</td><td><span class="tag high">40k~140k</span></td><td>judge overfitting, evaluator bias</td></tr>
+        <tr><td><strong>Basic RAG</strong></td><td>retrieve → answer</td><td>사내 문서 Q&A, 근거 기반 요약, 약한 최신성 보강</td><td>소스 품질이 낮거나 권한 경계가 복잡한 지식</td><td><span class="tag low">15k~60k</span></td><td>stale retrieval, citation mismatch</td></tr>
+        <tr><td><strong>Agentic RAG</strong></td><td>retrieve → reason → verify → re-retrieve</td><td>복잡한 리서치, claim/source matrix, compliance 질의</td><td>응답 지연이 엄격한 UX</td><td><span class="tag high">30k~120k</span></td><td>retrieval loop, source drift</td></tr>
+        <tr><td><strong>Parallelization</strong></td><td>split → parallel workers → vote/merge</td><td>다수 문서 요약, 후보안 생성, red-team 병렬 검토</td><td>작업 분해가 불명확한 문제</td><td><span class="tag high">40k~200k</span></td><td>merge conflict, duplicated effort</td></tr>
+        <tr><td><strong>Orchestrator-workers</strong></td><td>orchestrator → workers → synthesize</td><td>복합 리서치, 큰 코드베이스 탐색, 전문 역할 분리</td><td>작업 소유권이 불분명한 팀</td><td><span class="tag high">60k~300k</span></td><td>context loss, worker drift</td></tr>
+        <tr><td><strong>Dynamic workflow (script-orchestrated)</strong> <span class="tag mid">research preview</span></td><td>describe → Claude가 JS 스크립트 작성 → runtime이 subagent fan-out → synthesize</td><td>대규모 마이그레이션, 수백 파일 일괄 처리, 대량 리서치 fan-out</td><td>작은 일회성 작업, 평가·중단 조건 미비</td><td><span class="tag high">100k~1M+ (모델 컨텍스트는 낮음)</span></td><td>대량 token burn, 자동 edit 승인, 부분 실패 추적</td></tr>
+        <tr><td><strong>Multi-agent debate / Swarm</strong></td><td>roles → debate/collaborate → judge</td><td>전략 대안 비교, 보안/운영/제품 관점 균형</td><td>단순 구현, 빠른 응답, 명확한 정답 작업</td><td><span class="tag high">80k~400k</span></td><td>consensus theater, token burn</td></tr>
+        <tr><td><strong>Human-in-the-loop</strong></td><td>propose → approve → execute → audit</td><td>배포, 보안, 비용, 데이터 삭제, 외부 공개</td><td>초저지연 자동 응답</td><td><span class="tag mid">20k~90k</span></td><td>approval bottleneck, unclear owner</td></tr>
+        <tr><td><strong>Memory / Learning loop</strong></td><td>experience → store → retrieve → adapt</td><td>반복 고객지원, 팀 coding preference, 개인화 workflow</td><td>민감정보, 잘못된 기억이 큰 피해를 만드는 영역</td><td><span class="tag mid">20k~80k + storage</span></td><td>memory poisoning, stale preference</td></tr>
+        <tr><td><strong>Computer-use / Browser</strong></td><td>perceive screen → act → observe</td><td>UI automation, browser QA, legacy 앱 조작</td><td>권한 높은 계정, 금융/운영 write, 안정성 낮은 UI</td><td><span class="tag high">50k~500k</span></td><td>misclick, screen token spike, unsafe action</td></tr>
+        <tr><td><strong>Autonomous coding</strong></td><td>issue → plan → patch → test → PR</td><td>테스트 있는 issue, 리팩터링, 반복 품질 보강</td><td>요구사항 불명확, 테스트 없음, prod secret 접근</td><td><span class="tag high">80k~1M+</span></td><td>test flake, wrong patch, cost runaway</td></tr>
+        <tr><td><strong>Graph / State-machine</strong></td><td>state → node → edge → checkpoint</td><td>장기 workflow, 재개 가능한 agent, 규칙 많은 업무</td><td>one-shot 생성, 단순 Q&A</td><td><span class="tag high">40k~250k</span></td><td>graph complexity, checkpoint bloat</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="recommendations">
+    <h2>6. 사용처 추천</h2>
+    <div class="grid2">
+      <div class="card"><h3>짧은 답변·분류</h3><p><strong>추천:</strong> Routing, prompt chaining. <strong>이유:</strong> 토큰량이 낮고 실패 지점이 명확합니다. <strong>피함:</strong> multi-agent debate.</p></div>
+      <div class="card"><h3>근거 기반 리서치</h3><p><strong>추천:</strong> Agentic RAG + evaluator-optimizer. <strong>이유:</strong> source freshness와 caveat를 함께 관리할 수 있습니다. <strong>피함:</strong> source 없는 reflection.</p></div>
+      <div class="card"><h3>코딩·리팩터링</h3><p><strong>추천:</strong> Plan-and-Execute + autonomous coding + human PR gate. <strong>이유:</strong> issue→patch→test→PR 루프가 GitHub-native 검증과 맞습니다.</p></div>
+      <div class="card"><h3>UI/브라우저 QA</h3><p><strong>추천:</strong> Computer-use/browser loop + strict screenshot cap. <strong>이유:</strong> 화면 관찰이 필요합니다. <strong>피함:</strong> 권한 높은 production 계정.</p></div>
+      <div class="card"><h3>전략·아키텍처 비교</h3><p><strong>추천:</strong> Multi-agent debate 또는 orchestrator-workers. <strong>이유:</strong> 제품, SRE, 보안, 비용 관점을 나눌 수 있습니다. <strong>주의:</strong> 합의가 사실 검증은 아닙니다.</p></div>
+      <div class="card"><h3>반복 운영 자동화</h3><p><strong>추천:</strong> Graph/state-machine + memory loop + human-in-the-loop. <strong>이유:</strong> 상태·재개·감사가 필요합니다. <strong>피함:</strong> stop condition 없는 자율 반복.</p></div>
+      <div class="card"><h3>대규모 fan-out·저컨텍스트 오케스트레이션</h3><p><strong>추천:</strong> Dynamic workflow(코드-오케스트레이터). <strong>이유:</strong> 루프·분기·중간결과를 스크립트가 들고 있어 컨텍스트 폭주 없이 수백 subagent로 확장됩니다. <strong>피함:</strong> 작은 작업, budget kill-switch·중단 뷰 미비.</p></div>
+    </div>
+    <div class="callout info">
+      <strong>Dynamic workflow 보강:</strong> Claude Code의 <em>Dynamic Workflows</em>(research preview)는 “Claude가 작성하는 JavaScript 스크립트를 런타임이 백그라운드에서 실행하며 subagent를 스케로 오케스트레이션”하는 패턴입니다. orchestrator-workers를 <strong>코드로 옮겨</strong> 오케스트레이터 역할을 런타임 스크립트가 맡으므로, 모델 컨텍스트에는 최종 답만 남아 대규모 fan-out에도 컨텍스트가 터지지 않습니다(런당 최대 16 동시·1,000 총 agent). “dynamic”은 <strong>스크립트를 Claude가 그때그때 생성</strong>한다는 뜻이며, 사람이 고정 DAG를 그리는 것과 다릅니다. 정의·제약·Copilot 구현 경로는 <a href="037-claude-code-dynamic-workflows-to-copilot-2026-07-10.html">037 문서</a>, 공식 정의는 <a href="https://docs.claude.com/en/docs/claude-code/workflows">docs.claude.com/en/docs/claude-code/workflows</a> 참조.
+    </div>
+    <div class="callout good">
+      <strong>추천 요약:</strong> 기본값은 작은 루프입니다. 먼저 routing/prompt chaining/RAG로 시작하고, 실패 비용이 크거나 품질 기준이 명확할 때 evaluator를 추가합니다. 병렬·멀티에이전트·computer-use는 관측성과 budget kill-switch가 준비된 뒤에만 승격합니다.
+    </div>
+  </section>
+
+  <section id="loop-engineering">
+    <h2>7. 루프 엔지니어링: 원칙과 설계 고려사항</h2>
+    <p>루프를 <em>고르는 것</em>과 <em>운영 가능하게 만드는 것</em>은 다릅니다. <strong>루프 엔지니어링</strong>은 루프의 정의를 넘어 <strong>종료 조건·컨텍스트·상태·오류·권한·관측</strong>을 소프트웨어로 설계하는 규율입니다. 현장의 production 품질 agent는 “프롬프트 + 도구 한 봉지 + 목표까지 루프”가 아니라 <strong>대부분 잘 설계된 소프트웨어</strong>이며, LLM 단계가 결정론 코드 사이에 끼워집니다(12-factor agents). 많은 팀이 프레임워크로 70–80%까지 빠르게 도달한 뒤, 그 위를 넘기려면 프롬프트·흐름·컨텍스트를 직접 소유해야 함을 발견합니다.</p>
+    <h3>‘프롬프트하는 나’를 시스템으로 대체하기</h3>
+    <p>루프 엔지니어링의 한 줄 정의는 <strong>“매번 프롬프트하며 루프를 돌리던 사람(human-as-loop)을, 그 판단을 코드로 옮긴 시스템(system-as-loop)으로 대체하는 것”</strong>입니다. 사람이 손으로 반복하던 판단을 하나씩 시스템 구성요소로 외부화하면, 같은 작업이 <strong>재현 가능·관측 가능·확장 가능</strong>해집니다.</p>
+    <table>
+      <thead><tr><th>‘프롬프트하는 나’가 매번 하던 일</th><th>시스템으로 대체(이 문서의 어디서)</th></tr></thead>
+      <tbody>
+        <tr><td>출력을 읽고 다시 프롬프트</td><td>evaluator·검증 게이트 + 재시도 로직 (§7 오류 압축, §8 eval)</td></tr>
+        <tr><td>언제 멈출지 눈으로 판단</td><td>종료 조건: max_steps/tokens/no-progress/done-tool (§7·§8)</td></tr>
+        <tr><td>무엇을 붙여넣을지 고르기</td><td>컨텍스트 큐레이션: compaction/JIT/note-taking (§7)</td></tr>
+        <tr><td>막혔을 때 방향 전환</td><td>오류 압축 + replan + human gate (§7·§9)</td></tr>
+        <tr><td>결과가 맞는지 눈으로 확인</td><td>hard signal 검증: 테스트/PR/재현 (§8)</td></tr>
+        <tr><td>다음에 또 수동 반복</td><td>재현 가능한 하네스: launch/pause/resume·체크포인트 (§7·§8)</td></tr>
+      </tbody>
+    </table>
+    <div class="callout info"><strong>요지:</strong> 위 표의 오른쪽이 갖춰질수록 ‘프롬프트 장인’ 한 명에 의존하지 않고 팀·시스템이 같은 품질을 재현합니다. 즉, 가치는 “더 좋은 프롬프트”가 아니라 <strong>“더 좋은 루프”</strong>로 이동합니다. <span class="muted">(이 프레이밍은 실밤개발자, “루프 엔지니어링 — ‘프롬프트하는 나’를 시스템으로 대체하는 법” 강연에서 가져왔습니다.)</span></div>
+    <h3>모든 루프의 공통 골격</h3>
+    <div class="codebox"><pre># 어떤 루프(ReAct·plan-execute·evaluator·…)도 아래 골격의 변형이다 (12-factor agents)
+context = [initial_event]                      # 사용자 메시지 / webhook / cron
+while True:
+    next_step = llm.determine_next_step(context)   # 1) 다음 단계 = 구조화 출력(tool call)
+    context.append(next_step)
+    if next_step.intent == "done":                 # 4) 종료 판정
+        return next_step.final_answer
+    result = execute_step(next_step)               # 2) 결정론 코드가 도구 실행
+    context.append(result)                         # 3) 결과를 컨텍스트에 추가</pre></div>
+    <div class="callout info"><strong>핵심:</strong> 루프의 이름이 아니라 <strong>종료·컨텍스트·상태·오류 처리의 품질</strong>이 엔지니어링 난이도를 결정합니다. 좋은 agent는 “도구 한 봉지 주고 끝날 때까지 돌리기”가 아니라 대부분 명시적 제어 흐름입니다.</div>
+    <h3>핵심 원칙 (12-factor agents · Anthropic)</h3>
+    <table>
+      <thead><tr><th>원칙</th><th>의미</th><th>안 지키면</th></tr></thead>
+      <tbody>
+        <tr><td>흐름을 소유하라 (Own your control flow)</td><td>분기·중단·재시도·승인 지점을 <strong>코드가</strong> 소유. LLM에 전권 위임 금지</td><td>무한 루프, 통제 불가, 분기 폭주</td></tr>
+        <tr><td>컨텍스트를 소유하라 (Own your context window)</td><td>컨텍스트는 <strong>유한 자원</strong>. 매 턴 무엇을 넣을지 큐레이션</td><td>context rot(길어지면 정확도↓), 비용 폭증</td></tr>
+        <tr><td>도구는 구조화 출력 (Tools = structured outputs)</td><td>LLM은 JSON을 내고 결정론 코드가 실행</td><td>파싱 실패, 비결정성</td></tr>
+        <tr><td>오류를 압축해 넣어라 (Compact errors)</td><td>실패를 <strong>요약</strong>해 다음 턴에 주되 재시도 상한</td><td>같은 오류 반복, retry storm, 토큰 낭비</td></tr>
+        <tr><td>상태를 외부화 (Stateless reducer · launch/pause/resume)</td><td>실행상태=비즈니스상태, 일시정지·재개 가능</td><td>재현 불가, 장애 복구 불가</td></tr>
+        <tr><td>작은 초점 agent (Small, focused)</td><td>한 agent가 모든 걸 하지 않게</td><td>drift, 평가 불가, 컨텍스트 오염</td></tr>
+        <tr><td>사람도 도구 호출로 (Human via tool calls)</td><td>승인·질문도 tool call로 모델링</td><td>고위험 자동 실행, 의사결정 은폐</td></tr>
+      </tbody>
+    </table>
+    <h3>설계 고려사항</h3>
+    <div class="grid3">
+      <div class="card"><h3>종료 조건</h3><p><code>max_steps</code>, <code>max_tokens</code>, <code>retry_cap</code>, <strong>무진전(no-progress) 감지</strong>(같은 tool/plan N회), 명시적 <code>done</code> tool. “언제 멈추는가”가 없으면 production 불가.</p></div>
+      <div class="card"><h3>컨텍스트 전략(Anthropic)</h3><p><strong>compaction</strong>(요약 후 재시작), <strong>구조적 note-taking</strong>(NOTES.md/메모리), <strong>just-in-time</strong>(파일경로·쿼리 식별자로 런타임 로드), <strong>tool-result clearing</strong>(과거 raw 결과 제거), <strong>sub-agent</strong>(깨끗한 컨텍스트·1–2k 토큰 요약 반환).</p></div>
+      <div class="card"><h3>상태·체크포인트</h3><p>단계마다 상태 저장 → 중단/재개/롤백. 비가역 action은 체크포인트+승인 뒤에만.</p></div>
+      <div class="card"><h3>결정성·멱등성</h3><p>tool은 재시도 안전(idempotent)하게. 외부 effect는 idempotency key로 중복 방지.</p></div>
+      <div class="card"><h3>권한 경계</h3><p>read/write/destructive 분리. 고위험은 human gate. 도구 과다(bloated tool set) 금지 — 사람도 못 고르면 LLM도 못 고릅니다.</p></div>
+      <div class="card"><h3>컨텍스트 예산</h3><p>“가장 작은 고신호 토큰 집합”을 찾는다. 프롬프트는 right altitude(너무 세부·너무 모호 사이), 예시는 소수의 canonical만.</p></div>
+    </div>
+  </section>
+
+  <section id="implementation">
+    <h2>8. 구현 고려사항: 루프 스켈레톤·예산·관측성</h2>
+    <p>아래는 위 원칙을 코드로 옮긴 production 루프 스켈레톤입니다. 데모 루프와의 차이는 <strong>측정·상한·복구·관측</strong>이 들어간다는 점입니다.</p>
+    <div class="codebox"><pre>loop_config = {
+  "max_steps": 20, "max_tokens": 200_000, "retry_cap": 2,
+  "timeout_s": 900, "fan_out_max": 8, "kill_switch_tokens": 300_000,
+  "stop_tools": ["done", "ask_human"], "checkpoint": "every_step"
+}
+
+state = load_or_init(run_id)                 # launch / pause / resume
+while state.steps < cfg.max_steps and state.tokens < cfg.max_tokens:
+    ctx   = curate(context)                  # 컨텍스트 큐레이션: compaction / JIT / tool-result clearing
+    step  = llm.next_step(ctx)
+    log(trace_id, model_id, prompt_ver, step, state.tokens)   # 관측: 모든 결정 기록
+    if step.intent in cfg.stop_tools: break  # 종료 / 사람 호출
+    if no_progress(state, step): break       # 무진전 감지(같은 tool/plan 반복)
+    try:
+        result = execute(step)               # 결정론 실행(idempotent, 권한 검사)
+    except ToolError as e:
+        result = compact_error(e)            # 오류 압축, retry_cap 적용
+    checkpoint(run_id, state)                # 단계별 상태 저장 → 재개/롤백
+    context = append_and_maybe_compact(context, step, result)
+    state.advance(result)                    # steps++, tokens += result.tokens</pre></div>
+    <h3>예산·상한 파라미터</h3>
+    <table>
+      <thead><tr><th>파라미터</th><th>역할</th><th>권장 기본(작업별 조정)</th></tr></thead>
+      <tbody>
+        <tr><td><code>max_steps</code></td><td>루프 폭주 차단</td><td>routing 3 · react 8 · plan-execute 12 · coding 30+</td></tr>
+        <tr><td><code>max_tokens</code> / <code>kill_switch_tokens</code></td><td>비용 상한</td><td>p95 예산 · kill = p95 +30~50%</td></tr>
+        <tr><td><code>retry_cap</code></td><td>재시도 상한</td><td>1–2 (이후 block·사람)</td></tr>
+        <tr><td><code>timeout_s</code></td><td>행(hang) 방지</td><td>작업별(짧은 60 · 긴 900+)</td></tr>
+        <tr><td><code>fan_out_max</code></td><td>병렬 폭주 방지</td><td>4–8 (sub-agent/parallel)</td></tr>
+        <tr><td><code>no_progress_window</code></td><td>무진전 감지</td><td>같은 tool/plan 3회</td></tr>
+      </tbody>
+    </table>
+    <div class="grid2">
+      <div class="card"><h3>도구 계약 설계(Anthropic)</h3><p>반환은 <strong>토큰 효율</strong>적으로, 용도는 <strong>모호하지 않게 1:1</strong>, 오류에 견고, 입력 파라미터는 서술적. 겹치는 도구·과다 도구는 선택 오류를 부릅니다.</p></div>
+      <div class="card"><h3>관측성(필수)</h3><p>단계별 trace에 <code>trace_id, step_index, model_id, prompt_version, tool_call+args, retrieved_source, tokens(in/out), latency, decision, retry_count, stop_reason</code>. <strong>관측되지 않는 루프는 배포하지 않는다.</strong></p></div>
+      <div class="card"><h3>Eval 하네스(루프 지표)</h3><p>task/verified success, <strong>steps-to-done</strong>(p50/p95), no-progress rate, <strong>recovery-after-error rate</strong>, tool-call success, unsupported-claim rate, token/cost per success. golden+adversarial+regression set.</p></div>
+      <div class="card"><h3>재개·멱등성</h3><p>체크포인트로 중단 지점부터 재개. 같은 step을 두 번 실행해도 부작용이 한 번만 일어나도록 idempotency key 사용.</p></div>
+    </div>
+  </section>
+
+  <section id="maturity">
+    <h2>9. 프로덕션 성숙도와 준비도 체크리스트</h2>
+    <p>“실제 쓸 수 있는 수준”을 단계로 나눕니다. 대부분의 데모는 L0–L1에 머물고, 고객 대면·고위험 워크로드는 L4가 필요합니다.</p>
+    <table>
+      <thead><tr><th>레벨</th><th>이름</th><th>특징</th><th>적합</th></tr></thead>
+      <tbody>
+        <tr><td>L0</td><td>Prototype</td><td>while-loop + 도구, 상한 없음, 데모만</td><td>실험·PoC</td></tr>
+        <tr><td>L1</td><td>Guarded</td><td>max_steps/tokens/retry, done-tool, 기본 read-only</td><td>내부 보조 도구</td></tr>
+        <tr><td>L2</td><td>Observable</td><td>단계별 trace, eval set, 토큰 대시보드</td><td>파일럿</td></tr>
+        <tr><td>L3</td><td>Durable</td><td>체크포인트·재개, 멱등 tool, compaction/note-taking</td><td>장기·대량 작업</td></tr>
+        <tr><td>L4</td><td>Governed</td><td>human gate, 권한 분리, kill-switch, 감사 로그, rollback</td><td>고위험·고객 대면</td></tr>
+      </tbody>
+    </table>
+    <h3>Production 승격 체크리스트</h3>
+    <div class="codebox"><pre>루프를 production에 올리기 전:
+[ ] 종료 조건(max_steps/tokens/retry/no-progress/done-tool)이 모두 있는가
+[ ] 비용 kill-switch와 p95 token 예산이 있는가
+[ ] 모든 단계가 trace로 남고 재현 가능한가
+[ ] 실패가 요약되어 다음 턴에 들어가고, 무한 재시도가 막히는가
+[ ] 컨텍스트 전략(compaction/JIT/sub-agent)이 정의됐는가
+[ ] 상태 체크포인트로 중단·재개·롤백이 되는가
+[ ] 비가역 action 앞에 human gate가 있는가
+[ ] tool이 멱등하고 read/write/destructive가 분리됐는가
+[ ] golden/adversarial/regression eval이 있는가</pre></div>
+    <div class="callout risk"><strong>루프 고유 안티패턴:</strong> ① <strong>“loop until done” 맹신</strong>(종료·예산 없이 목표까지 돌림) → 폭주·비용 사고. ② <strong>context dumping</strong>(모든 결과를 그대로 누적) → context rot. ③ <strong>retry storm</strong>(압축·상한 없는 재시도). ④ <strong>공유 없는 멀티에이전트</strong>(서브가 맥락을 나눠 받지 못해 충돌) — 가능하면 단일 스레드 선형 루프를 먼저 고려. ⑤ <strong>evaluator theater</strong>(기준 없는 자기평가로 “개선” 주장). ⑥ <strong>관측 없는 배포</strong>(재현 불가).</div>
+  </section>
+
+  <section id="ag-ui">
+    <h2>10. AG-UI: 루프를 UI에 연결하기 (Agent–User Interaction Protocol)</h2>
+    <p>루프는 결국 <strong>사용자에게 보여지고, 조종되고, 승인</strong>되어야 합니다. <strong>AG-UI</strong>(Agent–User Interaction Protocol)는 agent 백엔드와 사용자 대면 앱을 잇는 <strong>open·lightweight·event-based</strong> 표준입니다(ag-ui-protocol, MIT, CopilotKit 발). §7–§9가 루프를 <em>운영 가능</em>하게 만든다면, AG-UI는 그 루프를 <em>사용자 대면 product</em>로 만드는 인터랙션 계층입니다.</p>
+    <h3>agentic 프로토콜 스택에서의 위치</h3>
+    <table>
+      <thead><tr><th>계층</th><th>프로토콜</th><th>역할</th></tr></thead>
+      <tbody>
+        <tr><td>Agent ↔ Tools/Data</td><td><strong>MCP</strong> (Model Context Protocol)</td><td>에이전트에 도구·데이터 연결(Anthropic 발)</td></tr>
+        <tr><td>Agent ↔ Agent</td><td><strong>A2A</strong> (Agent to Agent)</td><td>에이전트 간 협업·작업 분배(Google 발)</td></tr>
+        <tr><td>Agent ↔ User</td><td><strong>AG-UI</strong> (Agent–User Interaction)</td><td>에이전트를 사용자 대면 앱에 연결(이벤트 기반)</td></tr>
+      </tbody>
+    </table>
+    <div class="callout info"><strong>왜 필요한가:</strong> agent는 <strong>장기 실행·스트리밍·비결정적·구조화+비구조화 IO 혼합·재귀적 구성</strong>이라 전통적 REST/GraphQL 요청-응답 모델을 깨뜨립니다. AG-UI는 HTTP/WebSocket 위에서 이 간극을 메우는 추상화 계층입니다.</div>
+    <h3>동작: 루프가 이벤트를 emit한다</h3>
+    <p>루프 실행 중 백엔드가 <strong>약 16개 표준 이벤트</strong>를 emit하고, 프런트엔드가 구독합니다. 전송은 <strong>SSE·WebSocket·webhook 무관</strong>이며 loose format matching과 reference HTTP 구현·기본 connector를 제공합니다. §8의 <code>log(...)</code> 지점이 사실상 AG-UI 이벤트 발행 지점이 됩니다.</p>
+    <table>
+      <thead><tr><th>이벤트 카테고리</th><th>대표 이벤트</th><th>루프 연결(§7–§9)</th></tr></thead>
+      <tbody>
+        <tr><td>Lifecycle</td><td><code>RUN_STARTED/FINISHED/ERROR</code>, <code>STEP_STARTED/FINISHED</code></td><td>루프 시작·종료·단계 경계, stop_reason</td></tr>
+        <tr><td>Text message</td><td><code>TEXT_MESSAGE_START/CONTENT/END</code></td><td>토큰 스트리밍 출력</td></tr>
+        <tr><td>Tool call</td><td><code>TOOL_CALL_START/ARGS/END</code>, <code>TOOL_CALL_RESULT</code></td><td>도구 호출·결과 스트리밍(tools=structured outputs)</td></tr>
+        <tr><td>State</td><td><code>STATE_SNAPSHOT</code>, <code>STATE_DELTA</code>(JSON Patch), <code>MESSAGES_SNAPSHOT</code></td><td>양방향 상태 동기화·체크포인트</td></tr>
+        <tr><td>Special</td><td><code>RAW</code>, <code>CUSTOM</code></td><td>스펙 미커버 데이터·확장</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn"><strong>주의:</strong> 정확한 이벤트 이름·개수는 스펙 버전에 따라 달라질 수 있으므로 도입 시 공식 이벤트 문서를 확인하세요.</div>
+    <h3>루프 엔지니어링과 매핑되는 빌딩블록</h3>
+    <div class="grid3">
+      <div class="card"><h3>스트리밍 채팅</h3><p>토큰·이벤트 실시간 스트리밍, <strong>cancel/resume</strong>. §8의 timeout·중단과 연결.</p></div>
+      <div class="card"><h3>양방향 shared state</h3><p>read-only/read-write 타입드 스토어, <strong>event-sourced diff(STATE_DELTA)·충돌 해소</strong>. §8 checkpoint를 UI와 공유.</p></div>
+      <div class="card"><h3>Generative UI</h3><p>모델 출력을 <strong>안정적·타입드 컴포넌트</strong>(static/declarative)로 렌더. 자유 텍스트 대신 통제된 UI.</p></div>
+      <div class="card"><h3>Thinking steps</h3><p>trace·tool 이벤트에서 <strong>중간 추론을 시각화</strong>(raw chain-of-thought는 노출 안 함). §8 관측 trace의 사용자 버전.</p></div>
+      <div class="card"><h3>HITL interrupts</h3><p>흐름 중 <strong>pause·approve·edit·retry·escalate</strong>를 상태 손실 없이. §7 “사람도 도구 호출로”의 표준 구현.</p></div>
+      <div class="card"><h3>Sub-agent·steering</h3><p>scoped state·tracing·cancellation의 <strong>중첩 위임</strong>, 실시간 <strong>agent steering</strong>으로 실행 방향 재지정.</p></div>
+    </div>
+    <h3>설계 고려사항</h3>
+    <div class="grid2">
+      <div class="card"><h3>이벤트를 1급 시민으로</h3><p>관측 로그를 사후에 붙이지 말고, 루프 단계마다 <strong>이벤트를 발행</strong>하도록 설계. §8 trace 필드가 그대로 이벤트 payload가 된다.</p></div>
+      <div class="card"><h3>스냅샷보다 델타</h3><p>매 턴 전체 상태 대신 <code>STATE_DELTA</code>(JSON Patch)로 동기화해 지연·대역폭을 줄인다. read-write엔 충돌 해소 규칙 필수.</p></div>
+      <div class="card"><h3>raw CoT 비노출</h3><p>thinking steps는 trace·tool 이벤트에서 구성하고 <strong>원시 사고사슬은 내보내지 않는다</strong>(안전·일관성).</p></div>
+      <div class="card"><h3>전송 독립·중단 가능</h3><p>SSE/WebSocket/webhook 무관, cancel/resume 토큰으로 §8 체크포인트와 연결해 중단·재개를 UI에서 제어.</p></div>
+    </div>
+    <div class="callout good"><strong>연결 요약:</strong> AG-UI는 §8의 <em>관측·trace</em>를 표준 이벤트로, §7의 <em>human-via-tool-calls</em>를 interrupts로, <em>sub-agent</em>를 scoped composition으로, <em>checkpoint/resume</em>를 cancel/resume으로 매핑합니다. 즉 루프 엔지니어링 산출물을 그대로 사용자 인터페이스에 연결하는 표준입니다. LangGraph·CrewAI·Microsoft Agent Framework·Google ADK·AWS Strands/Bedrock AgentCore·Pydantic AI 등이 지원합니다.</div>
+    <div class="callout risk"><strong>경계:</strong> AG-UI는 <strong>프런트엔드 연결 표준</strong>이며 루프 로직·평가·보안·권한을 대체하지 않습니다. 프레임워크 지원 상태·이벤트 스펙·전송 방식은 버전에 따라 변하므로 도입 전 공식 문서(ag-ui.com)에서 재확인해야 합니다.</div>
+  </section>
+
+  <section id="youtube">
+    <h2>11. YouTube 신호 해석</h2>
+    <p>수집된 YouTube 결과는 모든 12개 topic에서 6건씩 총 72건이었습니다. 제목 기준으로 ReAct, LangGraph, AutoGen/CrewAI, agentic RAG, computer-use, coding agent loop가 교육·데모 콘텐츠로 활발히 설명되고 있음을 보여줍니다. 다만 이것은 관심 신호이지 성능 또는 채택률의 근거는 아닙니다.</p>
+    <table>
+      <thead><tr><th>Topic</th><th>YouTube 결과</th><th>대표 제목 예시</th><th>보고서 사용 방식</th></tr></thead>
+      <tbody>
+        <tr><td>ReAct</td><td>6</td><td>Building ReAct (Reason - Act - Observe) AI Agents using python in 2026</td><td>담론/교육 확산 신호</td></tr>
+        <tr><td>Plan-and-Execute</td><td>6</td><td>LangGraph Complete Course for Beginners</td><td>프레임워크 실습 신호</td></tr>
+        <tr><td>Reflection</td><td>6</td><td>Self-Reflection in LLM Agents</td><td>품질 개선 루프 관심 신호</td></tr>
+        <tr><td>Evaluator-Optimizer</td><td>6</td><td>Evaluator-Optimizer & Autonomous Agent Workflow Explained</td><td>평가자 루프 교육 신호</td></tr>
+        <tr><td>Tool-use</td><td>6</td><td>How AI Agents Use Tools (MCP & Function Calling Explained)</td><td>tool/MCP 담론 신호</td></tr>
+        <tr><td>Agentic RAG</td><td>6</td><td>What is Agentic RAG?</td><td>RAG 확장 관심 신호</td></tr>
+        <tr><td>Multi-agent</td><td>6</td><td>AutoGen vs CrewAI vs LangGraph</td><td>프레임워크 비교 신호</td></tr>
+        <tr><td>Human-in-loop</td><td>6</td><td>Human-in-the-Loop AI Agents in LangGraph</td><td>승인/운영 loop 관심 신호</td></tr>
+        <tr><td>Memory</td><td>6</td><td>The Four Types of Memory Every AI Agent Needs</td><td>memory 설계 관심 신호</td></tr>
+        <tr><td>Computer-use</td><td>6</td><td>Claude Cowork Computer Use: Massive Update!</td><td>화면 조작 데모 신호</td></tr>
+        <tr><td>Coding agent</td><td>6</td><td>Set a Goal, Walk Away: AI Agents That LOOP Until It's Done</td><td>장기 실행/자율 coding 관심 신호</td></tr>
+        <tr><td>State graph</td><td>6</td><td>LangGraph Complete Course for Beginners</td><td>stateful workflow 학습 신호</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn">
+      <strong>YouTube caveat:</strong> YouTube는 현장감과 사례 파악에는 유용하지만, 제목·영상 설명만으로 기술 성숙도나 운영 안정성을 판단하면 안 됩니다. 이 보고서에서는 T4 discovery signal로만 사용하고, 루프 정의는 논문/공식 문서/프레임워크 docs로 보강했습니다.
+    </div>
+  </section>
+
+  <section id="operations">
+    <h2>12. 운영 게이트와 런북</h2>
+    <table>
+      <thead><tr><th>Gate</th><th>Pass 조건</th><th>Revise 조건</th><th>Block 조건</th></tr></thead>
+      <tbody>
+        <tr><td>Token Budget Gate</td><td>p95 예상 토큰량이 예산 이하</td><td>예산 초과 가능성이 있으나 cap/summary 전략 있음</td><td>루프 반복·fan-out 제한 없음</td></tr>
+        <tr><td>Tool Safety Gate</td><td>tool allowlist, read/write 권한 분리</td><td>일부 tool payload가 큼</td><td>destructive tool이 auto 실행됨</td></tr>
+        <tr><td>Evaluation Gate</td><td>정량 테스트 또는 reviewer 기준 존재</td><td>부분 기준만 존재</td><td>평가 기준 없이 self-improvement 주장</td></tr>
+        <tr><td>Human Approval Gate</td><td>고위험 작업 human owner 명시</td><td>승인자는 있으나 escalation 불명확</td><td>prod/security/billing 작업 자동 승인</td></tr>
+        <tr><td>Observability Gate</td><td>step log, tool log, token usage, retry count 기록</td><td>일부 로그만 저장</td><td>왜 실패했는지 재현 불가</td></tr>
+      </tbody>
+    </table>
+    <table>
+      <thead><tr><th>장애 상황</th><th>감지 신호</th><th>즉시 조치</th><th>재개 조건</th></tr></thead>
+      <tbody>
+        <tr><td>토큰 급증</td><td>예상 대비 2배 이상, tool result 반복 증가</td><td>loop 중단, observation 요약, fan-out 축소</td><td>새 p95 budget 승인</td></tr>
+        <tr><td>반복 루프</td><td>같은 tool/plan 3회 이상 반복</td><td>retry cap hit로 block, human review</td><td>새 계획 또는 다른 루프 선택</td></tr>
+        <tr><td>도구 오작동</td><td>tool error rate 상승, schema mismatch</td><td>tool fallback, read-only mode</td><td>tool contract 재검증</td></tr>
+        <tr><td>평가자 불일치</td><td>judge 간 pass/revise/block 불일치</td><td>기준 명문화, 샘플 수 축소</td><td>합의된 rubric 존재</td></tr>
+        <tr><td>memory drift</td><td>낡은 preference, 잘못된 사실 반복</td><td>memory freeze, last-good 복구</td><td>memory provenance 확인</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="selection">
+    <h2>13. 044 모델 선택 체계와 연결</h2>
+    <p>044는 "어떤 모델/에이전트를 선택할지"를 다뤘고, 045는 "선택한 모델이 어떤 loop topology로 실행되어야 하는지"를 다룹니다. 실제 운영에서는 모델 선택과 루프 선택을 분리해 기록해야 합니다.</p>
+    <div class="codebox"><pre>selection_record_v2:
+{
+  "task_type": "research | code | review | ui_qa | operations",
+  "selected_model": "copilot-auto | claude | codex | gpt | gemini | local",
+  "selected_loop": "routing | react | plan_execute | evaluator_optimizer | agentic_rag | coding_agent",
+  "token_budget": { "p50": 60000, "p95": 180000, "kill_switch": 250000 },
+  "approval_mode": "auto | manual",
+  "evidence_tier_required": "T1 | T2 | T3 | T4",
+  "fallback_loop": "prompt_chaining",
+  "block_conditions": ["missing_eval", "unsafe_tool", "budget_exceeded"]
+}</pre></div>
+    <div class="callout good">
+      <strong>운영 추천:</strong> 044의 GitHub 에이전트 팀 적용법에 045의 <code>selected_loop</code> 필드를 추가합니다. 모델이 좋아도 루프가 과하면 비용이 폭증하고, 루프가 단순해도 모델이 맞지 않으면 품질이 떨어집니다. 따라서 <em>model fit</em>과 <em>loop fit</em>을 동시에 gate해야 합니다.
+    </div>
+  </section>
+
+  <section id="matrix">
+    <h2>14. Claim / Evidence Matrix</h2>
+    <table>
+      <thead><tr><th>Claim ID</th><th>주장</th><th>근거</th><th>신뢰도</th><th>Boundary</th></tr></thead>
+      <tbody>
+        <tr><td>CLM-045-001</td><td>최근 agent loop는 ReAct, planning, reflection, evaluator, tool-use, RAG, multi-agent, human gate, memory, computer-use, coding, state graph로 분류할 수 있다.</td><td>curated source bundle 16건 + discovery bundle 12 topic</td><td>중~높음</td><td>분류 체계이며 공식 표준 taxonomy는 아님</td></tr>
+        <tr><td>CLM-045-002</td><td>토큰량은 루프 이름보다 반복 횟수, 도구 결과, evaluator 수, retrieved chunk, retry budget에 더 크게 좌우된다.</td><td>루프 구조 분석 + SRE planner 검토</td><td>높음</td><td>정확한 token billing은 provider/model별 상이</td></tr>
+        <tr><td>CLM-045-003</td><td>YouTube에서는 agent loop 교육/데모가 모든 조사 topic에서 확인되었다.</td><td>ref/agent-loop-taxonomy-sources-2026-06-17.json (72 YouTube results)</td><td>중간</td><td>검색 snapshot이며 성숙도·채택률 근거가 아님</td></tr>
+        <tr><td>CLM-045-004</td><td>Multi-agent, computer-use, autonomous coding loop는 높은 토큰/운영 리스크를 가진다.</td><td>루프 구성요소 분석, 022/037/044 내부 자료, curated official docs</td><td>중간</td><td>작업 범위·tool cap·관측성에 따라 낮아질 수 있음</td></tr>
+        <tr><td>CLM-045-005</td><td>운영 기본값은 작은 루프에서 시작하고 필요 시 evaluator/parallelism/human gate를 추가하는 방식이다.</td><td>Anthropic effective agents 패턴, 044 model-selection gate, SRE review</td><td>중~높음</td><td>고위험 업무는 처음부터 human gate가 필요할 수 있음</td></tr>        <tr><td>CLM-045-006</td><td>Claude Code의 Dynamic Workflows는 LLM이 오케스트레이션 스크립트를 동적 생성하고 런타임이 백그라운드에서 실행해 subagent를 스케일로 fan-out하는 별도 패턴이다(런당 최대 16 동시·1,000 총 agent).</td><td>Claude Code Dynamic Workflows 공식 문서(docs.claude.com), 내부 037 문서</td><td>중~높음</td><td>research preview · 플랜/가용성·한도·토큰은 시점·계정별 상이, 도입 전 공식 문서 재확인</td></tr>
+        <tr><td>CLM-045-007</td><td>모든 agent loop는 'LLM이 다음 단계를 구조화 출력 → 결정론 코드가 실행 → 결과를 컨텍스트에 추가 → 종료까지 반복'의 공통 골격을 가지며, 엔지니어링 품질은 종료·컨텍스트·상태·오류 처리에서 갈린다.</td><td>12-factor agents (humanlayer), Anthropic building effective agents</td><td>중~높음</td><td>설계 관점이며 단일 표준은 아니다</td></tr>
+        <tr><td>CLM-045-008</td><td>컨텍스트는 유한 자원이며 길어질수록 정확도가 떨어진다(context rot/attention budget); compaction·note-taking·just-in-time·sub-agent로 관리한다.</td><td>Anthropic: Effective context engineering for AI agents (2025-09)</td><td>중~높음</td><td>모델별 저하 양상은 다름; 점진 개선 가능</td></tr>
+        <tr><td>CLM-045-009</td><td>production 품질은 프레임워크가 아니라 흐름·컨텍스트·상태·관측을 직접 소유하는 데서 나온다(많은 팀이 70–80%에서 정체).</td><td>12-factor agents (humanlayer, 23.5k★)</td><td>중간</td><td>현장 경험 기반 주장, 회사·팀별 상이</td></tr>
+        <tr><td>CLM-045-010</td><td>AG-UI는 agent↔user 상호작용을 표준화하는 이벤트 기반 프로토콜로, 루프가 약 16개 표준 이벤트를 emit해 스트리밍·상태동기·HITL·generative UI를 제공한다(MCP·A2A와 보완).</td><td>AG-UI 공식 문서 · ag-ui-protocol/ag-ui (14.4k★, MIT)</td><td>중~높음</td><td>프레임워크 지원·이벤트 스펙은 버전별 변동; frontend 연결 표준이며 루프 로직·보안을 대체하지 않음</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="references">
+    <h2>15. References</h2>
+    <p class="muted">전체 검색 결과는 source bundle 두 개에 저장되어 있습니다. 본문은 핵심 anchor만 직접 열거합니다.</p>
+    <ol>
+      <li><a href="../ref/agent-loop-taxonomy-sources-2026-06-17.json">ref/agent-loop-taxonomy-sources-2026-06-17.json</a> — Argus web + YouTube discovery bundle.</li>
+      <li><a href="../ref/agent-loop-taxonomy-curated-sources-2026-06-17.json">ref/agent-loop-taxonomy-curated-sources-2026-06-17.json</a> — curated official/docs/paper anchor bundle.</li>
+      <li><a href="https://arxiv.org/abs/2210.03629">ReAct: Synergizing Reasoning and Acting in Language Models</a></li>
+      <li><a href="https://arxiv.org/abs/2303.17651">Self-Refine: Iterative Refinement with Self-Feedback</a></li>
+      <li><a href="https://arxiv.org/abs/2303.11366">Reflexion: Language Agents with Verbal Reinforcement Learning</a></li>
+      <li><a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic: Building effective agents</a></li>
+      <li><a href="https://github.com/humanlayer/12-factor-agents">12-Factor Agents — Principles for building reliable LLM applications (humanlayer)</a></li>
+      <li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Anthropic: Effective context engineering for AI agents</a></li>
+      <li><a href="https://cognition.ai/blog/dont-build-multi-agents">Cognition: Don’t build multi-agents</a></li>
+      <li><a href="https://docs.ag-ui.com/introduction">AG-UI — Agent–User Interaction Protocol (공식 문서)</a></li>
+      <li><a href="https://github.com/ag-ui-protocol/ag-ui">ag-ui-protocol/ag-ui (event types·SDK·integrations, MIT)</a></li>
+      <li><a href="https://youtu.be/A7gwGNsL6y4">실밤개발자 — “루프 엔지니어링: ‘프롬프트하는 나’를 시스템으로 대체하는 법” (실무자 강연 · 본 문서 §7 프레이밍 출처 · 영상 본문 자동 추출 불가)</a></li>
+      <li><a href="https://docs.claude.com/en/docs/claude-code/workflows">Claude Code: Dynamic workflows (research preview · 정의·한도·비용)</a></li>
+      <li><a href="037-claude-code-dynamic-workflows-to-copilot-2026-07-10.html">내부 037 — Claude Code Dynamic Workflows와 GitHub Copilot 구현 전략</a></li>
+      <li><a href="https://langchain-ai.github.io/langgraph/">LangGraph documentation</a></li>
+      <li><a href="https://microsoft.github.io/autogen/">Microsoft AutoGen documentation</a></li>
+      <li><a href="https://docs.crewai.com/">CrewAI documentation</a></li>
+      <li><a href="https://platform.openai.com/docs/guides/function-calling">OpenAI function calling guide</a></li>
+      <li><a href="https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview">Anthropic tool use documentation</a></li>
+      <li><a href="https://docs.anthropic.com/en/docs/agents-and-tools/computer-use">Anthropic computer use documentation</a></li>
+      <li><a href="https://docs.github.com/en/copilot/using-github-copilot/coding-agent">GitHub Copilot coding agent documentation</a></li>
+      <li><a href="https://github.com/SWE-agent/SWE-agent">SWE-agent repository</a></li>
+    </ol>
+    <div class="callout warn">
+      <strong>Final caveat:</strong> 이 보고서는 공개 검색 snapshot과 curated anchor를 결합한 구조적 비교입니다. Harness PASS is structural validation, not factual verification. YouTube 결과는 최신 담론 신호로만 사용하며, 특정 루프의 성능·채택률·비용 절감을 보장하지 않습니다.
+    </div>
+  </section>
+</main>
+
+<footer class="wrap" style="padding:34px 0 56px; color:var(--muted); font-size:13px;">
+  <p>Generated for harness-gen · output 045 · source snapshot 2026-06-17 · loop taxonomy and token budget caveated.</p>
+</footer>
+</body>
+</html>

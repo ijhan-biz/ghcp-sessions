@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="final-updated" content="2026-07-13" />
+<title>첫날 돌아보기 | 원하는 결과에서 결정론적 검증까지</title>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; }
+html { background: var(--cp-bg); }
+body {
+  margin: 0;
+  overflow: hidden;
+  background: var(--cp-bg);
+  color: var(--cp-text);
+  font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+button { font: inherit; }
+.deck { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.deck::before {
+  content: "";
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 8px;
+  background: var(--cp-accent);
+  z-index: 20;
+}
+.progress-track {
+  position: fixed;
+  top: 0;
+  left: 8px;
+  right: 0;
+  height: 4px;
+  background: var(--cp-border);
+  z-index: 30;
+}
+.progress-bar {
+  width: 10%;
+  height: 100%;
+  background: var(--cp-accent);
+  transition: width 240ms ease;
+}
+.slide {
+  position: absolute;
+  inset: 4px 0 96px 8px;
+  display: none;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 24px;
+  padding: 42px 64px 34px;
+  overflow-y: auto;
+  background: var(--cp-bg);
+}
+.slide.active { display: grid; animation: enter 300ms ease both; }
+@keyframes enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.slide-header, .slide-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.slide-header { min-height: 24px; }
+.eyebrow, .slide-order, .footer-label, .micro-label {
+  margin: 0;
+  color: var(--cp-text-muted);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.eyebrow { color: var(--cp-accent); text-transform: uppercase; }
+.slide-content {
+  width: min(100%, 1240px);
+  margin: auto;
+  align-self: center;
+}
+h1, h2, h3, p { margin-top: 0; }
+h1 {
+  max-width: 980px;
+  margin-bottom: 24px;
+  font-size: 58px;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+h2 {
+  max-width: 1120px;
+  margin-bottom: 28px;
+  font-size: 42px;
+  line-height: 1.16;
+  letter-spacing: 0;
+}
+h3 { margin-bottom: 12px; font-size: 21px; line-height: 1.3; }
+p, li { font-size: 18px; line-height: 1.55; }
+p { color: var(--cp-text-soft); }
+strong { color: var(--cp-text); }
+.lead { max-width: 920px; font-size: 24px; line-height: 1.5; }
+.accent { color: var(--cp-accent); }
+.muted { color: var(--cp-text-muted); }
+.mono { font-family: Consolas, "Courier New", Courier, monospace; }
+.hero-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(300px, .7fr); gap: 56px; align-items: center; }
+.hero-mark {
+  min-height: 330px;
+  display: grid;
+  place-content: center;
+  border: 1px solid var(--cp-border-strong);
+  border-top: 12px solid var(--cp-accent);
+  background: var(--cp-surface);
+  text-align: center;
+}
+.hero-mark .day { color: var(--cp-accent); font-size: 20px; font-weight: 800; }
+.hero-mark .one { font-size: 124px; font-weight: 800; line-height: .9; }
+.hero-mark .caption { margin-top: 18px; color: var(--cp-text-muted); font-size: 16px; font-weight: 700; }
+.throughline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 34px;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface);
+}
+.throughline > div { padding: 18px 20px; border-right: 1px solid var(--cp-border); }
+.throughline > div:last-child { border-right: 0; }
+.throughline b { display: block; margin-bottom: 4px; font-size: 17px; }
+.throughline span { color: var(--cp-text-muted); font-size: 14px; }
+.chain { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 0; padding: 0; list-style: none; }
+.chain li {
+  position: relative;
+  min-height: 210px;
+  padding: 28px 26px;
+  border: 1px solid var(--cp-border);
+  border-right: 0;
+  background: var(--cp-surface);
+}
+.chain li:last-child { border-right: 1px solid var(--cp-border); }
+.chain li::after {
+  content: "→";
+  position: absolute;
+  top: 50%;
+  right: -15px;
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--cp-border-strong);
+  border-radius: 50%;
+  background: var(--cp-bg-elevated);
+  color: var(--cp-accent);
+  font-weight: 800;
+  transform: translateY(-50%);
+}
+.chain li:last-child::after { display: none; }
+.chain .chain-no { display: block; margin-bottom: 34px; color: var(--cp-accent); font-size: 15px; font-weight: 800; }
+.chain b { display: block; margin-bottom: 8px; font-size: 22px; }
+.chain small { color: var(--cp-text-muted); font-size: 15px; line-height: 1.5; }
+.statement {
+  margin-top: 24px;
+  padding: 20px 24px;
+  border-left: 5px solid var(--cp-accent);
+  background: var(--cp-accent-soft);
+  color: var(--cp-text);
+  font-size: 20px;
+  font-weight: 700;
+}
+.split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
+.panel {
+  min-width: 0;
+  padding: 26px 28px;
+  border: 1px solid var(--cp-border);
+  border-radius: 16px;
+  background: var(--cp-surface);
+}
+.panel.bad { border-top: 7px solid var(--cp-danger); }
+.panel.good { border-top: 7px solid var(--cp-success); }
+.panel.accented { border-top: 7px solid var(--cp-accent); }
+.quote {
+  margin: 26px 0 20px;
+  color: var(--cp-text);
+  font-size: 30px;
+  font-weight: 750;
+  line-height: 1.3;
+}
+.reason { color: var(--cp-text-muted); font-size: 16px; }
+.six-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
+.six-item { padding: 15px 16px; border: 1px solid var(--cp-border); background: var(--cp-surface-soft); }
+.six-item b { display: block; color: var(--cp-accent); font-size: 15px; }
+.six-item span { color: var(--cp-text-muted); font-size: 13px; }
+.brief-layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(330px, .7fr); gap: 28px; }
+.brief {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface);
+  list-style: none;
+  counter-reset: brief;
+}
+.brief li { min-height: 104px; padding: 20px 22px; border-right: 1px solid var(--cp-border); border-bottom: 1px solid var(--cp-border); }
+.brief li:nth-child(even) { border-right: 0; }
+.brief li:nth-last-child(-n+2) { border-bottom: 0; }
+.brief li::before {
+  counter-increment: brief;
+  content: "0" counter(brief);
+  display: block;
+  margin-bottom: 6px;
+  color: var(--cp-accent);
+  font-family: Consolas, "Courier New", Courier, monospace;
+  font-size: 13px;
+  font-weight: 800;
+}
+.brief b { display: block; font-size: 17px; }
+.brief small { color: var(--cp-text-muted); font-size: 13px; }
+.plan-panel { display: flex; flex-direction: column; justify-content: space-between; }
+.plan-panel .phase { padding: 16px 0; border-bottom: 1px solid var(--cp-border); }
+.plan-panel .phase:last-child { border-bottom: 0; }
+.phase b { display: block; margin-bottom: 4px; font-size: 18px; }
+.phase span { color: var(--cp-text-muted); font-size: 14px; }
+.phase.current b { color: var(--cp-accent); }
+.ac-table { width: 100%; border-collapse: collapse; background: var(--cp-surface); }
+.ac-table th, .ac-table td { padding: 18px 20px; border: 1px solid var(--cp-border); text-align: left; vertical-align: top; }
+.ac-table th { background: var(--cp-surface-soft); color: var(--cp-text-muted); font-size: 14px; }
+.ac-table td { font-size: 17px; }
+.ac-table .case-label { color: var(--cp-accent); font-weight: 800; }
+.check { color: var(--cp-accent); font-weight: 800; }
+.criteria-list { margin: 0; padding: 0; list-style: none; }
+.criteria-list li { position: relative; padding: 14px 0 14px 34px; border-bottom: 1px solid var(--cp-border); }
+.criteria-list li:last-child { border-bottom: 0; }
+.criteria-list li::before { content: "✓"; position: absolute; left: 0; color: var(--cp-success); font-weight: 900; }
+.command {
+  display: block;
+  margin-top: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface-soft);
+  color: var(--cp-text);
+  font-family: Consolas, "Courier New", Courier, monospace;
+  font-size: 14px;
+}
+.non-goal { margin: 20px 0 0; padding: 18px 20px; border-left: 5px solid var(--cp-warning); background: var(--cp-surface-soft); }
+.non-goal b { color: var(--cp-text); }
+.triage { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.actor { min-height: 280px; padding: 26px; border: 1px solid var(--cp-border); background: var(--cp-surface); }
+.actor .actor-id { display: block; margin-bottom: 30px; color: var(--cp-accent); font-size: 13px; font-weight: 800; }
+.actor h3 { font-size: 24px; }
+.actor ul { margin: 16px 0 0; padding-left: 20px; }
+.actor li { margin: 8px 0; color: var(--cp-text-soft); font-size: 15px; }
+.actor.no-model { border-top: 7px solid var(--cp-success); }
+.actor.ai { border-top: 7px solid var(--cp-accent); }
+.actor.human { border-top: 7px solid var(--cp-border-strong); }
+.evidence-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, .85fr); gap: 28px; }
+.evidence-steps { margin: 0; padding: 0; list-style: none; counter-reset: evidence; }
+.evidence-steps li { position: relative; min-height: 90px; padding: 18px 20px 18px 76px; border-bottom: 1px solid var(--cp-border); background: var(--cp-surface); }
+.evidence-steps li:last-child { border-bottom: 0; }
+.evidence-steps li::before {
+  counter-increment: evidence;
+  content: counter(evidence);
+  position: absolute;
+  left: 20px;
+  top: 18px;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--cp-border-strong);
+  color: var(--cp-accent);
+  font-weight: 800;
+}
+.evidence-steps b { display: block; font-size: 17px; }
+.evidence-steps span { color: var(--cp-text-muted); font-size: 14px; }
+.decision { display: flex; flex-direction: column; justify-content: space-between; border-top: 7px solid var(--cp-accent); }
+.decision .big { color: var(--cp-text); font-size: 28px; font-weight: 750; line-height: 1.35; }
+.decision .foot { color: var(--cp-text-muted); font-size: 14px; }
+.constraint-pair { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center; margin-bottom: 24px; }
+.constraint-pair > div { padding: 18px 20px; border: 1px solid var(--cp-border); background: var(--cp-surface); }
+.constraint-pair .arrow-large { color: var(--cp-accent); font-size: 28px; font-weight: 800; }
+.constraint-pair b { display: block; margin-bottom: 6px; font-size: 16px; }
+.constraint-pair span { color: var(--cp-text-muted); font-size: 14px; }
+.harness-map { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border: 1px solid var(--cp-border); background: var(--cp-surface); }
+.harness-node { min-height: 150px; padding: 20px 16px; border-right: 1px solid var(--cp-border); }
+.harness-node:last-child { border-right: 0; }
+.harness-node .node-id { display: block; margin-bottom: 26px; color: var(--cp-accent); font-size: 12px; font-weight: 800; }
+.harness-node b { display: block; margin-bottom: 6px; font-size: 16px; }
+.harness-node small { color: var(--cp-text-muted); font-size: 12px; line-height: 1.45; }
+.loop { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin-bottom: 24px; border: 1px solid var(--cp-border); background: var(--cp-surface); }
+.loop-step { min-height: 146px; padding: 22px 18px; border-right: 1px solid var(--cp-border); }
+.loop-step:last-child { border-right: 0; }
+.loop-step .loop-no { color: var(--cp-accent); font-size: 13px; font-weight: 800; }
+.loop-step b { display: block; margin: 28px 0 6px; font-size: 18px; }
+.loop-step small { color: var(--cp-text-muted); font-size: 13px; }
+.final-principle {
+  padding: 30px 34px;
+  border: 1px solid var(--cp-border-strong);
+  border-left: 10px solid var(--cp-accent);
+  background: var(--cp-surface);
+}
+.final-principle p { margin: 0; color: var(--cp-text); font-size: 29px; font-weight: 750; line-height: 1.42; }
+.final-principle .sequence { display: block; margin-top: 14px; color: var(--cp-accent); font-size: 16px; font-weight: 800; }
+.controls {
+  position: fixed;
+  right: 22px;
+  bottom: 18px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px;
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-panel-strong);
+}
+.controls button {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-surface);
+  color: var(--cp-text);
+  cursor: pointer;
+  font-size: 20px;
+}
+.controls button:hover { border-color: var(--cp-accent); color: var(--cp-accent); }
+.controls button:focus-visible { outline: 3px solid var(--cp-accent); outline-offset: 2px; }
+.controls button:disabled { color: var(--cp-text-muted); cursor: not-allowed; }
+.counter { min-width: 62px; color: var(--cp-text-muted); font-family: Consolas, "Courier New", Courier, monospace; font-size: 13px; text-align: center; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+html[data-theme="dark"] .slide-order,
+html[data-theme="dark"] .footer-label,
+html[data-theme="dark"] .micro-label,
+html[data-theme="dark"] .muted,
+html[data-theme="dark"] .hero-mark .caption,
+html[data-theme="dark"] .throughline span,
+html[data-theme="dark"] .chain small,
+html[data-theme="dark"] .reason,
+html[data-theme="dark"] .six-item span,
+html[data-theme="dark"] .brief small,
+html[data-theme="dark"] .phase span,
+html[data-theme="dark"] .ac-table th,
+html[data-theme="dark"] .evidence-steps span,
+html[data-theme="dark"] .decision .foot,
+html[data-theme="dark"] .constraint-pair span,
+html[data-theme="dark"] .harness-node small,
+html[data-theme="dark"] .loop-step small,
+html[data-theme="dark"] .counter,
+html[data-theme="dark"] .controls button:disabled { color: var(--cp-text-soft); }
+
+@media (max-width: 1080px) {
+  .slide { padding: 34px 42px 28px; gap: 18px; }
+  h1 { font-size: 48px; }
+  h2 { font-size: 34px; margin-bottom: 22px; }
+  .hero-layout { gap: 30px; }
+  .hero-mark { min-height: 280px; }
+  .hero-mark .one { font-size: 100px; }
+  .harness-node { padding: 16px 12px; }
+}
+@media (max-width: 760px) {
+  .deck::before { width: 5px; }
+  .progress-track { left: 5px; }
+  .slide { inset: 4px 0 76px 5px; grid-template-rows: auto auto auto; padding: 24px 20px; gap: 16px; }
+  .slide-header { align-items: flex-start; }
+  .slide-content { width: 100%; align-self: start; margin-top: 8px; }
+  h1 { font-size: 34px; line-height: 1.14; }
+  h2 { font-size: 29px; line-height: 1.22; }
+  h3 { font-size: 19px; }
+  p, li { font-size: 16px; }
+  .lead { font-size: 19px; }
+  .hero-layout, .brief-layout, .evidence-layout { grid-template-columns: 1fr; }
+  .hero-mark { min-height: 210px; }
+  .hero-mark .one { font-size: 76px; }
+  .throughline, .chain, .triage, .harness-map, .loop { grid-template-columns: 1fr; }
+  .throughline > div { border-right: 0; border-bottom: 1px solid var(--cp-border); }
+  .throughline > div:last-child { border-bottom: 0; }
+  .chain li { min-height: 0; border-right: 1px solid var(--cp-border); border-bottom: 0; }
+  .chain li:last-child { border-bottom: 1px solid var(--cp-border); }
+  .chain li::after { display: none; }
+  .chain .chain-no { margin-bottom: 12px; }
+  .split { grid-template-columns: 1fr; }
+  .six-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .brief { grid-template-columns: 1fr; }
+  .brief li, .brief li:nth-child(even), .brief li:nth-last-child(-n+2) { min-height: 0; border-right: 0; border-bottom: 1px solid var(--cp-border); }
+  .brief li:last-child { border-bottom: 0; }
+  .ac-table, .ac-table thead, .ac-table tbody, .ac-table tr, .ac-table th, .ac-table td { display: block; }
+  .ac-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; }
+  .ac-table tr { border-bottom: 8px solid var(--cp-bg); }
+  .ac-table td { border-bottom: 0; }
+  .actor { min-height: 0; }
+  .constraint-pair { grid-template-columns: 1fr; }
+  .constraint-pair .arrow-large { transform: rotate(90deg); text-align: center; }
+  .harness-node, .loop-step { min-height: 0; border-right: 0; border-bottom: 1px solid var(--cp-border); }
+  .harness-node:last-child, .loop-step:last-child { border-bottom: 0; }
+  .harness-node .node-id, .loop-step b { margin: 0 0 6px; }
+  .final-principle p { font-size: 22px; }
+  .slide-footer { margin-top: 12px; }
+  .controls { right: 12px; bottom: 10px; }
+  .controls .optional { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}
+@media print {
+  @page { size: 13.333in 7.5in; margin: 0; }
+  html[data-theme="dark"] {
+    color-scheme: light;
+    --cp-bg: #f7f4ef;
+    --cp-bg-elevated: #fcfbf8;
+    --cp-surface: #ffffff;
+    --cp-surface-soft: #f5f5f5;
+    --cp-border: #dedede;
+    --cp-border-strong: #919191;
+    --cp-text: #242424;
+    --cp-text-muted: #5c5c5c;
+    --cp-text-soft: #6f6f6f;
+    --cp-accent: #b11f4b;
+    --cp-accent-hover: #9a1a41;
+    --cp-accent-soft: rgba(177, 31, 75, 0.08);
+    --cp-accent-fg: #ffffff;
+    --cp-success: #16a34a;
+    --cp-danger: #dc2626;
+    --cp-warning: #f59e0b;
+    --cp-link: #0078d4;
+    --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+    --cp-overlay: rgba(255, 255, 255, 0.8);
+    --cp-panel: rgba(255, 255, 255, 0.86);
+    --cp-panel-strong: rgba(255, 255, 255, 0.96);
+    --cp-sheen: rgba(255, 255, 255, 0.55);
+    --cp-highlight: rgba(177, 31, 75, 0.12);
+  }
+  html, body { width: auto; height: auto; overflow: visible; }
+  html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .deck { overflow: visible; }
+  .deck::before, .progress-track, .controls { display: none; }
+  .slide, .slide.active {
+    position: relative;
+    inset: auto;
+    width: 13.333in;
+    height: 7.5in;
+    display: grid;
+    padding: 0.42in 0.58in 0.34in;
+    overflow: hidden;
+    animation: none;
+    break-after: page;
+    page-break-after: always;
+  }
+}
+</style>
+</head>
+<body>
+<main class="deck" aria-label="첫날 돌아보기 슬라이드">
+  <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div>
+
+  <section class="slide active" id="slide-1" data-title="첫날 돌아보기" aria-hidden="false">
+    <header class="slide-header">
+      <p class="eyebrow">Day 1 Retrospective</p>
+      <p class="slide-order">01 / 10</p>
+    </header>
+    <div class="slide-content hero-layout">
+      <div>
+        <h1>잘 시키는 법은<br /><span class="accent">잘 검증하는 법</span>이다</h1>
+        <p class="lead">원하는 결과를 먼저 정의하고, 완료 기준을 붙이고, 맞는 주체와 모델을 고른 뒤, 재실행 가능한 하네스로 증거를 남긴다.</p>
+        <div class="throughline" aria-label="첫날 회고의 네 단계">
+          <div><b>무엇</b><span>원하는 결과</span></div>
+          <div><b>AC</b><span>완료의 기준</span></div>
+          <div><b>누가</b><span>사람·도구·모델</span></div>
+          <div><b>어떻게 확인</b><span>결정론적 하네스</span></div>
+        </div>
+      </div>
+      <div class="hero-mark" aria-label="첫날 돌아보기">
+        <span class="day">DAY</span>
+        <span class="one">1</span>
+        <span class="caption">생각 → 기준 → 선택 → 검증</span>
+      </div>
+    </div>
+    <footer class="slide-footer"><span class="footer-label">GitHub Copilot 중급과정</span><span class="footer-label">첫날 돌아보기</span></footer>
+  </section>
+
+  <section class="slide" id="slide-2" data-title="한 문장으로 이어지는 회고" aria-hidden="true">
+    <header class="slide-header">
+      <p class="eyebrow">Throughline</p>
+      <p class="slide-order">02 / 10</p>
+    </header>
+    <div class="slide-content">
+      <h2>오늘의 회고는 <span class="accent">한 문장</span>으로 이어진다</h2>
+      <ol class="chain">
+        <li><span class="chain-no">STEP 01</span><b>결과를 정의한다</b><small>시키기 전에 무엇이 끝인지 사람이 먼저 정한다.</small></li>
+        <li><span class="chain-no">STEP 02</span><b>AC를 붙인다</b><small>정상·예외·경계를 측정 가능한 기준으로 바꾼다.</small></li>
+        <li><span class="chain-no">STEP 03</span><b>주체를 선택한다</b><small>사람·도구·AI 중 누가 맡을 일인지 먼저 나눈다.</small></li>
+        <li><span class="chain-no">STEP 04</span><b>증거를 남긴다</b><small>같은 명령으로 다시 확인할 수 있게 하네스로 고정한다.</small></li>
+      </ol>
+      <div class="statement">모델은 목표를 대신 정하지 않는다. 하네스도 기준이 없는 결과를 구해주지 않는다.</div>
+    </div>
+    <footer class="slide-footer"><span class="footer-label">무엇 → AC → 누가 → 검증</span><span class="footer-label">02</span></footer>
+  </section>
+
+  <section class="slide" id="slide-3" data-title="끝의 모양을 먼저 정하기" aria-hidden="true">
+    <header class="slide-header">
+      <p class="eyebrow">01 · Define the outcome</p>
+      <p class="slide-order">03 / 10</p>
+    </header>
+    <div class="slide-content">
+      <h2>시키기 전에 <span class="accent">끝의 모양</span>을 정한다</h2>
+      <div class="split">
+        <article class="panel bad">
+          <p class="micro-label">안티패턴</p>
+          <p class="quote">“알아서 잘 해줘.”</p>
+          <p class="reason">무엇이 완료인지, 무엇을 바꾸면 안 되는지, 어떻게 확인할지 모두 모델에게 떠넘긴다.</p>
+        </article>
+        <article class="panel good">
+          <p class="micro-label">좋은 지시</p>
+          <div class="six-grid" aria-label="좋은 지시의 여섯 요소">
+            <div class="six-item"><b>R · 역할</b><span>누구로 일하는가</span></div>
+            <div class="six-item"><b>C · 맥락</b><span>무엇을 알고 시작하는가</span></div>
+            <div class="six-item"><b>T · 작업</b><span>무엇을 바꾸는가</span></div>
+            <div class="six-item"><b>C · 제약</b><span>무엇을 넘지 않는가</span></div>
+            <div class="six-item"><b>V · 검증</b><span>어떻게 통과를 확인하는가</span></div>
+            <div class="six-item"><b>O · 출력</b><span>어떤 형태로 끝나는가</span></div>
+          </div>
+          <p class="reason">R/C/T/C/V/O는 프롬프트를 길게 만드는 형식이 아니라 완료의 경계를 먼저 고정하는 장치다.</p>
+        </article>
+      </div>
+    </div>
+    <footer class="slide-footer"><span class="footer-label">Role · Context · Task · Constraints · Validation · Output</span><span class="footer-label">03</span></footer>
+  </section>
+
+  <section class="slide" id="slide-4" data-title="12줄 브리프와 Plan Mode" aria-hidden="true">
+    <header class="slide-header">
+      <p class="eyebrow">01 · Brief before build</p>
+      <p class="slide-order">04 / 10</p>
+    </header>
+    <div class="slide-content">
+      <h2><span class="accent">약 12줄</span>이면 재작업을 줄일 수 있다</h2>
+      <div class="brief-layout">
+        <ol class="brief">
+          <li><b>목표</b><small>왜 이 일을 하는가</small></li>
+          <li><b>변경 범위</b><small>어디까지 바꾸는가</small></li>
+          <li><b>제외 범위</b><small>무엇은 건드리지 않는가</small></li>
+          <li><b>관련 파일</b><small>출발점은 어디인가</small></li>
+          <li><b>실패 로그</b><small>지금 무엇이 깨졌는가</small></li>
+          <li><b>완료 조건</b><small>무엇이 통과하면 끝인가</small></li>
+        </ol>
+        <aside class="panel accented plan-panel">
+          <div>
+            <p class="micro-label">Plan Mode</p>
+            <p class="quote">코드보다 먼저<br />범위와 기준을 합의한다.</p>
+          </div>
+          <div>
+            <div class="phase current"><b>1 · 계획</b><span>가설·범위·AC·검증 방법</span></div>
+            <div class="phase"><b>2 · 실행</b><span>합의된 범위 안의 최소 변경</span></div>
+            <div class="phase"><b>3 · 판정</b><span>명시한 명령과 증거로 완료 결정</span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+    <footer class="slide-footer"><span class="footer-label">계획과 실행을 분리하는 것은 재작업을 막는 투자</span><span class="footer-label">04</span></footer>
+  </section>
+
+  <section class="slide" id="slide-5" data-title="AC의 정상 예외 경계" aria-hidden="true">
+    <header class="slide-header">
+      <p class="eyebrow">02 · Acceptance Criteria</p>
+      <p class="slide-order">05 / 10</p>
+    </header>
+    <div class="slide-content">
+      <h2>AC는 <span class="accent">정상·예외·경계</span>로 나눠 쓴다</h2>
+      <table class="ac-table">
+        <thead><tr><th>구분</th><th>완료 기준</th><th>검증 예시</th><th>판정</th></tr></thead>
+        <tbody>
+          <tr><td class="case-label">정상</td><td>일반 상품에는 세율 10%를 적용한다.</td><td class="mono">tax(1000) === 100</td><td class="check">PASS / FAIL</td></tr>
+          <tr><td class="case-label">예외</td><td>면세 상품에는 세금 0을 반환한다.</td><td class="mono">tax(1000, true) === 0</td><td class="check">PASS / FAIL</td></tr>
+          <tr><td class="case-label">경계</td><td>음수 금액 입력은 오류로 거부한다.</td><td class="mono">tax(-1) throws</td><td class="check">PASS / FAIL</td></tr>
+        </tbody>
+      </table>
+      <div class="statement">AC가 없다는 것은 완료 판정을 모델에게 맡긴 것이다. 결국 시킬 일을 사람이 덜 검증한 셈이다.</div>
+    </div>
+    <footer class="slide-footer"><span class="footer-label">Happy path만 쓰면 실제 경계는 모델이 추측한다</span><span class="footer-label">05</span></footer>
+  </section>
+
+  <section class="slide" id="slide-6" data-title="측정 가능한 AC" aria-hidden="true">
+    <header class="slide-header">
+      <p class="eyebrow">02 · Measurable evidence</p>
+      <p class="slide-order">06 / 10</p>
+    </header>
+    <div class="slide-content">
+      <h2>측정할 수 없는 문장은 <span class="accent">AC가 아니다</span></h2>
+      <div class="split">
+        <article class="panel good">
+          <h3>AC마다 검증 수단을 붙인다</h3>
+          <ul class="criteria-list">
+            <li><strong>동작</strong>은 자동 테스트로 확인한다.<span class="command">npm test</span></li>
+            <li><strong>구조</strong>는 lint와 schema로 확인한다.<span class="command">npm run lint</span></li>
+            <li><strong>금지 조건</strong>은 policy와 check 스크립트로 확인한다.<span class="command">npm run policy-check</span></li>
+          </ul>
+        </article>
+        <article class="panel accented">
+          <h3>느낌 기준은 분리한다</h3>
+          <p class="quote">“빠르다.”<br />“직관적이다.”</p>
+          <p>측정 방법과 임계값이 없다면 자동 판정할 수 없다. 지금 검증하지 않을 품질 기대라면 <strong>non-goal</strong>로 명시한다.</p>
+          <div class="non-goal"><b>Non-goal</b><br />이번 변경에서는 주관적 사용성 개선을 완료 조건으로 삼지 않는다.</div>
+        </article>
+      </div>
+    </div>
+    <footer class="slide-footer"><span class="footer-label">기준 + 명령 + 측정값 = 판정 가능한 AC</span><span class="footer-label">06</span></footer>
+  </section>
+
+  <section class="slide" id="slide-7" data-title="주체부터 선택하기" aria-hidden="true">
+    <header class="slide-header">
+      <p class="eyebrow">03 · Choose the actor first</p>
+      <p class="slide-order">07 / 10</p>
+    </header>
+    <div class="slide-content">
+      <h2>모델을 고르기 전에 <span class="accent">주체부터</span> 고른다</h2>
+      <div class="triage">
+        <article class="actor human">
+          <span class="actor-id">HUMAN</span>
+          <h3>사람이 맡을 일</h3>
+          <ul><li>목표와 완료 기준 결정</li><li>변경 승인과 책임</li><li>조직 정책·위험 판단</li></ul>
+        </article>
+        <article class="actor no-model">
+          <span class="actor-id">TOOL · NO MODEL</span>
+          <h3>도구가 맡을 일</h3>
+          <ul><li>환경 점검과 checkpoint</li><li>명령·테스트·gate 실행</li><li>동일 입력의 pass/fail 판정</li></ul>
+        </article>
+        <article class="actor ai">
+          <span class="actor-id">AI ASSISTED</span>
+          <h3>모델이 보조할 일</h3>
+          <ul><li>짧은 다음 행동 제안</li><li>작은 구현과 샌드박스 검증</li><li>경계·예외·허용 범위 구조화</li></ul>
+        </article>
+      </div>
+      <div class="statement">모든 활동에 모델이 필요한 것은 아니다. 책임과 결정론이 필요한 곳에서는 사람과 도구가 먼저다.</div>
+    </div>
+    <footer class="slide-footer"><span class="footer-label">사람 · 도구 · AI의 경계를 먼저 긋기</span><span class="footer-label">07</span></footer>
+  </section>
+
+  <section class="slide" id="slide-8" data-title="품질 게이트로 모델 선택" aria-hidden="true">
+    <header class="slide-header">
+      <p class="eyebrow">03 · Evidence over price tags</p>
+      <p class="slide-order">08 / 10</p>
+    </header>
+    <div class="slide-content">
+      <h2>모델 선택 근거는 가격표가 아니라 <span class="accent">반복 통과 기록</span>이다</h2>
+      <div class="evidence-layout">
+        <ol class="evidence-steps">
+          <li><b>활동의 성격을 고정한다</b><span>제안·구현·구조화처럼 실제 과업 단위로 비교한다.</span></li>
+          <li><b>동일한 품질 게이트를 적용한다</b><span>정확성·경계 처리·허용 범위·실행 검사를 같은 조건으로 본다.</span></li>
+          <li><b>여러 번 재현되는지 확인한다</b><span>한 번의 좋은 답이 아니라 반복 통과 여부를 기록한다.</span></li>
+          <li><b>당일 운영 조건으로 최종 결정한다</b><span>조직 정책·사용 가능 모델·세션 로그를 마지막에 대조한다.</span></li>
+        </ol>
+        <aside class="panel decision">
+          <div>
+            <p class="micro-label">선택 질문</p>
+            <p class="big">“이 활동의 품질 게이트를 반복해서 통과했는가?”</p>
+          </div>
+          <p class="foot">속도와 요금은 품질 하한을 통과한 후보끼리 비교할 때 의미가 있다.</p>
+        </aside>
+      </div>
+    </div>
+    <footer class="slide-footer"><span class="footer-label">활동 적합성 → 품질 재현 → 정책·로그 확인</span><span class="footer-label">08</span></footer>
+  </section>
+
+  <section class="slide" id="slide-9" data-title="결정론적 하네스" aria-hidden="true">
+    <header class="slide-header">
+      <p class="eyebrow">04 · Deterministic harness</p>
+      <p class="slide-order">09 / 10</p>
+    </header>
+    <div class="slide-content">
+      <h2>하네스는 자연어 제약을 <span class="accent">실행 가능한 검증</span>으로 바꾸는 과정이다</h2>
+      <div class="constraint-pair">
+        <div><b>자연어 가드레일</b><span>“외부 패키지 금지”<br />“public API 시그니처 유지”</span></div>
+        <span class="arrow-large" aria-hidden="true">→</span>
+        <div><b>재실행 가능한 게이트</b><span>dependency allowlist<br />API snapshot · lint · test · policy</span></div>
+      </div>
+      <div class="harness-map" aria-label="하네스 구성 요소">
+        <div class="harness-node"><span class="node-id">01</span><b>Input · Fixture</b><small>같은 시작점과 재현 데이터</small></div>
+        <div class="harness-node"><span class="node-id">02</span><b>Driver · Adapter</b><small>도구와 실행 경계 통제</small></div>
+        <div class="harness-node"><span class="node-id">03</span><b>Observation</b><small>명령·변경·결과 흔적</small></div>
+        <div class="harness-node"><span class="node-id">04</span><b>Gates</b><small>assertion·lint·test·policy</small></div>
+        <div class="harness-node"><span class="node-id">05</span><b>Rounds · ADR</b><small>판단과 실패의 감사 추적</small></div>
+        <div class="harness-node"><span class="node-id">06</span><b>Rollback</b><small>안전한 baseline 복귀</small></div>
+      </div>
+      <div class="statement">결정론적이라는 것은 느낌이 아니라 checker가 판정한다는 뜻이다. 같은 입력이면 누가 언제 실행해도 같은 pass/fail이 나온다.</div>
+    </div>
+    <footer class="slide-footer"><span class="footer-label">가드레일을 코드로, 판정을 증거로</span><span class="footer-label">09</span></footer>
+  </section>
+
+  <section class="slide" id="slide-10" data-title="실패를 게이트로 고정하기" aria-hidden="true">
+    <header class="slide-header">
+      <p class="eyebrow">Closing principle</p>
+      <p class="slide-order">10 / 10</p>
+    </header>
+    <div class="slide-content">
+      <h2>실패를 게이트로 고정할수록 <span class="accent">하네스가 단단해진다</span></h2>
+      <div class="loop" aria-label="점진적으로 단단해지는 하네스 루프">
+        <div class="loop-step"><span class="loop-no">01</span><b>Baseline</b><small>재현 가능한 시작점</small></div>
+        <div class="loop-step"><span class="loop-no">02</span><b>실행</b><small>통제된 도구와 범위</small></div>
+        <div class="loop-step"><span class="loop-no">03</span><b>실패 관측</b><small>로그·diff·trace 수집</small></div>
+        <div class="loop-step"><span class="loop-no">04</span><b>Gate 고정</b><small>다음에는 자동으로 차단</small></div>
+        <div class="loop-step"><span class="loop-no">05</span><b>재실행</b><small>같은 명령으로 재판정</small></div>
+      </div>
+      <div class="final-principle">
+        <p>원하는 결과와 완료 기준을 <span class="accent">사람이 먼저 정하고</span>, 그 일에 맞는 주체·모델을 고른 뒤, 재실행 가능하고 결정론적인 하네스로 검증까지 남긴다.</p>
+        <span class="sequence">무엇 → AC → 주체·모델 → 하네스 → 증거</span>
+      </div>
+      <p class="muted">하네스가 약하면 PASS가 잘못된 안심을 준다. 한 번에 완성하려 하지 말고, 실패와 판단 이력을 다음 실행의 가드레일로 바꾼다.</p>
+    </div>
+    <footer class="slide-footer"><span class="footer-label">첫날의 관통 원칙</span><span class="footer-label">10</span></footer>
+  </section>
+</main>
+
+<nav class="controls" aria-label="슬라이드 제어">
+  <button id="prevButton" type="button" aria-label="이전 슬라이드" title="이전 슬라이드">←</button>
+  <span class="counter" id="counter" aria-hidden="true">01 / 10</span>
+  <button id="nextButton" type="button" aria-label="다음 슬라이드" title="다음 슬라이드">→</button>
+  <button class="optional" id="themeButton" type="button" aria-label="어두운 테마로 전환" aria-pressed="false" title="어두운 테마로 전환">◐</button>
+  <button class="optional" id="fullscreenButton" type="button" aria-label="전체 화면 시작" aria-pressed="false" title="전체 화면 시작">⛶</button>
+</nav>
+<p class="sr-only" id="slideStatus" aria-live="polite"></p>
+
+<script>
+(() => {
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const progressBar = document.getElementById("progressBar");
+  const counter = document.getElementById("counter");
+  const status = document.getElementById("slideStatus");
+  const prevButton = document.getElementById("prevButton");
+  const nextButton = document.getElementById("nextButton");
+  const themeButton = document.getElementById("themeButton");
+  const fullscreenButton = document.getElementById("fullscreenButton");
+  let current = 0;
+  let pointerStartX = null;
+
+  const indexFromHash = () => {
+    const match = window.location.hash.match(/^#slide-(\d+)$/);
+    if (!match) return 0;
+    return Math.min(slides.length - 1, Math.max(0, Number(match[1]) - 1));
+  };
+
+  const showSlide = (next, updateHash = true) => {
+    current = Math.min(slides.length - 1, Math.max(0, next));
+    slides.forEach((slide, index) => {
+      const active = index === current;
+      slide.classList.toggle("active", active);
+      slide.setAttribute("aria-hidden", String(!active));
+      slide.inert = !active;
+    });
+    const count = `${String(current + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+    counter.textContent = count;
+    progressBar.style.width = `${((current + 1) / slides.length) * 100}%`;
+    prevButton.disabled = current === 0;
+    nextButton.disabled = current === slides.length - 1;
+    status.textContent = `슬라이드 ${current + 1} / ${slides.length}: ${slides[current].dataset.title}`;
+    if (updateHash) history.replaceState(null, "", `#slide-${current + 1}`);
+  };
+
+  const toggleFullscreen = async () => {
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+    } else {
+      await document.documentElement.requestFullscreen();
+    }
+  };
+
+  const syncThemeButton = () => {
+    const dark = document.documentElement.dataset.theme === "dark";
+    const label = dark ? "밝은 테마로 전환" : "어두운 테마로 전환";
+    themeButton.setAttribute("aria-pressed", String(dark));
+    themeButton.setAttribute("aria-label", label);
+    themeButton.title = label;
+  };
+
+  const syncFullscreenButton = () => {
+    const active = Boolean(document.fullscreenElement);
+    const label = active ? "전체 화면 종료" : "전체 화면 시작";
+    fullscreenButton.setAttribute("aria-pressed", String(active));
+    fullscreenButton.setAttribute("aria-label", label);
+    fullscreenButton.title = label;
+  };
+
+  prevButton.addEventListener("click", () => showSlide(current - 1));
+  nextButton.addEventListener("click", () => showSlide(current + 1));
+  fullscreenButton.addEventListener("click", () => toggleFullscreen());
+  themeButton.addEventListener("click", () => {
+    const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = nextTheme;
+    syncThemeButton();
+  });
+  document.addEventListener("fullscreenchange", syncFullscreenButton);
+  window.addEventListener("hashchange", () => showSlide(indexFromHash(), false));
+  window.addEventListener("keydown", event => {
+    const interactiveTarget = event.target instanceof Element &&
+      event.target.closest("button, a, input, select, textarea, [contenteditable='true']");
+    if (event.key === " " && interactiveTarget) return;
+    if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+      event.preventDefault();
+      showSlide(current + 1);
+    } else if (["ArrowLeft", "PageUp"].includes(event.key)) {
+      event.preventDefault();
+      showSlide(current - 1);
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      showSlide(0);
+    } else if (event.key === "End") {
+      event.preventDefault();
+      showSlide(slides.length - 1);
+    } else if (event.key.toLowerCase() === "f") {
+      event.preventDefault();
+      toggleFullscreen();
+    }
+  });
+  window.addEventListener("pointerdown", event => { pointerStartX = event.clientX; });
+  window.addEventListener("pointerup", event => {
+    if (pointerStartX === null) return;
+    const distance = event.clientX - pointerStartX;
+    pointerStartX = null;
+    if (Math.abs(distance) < 60) return;
+    showSlide(current + (distance < 0 ? 1 : -1));
+  });
+
+  syncThemeButton();
+  syncFullscreenButton();
+  showSlide(indexFromHash(), false);
+})();
+</script>
+</body>
+</html>
