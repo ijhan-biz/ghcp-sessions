@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="original-filename" content="024-multi-agent-harness-engineering-report.html" />
+  <meta name="original-date-signal" content="unknown" />
+  <meta name="final-updated" content="2026-06-27" />
+  <meta name="filename-date-policy" content="filename date reflects final updated date; original date signal is stored internally" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>024 · 멀티에이전트 하네스 엔지니어링 비교 보고서</title>
+  <style>
+    :root {
+      --ink: #1f2937;
+      --muted: #5f6b7a;
+      --paper: #ffffff;
+      --page: #f6f8fb;
+      --line: #d8dee8;
+      --teal: #176b68;
+      --blue: #315f8d;
+      --green: #2f7d50;
+      --orange: #b96528;
+      --red: #a34040;
+      --violet: #5a527c;
+      --code-bg: #101820;
+      --code-ink: #e8eef6;
+      --shadow: 0 8px 22px rgba(31, 41, 55, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--page);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+      line-height: 1.62;
+    }
+
+    a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: var(--teal); }
+
+    .report-header {
+      background: #0f2f32;
+      color: #f5fbfb;
+      border-bottom: 6px solid var(--orange);
+    }
+
+    .wrap {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .report-header .wrap {
+      padding: 52px 0 42px;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: #b7d9d7;
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 900px;
+      font-size: clamp(2.1rem, 5vw, 4.1rem);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 18px 0 0;
+      max-width: 900px;
+      color: #d7e6e8;
+      font-size: 1.1rem;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 5px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 8px;
+      color: #eef8f8;
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 0.9rem;
+    }
+
+    main .wrap {
+      padding: 34px 0 56px;
+    }
+
+    section {
+      margin: 0 0 34px;
+      padding: 28px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    section.plain {
+      padding: 0;
+      border: 0;
+      box-shadow: none;
+      background: transparent;
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: 1.55rem;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 24px 0 10px;
+      font-size: 1.15rem;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    p { margin: 0 0 14px; }
+    ul, ol { margin: 0 0 16px 1.25rem; padding: 0; }
+    li { margin: 6px 0; }
+
+    .lead-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .finding {
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--teal);
+      border-radius: 8px;
+      padding: 16px;
+      background: #fbfcfe;
+      min-height: 150px;
+    }
+
+    .finding:nth-child(2) { border-top-color: var(--orange); }
+    .finding:nth-child(3) { border-top-color: var(--blue); }
+
+    .finding strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .badge {
+      display: inline-block;
+      margin: 2px 4px 2px 0;
+      padding: 2px 8px;
+      border-radius: 8px;
+      background: #e9f3f2;
+      color: #164d4a;
+      font-size: 0.83rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge.orange { background: #fff0e4; color: #824313; }
+    .badge.blue { background: #eaf2fb; color: #254b75; }
+    .badge.green { background: #eaf5ee; color: #235c3a; }
+    .badge.red { background: #fbeaea; color: #802b2b; }
+    .badge.violet { background: #efedf7; color: #473f67; }
+
+    .table-scroll {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+      font-size: 0.93rem;
+    }
+
+    th, td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      color: #f5fbfb;
+      background: #244b5a;
+      font-weight: 750;
+      position: sticky;
+      top: 0;
+    }
+
+    tr:nth-child(even) td { background: #f9fbfd; }
+    tr:last-child td { border-bottom: 0; }
+
+    .source-ref {
+      font-weight: 750;
+      color: var(--teal);
+      white-space: nowrap;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .callout {
+      padding: 16px 18px;
+      border-left: 5px solid var(--orange);
+      border-radius: 8px;
+      background: #fff8f1;
+    }
+
+    .callout.fact { border-left-color: var(--teal); background: #eef8f7; }
+    .callout.warn { border-left-color: var(--red); background: #fff1f1; }
+    .callout.interpretation { border-left-color: var(--blue); background: #edf5ff; }
+
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .stack-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: #fbfcfe;
+    }
+
+    .stack-card h3 {
+      margin-top: 0;
+      color: #173c45;
+    }
+
+    pre {
+      margin: 12px 0 18px;
+      padding: 16px;
+      overflow-x: auto;
+      color: var(--code-ink);
+      background: var(--code-bg);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    :not(pre) > code {
+      padding: 1px 5px;
+      border-radius: 5px;
+      background: #eef2f7;
+      color: #243140;
+    }
+
+    .score-table td:nth-child(n+2), .score-table th:nth-child(n+2) {
+      text-align: center;
+      min-width: 72px;
+    }
+
+    .good { color: var(--green); font-weight: 800; }
+    .mid { color: var(--orange); font-weight: 800; }
+    .low { color: var(--muted); font-weight: 800; }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 920px) {
+      .lead-grid, .two-col, .stack-grid { grid-template-columns: 1fr; }
+      section { padding: 22px; }
+      .wrap { width: min(100% - 28px, 1180px); }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .report-header { color: #111; background: #fff; border-bottom: 2px solid #111; }
+      .subtitle, .eyebrow, .pill { color: #111; border-color: #bbb; background: #fff; }
+      section { box-shadow: none; page-break-inside: avoid; }
+      a { color: #111; }
+      th { color: #111; background: #eee; }
+    }
+      pre code { background:transparent; border:0; padding:0; color:inherit; }
+  </style>
+</head>
+<body>
+  <header class="report-header">
+    <div class="wrap">
+      <p class="eyebrow">Research Briefing · Harness Engineering</p>
+      <h1>멀티에이전트 하네스 엔지니어링 라이브러리·방법론·스택 비교</h1>
+      <p class="subtitle">Superpowers, Compound Engineering, gstack을 포함해 멀티에이전트 작업을 더 안전하고 검증 가능하게 만드는 방법론, 런타임, 평가 도구, 관측성, 정책 게이트를 비교한 실사용 중심 보고서입니다.</p>
+      <div class="meta-row" aria-label="report metadata">
+        <span class="pill">조사 기준일: 2026-05-13</span>
+        <span class="pill">출력 파일: output/024-multi-agent-harness-engineering-report-2026-06-27.html</span>
+        <span class="pill">관점: 사실 · 해석 · 불확실성 분리</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section>
+        <h2>요약 결론</h2>
+        <p><strong>핵심 판단:</strong> 멀티에이전트 하네스는 단일 프레임워크 하나로 끝나는 문제가 아니라, 역할 분리, 실행 격리, 평가, 관측성, 정책, 회고 메모리를 엮은 운영 체계입니다. Superpowers와 gstack은 “에이전트에게 좋은 엔지니어링 습관을 강제하는 스킬/워크플로우”에 가깝고, Compound Engineering은 “학습을 다음 세션에 다시 주입하는 방법론”입니다. 실제 제품 하네스는 여기에 LangGraph, OpenAI Agents SDK, AutoGen, CrewAI 같은 런타임과 promptfoo, Inspect, DeepEval, Ragas, LangSmith, Langfuse, Phoenix 같은 평가/관측 도구를 조합해야 합니다.</p>
+        <div class="lead-grid">
+          <div class="finding">
+            <strong>1. 워크플로우 계층</strong>
+            <span class="badge">Superpowers</span>
+            <span class="badge orange">Compound Engineering</span>
+            <span class="badge blue">gstack</span>
+            <p>기획, 작업 분해, TDD, 리뷰, QA, 회고를 에이전트가 반복 가능한 절차로 따르게 만듭니다. 공식 README와 문서 기준으로 Superpowers는 composable skills와 TDD 중심, gstack은 23개 specialist와 slash command 중심, Compound Engineering은 Plan-Work-Assess-Compound 루프 중심입니다. <span class="source-ref">[S1][S3][S5]</span></p>
+          </div>
+          <div class="finding">
+            <strong>2. 런타임/오케스트레이션 계층</strong>
+            <span class="badge green">LangGraph</span>
+            <span class="badge green">OpenAI Agents SDK</span>
+            <span class="badge green">AutoGen</span>
+            <span class="badge green">CrewAI</span>
+            <p>상태, handoff, tool use, sandbox, memory, human-in-the-loop을 코드로 다룹니다. 프로덕션 제어가 필요하면 runtime을 명시적으로 선택해야 합니다. <span class="source-ref">[S7][S8][S9][S10]</span></p>
+          </div>
+          <div class="finding">
+            <strong>3. 검증/운영 계층</strong>
+            <span class="badge violet">promptfoo</span>
+            <span class="badge violet">Inspect</span>
+            <span class="badge violet">Langfuse</span>
+            <span class="badge red">OPA</span>
+            <p>품질을 “느낌”이 아니라 데이터셋, assertion, trace, policy, CI exit code로 판단합니다. 이 계층이 없으면 멀티에이전트는 빨라질 수는 있어도 반복 가능하다고 말하기 어렵습니다. <span class="source-ref">[S12][S14][S17][S20]</span></p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>범위와 판단 기준</h2>
+        <div class="two-col">
+          <div>
+            <h3>이 보고서에서 말하는 하네스</h3>
+            <p>멀티에이전트 하네스는 모델 자체가 아니라, 여러 에이전트가 일하는 환경과 검증 체계입니다. 보통 다음 구성요소를 포함합니다.</p>
+            <ul>
+              <li>역할 정의: planner, implementer, reviewer, QA, security, release 등</li>
+              <li>실행 격리: branch, worktree, sandbox, container, browser session</li>
+              <li>작업 계약: spec, plan, task graph, acceptance criteria, schema</li>
+              <li>검증 게이트: tests, evals, browser QA, policy, security scan</li>
+              <li>관측성: trace, transcript, cost, latency, tool call, artifact lineage</li>
+              <li>학습 루프: 실패 사례를 instruction, skill, eval dataset으로 승격</li>
+            </ul>
+          </div>
+          <div>
+            <h3>비교 기준</h3>
+            <ul>
+              <li><strong>반복 가능성:</strong> 같은 입력에서 같은 절차와 산출물이 나오는가</li>
+              <li><strong>검증 가능성:</strong> 성공/실패를 사람이 아닌 기계가 판단할 수 있는가</li>
+              <li><strong>격리와 안전:</strong> agent별 권한, 파일 범위, destructive action을 제한할 수 있는가</li>
+              <li><strong>관측성:</strong> 왜 실패했는지 trace와 artifact로 되짚을 수 있는가</li>
+              <li><strong>학습 지속성:</strong> 리뷰와 장애에서 배운 점이 다음 실행에 반영되는가</li>
+              <li><strong>도입 난이도:</strong> 기존 repo와 팀 워크플로우에 붙이기 쉬운가</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>도구·방법론 비교표</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>대상</th>
+                <th>분류</th>
+                <th>근거 기반 핵심 사실</th>
+                <th>하네스에서 좋은 위치</th>
+                <th>주의점</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Superpowers</strong></td>
+                <td>에이전트 스킬 프레임워크·방법론</td>
+                <td>Claude Code, Codex CLI/App, Factory Droid, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI를 지원한다고 설명한다. 기본 워크플로우는 brainstorming, git worktrees, writing plans, subagent-driven development/executing plans, TDD, code review, finishing branch이다. <span class="source-ref">[S1]</span></td>
+                <td>TDD, 계획, subagent task execution, code review를 agent 기본 습관으로 강제하는 상위 워크플로우</td>
+                <td>정량 eval/trace/policy 엔진은 아니므로 promptfoo, Playwright, OPA 같은 게이트와 결합해야 한다.</td>
+              </tr>
+              <tr>
+                <td><strong>Compound Engineering</strong></td>
+                <td>방법론·학습 루프</td>
+                <td>Every는 Plan, Work, Review, Compound 루프를 설명하며, agent가 작성한 코드와 학습을 다시 시스템에 주입한다고 설명한다. AgentPatterns는 Plan 40%, Work 20%, Assess 30%, Compound 10% 배분과 `/ce:plan`, `/ce:work`, `/ce:review`, `/ce:compound` 플러그인 명령을 소개한다. <span class="source-ref">[S3][S4]</span></td>
+                <td>회고와 리뷰 결과를 instruction, prompt, skill, eval dataset으로 승격시키는 운영 원칙</td>
+                <td>프롬프트 파일이 오래되거나 모순되면 오히려 agent를 혼란스럽게 할 수 있다. <span class="source-ref">[S4]</span></td>
+              </tr>
+              <tr>
+                <td><strong>gstack</strong></td>
+                <td>역할 기반 스킬 스택·브라우저/QA/릴리스 워크플로우</td>
+                <td>README는 gstack이 Claude Code를 virtual engineering team으로 바꾸며 23 specialists와 8 power tools, Think → Plan → Build → Review → Test → Ship → Reflect 흐름을 제공한다고 설명한다. `/qa`, `/review`, `/ship`, `/cso`, `/codex`, `/browse`, `/learn`, `/pair-agent` 등 명령이 있다. <span class="source-ref">[S5]</span></td>
+                <td>제품 개발 sprint harness, browser QA, security review, release gate, cross-model review, memory loop</td>
+                <td>공식 표기는 `gstack`이다. 사용자가 말한 “g-stack”이 같은 대상을 뜻하는지는 문맥상 높지만, 일반 표준명으로 확정하지 않는다.</td>
+              </tr>
+              <tr>
+                <td><strong>Spec Kit</strong></td>
+                <td>Spec-driven development 툴킷</td>
+                <td>specification을 실행 가능한 산출물로 보고 `/speckit.constitution`, `/speckit.specify`, `/speckit.plan`, `/speckit.tasks`, `/speckit.implement` 흐름을 제공한다. 30개 이상 AI coding agent integration과 extension/preset 생태계를 설명한다. <span class="source-ref">[S24]</span></td>
+                <td>acceptance criteria, task graph, governance constitution, CI guard 같은 하네스 입력 산출물 생성</td>
+                <td>실행 agent 품질 자체를 보장하지 않는다. 검증 계층과 함께 써야 한다.</td>
+              </tr>
+              <tr>
+                <td><strong>LangGraph</strong></td>
+                <td>상태형 agent 오케스트레이션</td>
+                <td>long-running, stateful agents를 위한 low-level orchestration framework이며 durable execution, streaming, human-in-the-loop, memory, LangSmith debugging을 강조한다. <span class="source-ref">[S7]</span></td>
+                <td>상태 machine, supervisor-worker, retry/resume, human approval이 필요한 agent workflow runtime</td>
+                <td>낮은 수준의 runtime이므로 평가와 정책은 별도 설계해야 한다.</td>
+              </tr>
+              <tr>
+                <td><strong>OpenAI Agents SDK</strong></td>
+                <td>agent runtime·handoff·guardrail</td>
+                <td>Agents, handoffs/agents-as-tools, guardrails를 핵심 primitive로 제공하며 built-in agent loop, sandbox agents, MCP tool calling, sessions, human-in-the-loop, tracing을 제공한다고 설명한다. <span class="source-ref">[S8]</span></td>
+                <td>Python-first multi-agent runtime, sandboxed coding/review agent, guardrail과 tracing이 필요한 OpenAI 중심 stack</td>
+                <td>OpenAI stack과 친화적이다. multi-provider를 써도 조직의 모델 전략과 비용 정책을 별도 정해야 한다.</td>
+              </tr>
+              <tr>
+                <td><strong>AutoGen</strong></td>
+                <td>multi-agent framework</td>
+                <td>AgentChat은 conversational single/multi-agent app, Core는 scalable multi-agent AI systems를 위한 event-driven framework라고 설명한다. Docker code executor와 gRPC distributed agents 확장도 언급한다. <span class="source-ref">[S9]</span></td>
+                <td>연구, 실험, 분산 multi-agent workflow, code execution sandbox가 필요한 Python stack</td>
+                <td>프로덕션 하네스에서는 governance, eval, trace, policy를 명시적으로 보강해야 한다.</td>
+              </tr>
+              <tr>
+                <td><strong>CrewAI</strong></td>
+                <td>crew/flow 기반 multi-agent framework</td>
+                <td>공식 문서는 collaborative AI agents, crews, flows를 구축하고 guardrails, memory, knowledge, observability가 내장되어 있다고 설명한다. <span class="source-ref">[S10]</span></td>
+                <td>역할 기반 팀 자동화, 운영 workflow, enterprise automation을 빠르게 구성</td>
+                <td>세부 검증과 policy gate는 사용자의 process에 맞게 추가해야 한다.</td>
+              </tr>
+              <tr>
+                <td><strong>MCP</strong></td>
+                <td>tool/data 연결 표준</td>
+                <td>AI application을 local files, database, search, calculator, specialized prompts 같은 external systems에 연결하는 open-source standard라고 설명한다. <span class="source-ref">[S23]</span></td>
+                <td>하네스의 도구 계층 표준화, agent별 tool allowlist, external tool wrapping</td>
+                <td>MCP 자체는 정책이나 검증을 대신하지 않는다. 어떤 server를 허용할지 governance가 필요하다.</td>
+              </tr>
+              <tr>
+                <td><strong>promptfoo</strong></td>
+                <td>LLM eval·red team CLI/library</td>
+                <td>open-source CLI/library for evaluating and red-teaming LLM apps로, declarative test cases, metrics, caching, concurrency, CI/CD, red teaming을 제공한다. <span class="source-ref">[S12]</span></td>
+                <td>prompt/model/RAG/agent output regression, CI pass/fail, red-team smoke test</td>
+                <td>tool trajectory 전체 평가보다 prompt/output matrix 평가에 강하다. 복잡한 agent trace는 별도 수집이 필요하다.</td>
+              </tr>
+              <tr>
+                <td><strong>OpenAI Evals</strong></td>
+                <td>LLM/LLM system evaluation framework</td>
+                <td>LLM 또는 LLM system을 평가하는 framework와 benchmark registry를 제공하며 custom eval, private eval, completion function protocol을 설명한다. <span class="source-ref">[S11]</span></td>
+                <td>모델 변경 전후 benchmark, private workflow eval, tool-using agent completion function 평가</td>
+                <td>레지스트리와 실행 비용, 데이터 권리, OpenAI API 사용 조건을 관리해야 한다.</td>
+              </tr>
+              <tr>
+                <td><strong>Inspect AI</strong></td>
+                <td>frontier AI eval framework</td>
+                <td>UK AI Security Institute와 Meridian Labs가 개발한 framework이며 coding, agentic tasks, reasoning 등을 평가하고 200개 이상 pre-built eval, agents, multi-agent primitives, external agents, sandboxing을 지원한다고 설명한다. <span class="source-ref">[S14]</span></td>
+                <td>고위험 agent eval, sandboxed tool use, multi-agent benchmark, 연구/보안 평가</td>
+                <td>초기 설정과 task/scorer 설계가 필요하다. 간단한 prompt matrix에는 다소 무겁다.</td>
+              </tr>
+              <tr>
+                <td><strong>DeepEval</strong></td>
+                <td>LLM eval·tracing</td>
+                <td>local eval, `deepeval test run`, GEval, LLM test case, component-level tracing, agent 내부 span 평가, online eval을 설명한다. <span class="source-ref">[S13]</span></td>
+                <td>pytest 스타일 agent regression, component-level scoring, Confident AI 연동 dashboard</td>
+                <td>많은 metric이 LLM-as-judge이므로 judge 모델 drift와 비용을 관리해야 한다.</td>
+              </tr>
+              <tr>
+                <td><strong>Ragas</strong></td>
+                <td>RAG/agent eval loop</td>
+                <td>vibe checks를 systematic evaluation loops로 바꾸는 library라고 설명하며 experiments, metrics, datasets, LangChain/LlamaIndex integration, agent tool-use metrics를 제공한다. <span class="source-ref">[S16]</span></td>
+                <td>RAG, tool-call accuracy, answer faithfulness, synthetic testset generation</td>
+                <td>RAG/LLM app 품질 평가에 강하며, 소스코드 보안/브라우저 QA는 다른 도구가 필요하다.</td>
+              </tr>
+              <tr>
+                <td><strong>LangSmith</strong></td>
+                <td>evaluation·tracing platform</td>
+                <td>offline eval은 dataset/examples, online eval은 production runs/threads를 대상으로 하며, evaluator는 human, code, LLM-as-judge, pairwise 방식을 지원한다고 설명한다. <span class="source-ref">[S6]</span></td>
+                <td>LangChain/LangGraph 기반 agent의 dataset regression, production trace monitoring, annotation queue</td>
+                <td>LangChain ecosystem과 함께 쓸 때 가장 자연스럽다.</td>
+              </tr>
+              <tr>
+                <td><strong>Langfuse</strong></td>
+                <td>LLM observability·prompt·eval platform</td>
+                <td>open-source LLM engineering platform으로 traces, prompt management, evaluation, datasets, experiments를 제공하며 OpenTelemetry 기반 호환성을 강조한다. <span class="source-ref">[S17]</span></td>
+                <td>trace, cost/latency, prompt versioning, production eval dashboard</td>
+                <td>정책 enforcement 자체보다는 관측과 평가 UI에 가깝다.</td>
+              </tr>
+              <tr>
+                <td><strong>Phoenix</strong></td>
+                <td>AI observability·evaluation</td>
+                <td>Phoenix는 traces, evaluation tests, prompt iteration, experiments를 통해 AI app 디버깅과 개선 workflow를 제공하며 OpenTelemetry와 OpenInference instrumentation 위에 구축되었다고 설명한다. <span class="source-ref">[S18]</span></td>
+                <td>open-source trace/eval UI, production examples 기반 prompt iteration</td>
+                <td>하네스 pass/fail 기준은 별도 scorer와 CI 연결이 필요하다.</td>
+              </tr>
+              <tr>
+                <td><strong>OpenTelemetry</strong></td>
+                <td>vendor-neutral observability standard</td>
+                <td>traces, metrics, logs를 instrument, generate, collect, export하는 vendor-neutral open-source framework라고 설명한다. <span class="source-ref">[S19]</span></td>
+                <td>agent_id, role, tool_call, cost, trace_id를 표준 telemetry로 남기는 기반</td>
+                <td>LLM 특화 UI/metric은 Langfuse, Phoenix, LangSmith 같은 도구가 보강한다.</td>
+              </tr>
+              <tr>
+                <td><strong>Playwright</strong></td>
+                <td>browser automation·E2E test</td>
+                <td>modern web apps를 위한 E2E test framework이며 runner, assertions, isolation, parallelization, tooling을 번들로 제공하고 Chromium/WebKit/Firefox를 지원한다. <span class="source-ref">[S15]</span></td>
+                <td>agent가 만든 웹 UI의 실제 browser regression, screenshot/trace evidence</td>
+                <td>LLM 품질 평가는 하지 않는다. agent output 평가와 함께 써야 한다.</td>
+              </tr>
+              <tr>
+                <td><strong>OPA</strong></td>
+                <td>policy-as-code engine</td>
+                <td>policy decision-making을 enforcement에서 분리하고, JSON 같은 structured input을 받아 Rego policy와 data로 decision을 생성한다. CI/CD, microservices, Kubernetes 등에 사용된다고 설명한다. <span class="source-ref">[S20]</span></td>
+                <td>agent action allow/deny, tool permission, egress, artifact completeness, release gate</td>
+                <td>정책은 명확한 구조화 입력이 있을 때 가장 잘 작동한다. transcript free text에는 별도 parser가 필요하다.</td>
+              </tr>
+              <tr>
+                <td><strong>Semgrep</strong></td>
+                <td>SAST/SCA/secrets scan</td>
+                <td>bugs, reachable dependency vulnerabilities, code standards를 every commit에서 enforce하며 SAST, SCA, secrets scan을 제공한다고 설명한다. <span class="source-ref">[S21]</span></td>
+                <td>agent-authored PR 보안/품질 기본 게이트, custom rules</td>
+                <td>runtime behavior나 LLM hallucination은 직접 평가하지 않는다.</td>
+              </tr>
+              <tr>
+                <td><strong>CodeQL</strong></td>
+                <td>semantic code analysis</td>
+                <td>code를 data처럼 query하여 vulnerability variants를 찾는 도구로 설명한다. <span class="source-ref">[S22]</span></td>
+                <td>고위험 code path와 보안 취약점 검출, GitHub code scanning</td>
+                <td>초기 query와 language support 범위를 확인해야 한다.</td>
+              </tr>
+              <tr>
+                <td><strong>Guardrails AI + Pydantic</strong></td>
+                <td>input/output validation·schema</td>
+                <td>Guardrails는 LLM input/output guards와 structured data generation을 제공한다. Pydantic은 Python type hint 기반 validation, serialization, JSON Schema, strict/lax mode를 제공한다. <span class="source-ref">[S25][S26]</span></td>
+                <td>agent output contract, JSON report schema, tool argument validation, safety validators</td>
+                <td>품질 평가라기보다는 구조/위험 validation이다. semantic correctness는 eval metric이 필요하다.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>핵심 대상 상세 분석</h2>
+        <h3>Superpowers: 에이전트에게 SDLC 습관을 강제하는 스킬 레이어</h3>
+        <div class="callout fact">
+          <p><strong>사실:</strong> Superpowers README는 “complete software development methodology for your coding agents”라고 설명하며, TDD, systematic debugging, verification-before-completion, brainstorming, writing plans, executing plans, dispatching parallel agents, code review, git worktrees, subagent-driven development 같은 skills library를 나열한다. <span class="source-ref">[S1]</span></p>
+        </div>
+        <p><strong>하네스 해석:</strong> Superpowers는 agent runtime이라기보다 workflow discipline입니다. agent가 바로 코드를 쓰지 않고, 의도 확인 → worktree 격리 → 작은 task 계획 → TDD → 리뷰 → branch 완료를 거치게 하므로 “멀티에이전트가 제멋대로 흩어지는 문제”를 줄이는 데 유리합니다.</p>
+        <p><strong>실사용 예시:</strong> 신규 기능을 만들 때 먼저 `/superpowers:brainstorm`으로 요구사항을 분해하고, 승인된 design doc을 기준으로 `writing-plans`가 2-5분 단위 task를 만든 뒤, `subagent-driven-development`가 task별 fresh context subagent를 dispatch합니다. 이후 `requesting-code-review`가 plan 대비 결함을 severity별로 보고하고, critical issue는 진행을 막습니다. Better Stack의 x-dl web UI 사례는 Superpowers 방식이 상세 설계, TDD, subagent execution, review를 거쳐 download behavior와 UI 품질을 개선했다고 설명합니다. <span class="source-ref">[S2]</span></p>
+
+        <h3>Compound Engineering: 배운 점을 다음 agent 실행의 입력으로 바꾸는 루프</h3>
+        <div class="callout fact">
+          <p><strong>사실:</strong> Every는 compound engineering loop를 Plan, Work, Review, Compound로 설명하고, bug, failed test, problem-solving insight를 문서화해 future agents가 사용하게 한다고 설명한다. AgentPatterns는 이를 Plan-Work-Assess-Compound 루프로 정리하고, learnings를 repo prompt로 encode한다고 설명한다. <span class="source-ref">[S3][S4]</span></p>
+        </div>
+        <p><strong>하네스 해석:</strong> 멀티에이전트의 가장 큰 손실은 같은 실수를 세션마다 반복하는 것입니다. Compound Engineering은 리뷰 결과를 instruction, skill, eval, policy로 승격시키는 “학습 승격 프로세스”로 쓰는 것이 핵심입니다.</p>
+        <p><strong>실사용 예시:</strong> QA agent가 “migration timestamp 순서 오류”를 찾았다면, 단순 bugfix에서 끝내지 않고 `agent-learnings/migrations.md`에 context, rule, example 형식으로 저장합니다. 다음 sprint의 planner/reviewer agent는 이 파일을 읽고 migration task를 생성할 때 dependency order check를 포함합니다. 동시에 eval dataset에는 “migration with FK dependency” golden case를 추가합니다.</p>
+
+        <h3>gstack: 역할 기반 startup engineering squad를 slash command로 구현</h3>
+        <div class="callout fact">
+          <p><strong>사실:</strong> gstack README는 23 specialists와 8 power tools를 통해 CEO, eng manager, designer, reviewer, QA lead, security officer, release engineer 역할을 제공한다고 설명한다. `/qa`는 real browser를 열어 flow를 테스트하고 regression test를 생성한다고 설명하며, `/pair-agent`는 여러 agent가 공유 browser에서 각자 tab을 가지고 협업하는 기능을 설명한다. <span class="source-ref">[S5]</span></p>
+        </div>
+        <p><strong>하네스 해석:</strong> gstack은 “agent team을 어떻게 운영할지”에 대한 가장 제품화된 예시에 가깝습니다. 특히 `/browse`, `/qa`, `/cso`, `/codex`, `/learn`, `/ship`은 하네스의 검증/안전/회고 계층과 직접 맞닿아 있습니다.</p>
+        <p><strong>실사용 예시:</strong> product feature를 만들 때 `/office-hours`로 문제 재정의, `/autoplan`으로 CEO/design/eng/DX review, 구현 후 `/review`와 `/codex`로 cross-model review, `/qa https://staging...`로 실제 browser QA, `/cso`로 OWASP/STRIDE 검토, `/ship`으로 test/coverage/PR, `/learn`으로 반복 학습을 관리하는 흐름을 구성할 수 있습니다.</p>
+
+        <h3>Spec Kit: 하네스 입력 산출물을 안정화하는 spec-first 계층</h3>
+        <p><strong>사실:</strong> Spec Kit은 specification을 executable artifact로 보고 constitution, specify, plan, tasks, implement commands를 제공한다. 또한 community extension에는 MAQA, CI Guard, QA Testing, Superpowers Bridge, Squad Bridge 같은 하네스 연계 항목이 존재한다. <span class="source-ref">[S24]</span></p>
+        <p><strong>하네스 해석:</strong> Superpowers/gstack이 실행 습관을 다룬다면, Spec Kit은 agent가 따라야 할 산출물 계약을 만듭니다. 멀티에이전트가 동시에 달릴수록 spec, plan, task, acceptance criteria의 안정성이 중요합니다.</p>
+      </section>
+
+      <section>
+        <h2>실사용 하네스 예시</h2>
+        <h3>예시 A: 작은 팀용 최소 하네스</h3>
+        <p>목표는 “agent가 만든 변경을 최소한 schema, eval, browser, security gate로 통과시킨 뒤 완료 처리”하는 것입니다.</p>
+        <pre><code>repo/
+  harness/
+    constraints.json          # agent 역할, 허용 도구, 필수 산출물
+    report.schema.json        # round report JSON schema
+    check-report.mjs          # deterministic validator
+    policy.rego               # OPA 정책
+  evals/
+    promptfooconfig.yaml      # prompt/output regression
+  tests/e2e/
+    agent-flow.spec.ts        # Playwright browser QA
+  output/
+    round-report.json         # agent 실행 결과
+  package.json</code></pre>
+        <pre><code>{
+  "scripts": {
+    "harness:schema": "node harness/check-report.mjs output/round-report.json",
+    "harness:policy": "opa eval --fail-defined -i output/round-report.json -d harness/policy.rego 'data.agent.deny[_]'",
+    "harness:eval": "promptfoo eval --config evals/promptfooconfig.yaml --output output/promptfoo.json",
+    "harness:browser": "playwright test",
+    "harness:security": "semgrep scan --config p/owasp-top-ten --json --output output/semgrep.json",
+    "harness": "npm run harness:schema && npm run harness:policy && npm run harness:eval && npm run harness:browser && npm run harness:security"
+  }
+}</code></pre>
+        <p><strong>운영 방식:</strong> planner, implementer, reviewer, QA agent가 작업을 수행하되 최종 완료는 `npm run harness`가 통과할 때만 허용합니다. 이 패턴은 promptfoo의 CI/eval, Playwright의 E2E, OPA의 policy-as-code, Semgrep의 security gate를 결합합니다. <span class="source-ref">[S12][S15][S20][S21]</span></p>
+
+        <h3>예시 B: Superpowers + Spec Kit + eval stack</h3>
+        <ol>
+          <li>`/speckit.constitution`으로 테스트, 보안, UX, 성능 원칙을 고정합니다.</li>
+          <li>`/speckit.specify`와 `/speckit.plan`으로 what/why와 how를 분리합니다.</li>
+          <li>Superpowers의 brainstorming, writing-plans, TDD, subagent-driven-development로 구현을 진행합니다.</li>
+          <li>promptfoo와 DeepEval/Ragas로 output regression을 만들고, Playwright로 UI flow를 확인합니다.</li>
+          <li>실패한 gate는 Compound Engineering 방식으로 rule, eval case, instruction으로 승격합니다.</li>
+        </ol>
+        <p><strong>적합한 상황:</strong> 기존 repo를 agent-friendly하게 바꾸고 싶은 소규모 팀, feature 개발 반복이 많은 제품팀.</p>
+
+        <h3>예시 C: gstack 제품 sprint 하네스</h3>
+        <pre><code># 의도 정렬
+/office-hours
+/autoplan
+
+# 구현 전 검토
+/plan-ceo-review
+/plan-eng-review
+/plan-design-review
+/plan-devex-review
+
+# 구현 후 검증
+/review
+/codex
+/qa https://staging.example.com
+/cso
+/ship
+/learn</code></pre>
+        <p><strong>하네스 포인트:</strong> 각 command의 산출물을 `output/` 또는 PR artifact로 저장해 round evidence로 남깁니다. `/qa`의 browser evidence, `/cso`의 finding, `/codex` cross-model review, `/learn`의 회고 rule을 다음 sprint의 입력으로 연결하면 gstack의 역할 기반 workflow와 Compound Engineering 루프가 결합됩니다. <span class="source-ref">[S5]</span></p>
+
+        <h3>예시 D: 고위험/연구용 agent eval 하네스</h3>
+        <p>고위험 환경에서는 “agent가 성공했다고 말했는가”보다 “독립 eval task와 sandbox가 성공을 재현했는가”가 중요합니다.</p>
+        <pre><code>inspect eval agent_task.py --model openai/gpt-4o
+python -m pytest tests/evals/test_agent_regression.py
+python scripts/export_traces.py --format otlp --out output/traces.jsonl
+opa eval --fail-defined -i output/traces.jsonl -d policy/agent.rego 'data.agent.deny[_]'</code></pre>
+        <p>Inspect는 dataset, solver, scorer 구조와 sandbox, agent/multi-agent primitives를 제공하므로 long-horizon agent 평가에 적합합니다. LangSmith, Langfuse, Phoenix는 실행 trace와 production feedback을 eval dataset으로 되돌리는 데 유용합니다. <span class="source-ref">[S6][S14][S17][S18]</span></p>
+      </section>
+
+      <section>
+        <h2>추천 조합</h2>
+        <div class="stack-grid">
+          <div class="stack-card">
+            <h3>작은 팀·빠른 도입</h3>
+            <p><span class="badge">Superpowers</span> <span class="badge blue">Spec Kit</span> <span class="badge violet">promptfoo</span> <span class="badge green">Playwright</span></p>
+            <p>spec과 plan을 만들고, TDD/subagent workflow로 구현한 뒤, prompt regression과 browser test로 완료 조건을 고정합니다.</p>
+          </div>
+          <div class="stack-card">
+            <h3>웹 제품 QA 중심</h3>
+            <p><span class="badge blue">gstack</span> <span class="badge green">Playwright</span> <span class="badge violet">Langfuse</span> <span class="badge red">Semgrep</span></p>
+            <p>실제 staging URL을 agent가 탐색하고, QA finding을 regression test와 release gate로 바꾸는 흐름에 적합합니다.</p>
+          </div>
+          <div class="stack-card">
+            <h3>엔터프라이즈·고위험</h3>
+            <p><span class="badge green">LangGraph</span> <span class="badge green">OpenAI Agents SDK</span> <span class="badge violet">Inspect</span> <span class="badge red">OPA</span></p>
+            <p>stateful orchestration, sandbox, human approval, policy-as-code, trace/eval을 명시적으로 설계합니다.</p>
+          </div>
+          <div class="stack-card">
+            <h3>RAG·agent 품질 연구</h3>
+            <p><span class="badge violet">Ragas</span> <span class="badge violet">DeepEval</span> <span class="badge violet">OpenAI Evals</span> <span class="badge violet">LangSmith</span></p>
+            <p>golden dataset, LLM-as-judge, tool-call accuracy, answer faithfulness, production trace feedback loop를 중심으로 운영합니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>선택 매트릭스</h2>
+        <p class="footer-note">점수는 도구의 공식 기능 설명을 바탕으로 한 해석입니다. “높음”은 해당 기준을 직접 지원한다는 뜻이고, “중간”은 보조 도구가 필요하다는 뜻입니다.</p>
+        <div class="table-scroll">
+          <table class="score-table">
+            <thead>
+              <tr>
+                <th>대상</th>
+                <th>도입 속도</th>
+                <th>multi-agent 운영</th>
+                <th>검증 엄격성</th>
+                <th>브라우저 QA</th>
+                <th>관측성</th>
+                <th>정책/안전</th>
+                <th>학습 루프</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Superpowers</td><td class="good">높음</td><td class="mid">중간</td><td class="good">높음</td><td class="low">낮음</td><td class="low">낮음</td><td class="mid">중간</td><td class="mid">중간</td></tr>
+              <tr><td>Compound Engineering</td><td class="mid">중간</td><td class="mid">중간</td><td class="mid">중간</td><td class="low">낮음</td><td class="low">낮음</td><td class="low">낮음</td><td class="good">높음</td></tr>
+              <tr><td>gstack</td><td class="good">높음</td><td class="good">높음</td><td class="mid">중간</td><td class="good">높음</td><td class="mid">중간</td><td class="good">높음</td><td class="good">높음</td></tr>
+              <tr><td>Spec Kit</td><td class="mid">중간</td><td class="mid">중간</td><td class="good">높음</td><td class="mid">중간</td><td class="low">낮음</td><td class="mid">중간</td><td class="mid">중간</td></tr>
+              <tr><td>LangGraph / OpenAI Agents SDK</td><td class="mid">중간</td><td class="good">높음</td><td class="mid">중간</td><td class="low">낮음</td><td class="mid">중간</td><td class="mid">중간</td><td class="mid">중간</td></tr>
+              <tr><td>promptfoo / OpenAI Evals / Inspect / DeepEval / Ragas</td><td class="mid">중간</td><td class="mid">중간</td><td class="good">높음</td><td class="low">낮음</td><td class="mid">중간</td><td class="mid">중간</td><td class="good">높음</td></tr>
+              <tr><td>Langfuse / Phoenix / LangSmith / OTel</td><td class="mid">중간</td><td class="mid">중간</td><td class="mid">중간</td><td class="low">낮음</td><td class="good">높음</td><td class="low">낮음</td><td class="good">높음</td></tr>
+              <tr><td>OPA / Semgrep / CodeQL / Guardrails / Pydantic</td><td class="mid">중간</td><td class="low">낮음</td><td class="good">높음</td><td class="low">낮음</td><td class="low">낮음</td><td class="good">높음</td><td class="low">낮음</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>팩트, 해석, 불확실성</h2>
+        <div class="two-col">
+          <div class="callout fact">
+            <h3>확인된 사실</h3>
+            <ul>
+              <li>Superpowers는 여러 coding agent에서 동작하는 skills 기반 software development methodology로 자신을 설명한다. <span class="source-ref">[S1]</span></li>
+              <li>Compound Engineering은 Plan, Work, Review/Assess, Compound의 closed loop로 설명되며, learnings를 repo prompt/instruction으로 저장하는 방식이 핵심이다. <span class="source-ref">[S3][S4]</span></li>
+              <li>gstack은 role-based slash command stack이며 browser QA, security review, release, learn, cross-agent/cross-model 흐름을 포함한다. <span class="source-ref">[S5]</span></li>
+              <li>LangSmith, Langfuse, Phoenix는 production trace와 evaluation loop를 연결하는 LLM observability/evaluation 도구다. <span class="source-ref">[S6][S17][S18]</span></li>
+              <li>OPA, Semgrep, CodeQL, Guardrails, Pydantic은 agent output과 code artifact에 deterministic policy/security/schema gate를 거는 데 활용할 수 있다. <span class="source-ref">[S20][S21][S22][S25][S26]</span></li>
+            </ul>
+          </div>
+          <div class="callout interpretation">
+            <h3>연구 해석</h3>
+            <ul>
+              <li>하네스의 핵심은 “똑똑한 agent”보다 “실패를 작게 만들고 관측 가능하게 만드는 환경”이다.</li>
+              <li>Superpowers와 gstack은 개발자 경험을 빠르게 끌어올리는 상위 workflow이고, LangGraph/OpenAI Agents SDK/AutoGen/CrewAI는 직접 제품 agent를 만들 때 필요한 runtime이다.</li>
+              <li>평가 도구는 하나만 고르기보다 output eval, trajectory trace, browser QA, policy gate를 나누어 쓰는 편이 안정적이다.</li>
+              <li>Compound Engineering은 별도 도구보다 운영 습관에 가깝다. 그러나 하네스 artifact에 반영하면 장기 품질 개선 효과가 크다.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout warn">
+          <h3>불확실성과 주의사항</h3>
+          <ul>
+            <li>“g-stack”이라는 표기는 조사 중 독립 표준명으로 확인되지 않았다. 이 보고서는 공식 GitHub repository 이름인 `garrytan/gstack`을 기준으로 다룬다.</li>
+            <li>GitHub star, fork, 최신 commit 같은 popularity 지표는 시점에 따라 변한다. 이 보고서의 추천은 popularity보다 기능 적합성에 근거한다.</li>
+            <li>LLM-as-judge 기반 eval은 judge prompt, judge model, 비용, drift를 관리해야 한다. deterministic test를 완전히 대체하지 않는다.</li>
+            <li>AgentPatterns.ai의 Compound Engineering 설명은 패턴 카탈로그 성격이다. Compound Engineering의 원 출처로는 Every article을 우선 참고했다.</li>
+            <li>공식 문서가 “production-ready”라고 표현해도, 각 조직의 보안, privacy, compliance, data retention 요구사항은 별도로 검토해야 한다.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>권장 실행 계획</h2>
+        <ol>
+          <li><strong>1주차:</strong> 현재 repo에 `harness/report.schema.json`, `harness/check-report.*`, `output/round-report.json` 형식부터 만든다. 완료 조건을 말이 아니라 JSON schema와 tests로 고정한다.</li>
+          <li><strong>2주차:</strong> promptfoo 또는 DeepEval로 agent output regression을 붙이고, Playwright로 user-facing flow를 최소 3개 만든다.</li>
+          <li><strong>3주차:</strong> OPA policy를 추가해 destructive action, missing evidence, unapproved external URL, missing reviewer 같은 운영 위반을 fail-closed로 막는다.</li>
+          <li><strong>4주차:</strong> Langfuse/Phoenix/LangSmith 중 하나로 trace를 수집하고, 실패 trace를 eval dataset과 instruction learning으로 승격한다.</li>
+          <li><strong>지속:</strong> Superpowers/gstack/Spec Kit 중 팀에 맞는 workflow layer를 붙여 사람의 운영 습관을 agent가 따르는 기본 절차로 만든다.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>참고 문헌과 출처 신선도</h2>
+        <p class="footer-note">아래 출처는 2026-05-13 기준으로 확인했습니다. 문서와 repository는 이후 변경될 수 있습니다.</p>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>출처</th>
+                <th>근거로 사용한 내용</th>
+                <th>신선도/주의</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>S1</td><td><a href="https://github.com/obra/superpowers">obra/superpowers GitHub README</a></td><td>Superpowers 목적, 지원 agent, basic workflow, skills library, philosophy</td><td>공식 repository. GitHub 수치와 release 정보는 변동 가능</td></tr>
+              <tr><td>S2</td><td><a href="https://betterstack.com/community/guides/ai/superpowers-framework/">Better Stack Superpowers article</a></td><td>x-dl web app 사례, Superpowers workflow와 TDD/subagent 실행 설명</td><td>2026-02-16 업데이트로 표시. 2차 실사용 기사</td></tr>
+              <tr><td>S3</td><td><a href="https://every.to/chain-of-thought/compound-engineering-how-every-codes-with-agents">Every: Compound Engineering</a></td><td>Plan, Work, Review, Compound 루프와 Every 내부 활용 설명</td><td>원 출처에 가까움. 일부 본문은 paywall 영역이 있음</td></tr>
+              <tr><td>S4</td><td><a href="https://www.agentpatterns.ai/workflows/compound-engineering/">AgentPatterns: Compound Engineering</a></td><td>Plan 40%, Work 20%, Assess 30%, Compound 10%, prompt encoding, backfire 조건</td><td>패턴 카탈로그. 해석 자료로 사용</td></tr>
+              <tr><td>S5</td><td><a href="https://github.com/garrytan/gstack">garrytan/gstack GitHub README</a></td><td>gstack 목적, commands, sprint workflow, QA/browser/security/release/learn 기능</td><td>공식 repository. “g-stack” 표기 불확실성 있음</td></tr>
+              <tr><td>S6</td><td><a href="https://docs.langchain.com/langsmith/evaluation-concepts">LangSmith Evaluation Concepts</a></td><td>offline/online eval, datasets, runs/threads, evaluator types</td><td>공식 문서</td></tr>
+              <tr><td>S7</td><td><a href="https://docs.langchain.com/oss/python/langgraph/overview">LangGraph Overview</a></td><td>durable execution, human-in-the-loop, memory, stateful long-running agents</td><td>공식 문서</td></tr>
+              <tr><td>S8</td><td><a href="https://openai.github.io/openai-agents-python/">OpenAI Agents SDK</a></td><td>agents, handoffs, guardrails, sandbox agents, sessions, MCP, tracing</td><td>공식 문서</td></tr>
+              <tr><td>S9</td><td><a href="https://microsoft.github.io/autogen/stable/">Microsoft AutoGen Docs</a></td><td>AgentChat, Core, event-driven scalable multi-agent systems, Docker executor, gRPC runtime</td><td>공식 문서</td></tr>
+              <tr><td>S10</td><td><a href="https://docs.crewai.com/">CrewAI Docs</a></td><td>agents, crews, flows, guardrails, memory, knowledge, observability</td><td>공식 문서</td></tr>
+              <tr><td>S11</td><td><a href="https://github.com/openai/evals">OpenAI Evals GitHub README</a></td><td>LLM/system eval framework, registry, custom/private evals, completion function protocol</td><td>공식 repository</td></tr>
+              <tr><td>S12</td><td><a href="https://www.promptfoo.dev/docs/intro/">promptfoo Intro</a></td><td>LLM eval/red-team CLI/library, declarative test cases, CI/CD, provider support</td><td>공식 문서. 2026-05-12 last updated 표시</td></tr>
+              <tr><td>S13</td><td><a href="https://deepeval.com/docs/getting-started">DeepEval Quickstart</a></td><td>LLM test cases, GEval, tracing, component-level and online evals</td><td>공식 문서</td></tr>
+              <tr><td>S14</td><td><a href="https://inspect.aisi.org.uk/">Inspect AI Docs</a></td><td>frontier AI eval, datasets/solvers/scorers, sandbox, agents, multi-agent primitives</td><td>UK AI Security Institute 공식 문서</td></tr>
+              <tr><td>S15</td><td><a href="https://playwright.dev/docs/intro">Playwright Intro</a></td><td>E2E test, runner, assertions, isolation, parallelization, Chromium/WebKit/Firefox</td><td>공식 문서</td></tr>
+              <tr><td>S16</td><td><a href="https://docs.ragas.io/">Ragas Docs</a></td><td>systematic evaluation loops, experiments, metrics, datasets, agent/tool-use metrics</td><td>공식 문서</td></tr>
+              <tr><td>S17</td><td><a href="https://langfuse.com/docs">Langfuse Docs</a></td><td>LLM observability, traces, prompt management, evaluation, OTel 기반</td><td>공식 문서</td></tr>
+              <tr><td>S18</td><td><a href="https://arize.com/docs/phoenix">Arize Phoenix Docs</a></td><td>AI observability/evaluation, traces, prompt iteration, experiments, OpenTelemetry/OpenInference</td><td>공식 문서</td></tr>
+              <tr><td>S19</td><td><a href="https://opentelemetry.io/docs/">OpenTelemetry Docs</a></td><td>vendor-neutral observability framework for traces, metrics, logs</td><td>공식 문서. 마지막 수정 2025-08-29 표시</td></tr>
+              <tr><td>S20</td><td><a href="https://www.openpolicyagent.org/docs/latest/">Open Policy Agent Docs</a></td><td>policy decision-making 분리, JSON input, Rego, CI/CD/Kubernetes use cases</td><td>공식 문서</td></tr>
+              <tr><td>S21</td><td><a href="https://semgrep.dev/docs/">Semgrep Docs</a></td><td>SAST, SCA, secrets, custom rules, every commit standards enforcement</td><td>공식 문서. 2026-05-12 last updated 표시</td></tr>
+              <tr><td>S22</td><td><a href="https://codeql.github.com/docs/">CodeQL Docs</a></td><td>code as data, vulnerability query, CodeQL resources</td><td>공식 문서</td></tr>
+              <tr><td>S23</td><td><a href="https://modelcontextprotocol.io/introduction">Model Context Protocol Introduction</a></td><td>AI apps와 external tools/data/workflows를 연결하는 open protocol</td><td>공식 문서</td></tr>
+              <tr><td>S24</td><td><a href="https://github.com/github/spec-kit">GitHub Spec Kit README</a></td><td>Spec-driven development, CLI commands, integrations, extensions/presets</td><td>공식 repository. extension catalog는 community disclaimer 있음</td></tr>
+              <tr><td>S25</td><td><a href="https://guardrailsai.com/docs">Guardrails AI Docs</a></td><td>Input/Output Guards, validators, structured data generation</td><td>공식 문서</td></tr>
+              <tr><td>S26</td><td><a href="https://pydantic.dev/docs/validation/latest/get-started/">Pydantic Docs</a></td><td>type-hint 기반 validation, serialization, JSON Schema, strict/lax mode</td><td>공식 문서</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
